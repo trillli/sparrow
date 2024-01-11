@@ -11,13 +11,14 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 
 from pathlib import Path
-from trillli.settings import ( BASE_DIR, LOGGING, MIDDLEWARE, TEMPLATES, AUTH_PASSWORD_VALIDATORS, LANGUAGE_CODE, TIME_ZONE, USE_I18N, USE_TZ, STATIC_URL, DEFAULT_AUTO_FIELD,)
+from trillli.settings import ( LOGGING, MIDDLEWARE, TEMPLATES, AUTH_PASSWORD_VALIDATORS, LANGUAGE_CODE, TIME_ZONE, USE_I18N, USE_TZ, STATIC_URL, DEFAULT_AUTO_FIELD,)
 
 # Build paths inside the project like this: # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
+BASE_DIR = Path(__file__).resolve().parent.parent
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-8id&!x!1+p^c%+l2f!zc4$y@fme9z-@^cbzjsti357p%5i0+&z'
+SECRET_KEY = 'django-insecure-1pj!f^rhv#2_0b@onw#j9deg0dh0il7jy4y8(_807fzjyqlx#@'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -36,8 +37,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 'rest_framework',
 'trillli',
-'api',
-'sparrow_core',
+'trillli_rest',
+'sparrow_rest',
 ]
 
 ROOT_URLCONF = 'sparrow.urls'
