@@ -1,5 +1,5 @@
 import './App.css'
-import AppRouter from './components/routes/AppRouter'
+import AppRouter from './components/full/routes/AppRouter'
 import React from 'react'
 import config from './config.json'
 
