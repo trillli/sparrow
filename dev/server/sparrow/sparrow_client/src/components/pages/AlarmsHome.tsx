@@ -1,8 +1,8 @@
 import * as React from 'react';
 import { Box, Button, Link, Container, Typography } from '@mui/material';
-import AlarmsList from './AlarmsList';
-import ConfigCategoryLabel from './ConfigCategoryLabel';
-import DeviceConfig from './DeviceConfig';
+import AlarmsList from 'src/components/pages/AlarmsList';
+import ConfigCategoryLabel from 'src/components/pages/ConfigCategoryLabel';
+import DeviceConfig from 'src/components/pages/DeviceConfig';
 
 const AlarmsHome = () => {
 
