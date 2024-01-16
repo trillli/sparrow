@@ -1,11 +1,14 @@
 import React from 'react'
-import ReactDOM from 'react-dom/client'
+import { createRoot } from 'react-dom/client'
+import { Auth0Provider } from '@auth0/auth0-react'
+import { Auth0ProviderNavigator } from 'trillli_client/src/components/Auth0ProviderNavigator.tsx'
 import App from './App.tsx'
 import './index.css'
 
-ReactDOM.createRoot(document.getElementById('root')).render(
-  // <React.StrictMode>
-  //   <App />
-  // </React.StrictMode>,
-  <App />
+
+const root = createRoot(document.getElementById('root'));
+root.render(
+  // <Auth0ProviderNavigator >
+    <App />
+  // </Auth0ProviderNavigator>
 )
