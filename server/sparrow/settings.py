@@ -11,7 +11,7 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 
 from pathlib import Path
-from trillli.settings import ( LOGGING, MIDDLEWARE, TEMPLATES, AUTH_PASSWORD_VALIDATORS, LANGUAGE_CODE, TIME_ZONE, USE_I18N, USE_TZ, STATIC_URL, DEFAULT_AUTO_FIELD,)
+from trillli.settings import ( LOGGING, MIDDLEWARE, TEMPLATES, AUTH_PASSWORD_VALIDATORS, LANGUAGE_CODE, TIME_ZONE, USE_I18N, USE_TZ, STATIC_URL, DEFAULT_AUTO_FIELD, CORS_ALLOWED_ORIGINS, CLIENT_ORIGIN_URL, CORS_ALLOW_METHODS, CORS_ALLOW_HEADERS, SECURE_HSTS_INCLUDE_SUBDOMAINS, SECURE_HSTS_SECONDS, CSP_FRAME_ANCESTORS, REST_FRAMEWORK, AUTH0_DOMAIN, AUTH0_AUDIENCE, SIMPLE_JWT)
 
 # Build paths inside the project like this: # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
