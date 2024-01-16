@@ -11,6 +11,6 @@
         "src/*": ["./src/*"],
       }
     },
-    "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx", "src/**/*.jsx", "../../trillli/client/src/components/Auth0ProviderNavigator.tsx"],
+    "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx", "src/**/*.jsx", "../../trillli/client/src/components/Auth0Router.tsx"],
     "exclude": ["node_modules"]
   }

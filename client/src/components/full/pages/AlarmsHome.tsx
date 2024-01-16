@@ -4,6 +4,7 @@ import AlarmsList from 'src/components/full/elements/AlarmsList';
 import ConfigCategoryLabel from 'src/components/full/elements/ConfigCategoryLabel';
 import DeviceConfig from 'src/components/full/elements/DeviceConfig';
 import BtnLogIn from 'src/components/BtnLogIn';
+import BtnLogOut from 'trillli_client/src/components/BtnLogOut'
 
 const AlarmsHome = () => {
 
@@ -20,6 +21,7 @@ const AlarmsHome = () => {
             </Container>
             <DeviceConfig />
             <BtnLogIn />
+            <BtnLogOut />
         </div>
     )
 
