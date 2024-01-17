@@ -13,7 +13,6 @@ const AppRouter = ({ config }) => {
                 <Routes>
                     <Route path="/*" element={<TrillliRoutes config={config} />}/>
                     <Route path="/alarms" element={<Auth0Authenticator component={AlarmsHome}/>} />
-                    {/* <Route path="/alarms" element={<AlarmsHome />} /> */}
                 </Routes>
             </Auth0Router>
         </Router>
