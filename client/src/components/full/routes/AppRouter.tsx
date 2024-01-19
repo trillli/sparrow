@@ -4,6 +4,7 @@ import AlarmsHome from 'src/components/full/pages/AlarmsHome'
 import TrillliRoutes from 'trillli_client/src/components/TrillliRoutes'
 import { Auth0Router } from 'trillli_client/src/components/Auth0Router';
 import { Auth0Authenticator } from 'trillli_client/src/components/Auth0Authenticator'
+import AppSplash from 'src/components/AppSplash';
 
 const AppRouter = ({ config }) => {
     const app_logo_path = "./src/assets/logos/logo-sparrow.png"
@@ -11,8 +12,9 @@ const AppRouter = ({ config }) => {
         <Router>
             <Auth0Router >
                 <Routes>
-                    <Route path="/*" element={<TrillliRoutes config={config} />}/>
+                    <Route path="/" element={<AppSplash />} />
                     <Route path="/alarms" element={<Auth0Authenticator component={AlarmsHome}/>} />
+                    <Route path="/*" element={<TrillliRoutes config={config} />}/>
                 </Routes>
             </Auth0Router>
         </Router>
