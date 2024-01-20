@@ -1,9 +1,9 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
 import AlarmsHome from 'src/components/full/pages/AlarmsHome'
-import TrillliRoutes from 'trillli_client/src/components/TrillliRoutes'
-import { Auth0Router } from 'trillli_client/src/components/Auth0Router';
-import { Auth0Authenticator } from 'trillli_client/src/components/Auth0Authenticator'
+import TrillliRoutes from 'trillli/components/TrillliRoutes';
+import { Auth0Router } from 'trillli/components/Auth0Router';
+import { Auth0Authenticator } from 'trillli/components/Auth0Authenticator'
 import AppSplash from 'src/components/AppSplash';
 
 const AppRouter = ({ config }) => {

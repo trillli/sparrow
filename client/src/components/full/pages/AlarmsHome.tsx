@@ -3,9 +3,9 @@ import { Container } from '@mui/material';
 import AlarmsList from 'src/components/full/elements/AlarmsList';
 import ConfigCategoryLabel from 'src/components/full/elements/ConfigCategoryLabel';
 import DeviceConfig from 'src/components/full/elements/DeviceConfig';
-import BtnLogIn from 'trillli_client/src/components/BtnLogIn'
-import BtnLogOut from 'trillli_client/src/components/BtnLogOut'
-import BtnSignUp from 'trillli_client/src/components/BtnSignUp'
+import BtnLogIn from 'trillli/components/BtnLogIn'
+import BtnLogOut from 'trillli/components/BtnLogOut'
+import BtnSignUp from 'trillli/components/BtnSignUp'
 
 const AlarmsHome = () => {
 
