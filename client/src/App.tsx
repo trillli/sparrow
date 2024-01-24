@@ -1,10 +1,10 @@
-import AppRouter from './components/full/routes/AppRouter'
+import AppRoutes from './components/full/routes/AppRoutes'
 import React from 'react'
-import config from './config.json'
+import AppConfig from './AppConfig'
 
 function App() {
   return (
-    <AppRouter config={config}/>
+    <AppRoutes app_config={new AppConfig}/>
   )
 }
 

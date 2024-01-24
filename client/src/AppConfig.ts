@@ -1,12 +1,9 @@
-import TrillliConfigInterface from "trillli/types/TrillliConfigInterface"
-import TrillliConfig from "trillli/components/TrillliConfig"
+import TrillliConfig from "trillli/src/types/TrillliConfig"
+import TrillliDefaultConfig from "trillli/src/components/TrillliDefaultConfig"
 
 
-class AppConfig extends TrillliConfig {
-
-    constructor() {
-        super()
-    }
+class AppConfig extends TrillliDefaultConfig implements TrillliConfig {
+    readonly _teststr: string = 'pizza'
 
 }
 
