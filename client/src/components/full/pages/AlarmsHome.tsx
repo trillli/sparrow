@@ -6,13 +6,12 @@ import DeviceConfig from 'src/components/full/elements/DeviceConfig';
 import BtnLogIn from 'trillli/src/components/BtnLogIn'
 import BtnLogOut from 'trillli/src/components/BtnLogOut'
 import BtnSignUp from 'trillli/src/components/BtnSignUp'
+import PageBuilder from 'src/components/PageBuilder';
 
-const AlarmsHome = () => {
-
-    console.log('here in alarms home')
+const AlarmsHome: React.FC = () => {
 
     return (
-        <div>
+        <PageBuilder>
             <h2>Your alarms</h2>
             <AlarmsList />
             <Container>
@@ -25,7 +24,7 @@ const AlarmsHome = () => {
             <BtnLogIn />
             <BtnLogOut />
             <BtnSignUp />
-        </div>
+        </PageBuilder>
     )
 
 
