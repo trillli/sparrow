@@ -5,8 +5,10 @@ const AppSplash: React.FC = () => {
 
     return (
         <PageBuilder header sidebar>
-            <div>This is the splash screen</div>
-            <div>write some good ol html here!</div>
+            <div id='mypage'>
+                <div>This is the splash screen</div>
+                <div>write some good ol html here!</div>
+            </div>
         </PageBuilder>
     )
 }

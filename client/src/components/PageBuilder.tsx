@@ -3,18 +3,18 @@ import TrillliPageBuilder from 'trillli/src/components/TrillliPageBuilder'
 import AppConfig from 'src/AppConfig'
 
 interface PageBuilderProps {
-    header?: boolean,
-    sidebar?: boolean,
+    navTop?: boolean,
+    navSide?: boolean,
     children?: React.ReactNode
 }
 
 const PageBuilder: React.FC<PageBuilderProps> = ({
-    header = false,
-    sidebar = false,
+    navTop = false,
+    navSide = false,
     children
 }) => {
     return (
-        <TrillliPageBuilder header sidebar appConfig={new AppConfig()} children={children} />
+        <TrillliPageBuilder navTop navSide appConfig={new AppConfig()} children={children} />
     )
 }
 
