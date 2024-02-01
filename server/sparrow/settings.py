@@ -1,3 +1,5 @@
+import dotenv
+from trillli_rest.utils import get_env_var
 """
 Django settings for sparrow project.
 
@@ -11,14 +13,16 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 
 from pathlib import Path
-from trillli.settings import ( LOGGING, MIDDLEWARE, TEMPLATES, AUTH_PASSWORD_VALIDATORS, LANGUAGE_CODE, TIME_ZONE, USE_I18N, USE_TZ, STATIC_URL, DEFAULT_AUTO_FIELD, CORS_ALLOWED_ORIGINS, CLIENT_ORIGIN_URL, CORS_ALLOW_METHODS, CORS_ALLOW_HEADERS, SECURE_HSTS_INCLUDE_SUBDOMAINS, SECURE_HSTS_SECONDS, CSP_FRAME_ANCESTORS, REST_FRAMEWORK, AUTH0_DOMAIN, AUTH0_AUDIENCE, SIMPLE_JWT)
+from trillli.settings import ( LOGGING, MIDDLEWARE, TEMPLATES, AUTH_PASSWORD_VALIDATORS, LANGUAGE_CODE, TIME_ZONE, USE_I18N, USE_TZ, STATIC_URL, CORS_ALLOW_METHODS, DEFAULT_AUTO_FIELD)
 
 # Build paths inside the project like this: # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 BASE_DIR = Path(__file__).resolve().parent.parent
+dotenv.load_dotenv(BASE_DIR / '.env')
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-1pj!f^rhv#2_0b@onw#j9deg0dh0il7jy4y8(_807fzjyqlx#@'
+# SECRET_KEY = 'django-insecure-1pj!f^rhv#2_0b@onw#j9deg0dh0il7jy4y8(_807fzjyqlx#@'
+SECRET_KEY =  get_env_var('DJANGO_SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -62,5 +66,47 @@ DATABASES = {
 
 # Internationalization
 # https://docs.djangoproject.com/en/5.0/topics/i18n/
+
+CLIENT_ORIGIN_URL = get_env_var('CLIENT_ORIGIN_URL')
+
+CORS_ALLOWED_ORIGINS = [CLIENT_ORIGIN_URL]
+
+# CORS_ALLOW_METHODS = [
+#     "GET",
+# ]
+
+CORS_ALLOW_HEADERS = [
+    "authorization",
+    "content-type",
+]
+
+SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+SECURE_HSTS_SECONDS = 31536000
+
+CSP_FRAME_ANCESTORS = "'none'"
+
+REST_FRAMEWORK = {
+    'DEFAULT_RENDERER_CLASSES': [
+        'rest_framework.renderers.JSONRenderer',
+    ],
+    'EXCEPTION_HANDLER': 'trillli_rest.views.api_exception_handler',
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework_simplejwt.authentication.JWTTokenUserAuthentication',
+    ],
+}
+
+# JWT
+
+AUTH0_DOMAIN = get_env_var('AUTH0_DOMAIN')
+AUTH0_AUDIENCE = get_env_var('AUTH0_AUDIENCE')
+
+SIMPLE_JWT = {
+    'ALGORITHM': 'RS256',
+    'JWK_URL': f'https://{AUTH0_DOMAIN}/.well-known/jwks.json',
+    'AUDIENCE': AUTH0_AUDIENCE,
+    'ISSUER': f'https://{AUTH0_DOMAIN}/',
+    'USER_ID_CLAIM': 'sub',
+    'AUTH_TOKEN_CLASSES': ('authz.tokens.Auth0Token',),
+}
 
 

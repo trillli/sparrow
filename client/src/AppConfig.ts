@@ -19,6 +19,13 @@ class AppConfig extends TrillliConfig implements ITrillliConfig {
                 hideUnauthed: true
             },
             {
+                text: 'Test',
+                link: '/protected',
+                icon: 'circle',
+                hideAuthed: false,
+                hideUnauthed: true
+            },
+            {
                 text: 'Home',
                 link: '/',
                 icon: 'home',
