@@ -6,7 +6,7 @@ import TrillliMenuItem from "trillli/src/types/TrillliMenuItem"
 
 class AppConfig extends TrillliConfig implements ITrillliConfig {
 
-
+    teststr: string = 'test string defined in APP config, overriding trillli config'
 
 
     readonly menuApp: TrillliMenu = {
@@ -18,6 +18,13 @@ class AppConfig extends TrillliConfig implements ITrillliConfig {
                 hideAuthed: false,
                 hideUnauthed: true
             },
+            {
+                text: 'Home',
+                link: '/',
+                icon: 'home',
+                // hideAuthed: false,
+                // hideUnauthed: true
+            },
         ],
         side: [
             {
@@ -26,6 +33,13 @@ class AppConfig extends TrillliConfig implements ITrillliConfig {
                 icon: 'alarm',
                 hideAuthed: false,
                 hideUnauthed: true
+            },
+            {
+                text: 'Home',
+                link: '/',
+                icon: 'home',
+                // hideAuthed: false,
+                // hideUnauthed: true
             },
         ],
         bottom: []

@@ -6,17 +6,18 @@ import { Auth0Router } from 'trillli/src/components/Auth0Router';
 import { Auth0Authenticator } from 'trillli/src/components/Auth0Authenticator'
 import AppSplash from 'src/components/AppSplash';
 import AppConfig from 'src/AppConfig';
+import ITrillliConfig from 'trillli/src/types/ITrillliConfig';
 
 const AppRoutes: React.FC = () => {
 
-    let appConfig = new AppConfig();
+    let appConfig:ITrillliConfig = new AppConfig();
 
     return (
         <Router>
             <Auth0Router >
                 <Routes>
                     <Route path="/" element={<AppSplash />} />
-                    <Route path="/alarms" element={<Auth0Authenticator component={AlarmsHome}/>} />
+                    <Route path="/alarms" element={<Auth0Authenticator appConfig={appConfig} component={AlarmsHome}/>} />
                     <Route path="/*" element={<TrillliRoutes appConfig={appConfig} />}/>
                 </Routes>
             </Auth0Router>
