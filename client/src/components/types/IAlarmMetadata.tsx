@@ -5,7 +5,7 @@ export type IAlarmMetadata = {
     light?: {
         color: string
         timing: {
-            advance_seconds: number
+            advance_minutes: number
         }
         luminosity?: {
             start?: number
