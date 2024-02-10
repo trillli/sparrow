@@ -12,25 +12,11 @@ class AppConfig extends TrillliConfig implements ITrillliConfig {
     readonly menuApp: TrillliMenu = {
         top: [
             {
-                text: 'Alarms',
-                link: '/alarms',
-                icon: 'alarm',
-                hideAuthed: false,
-                hideUnauthed: true
-            },
-            {
                 text: 'Test',
                 link: '/protected',
                 icon: 'circle',
                 hideAuthed: false,
                 hideUnauthed: true
-            },
-            {
-                text: 'Home',
-                link: '/',
-                icon: 'home',
-                // hideAuthed: false,
-                // hideUnauthed: true
             },
         ],
         side: [

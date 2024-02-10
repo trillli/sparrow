@@ -1,4 +1,5 @@
 import dotenv
+import os
 from trillli_rest.utils import get_env_var
 """
 Django settings for sparrow project.
@@ -18,6 +19,9 @@ from trillli.settings import ( LOGGING, MIDDLEWARE, TEMPLATES, AUTH_PASSWORD_VAL
 # Build paths inside the project like this: # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 BASE_DIR = Path(__file__).resolve().parent.parent
+MEDIA_URL = os.path.join('src', 'assets/')
+MEDIA_ROOT = os.path.join(BASE_DIR, '..', 'client', 'src', 'assets')
+# PUBLIC_ASSETS = os.path.join(BASE_DIR, '..', 'client', 'src', 'assets')
 dotenv.load_dotenv(BASE_DIR / '.env')
 
 # SECURITY WARNING: keep the secret key used in production secret!
