@@ -14,7 +14,7 @@ const PageBuilder: React.FC<PageBuilderProps> = ({
     children
 }) => {
     return (
-        <TrillliPageBuilder navTop navSide appConfig={new AppConfig()} children={children} />
+        <TrillliPageBuilder navTop navSide={navSide} appConfig={new AppConfig()} children={children} />
     )
 }
 
