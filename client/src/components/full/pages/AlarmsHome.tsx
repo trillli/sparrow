@@ -155,6 +155,7 @@ const AlarmsHome: React.FC = () => {
     const [lightBrightnessType, setLightBrightnessType] = React.useState<string>('constant')
     const [lightBrightnessConstant, setLightBrightnessConstant] = React.useState<number>(75)
     const [lightBrightnessRamp, setLightBrightnessRamp] = React.useState<number[]>([25, 75])
+    const [lightColor, setLightColor] = React.useState<string>("#ffffff");
 
     //----------------------------------------------------------------------------------------------
 
@@ -243,6 +244,11 @@ const AlarmsHome: React.FC = () => {
         setLightBrightnessRamp(values as number[])
     }
 
+    const handleLightColorChange = (value: string) => {
+        console.log('handling light color change; need to modify lightColor state variable')
+        setLightColor(value)
+    }
+
     //----------------------------------------------------------------------------------------------
 
     //COMPONENT GENERATION
@@ -288,6 +294,11 @@ const AlarmsHome: React.FC = () => {
                     </Box>
                 </AccordionSummary>
                 <AccordionDetails className='alarm-config-categories-container'>
+
+
+
+
+
                     <Accordion elevation={1} className='alarm-config-category-container'>
                         <AccordionSummary className='alarm-config-category-header' expandIcon={<ExpandMoreIcon />} >
                         
@@ -298,6 +309,11 @@ const AlarmsHome: React.FC = () => {
                             <Typography>Use spotify api to search for songs/playlists/etc</Typography>
                         </AccordionDetails>
                     </Accordion>
+
+
+
+
+
                     <Accordion elevation={1} className='alarm-config-category-container'>
                         <AccordionSummary className='alarm-config-category-header' expandIcon={<ExpandMoreIcon />} >
                             <Box className='category-header-primary'>
@@ -311,7 +327,14 @@ const AlarmsHome: React.FC = () => {
                         <AccordionDetails className='alarm-config-container'>
                             <Box className='configuration-details-container'>
                                 <Box className='lighting-color-container'>
-
+                                    <Box className='alarm-config-field'>
+                                        <Box className='alarm-config-field-header'>
+                                            <Typography className='alarm-config-input-label'>Color</Typography>    
+                                        </Box> 
+                                        <Box className='alarm-config-field-contents'>
+                                            <HexColorPicker color={lightColor} onChange={handleLightColorChange} />
+                                        </Box>
+                                    </Box>
                                 </Box>
                                 <Box className='lighting-timing-container'>
                                     <Box className='alarm-config-field'>
@@ -319,9 +342,6 @@ const AlarmsHome: React.FC = () => {
                                             <Typography className='alarm-config-input-label'>Turn light on {lightAdvanceMinutes} {lightAdvanceMinutes == 1 ? 'minute' : 'minutes'} before alarm time</Typography>
                                         </Box>
                                         <Box className='alarm-config-field-contents'>
-
-
-
                                             <Slider
                                                 defaultValue={lightAdvanceMinutes}
                                                 value={lightAdvanceMinutes}
@@ -329,9 +349,6 @@ const AlarmsHome: React.FC = () => {
                                                 max={60}
                                                 onChange={handleLightAdvanceMinutesSliderChange}
                                             />
-
-
-
                                         </Box>
                                     </Box>
                                     <Box className='alarm-config-field'>
@@ -378,6 +395,14 @@ const AlarmsHome: React.FC = () => {
                             </Box>
                         </AccordionDetails>
                     </Accordion>
+
+
+
+
+
+
+
+                    
                     <Accordion elevation={1} className='alarm-config-category-container'>
                         <AccordionSummary className='alarm-config-category-header' expandIcon={<ExpandMoreIcon />} >
                         
@@ -387,6 +412,11 @@ const AlarmsHome: React.FC = () => {
                         <AccordionDetails className='alarm-config-container'>
                             <Typography>Set vibration config options</Typography>
                         </AccordionDetails>
+
+
+
+
+
                     </Accordion>
                 </AccordionDetails>
             </Accordion>
