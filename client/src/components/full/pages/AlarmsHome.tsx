@@ -23,6 +23,7 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { TimePicker } from '@mui/x-date-pickers/TimePicker';
 import { HexColorPicker } from "react-colorful";
+import AlarmConfigCategoryOuter from 'src/components/AlarmConfigCategoryOuter';
 
 
 const AlarmsHome: React.FC = () => {
@@ -312,6 +313,20 @@ const AlarmsHome: React.FC = () => {
 
 
 
+                    <AlarmConfigCategoryOuter
+                        categoryName='Sunlight'
+                        eventHandlers={{
+                            handleCategorySwitchClick: handleCategorySwitchClick
+                        }}
+                    />
+
+                    
+
+
+
+
+
+
 
 
                     <Accordion elevation={1} className='alarm-config-category-container'>
@@ -402,7 +417,7 @@ const AlarmsHome: React.FC = () => {
 
 
 
-                    
+
                     <Accordion elevation={1} className='alarm-config-category-container'>
                         <AccordionSummary className='alarm-config-category-header' expandIcon={<ExpandMoreIcon />} >
                         

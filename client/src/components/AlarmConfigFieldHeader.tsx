@@ -1,3 +1,4 @@
+import { Box, Typography } from '@mui/material'
 import React from 'react'
 
 <Box className='alarm-config-field-header'>
