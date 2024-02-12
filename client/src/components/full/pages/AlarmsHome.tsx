@@ -164,7 +164,7 @@ const AlarmsHome: React.FC = () => {
     const [lightBrightnessType, setLightBrightnessType] = React.useState<'constant' | 'ramp'>('constant')
     const [lightBrightnessConstant, setLightBrightnessConstant] = React.useState<number>(75)
     const [lightBrightnessRamp, setLightBrightnessRamp] = React.useState<number[]>([25, 75])
-    const [lightColor, setLightColor] = React.useState<number>(320);
+    const [lightColor, setLightColor] = React.useState<number>(60);
 
 
 
@@ -260,30 +260,28 @@ const AlarmsHome: React.FC = () => {
 
     const handleLightColorChange = (event: React.MouseEvent<HTMLElement>) => {
         console.log('handling light color change; need to modify lightColor state variable')
-        console.log(event)
-        console.log(event.target)
-        console.log(event.target.value)
-        setLightColor(event.target.value)
+        const target: HTMLInputElement = event.target as HTMLInputElement
+        const value: number = Number(target.value)
+        setLightColor(value)
     }
 
 
     const alarmConfigStateControl: IAlarmConfigStateControl = {
         sound: {
             vars: {
-                lightAdvanceMinutes: lightAdvanceMinutes,
-                lightColor: lightColor,
-                lightBrightnessType: lightBrightnessType,
-                lightBrightnessConstant: lightBrightnessConstant,
-                lightBrightnessRamp: lightBrightnessRamp
+                // lightAdvanceMinutes: lightAdvanceMinutes,
+                // lightColor: lightColor,
+                // lightBrightnessType: lightBrightnessType,
+                // lightBrightnessConstant: lightBrightnessConstant,
+                // lightBrightnessRamp: lightBrightnessRamp
             },
             handlers: {
-                handleCategorySwitchClick: handleCategorySwitchClick,
-                handleLightAdvanceMinutesSliderChange: handleLightAdvanceMinutesSliderChange,
-                handleLightColorChange: handleLightColorChange,
-                handleLightBrightnessTypeChange: handleLightBrightnessTypeChange,
-                handleLightBrightnessChangeConstant: handleLightBrightnessChangeConstant,
-                handleLightBrightnessChangeRamp: handleLightBrightnessChangeRamp,
-
+                // handleCategorySwitchClick: handleCategorySwitchClick,
+                // handleLightAdvanceMinutesSliderChange: handleLightAdvanceMinutesSliderChange,
+                // handleLightColorChange: handleLightColorChange,
+                // handleLightBrightnessTypeChange: handleLightBrightnessTypeChange,
+                // handleLightBrightnessChangeConstant: handleLightBrightnessChangeConstant,
+                // handleLightBrightnessChangeRamp: handleLightBrightnessChangeRamp,
             }
         },
         light: {
@@ -306,20 +304,19 @@ const AlarmsHome: React.FC = () => {
         },
         vibration: {
             vars: {
-                lightAdvanceMinutes: lightAdvanceMinutes,
-                lightColor: lightColor,
-                lightBrightnessType: lightBrightnessType,
-                lightBrightnessConstant: lightBrightnessConstant,
-                lightBrightnessRamp: lightBrightnessRamp
+                // lightAdvanceMinutes: lightAdvanceMinutes,
+                // lightColor: lightColor,
+                // lightBrightnessType: lightBrightnessType,
+                // lightBrightnessConstant: lightBrightnessConstant,
+                // lightBrightnessRamp: lightBrightnessRamp
             },
             handlers: {
-                handleCategorySwitchClick: handleCategorySwitchClick,
-                handleLightAdvanceMinutesSliderChange: handleLightAdvanceMinutesSliderChange,
-                handleLightColorChange: handleLightColorChange,
-                handleLightBrightnessTypeChange: handleLightBrightnessTypeChange,
-                handleLightBrightnessChangeConstant: handleLightBrightnessChangeConstant,
-                handleLightBrightnessChangeRamp: handleLightBrightnessChangeRamp,
-
+                // handleCategorySwitchClick: handleCategorySwitchClick,
+                // handleLightAdvanceMinutesSliderChange: handleLightAdvanceMinutesSliderChange,
+                // handleLightColorChange: handleLightColorChange,
+                // handleLightBrightnessTypeChange: handleLightBrightnessTypeChange,
+                // handleLightBrightnessChangeConstant: handleLightBrightnessChangeConstant,
+                // handleLightBrightnessChangeRamp: handleLightBrightnessChangeRamp,
             }
         }
     }
@@ -367,7 +364,7 @@ const AlarmsHome: React.FC = () => {
             light: {
                 label: 'Sunlight',
                 id: 'light',
-                fieldNamesOrdered: ['start_relative', 'color', 'profile', 'brightness'],
+                fieldNamesOrdered: ['start_relative', 'color', 'brightness'],
                 fields: {
                     start_relative: {
                         label: 'Turn light on ' + (alarmConfigStateControl.light.vars.lightAdvanceMinutes) + ' ' + (alarmConfigStateControl.light.vars.lightAdvanceMinutes == 1 ? 'minute' : 'minutes') + ' before alarm time',
@@ -380,13 +377,6 @@ const AlarmsHome: React.FC = () => {
                         id: 'color',
                         showHeader: true,
                         body: <AlarmConfigCategoryDetailBodyLightColor {...alarmConfigStateControl.light} />
-                    },
-                    profile: {
-                        label: 'Brightness Profile',
-                        id: 'brightness_profile',
-                        showHeader: false,
-                        body: <AlarmConfigCategoryDetailBodyLightProfile {...alarmConfigStateControl.light} />
-
                     },
                     brightness: {
                         label: 'Brightness',
@@ -414,8 +404,6 @@ const AlarmsHome: React.FC = () => {
 
 
     //----------------------------------------------------------------------------------------------
-
-    // console.log('hi')
 
     //COMPONENT GENERATION
     const generateAlarmComponents = () => {
@@ -460,85 +448,7 @@ const AlarmsHome: React.FC = () => {
                         </Box>
                     </AccordionSummary>
                     <AccordionDetails className='alarm-config-categories-container'>
-
-                        
                         <AlarmConfigCategoryOuter alarmConfigCategoryMetadata={alarmConfigCategoryMetadata} />
-
-
-                        {/* Replace with AlarmConfigCategoryOuter component */}
-                        {/* <Accordion elevation={1} className='alarm-config-category-container'>
-                            <AccordionSummary className='alarm-config-category-header' expandIcon={<ExpandMoreIcon />} >
-
-                                <MusicNoteIcon />
-                                <Typography>Music</Typography>
-                            </AccordionSummary>
-                            <AccordionDetails className='alarm-config-container'>
-                                <Typography>Use spotify api to search for songs/playlists/etc</Typography>
-                            </AccordionDetails>
-                        </Accordion> */}
-
-
-                        {/* Need one of these for:
-                        alarm.music
-                        alarm.sunlight
-                        alarm.vibration
-
-
-                        for each one, need to pass the correct categoryName, categoryState, and eventHandlers
-
-                        to do this, can probably create an object that stores the info under keys 'sunlight', 'music', and 'vibration'
-
-                        like:
-                            sunlight.categoryName, sunlight.categoryState, etc
-
-                        will also need the individual fields of each category in some object. for example:
-                            sunlight.color
-                            sunlight.brightness
-
-                            each of those will be their own AlarmConfigCategoryDetailHeader & Body
-                                for header, just need to pass the name; for body, need to create a component since it will be unique & non-generic to the other config categories
-
-
-                    */}
-                        {/* <AlarmConfigCategoryOuter
-                            categoryName='Sunlight Component Test'
-                            categoryState={{
-                                lightAdvanceMinutes: lightAdvanceMinutes,
-                                lightBrightnessType: lightBrightnessType,
-                                lightBrightnessConstant: lightBrightnessConstant,
-                                lightBrightnessRamp: lightBrightnessRamp,
-                                lightColor: lightColor
-                            }}
-                            eventHandlers={{
-                                'handleCategorySwitchClick': handleCategorySwitchClick,
-                                'handleLightAdvanceMinutesSliderChange': handleLightAdvanceMinutesSliderChange,
-                                'handleLightBrightnessTypeChange': handleLightBrightnessTypeChange,
-                                'handleLightBrightnessChangeConstant': handleLightBrightnessChangeConstant,
-                                'handleLightBrightnessChangeRamp': handleLightBrightnessChangeRamp,
-                                'handleLightColorChange': handleLightColorChange
-                            }}
-                        /> */}
-
-
-
-
-                        {/* Replace with AlarmConfigCategoryOuter component */}
-                        {/* <Accordion elevation={1} className='alarm-config-category-container'>
-                            <AccordionSummary className='alarm-config-category-header' expandIcon={<ExpandMoreIcon />} >
-
-                                <VibrationIcon />
-                                <Typography>Vibration</Typography>
-                            </AccordionSummary>
-                            <AccordionDetails className='alarm-config-container'>
-                                <Typography>Set vibration config options</Typography>
-                            </AccordionDetails>
-
-
-
-
-
-
-                        </Accordion> */}
                     </AccordionDetails>
                 </Accordion>
 
@@ -554,37 +464,19 @@ const AlarmsHome: React.FC = () => {
 
     return (
         <PageBuilder navSide={false}>
-
-
-
-
             <Box id='alarms-container-outer'>
-
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                     <DemoContainer components={['TimePicker']}>
                         <TimePicker label="Basic time picker" />
                     </DemoContainer>
                 </LocalizationProvider>
-
-
-
-
-
                 <Paper id='alarms-container-title' elevation={3}>
                     Your alarms
                 </Paper>
-
-
-
                 <Paper id='paper-btn-new-alarm'>
                     <Button id='btn-new-alarm' startIcon={<AddAlarmIcon />}>New Alarm</Button>
                 </Paper>
-
-
-
                 <Paper id='paper-alarms-list>'>
-
-
                     <Box id='alarms-list-header'>
                         <Box id='alarms-search-container'>
                             <TextField
@@ -595,7 +487,6 @@ const AlarmsHome: React.FC = () => {
                                     endAdornment: <InputAdornment position="end">{<SearchIcon />}</InputAdornment>,
                                 }}
                             />
-
                         </Box>
                         <Box id='alarms-sort-container'>
                             <Box id='sort-direction-container'>
@@ -611,22 +502,13 @@ const AlarmsHome: React.FC = () => {
                             <Button variant='contained' onClick={handleToggleSummary} startIcon={<VisibilityIcon />}>Summary</Button>
                         </Box>
                     </Box>
-
-
                     <Box id='alarms-list-container'>
                         {generateAlarmComponents()}
                     </Box>
-
-
                 </Paper>
-
             </Box>
-            {/* <DeviceConfig /> */}
         </PageBuilder>
     )
-
-
-
 
 }
 

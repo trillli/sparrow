@@ -6,9 +6,6 @@ import IAlarmConfigCategoryDetailStateControl from "./IAlarmConfigCategoryDetail
 export type IAlarmCategoryGroupName = 'sound' | 'light' |'vibration' 
 
 export type IAlarmConfigStateControl = {
-    // sound: IAlarmConfigCategoryDetailStateControl,
-    // light: IAlarmConfigCategoryDetailStateControl,
-    // vibration: IAlarmConfigCategoryDetailStateControl
     [key in IAlarmCategoryGroupName]: IAlarmConfigCategoryDetailStateControl
 }
 
@@ -34,7 +31,6 @@ const alarmConfigCategoryFieldKeysOrdered: AlarmConfigCategoryFieldKeysOrdered =
     light: [
         'start_relative',
         'color',
-        'profile',
         'brightness',
     ],
     vibration: [
@@ -46,7 +42,7 @@ const alarmConfigCategoryFieldKeysOrdered: AlarmConfigCategoryFieldKeysOrdered =
 
 
 export type IAlarmCategorySoundFieldName = 'source' | 'type' | 'title' | 'artist' | 'volume'
-export type IAlarmCategoryLightFieldName = 'start_relative' | 'color' | 'profile' | 'brightness'
+export type IAlarmCategoryLightFieldName = 'start_relative' | 'color' | 'brightness'
 export type IAlarmCategoryVibrationFieldName = 'intensity'
 
 export type IAlarmGroupMetadata = {
@@ -68,9 +64,8 @@ export type IAlarmGroupSoundFields = {
 
 export type IAlarmGroupLightFields = {
     start_relative: IAlarmConfigCategoryDetailMetadata
-                color: IAlarmConfigCategoryDetailMetadata
-                profile: IAlarmConfigCategoryDetailMetadata
-                brightness: IAlarmConfigCategoryDetailMetadata
+    color: IAlarmConfigCategoryDetailMetadata
+    brightness: IAlarmConfigCategoryDetailMetadata
 }
 
 export type IAlarmGroupVibrationFields = {

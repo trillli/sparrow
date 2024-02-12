@@ -9,6 +9,16 @@ const AlarmConfigCategoryDetailBodyBrightness: React.FC<IAlarmConfigCategoryDeta
 
     return (
         <>
+        <ToggleButtonGroup
+                                color="primary"
+                                value={stateControl.vars.lightBrightnessType}
+                                exclusive
+                                onChange={stateControl.handlers.handleLightBrightnessTypeChange}
+                                aria-label="Platform"
+                            >
+                                <ToggleButton value="constant">Constant</ToggleButton>
+                                <ToggleButton value="ramp">Ramp</ToggleButton>
+                            </ToggleButtonGroup>
             {stateControl.vars.lightBrightnessType == 'constant' ? (
                                 <Slider
                                     value={stateControl.vars.lightBrightnessConstant}
