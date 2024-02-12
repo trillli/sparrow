@@ -299,7 +299,8 @@ const AlarmsHome: React.FC = () => {
                 label: 'Color',
                 id: 'light_color',
                 showHeader: true,
-                body: <AlarmConfigCategoryDetailBodyLightColor vars={stateControl.light.vars} handlers={stateControl.light.handlers} />
+                // body: <AlarmConfigCategoryDetailBodyLightColor vars={stateControl.light.vars} handlers={stateControl.light.handlers} />
+                body: <AlarmConfigCategoryDetailBodyLightColor {...stateControl.light} />
             },
             profile: {
     
