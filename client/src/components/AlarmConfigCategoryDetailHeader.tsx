@@ -1,24 +1,21 @@
 import { Box, Typography } from '@mui/material'
 import React from 'react'
 import { AlarmConfigSunriseProps } from './types/IAlarmConfigCategoryDetailStateControl'
+import { IAlarmConfigStateControl } from './types/AlarmConfigComponentSkeletons'
 
-const AlarmConfigCategoryDetailHeader: React.FC<AlarmConfigSunriseProps> = ({ detailName, categoryState, eventHandlers }) => {
 
+interface AlarmConfigCategoryDetailHeaderProps {
+    label: string,
+    stateControl: IAlarmConfigStateControl
+}
 
+const AlarmConfigCategoryDetailHeader: React.FC<AlarmConfigCategoryDetailHeaderProps> = ({ label, stateControl }) => {
 
     return (
-
-
-
         <Box className='alarm-config-field-header'>
-            <Typography className='alarm-config-input-label'>{detailName} [need to replace with detailName var [part of props]</Typography>
+            <Typography className='alarm-config-input-label'>{label}</Typography>
         </Box>
-
-
     )
-
-
-
 
 }
 

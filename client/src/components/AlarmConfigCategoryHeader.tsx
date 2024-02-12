@@ -7,18 +7,21 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 import { AlarmConfigSunriseProps } from './types/IAlarmConfigCategoryDetailStateControl';
 
 
-const AlarmConfigCategoryHeader: React.FC<AlarmConfigSunriseProps> = ({ categoryName, categoryState, eventHandlers }) => {
+const AlarmConfigCategoryHeader: React.FC<AlarmConfigSunriseProps> = ({ groupLabel, groupId, stateControl }) => {
 
 
     return (
 
-        <AccordionSummary className='alarm-config-category-header' expandIcon={<ExpandMoreIcon />} >
+        <AccordionSummary
+            className='alarm-config-category-header' 
+            expandIcon={<ExpandMoreIcon />} 
+        >
             <Box className='category-header-primary'>
                 <WbTwilightIcon />
-                <Typography>{categoryName}</Typography>
+                <Typography>{groupLabel}</Typography>
             </Box>
             <Box className='category-header-secondary'>
-                <Switch onClick={eventHandlers.handleCategorySwitchClick} />
+                <Switch onClick={stateControl.handlers.handleCategorySwitchClick} />
             </Box>
         </AccordionSummary>
 

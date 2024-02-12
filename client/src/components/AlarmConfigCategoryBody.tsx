@@ -6,54 +6,43 @@ import AlarmConfigCategoryDetailOuter from './AlarmConfigCategoryDetailOuter'
 import AlarmConfigCategoryDetailHeader from './AlarmConfigCategoryDetailHeader'
 import AlarmConfigCategoryDetailBody from './AlarmConfigCategoryDetailBody'
 import AlarmConfigCategoryDetailBodyLightColor from './AlarmConfigCategoryDetailBodyLightColor'
+import { IAlarmConfigCategoryMetadata, IAlarmGroupMetadata } from './types/AlarmConfigComponentSkeletons'
+
+
+interface AlarmConfigCategoryBodyProps {
+    groupMetadata: IAlarmGroupMetadata,
+    stateControl: IAlarmConfigCategoryDetailsStateControl
+}
+
+const AlarmConfigCategoryBody: React.FC<AlarmConfigCategoryBodyProps> = ({ groupMetadata, stateControl }) => {
+
+
+    let alarmConfigCategoryDetailsComponents: React.ReactNode[] = []
+
+    const fieldNamesOrdered: typeof groupMetadata.fieldNamesOrdered = groupMetadata.fieldNamesOrdered
 
 
 
-const AlarmConfigCategoryBody: React.FC = ({ alarmConfigCategoryDetailsMetadata }) => {
 
-    alarmConfigCategoryDetailsStateControl:{[key: string]: IAlarmConfigCategoryDetailStateControl} = {
-        light_color: {
-            vars: {
-                color: color,
-            },
-            eventHandlers: {
-                handleLightColorChange: handleLightColorChange
-            }
-
-        }
-    }
-
-    alarmConfigCategoryDetailsMetadata = [
-        {
-            label: 'Color',
-            key: 'light_color',
-            showHeader: true,
-            body: <AlarmConfigCategoryDetailBodyLightColor />,
-        },
-        {
-            label: 'Profile',
-            key: 'light_profile',
-            showHeader: false,
-            body: <AlarmConfigCategoryDetailBodyLightProfile />
-        },
-        {
-            label: 'Brightness',
-            key: 'light_brightness',
-            showHeader: true,
-            body: <AlarmConfigCategoryDetailBodyLightBrightness stateControl={alarmConfigCategoryDetailsStateControl.light_brightness} />
-        }
-    ]
-
-
-    //Generate components
-
-    let alarmConfigCategoryDetailsComponents = []
-
-    alarmConfigCategoryDetailsMetadata.forEach((alarmConfigCategoryDetailMetadata) => {
+    fieldNamesOrdered.forEach((fieldName, index) => {
         alarmConfigCategoryDetailsComponents.push(
-            <AlarmConfigCategoryDetailOuter detailMetadata={alarmConfigCategoryDetailMetadata}
+            <AlarmConfigCategoryDetailOuter detailMetadata={groupMetadata.fields[fieldName]} stateControl={stateControl} />
         )
     })
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -61,13 +50,13 @@ const AlarmConfigCategoryBody: React.FC = ({ alarmConfigCategoryDetailsMetadata 
         <AccordionDetails className='alarm-config-container'>
             <Box className='configuration-details-container'>
 
+                {alarmConfigCategoryDetailsComponents}
 
 
 
 
 
-
-                <AlarmConfigCategoryDetailOuter 
+                {/* <AlarmConfigCategoryDetailOuter 
                     detailMetadata={detailMetadata}
                 />
                     
@@ -91,7 +80,7 @@ const AlarmConfigCategoryBody: React.FC = ({ alarmConfigCategoryDetailsMetadata 
 
                     </AlarmConfigCategoryDetailBody>
 
-                </AlarmConfigCategoryDetailOuter>
+                </AlarmConfigCategoryDetailOuter> */}
 
 
                 {/* <Box className='lighting-color-container'>
@@ -112,7 +101,7 @@ const AlarmConfigCategoryBody: React.FC = ({ alarmConfigCategoryDetailsMetadata 
 
 
                 
-                <Box className='lighting-timing-container'>
+                {/* <Box className='lighting-timing-container'>
 
                     <Box className='alarm-config-field'>
                         <Box className='alarm-config-field-header'>
@@ -168,7 +157,7 @@ const AlarmConfigCategoryBody: React.FC = ({ alarmConfigCategoryDetailsMetadata 
 
                         </Box>
                     </Box>
-                </Box>
+                </Box> */}
             </Box>
         </AccordionDetails>
 

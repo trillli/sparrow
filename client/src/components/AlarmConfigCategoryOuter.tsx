@@ -11,23 +11,49 @@ import VibrationIcon from '@mui/icons-material/Vibration';
 import { HexColorPicker } from 'react-colorful'
 import AlarmConfigCategoryHeader from './AlarmConfigCategoryHeader';
 import AlarmConfigCategoryBody from './AlarmConfigCategoryBody';
-import { AlarmConfigSunriseProps } from './types/IAlarmConfigCategoryDetailStateControl';
+// import { AlarmConfigSunriseProps } from './types/IAlarmConfigCategoryDetailStateControl';
+// import alarmConfigCategoryKeysOrdered from './types/IAlarmConfigCategoryDetailStateControl'
+import { IAlarmConfigCategoryMetadata, IAlarmCategoryGroupName, alarmConfigCategoryKeysOrdered } from './types/AlarmConfigComponentSkeletons';
 
+interface AlarmConfigCategoryOuterProps {
+    alarmConfigCategoryMetadata: IAlarmConfigCategoryMetadata
+}
 
-const AlarmConfigCategoryOuter: React.FC<AlarmConfigSunriseProps> = ({categoryName, categoryState, eventHandlers }) => {
+const AlarmConfigCategoryOuter: React.FC<AlarmConfigCategoryOuterProps> = ({alarmConfigCategoryMetadata}) => {
+
+    type AlarmCategoryGroupName = 'sound' | 'light' |'vibration'
 
     return (
 
-        <Accordion elevation={1} className='alarm-config-category-container'>
+        <>
 
-            <AlarmConfigCategoryHeader categoryName={categoryName} categoryState={categoryState} eventHandlers={eventHandlers} />
-            <AlarmConfigCategoryBody categoryName={categoryName} categoryState={categoryState} eventHandlers={eventHandlers} />
+            {alarmConfigCategoryKeysOrdered.map((key: AlarmCategoryGroupName, index: number) => (
+                <Accordion 
+                    key={index} 
+                    id={`alarm_config_group_${alarmConfigCategoryMetadata.groups[key].id}`}
+                    className='alarm-config-category-container'
+                    elevation={1}
+                >
+                    <AlarmConfigCategoryHeader 
+                        groupLabel={alarmConfigCategoryMetadata.groups[key].label} 
+                        stateControl={alarmConfigCategoryMetadata.stateControl[key]} 
+                    />
+                    <AlarmConfigCategoryBody 
+                        groupMetadata={alarmConfigCategoryMetadata.groups[key]} 
+                        stateControl={alarmConfigCategoryMetadata.stateControl[key]} />
+                </Accordion>
+            ))}
+
+        </>
+
+            
 
 
 
 
 
-            {/* <AccordionDetails className='alarm-config-container'>
+        /* <Accordion elevation={1} className='alarm-config-category-container'>
+            <AccordionDetails className='alarm-config-container'>
                 <Box className='configuration-details-container'>
                     <Box className='lighting-color-container'>
                         <Box className='alarm-config-field'>
@@ -96,8 +122,9 @@ const AlarmConfigCategoryOuter: React.FC<AlarmConfigSunriseProps> = ({categoryNa
                         </Box>
                     </Box>
                 </Box>
-            </AccordionDetails> */}
-        </Accordion>
+            </AccordionDetails>
+        </Accordion> */
+
 
 
     )

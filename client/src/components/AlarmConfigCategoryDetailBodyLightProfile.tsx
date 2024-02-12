@@ -1,16 +1,17 @@
 import React from 'react'
 import { HexColorPicker } from 'react-colorful'
-import { AlarmConfigSunriseProps } from './types/IAlarmConfigCategoryDetailStateControl'
+import IAlarmConfigCategoryDetailStateControl from './types/IAlarmConfigCategoryDetailStateControl'
+import { ToggleButtonGroup, ToggleButton } from '@mui/material'
 
-const AlarmConfigCategoryDetailBodyLightColor: React.FC<AlarmConfigSunriseProps> = ({categoryName, categoryState, eventHandlers}) => {
+const AlarmConfigCategoryDetailBodyLightProfile: React.FC<IAlarmConfigCategoryDetailStateControl> = ({vars, handlers}) => {
 
     return (
         <>
             <ToggleButtonGroup
                                 color="primary"
-                                value={categoryState.lightBrightnessType}
+                                value={vars.lightBrightnessType}
                                 exclusive
-                                onChange={eventHandlers.handleLightBrightnessTypeChange}
+                                onChange={handlers.handleLightBrightnessTypeChange}
                                 aria-label="Platform"
                             >
                                 <ToggleButton value="constant">Constant</ToggleButton>
@@ -24,4 +25,4 @@ const AlarmConfigCategoryDetailBodyLightColor: React.FC<AlarmConfigSunriseProps>
     
 }
 
-export default AlarmConfigCategoryDetailBodyLightColor
+export default AlarmConfigCategoryDetailBodyLightProfile
