@@ -1,44 +1,33 @@
-import { Accordion, AccordionSummary, Box, Typography, Switch, AccordionDetails, Slider, ToggleButtonGroup, ToggleButton } from '@mui/material'
 import React from 'react'
+import { Accordion, AccordionSummary, Box, Typography, Switch, AccordionDetails, Slider, ToggleButtonGroup, ToggleButton } from '@mui/material'
+import DeleteIcon from '@mui/icons-material/Delete';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import SearchIcon from '@mui/icons-material/Search';
+import VisibilityIcon from '@mui/icons-material/Visibility';
+import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
+import MusicNoteIcon from '@mui/icons-material/MusicNote';
+import WbTwilightIcon from '@mui/icons-material/WbTwilight';
+import VibrationIcon from '@mui/icons-material/Vibration';
 import { HexColorPicker } from 'react-colorful'
+import AlarmConfigCategoryHeader from './AlarmConfigCategoryHeader';
+import AlarmConfigCategoryBody from './AlarmConfigCategoryBody';
+import { AlarmConfigSunriseProps } from './types/IAlarmConfigCategoryDetailStateControl';
 
 
-interface AlarmConfigCategoryOuterProps {
-    categoryName: string
-    categoryState: {
-        lightAdvanceMinutes: number,
-        lightBrightnessType: 'constant' | 'ramp',
-        lightBrightnessConstant: number,
-        lightBrightnessRamp: number[],
-        lightColor: string
-    }
-    // eventHandlers: {[key: string]: Function}
-    eventHandlers: {
-        handleCategorySwitchClick: React.MouseEventHandler<HTMLButtonElement>
-        handleLightAdvanceMinutesSliderChange: Function
-        handleLightBrightnessTypeChange: Function
-        handleLightBrightnessChangeConstant: Function
-        handleLightBrightnessChangeRamp: Function
-        handleLightColorChange: Function
-    }
-
-}
-
-const AlarmConfigCategoryOuter: React.FC<AlarmConfigCategoryOuterProps> = ({categoryName, categoryState, eventHandlers }) => {
+const AlarmConfigCategoryOuter: React.FC<AlarmConfigSunriseProps> = ({categoryName, categoryState, eventHandlers }) => {
 
     return (
 
         <Accordion elevation={1} className='alarm-config-category-container'>
-            <AccordionSummary className='alarm-config-category-header' expandIcon={<ExpandMoreIcon />} >
-                <Box className='category-header-primary'>
-                    <WbTwilightIcon />
-                    <Typography>Sunlight</Typography>
-                </Box>
-                <Box className='category-header-secondary'>
-                    <Switch onClick={eventHandlers.handleCategorySwitchClick} />
-                </Box>
-            </AccordionSummary>
-            <AccordionDetails className='alarm-config-container'>
+
+            <AlarmConfigCategoryHeader categoryName={categoryName} categoryState={categoryState} eventHandlers={eventHandlers} />
+            <AlarmConfigCategoryBody categoryName={categoryName} categoryState={categoryState} eventHandlers={eventHandlers} />
+
+
+
+
+
+            {/* <AccordionDetails className='alarm-config-container'>
                 <Box className='configuration-details-container'>
                     <Box className='lighting-color-container'>
                         <Box className='alarm-config-field'>
@@ -107,7 +96,7 @@ const AlarmConfigCategoryOuter: React.FC<AlarmConfigCategoryOuterProps> = ({cate
                         </Box>
                     </Box>
                 </Box>
-            </AccordionDetails>
+            </AccordionDetails> */}
         </Accordion>
 
 

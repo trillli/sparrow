@@ -24,6 +24,10 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { TimePicker } from '@mui/x-date-pickers/TimePicker';
 import { HexColorPicker } from "react-colorful";
 import AlarmConfigCategoryOuter from 'src/components/AlarmConfigCategoryOuter';
+import SliderColorPicker from 'trillli/src/components/SliderColorPicker'
+import { IAlarmConfigComponentSkeleton } from 'src/components/types/AlarmConfigComponentSkeletons';
+import AlarmConfigCategoryDetailBodyLightColor from 'src/components/AlarmConfigCategoryDetailBodyLightColor';
+import IAlarmConfigCategoryDetailStateControl from 'src/components/types/IAlarmConfigCategoryDetailStateControl';
 
 
 const AlarmsHome: React.FC = () => {
@@ -150,13 +154,15 @@ const AlarmsHome: React.FC = () => {
 
 
 
-    //STATE VARIALES AND REFS ----------------------------------------------------------------------
+    //STATE VARIALES, REFS, VARIABLES  ----------------------------------------------------------------------
     // const [color, setColor] = React.useState("#aabbcc");
     const [lightAdvanceMinutes, setLightAdvanceMinutes] = React.useState<number>(30)
-    const [lightBrightnessType, setLightBrightnessType] = React.useState<string>('constant')
+    const [lightBrightnessType, setLightBrightnessType] = React.useState<'constant' | 'ramp'>('constant')
     const [lightBrightnessConstant, setLightBrightnessConstant] = React.useState<number>(75)
     const [lightBrightnessRamp, setLightBrightnessRamp] = React.useState<number[]>([25, 75])
     const [lightColor, setLightColor] = React.useState<string>("#ffffff");
+
+
 
     //----------------------------------------------------------------------------------------------
 
@@ -229,8 +235,10 @@ const AlarmsHome: React.FC = () => {
     const handleLightBrightnessTypeChange = (event: React.MouseEvent<HTMLElement>) => {
         console.log('Handling light brightness toggler change. need to change corresponding state variable and show/hide other input elements based on that selection')
         const target: HTMLInputElement = event.target as HTMLInputElement
-        const value: string = target.value
-        setLightBrightnessType(value)
+        let value: string = target.value
+        const valueTyped: 'constant' | 'ramp' = ((value == 'string' || value == 'ramp') ? value : 'constant') as 'constant' | 'ramp'
+
+        setLightBrightnessType(valueTyped)
     }
 
     const handleLightBrightnessChangeConstant = (event: Event) => {
@@ -248,6 +256,58 @@ const AlarmsHome: React.FC = () => {
     const handleLightColorChange = (value: string) => {
         console.log('handling light color change; need to modify lightColor state variable')
         setLightColor(value)
+    }
+
+    type statecontollz = {
+        light: IAlarmConfigCategoryDetailStateControl
+    }
+
+    const stateControl: statecontollz = {
+        light: {
+            vars: {
+                lightAdvanceMinutes: lightAdvanceMinutes,
+                lightColor: lightColor,
+                lightBrightnessType: lightBrightnessType,
+                lightBrightnessConstant: lightBrightnessConstant,
+                lightBrightnessRamp: lightBrightnessRamp
+            },
+            handlers: {
+                handleLightAdvanceMinutesSliderChange: handleLightAdvanceMinutesSliderChange,
+                handleLightColorChange: handleLightColorChange
+            }
+        },
+    }
+
+    const alarmConfigComponentSkeletons: IAlarmConfigComponentSkeleton = {
+        sound: {
+            source: {
+    
+            },
+            type: 'tbd',
+            title: 'tbd',
+            artist: 'tbd',
+            volume: 'tbd',
+        },
+        light: {
+            start_relative: {
+                label: 'Turn light on ' + {stateControl.light.lightAdvanceMinutes} + {stateControl.light.lightAdvanceMinutes == 1 ? 'minute' : 'minutes'} + 'before alarm time',
+                id: 'light_start',
+                showHeader: true,
+                body: <AlarmConfigCategoryDetailBodyLightStart stateControl={stateControl.light} />
+            },
+            color: {
+                label: 'Color',
+                id: 'light_color',
+                showHeader: true,
+                body: <AlarmConfigCategoryDetailBodyLightColor vars={stateControl.light.vars} handlers={stateControl.light.handlers} />
+            },
+            profile: {
+    
+            },
+            brightness: {
+    
+            }
+        }
     }
 
     //----------------------------------------------------------------------------------------------
@@ -299,7 +359,7 @@ const AlarmsHome: React.FC = () => {
 
 
 
-
+                    {/* Replace with AlarmConfigCategoryOuter component */}
                     <Accordion elevation={1} className='alarm-config-category-container'>
                         <AccordionSummary className='alarm-config-category-header' expandIcon={<ExpandMoreIcon />} >
                         
@@ -312,112 +372,51 @@ const AlarmsHome: React.FC = () => {
                     </Accordion>
 
 
+                    {/* Need one of these for:
+                        alarm.music
+                        alarm.sunlight
+                        alarm.vibration
 
+
+                        for each one, need to pass the correct categoryName, categoryState, and eventHandlers
+
+                        to do this, can probably create an object that stores the info under keys 'sunlight', 'music', and 'vibration'
+
+                        like:
+                            sunlight.categoryName, sunlight.categoryState, etc
+
+                        will also need the individual fields of each category in some object. for example:
+                            sunlight.color
+                            sunlight.brightness
+
+                            each of those will be their own AlarmConfigCategoryDetailHeader & Body
+                                for header, just need to pass the name; for body, need to create a component since it will be unique & non-generic to the other config categories
+
+
+                    */}
                     <AlarmConfigCategoryOuter
-                        categoryName='Sunlight'
+                        categoryName='Sunlight Component Test'
+                        categoryState={{
+                            lightAdvanceMinutes: lightAdvanceMinutes,
+                            lightBrightnessType: lightBrightnessType,
+                            lightBrightnessConstant: lightBrightnessConstant,
+                            lightBrightnessRamp: lightBrightnessRamp,
+                            lightColor: lightColor
+                        }}
                         eventHandlers={{
-                            handleCategorySwitchClick: handleCategorySwitchClick
+                            'handleCategorySwitchClick': handleCategorySwitchClick,
+                            'handleLightAdvanceMinutesSliderChange': handleLightAdvanceMinutesSliderChange,
+                            'handleLightBrightnessTypeChange': handleLightBrightnessTypeChange,
+                            'handleLightBrightnessChangeConstant': handleLightBrightnessChangeConstant,
+                            'handleLightBrightnessChangeRamp': handleLightBrightnessChangeRamp,
+                            'handleLightColorChange': handleLightColorChange
                         }}
                     />
 
-                    
 
 
 
-
-
-
-
-
-                    <Accordion elevation={1} className='alarm-config-category-container'>
-                        <AccordionSummary className='alarm-config-category-header' expandIcon={<ExpandMoreIcon />} >
-                            <Box className='category-header-primary'>
-                                <WbTwilightIcon />
-                                <Typography>Sunlight</Typography>
-                            </Box>
-                            <Box className='category-header-secondary'>
-                                <Switch onClick={handleCategorySwitchClick}/>
-                            </Box>
-                        </AccordionSummary>
-                        <AccordionDetails className='alarm-config-container'>
-                            <Box className='configuration-details-container'>
-                                <Box className='lighting-color-container'>
-                                    <Box className='alarm-config-field'>
-                                        <Box className='alarm-config-field-header'>
-                                            <Typography className='alarm-config-input-label'>Color</Typography>    
-                                        </Box> 
-                                        <Box className='alarm-config-field-contents'>
-                                            <HexColorPicker color={lightColor} onChange={handleLightColorChange} />
-                                        </Box>
-                                    </Box>
-                                </Box>
-                                <Box className='lighting-timing-container'>
-                                    <Box className='alarm-config-field'>
-                                        <Box className='alarm-config-field-header'>
-                                            <Typography className='alarm-config-input-label'>Turn light on {lightAdvanceMinutes} {lightAdvanceMinutes == 1 ? 'minute' : 'minutes'} before alarm time</Typography>
-                                        </Box>
-                                        <Box className='alarm-config-field-contents'>
-                                            <Slider
-                                                defaultValue={lightAdvanceMinutes}
-                                                value={lightAdvanceMinutes}
-                                                min={0}
-                                                max={60}
-                                                onChange={handleLightAdvanceMinutesSliderChange}
-                                            />
-                                        </Box>
-                                    </Box>
-                                    <Box className='alarm-config-field'>
-                                        <ToggleButtonGroup
-                                            color="primary"
-                                            value={lightBrightnessType}
-                                            exclusive
-                                            onChange={handleLightBrightnessTypeChange}
-                                            aria-label="Platform"
-                                        >
-                                            <ToggleButton value="constant">Constant</ToggleButton>
-                                            <ToggleButton value="ramp">Ramp</ToggleButton>
-                                        </ToggleButtonGroup>
-                                    </Box>
-                                    <Box className='alarm-config-field'>
-                                        <Box className='alarm-config-field-header'>
-                                            <Typography className='alarm-config-input-label'>Brightness</Typography>
-                                        </Box>
-                                        <Box className='alarm-config-field-contents'>
-
-
-                                            {lightBrightnessType == 'constant' ? (
-                                                <Slider
-                                                    value={lightBrightnessConstant}
-                                                    min={0}
-                                                    max={100}
-                                                    onChange={handleLightBrightnessChangeConstant}
-                                                />
-                                                ):(
-                                                <Slider
-                                                    value={lightBrightnessRamp}
-                                                    min={0}
-                                                    max={100}
-                                                    onChange={handleLightBrightnessChangeRamp}
-                                                    valueLabelDisplay="auto"
-                                                    disableSwap
-                                                />
-                                            )}
-                                            
-                                            
-                                        </Box>
-                                    </Box>
-                                </Box>
-                            </Box>
-                        </AccordionDetails>
-                    </Accordion>
-
-
-
-
-
-
-
-
+                    {/* Replace with AlarmConfigCategoryOuter component */}
                     <Accordion elevation={1} className='alarm-config-category-container'>
                         <AccordionSummary className='alarm-config-category-header' expandIcon={<ExpandMoreIcon />} >
                         
@@ -432,6 +431,7 @@ const AlarmsHome: React.FC = () => {
 
 
 
+
                     </Accordion>
                 </AccordionDetails>
             </Accordion>
@@ -439,8 +439,6 @@ const AlarmsHome: React.FC = () => {
             alarmComponentsList.push(alarmItemContent)
 
         })
-
-        // const alarmList = {allAlarmComponents}
 
         return alarmComponentsList
 
@@ -450,25 +448,19 @@ const AlarmsHome: React.FC = () => {
 
     return (
         <PageBuilder navSide={false}>
+
+
+
+
             <Box id='alarms-container-outer'>
 
+                        <LocalizationProvider dateAdapter={AdapterDayjs}>
+                <DemoContainer components={['TimePicker']}>
+                    <TimePicker label="Basic time picker" />
+                </DemoContainer>
+                </LocalizationProvider>
 
-            {/* <div>
-                <input type='color' value='000033'></input>
-                <p>color picker goes here</p>
-                <HexColorPicker color={color} onChange={setColor} />
-            </div> */}
 
-            <LocalizationProvider dateAdapter={AdapterDayjs}>
-      <DemoContainer components={['TimePicker']}>
-        <TimePicker label="Basic time picker" />
-      </DemoContainer>
-    </LocalizationProvider>
-
-    {/* const YourComponent = () => { */}
-  
-  
-{/* }; */}
                 
                 
                 
