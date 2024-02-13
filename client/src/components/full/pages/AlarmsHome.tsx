@@ -32,6 +32,11 @@ import AlarmConfigCategoryDetailBodyLightStart from 'src/components/AlarmConfigC
 import AlarmConfigCategoryDetailBodyLightBrightness from 'src/components/AlarmConfigCategoryDetailBodyLightBrightness';
 import AlarmConfigCategoryDetailBodyLightBrightnessProfile from 'src/components/AlarmConfigCategoryDetailBodyLightBrightness';
 import AlarmConfigCategoryDetailBodyLightProfile from 'src/components/AlarmConfigCategoryDetailBodyLightProfile';
+import AlarmConfigCategoryDetailBodyVibration from 'src/components/AlarmConfigCategoryDetailBodyVibration';
+import AlarmConfigCategoryDetailBodyVibrationStart from 'src/components/AlarmConfigCategoryDetailBodyVibrationStart';
+import AlarmConfigCategoryDetailSoundSource from 'src/components/AlarmConfigCategoryDetailSoundSource';
+import AlarmConfigCategoryDetailBodySoundSearch from 'src/components/AlarmConfigCategoryDetailBodySoundSearch';
+import AlarmConfigCategoryDetailBodySoundVolume from 'src/components/AlarmConfigCategoryDetailBodySoundVolume';
 
 
 const AlarmsHome: React.FC = () => {
@@ -159,20 +164,56 @@ const AlarmsHome: React.FC = () => {
 
 
     //STATE VARIALES, REFS, VARIABLES  ----------------------------------------------------------------------
-    // const [color, setColor] = React.useState("#aabbcc");
-    const [lightAdvanceMinutes, setLightAdvanceMinutes] = React.useState<number>(30)
-    const [lightBrightnessType, setLightBrightnessType] = React.useState<'constant' | 'ramp'>('constant')
-    const [lightBrightnessConstant, setLightBrightnessConstant] = React.useState<number>(75)
-    const [lightBrightnessRamp, setLightBrightnessRamp] = React.useState<number[]>([25, 75])
+    const [soundSource, setSoundSource] = React.useState<string>('spotify')
+    const [soundType, setSoundType] = React.useState<'song' | 'playlist' | 'artist'>('song')
+    const [soundSong, setSoundSong] = React.useState<string>('')
+    const [soundPlaylist, setSoundPlaylist] = React.useState<string>('')
+    const [soundArtist, setSoundArtist] = React.useState<string>('')
+    const [soundVolumeProfile, setSoundVolumeProfile] = React.useState<'constant' | 'ramp'>('constant')
+    const [soundVolumeMax, setSoundVolumeMax] = React.useState<number>(50)
+    const [soundVolumeConstant, setSoundVolumeConstant] = React.useState<number>(soundVolumeMax)
+    const [soundVolumeRamp, setSoundVolumeRamp] = React.useState<number[]>([0, soundVolumeMax])
+    // const [soundVolumeRampDuration, setSoundVolumeRampDuration] = React.useState<number>(30)
+
+    const [lightAdvanceMinutes, setLightAdvanceMinutes] = React.useState<number>(-15)
     const [lightColor, setLightColor] = React.useState<number>(60);
+    const [lightBrightnessType, setLightBrightnessType] = React.useState<'constant' | 'ramp'>('constant')
+    const [lightBrightnessMax, setLightBrightnessMax] = React.useState<number>(75)
+    const [lightBrightnessConstant, setLightBrightnessConstant] = React.useState<number>(lightBrightnessMax)
+    const [lightBrightnessRamp, setLightBrightnessRamp] = React.useState<number[]>([25, lightBrightnessMax])
+
+    const [vibrationStartTime, setVibrationStartTime] = React.useState<number>(0)
+    const [vibrationType, setVibrationType] = React.useState<'constant' | 'ramp'>('constant')
+    const [vibrationEnd, setVibrationEnd] = React.useState<number>(75)
+    const [vibrationConstant, setVibrationConstant] = React.useState<number>(vibrationEnd)
+    const [vibrationRamp, setVibrationRamp] = React.useState<number[]>([0, vibrationEnd]) 
 
 
 
     //----------------------------------------------------------------------------------------------
 
+    React.useEffect(() => {
+        setSoundVolumeConstant(soundVolumeMax)
+        setSoundVolumeRamp([soundVolumeRamp[0], soundVolumeMax])
+    }, [soundVolumeMax])
 
+    React.useEffect(() => {
+        setLightBrightnessConstant(lightBrightnessMax)
+        setLightBrightnessRamp([lightBrightnessRamp[0], lightBrightnessMax])
+    }, [lightBrightnessMax])
 
-    //SIDE EFFECTS
+    React.useEffect(() => {
+        setVibrationConstant(vibrationEnd)
+        setVibrationRamp([vibrationRamp[0], vibrationEnd])
+    }, [vibrationEnd])
+
+    //----------------------------------------------------------------------------------------------
+
+    //HELPER FUNCTIONS
+
+    function searchForSound() {
+        console.log('searching for sound. should have a state variable tracking whether any search fetch requests are still out, and if so keep the results visible but grayed out')
+    }
 
     //----------------------------------------------------------------------------------------------
 
@@ -225,6 +266,46 @@ const AlarmsHome: React.FC = () => {
         console.log('Handling search: Need to search / filter the alarms list.')
     }
 
+    const handleSoundSourceChange = (event: React.MouseEvent<HTMLElement>) => {
+        console.log('TODO')
+    }
+
+    const handleSoundTypeChange = (event: React.MouseEvent<HTMLElement>) => {
+        const target: HTMLInputElement = event.target as HTMLInputElement
+        let value: string = target.value
+        const valueTyped: 'song' | 'playlist' | 'artist' = ((['song', 'playlist', 'artist'].includes(value)) ? value : 'constant') as 'song' | 'playlist' | 'artist'
+        setSoundType(valueTyped)
+    }
+
+    const handleSoundSongChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setSoundSong(event.target.value)
+    }
+
+    const handleSoundPlaylistChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        console.log('handling sound playlist change')
+        setSoundPlaylist(event.target.value)
+    }
+
+    const handleSoundArtistChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        console.log('handling sound artist change')
+        setSoundArtist(event.target.value)
+    }
+
+    const handleSoundVolumeProfileChange = (event: React.MouseEvent<HTMLElement>) => {
+        const target: HTMLInputElement = event.target as HTMLInputElement
+        let value: string = target.value
+        const valueTyped: 'constant' | 'ramp' = ((value == 'string' || value == 'ramp') ? value : 'constant') as 'constant' | 'ramp'
+    }
+
+    const handleSoundVolumeConstantChange = (event: Event, value: number | number[]) => {
+        setSoundVolumeMax(value as number)
+    }
+
+    const handleSoundVolumeRampChange = (event: Event, value: number | number[]) => {
+        const valueTyped = value as number[]
+        setSoundVolumeRamp(valueTyped)
+    }
+
     const handleCategorySwitchClick = (event: React.MouseEvent<HTMLElement>) => {
         console.log('Handling category switch click; Need to toggle category status and stop propogation')
         event.stopPropagation()
@@ -237,6 +318,13 @@ const AlarmsHome: React.FC = () => {
         setLightAdvanceMinutes(value)
     }
 
+    const handleLightColorChange = (event: React.MouseEvent<HTMLElement>) => {
+        console.log('handling light color change; need to modify lightColor state variable')
+        const target: HTMLInputElement = event.target as HTMLInputElement
+        const value: number = Number(target.value)
+        setLightColor(value)
+    }
+
     const handleLightBrightnessTypeChange = (event: React.MouseEvent<HTMLElement>) => {
         console.log('Handling light brightness toggler change. need to change corresponding state variable and show/hide other input elements based on that selection')
         const target: HTMLInputElement = event.target as HTMLInputElement
@@ -246,42 +334,65 @@ const AlarmsHome: React.FC = () => {
         setLightBrightnessType(valueTyped)
     }
 
-    const handleLightBrightnessChangeConstant = (event: Event) => {
+    const handleLightBrightnessChangeConstant = (event: Event, value: number | number[]) => {
         console.log('Handling light brightness constant slider change')
-        const target: HTMLInputElement = event.target as HTMLInputElement
-        const value: number = Number(target.value)
-        setLightBrightnessConstant(value)
+        setLightBrightnessMax(value as number)
     }
 
-    const handleLightBrightnessChangeRamp = (event: Event, values: number | number[]) => {
+    const handleLightBrightnessChangeRamp = (event: Event, value: number | number[]) => {
         console.log('Handling light brightness ramp slider change')
+        const values = value as number[]
         setLightBrightnessRamp(values as number[])
+        setLightBrightnessMax(values[1] as number)
     }
 
-    const handleLightColorChange = (event: React.MouseEvent<HTMLElement>) => {
-        console.log('handling light color change; need to modify lightColor state variable')
+    const handleVibrationStartTimeChange = (event: Event) => {
         const target: HTMLInputElement = event.target as HTMLInputElement
         const value: number = Number(target.value)
-        setLightColor(value)
+        setVibrationStartTime(value)
+    }
+
+    const handleVibrationTypeChange = (event: React.MouseEvent<HTMLInputElement>) => {
+        console.log('handling vibration type toggler change')
+        const target: HTMLInputElement = event.target as HTMLInputElement
+        const value: string = target.value
+        setVibrationType(value)
+    }
+
+    const handleVibrationChangeConstant = (event: Event, value: number | number[]) => {
+        console.log('Handling vibration constant slider change')
+        setVibrationEnd(value as number)
+    }
+
+    const handleVibrationChangeRamp = (event: Event, value: number | number[]) => {
+        console.log('Handling vibration constant slider change')
+        const values = value as number[]
+        setVibrationRamp(values as number[])
+        setVibrationEnd(values[1] as number)
     }
 
 
     const alarmConfigStateControl: IAlarmConfigStateControl = {
         sound: {
             vars: {
-                // lightAdvanceMinutes: lightAdvanceMinutes,
-                // lightColor: lightColor,
-                // lightBrightnessType: lightBrightnessType,
-                // lightBrightnessConstant: lightBrightnessConstant,
-                // lightBrightnessRamp: lightBrightnessRamp
+                soundSource: soundSource,
+                soundType: soundType,
+                soundSong: soundSong,
+                soundPlaylist: soundPlaylist,
+                soundArtist: soundArtist,
+                soundVolumeProfile: soundVolumeProfile,
+                soundVolumeConstant: soundVolumeConstant,
+                soundVolumeRamp: soundVolumeRamp
             },
             handlers: {
-                // handleCategorySwitchClick: handleCategorySwitchClick,
-                // handleLightAdvanceMinutesSliderChange: handleLightAdvanceMinutesSliderChange,
-                // handleLightColorChange: handleLightColorChange,
-                // handleLightBrightnessTypeChange: handleLightBrightnessTypeChange,
-                // handleLightBrightnessChangeConstant: handleLightBrightnessChangeConstant,
-                // handleLightBrightnessChangeRamp: handleLightBrightnessChangeRamp,
+                handleSoundSourceChange: handleSoundSourceChange,
+                handleSoundTypeChange: handleSoundTypeChange,
+                handleSoundSongChange: handleSoundSongChange,
+                handleSoundPlaylistChange: handleSoundPlaylistChange,
+                handleSoundArtistChange: handleSoundArtistChange,
+                handleSoundVolumeProfileChange: handleSoundVolumeProfileChange,
+                handleSoundVolumeConstantChange: handleSoundVolumeConstantChange,
+                handleSoundVolumeRampChange: handleSoundVolumeRampChange
             }
         },
         light: {
@@ -299,24 +410,21 @@ const AlarmsHome: React.FC = () => {
                 handleLightBrightnessTypeChange: handleLightBrightnessTypeChange,
                 handleLightBrightnessChangeConstant: handleLightBrightnessChangeConstant,
                 handleLightBrightnessChangeRamp: handleLightBrightnessChangeRamp,
-
             }
         },
         vibration: {
             vars: {
-                // lightAdvanceMinutes: lightAdvanceMinutes,
-                // lightColor: lightColor,
-                // lightBrightnessType: lightBrightnessType,
-                // lightBrightnessConstant: lightBrightnessConstant,
-                // lightBrightnessRamp: lightBrightnessRamp
+                lightColor: lightColor,
+                vibrationStartTime,
+                vibrationType: vibrationType,
+                vibrationConstant: vibrationConstant,
+                vibrationRamp: vibrationRamp,
             },
             handlers: {
-                // handleCategorySwitchClick: handleCategorySwitchClick,
-                // handleLightAdvanceMinutesSliderChange: handleLightAdvanceMinutesSliderChange,
-                // handleLightColorChange: handleLightColorChange,
-                // handleLightBrightnessTypeChange: handleLightBrightnessTypeChange,
-                // handleLightBrightnessChangeConstant: handleLightBrightnessChangeConstant,
-                // handleLightBrightnessChangeRamp: handleLightBrightnessChangeRamp,
+                handleVibrationStartTimeChange: handleVibrationStartTimeChange,
+                handleVibrationChangeConstant: handleVibrationChangeConstant,
+                handleVibrationChangeRamp: handleVibrationChangeRamp,
+                handleVibrationTypeChange: handleVibrationTypeChange
             }
         }
     }
@@ -327,47 +435,37 @@ const AlarmsHome: React.FC = () => {
             sound: {
                 label: 'Music',
                 id: 'sound',
-                fieldNamesOrdered: ['source', 'type', 'title', 'artist', 'volume'],
+                icon: 'music_note',
+                fieldNamesOrdered: ['source', 'search', 'volume'],
                 fields: {
                     source: {
                         label: 'Sound Source',
                         id: 'source',
                         showHeader: true,
-                        body: <div>This is the sound source selection. for now, default to spotify</div>
+                        body: <AlarmConfigCategoryDetailSoundSource {...alarmConfigStateControl.sound} />
                     },
-                    type: {
-                        label: 'Type',
+                    search: {
+                        label: 'Select You Alarm Music',
                         id: 'type',
                         showHeader: false,
-                        body: <div>This is the sound type selection; it will be a toggle button group of 'song','artist', 'playlist'</div>
-                    },
-                    title: {
-                        label: 'Title',
-                        id: 'title',
-                        showHeader: true,
-                        body: <div>Show this if song is selected or playlist is selected</div>
-                    },
-                    artist: {
-                        label: 'Artist',
-                        id: 'artist',
-                        showHeader: true,
-                        body: <div>Show this if song or artist is selected</div>
+                        body: <AlarmConfigCategoryDetailBodySoundSearch {...alarmConfigStateControl.sound} />
                     },
                     volume: {
                         label: 'Volume',
                         id: 'volume',
                         showHeader: true,
-                        body: <div>This will be a volume slider</div>
+                        body: <AlarmConfigCategoryDetailBodySoundVolume {...alarmConfigStateControl.sound} />
                     },
                 }
             },
             light: {
                 label: 'Sunlight',
                 id: 'light',
+                icon: 'wb_twilight',
                 fieldNamesOrdered: ['start_relative', 'color', 'brightness'],
                 fields: {
                     start_relative: {
-                        label: 'Turn light on ' + (alarmConfigStateControl.light.vars.lightAdvanceMinutes) + ' ' + (alarmConfigStateControl.light.vars.lightAdvanceMinutes == 1 ? 'minute' : 'minutes') + ' before alarm time',
+                        label: 'Turn light on ' + (Math.abs(alarmConfigStateControl.light.vars.lightAdvanceMinutes)) + ' ' + (Math.abs(alarmConfigStateControl.light.vars.lightAdvanceMinutes) == 1 ? 'minute' : 'minutes') + ' ' + (alarmConfigStateControl.light.vars.lightAdvanceMinutes > 0 ? 'after' : 'before') + ' alarm time',
                         id: 'start',
                         showHeader: true,
                         body: <AlarmConfigCategoryDetailBodyLightStart {...alarmConfigStateControl.light} />
@@ -389,13 +487,20 @@ const AlarmsHome: React.FC = () => {
             vibration: {
                 label: 'Vibration',
                 id: 'vibration',
-                fieldNamesOrdered: ['intensity'],
+                icon: 'vibration',
+                fieldNamesOrdered: ['start_relative', 'intensity'],
                 fields: {
+                    start_relative: {
+                        label: 'Begin vibration ' + (Math.abs(alarmConfigStateControl.vibration.vars.vibrationStartTime)) + ' ' + (Math.abs(alarmConfigStateControl.vibration.vars.vibrationStartTime) == 1 ? 'minute' : 'minutes') + ' ' + (alarmConfigStateControl.vibration.vars.vibrationStartTime > 0 ? 'after' : 'before') + ' alarm time',
+                        id: 'start',
+                        showHeader: true,
+                        body: <AlarmConfigCategoryDetailBodyVibrationStart {...alarmConfigStateControl.vibration} />
+                    },
                     intensity: {
                         label: 'Intensity',
                         id: 'intensity',
                         showHeader: true,
-                        body: <div>This is the vibration intensity slider</div>
+                        body: <AlarmConfigCategoryDetailBodyVibration {...alarmConfigStateControl.vibration} />
                     }
                 }
             }
@@ -419,7 +524,7 @@ const AlarmsHome: React.FC = () => {
             const alarmName = alarmMetadata.name
 
             const alarmItemContent =
-                <Accordion className='alarm-container' onChange={handleAlarmExpand}>
+                <Accordion key={alarmKey} className='alarm-container' onChange={handleAlarmExpand}>
                     <AccordionSummary className='alarm-header' expandIcon={<ExpandMoreIcon />}>
                         <Box className='alarm-essentials'>
                             <Box className='alarm-title'>

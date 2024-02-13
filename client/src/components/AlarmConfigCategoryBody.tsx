@@ -26,7 +26,7 @@ const AlarmConfigCategoryBody: React.FC<AlarmConfigCategoryBodyProps> = ({ group
 
     fieldNamesOrdered.forEach((fieldName, index) => {
         alarmConfigCategoryDetailsComponents.push(
-            <AlarmConfigCategoryDetailOuter detailMetadata={groupMetadata.fields[fieldName]} stateControl={stateControl} />
+            <AlarmConfigCategoryDetailOuter key={index} detailMetadata={groupMetadata.fields[fieldName]} stateControl={stateControl} />
         )
     })
 

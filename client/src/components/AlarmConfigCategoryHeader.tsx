@@ -1,5 +1,5 @@
 import React from 'react'
-import { AccordionSummary, Box, Typography, Switch } from '@mui/material'
+import { AccordionSummary, Box, Typography, Switch, Icon } from '@mui/material'
 import MusicNoteIcon from '@mui/icons-material/MusicNote';
 import WbTwilightIcon from '@mui/icons-material/WbTwilight';
 import VibrationIcon from '@mui/icons-material/Vibration';
@@ -7,7 +7,7 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 import { AlarmConfigSunriseProps } from './types/IAlarmConfigCategoryDetailStateControl';
 
 
-const AlarmConfigCategoryHeader: React.FC<AlarmConfigSunriseProps> = ({ groupLabel, groupId, stateControl }) => {
+const AlarmConfigCategoryHeader: React.FC<AlarmConfigSunriseProps> = ({ groupLabel, icon, stateControl }) => {
 
 
     return (
@@ -17,7 +17,7 @@ const AlarmConfigCategoryHeader: React.FC<AlarmConfigSunriseProps> = ({ groupLab
             expandIcon={<ExpandMoreIcon />} 
         >
             <Box className='category-header-primary'>
-                <WbTwilightIcon />
+                <Icon>{icon}</Icon>
                 <Typography>{groupLabel}</Typography>
             </Box>
             <Box className='category-header-secondary'>

@@ -36,6 +36,7 @@ const AlarmConfigCategoryOuter: React.FC<AlarmConfigCategoryOuterProps> = ({alar
                 >
                     <AlarmConfigCategoryHeader 
                         groupLabel={alarmConfigCategoryMetadata.groups[key].label} 
+                        icon={alarmConfigCategoryMetadata.groups[key].icon}
                         stateControl={alarmConfigCategoryMetadata.stateControl[key]} 
                     />
                     <AlarmConfigCategoryBody 

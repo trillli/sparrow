@@ -4,19 +4,18 @@ import { Box, Typography, Slider } from '@mui/material'
 import { useTheme } from '@mui/material/styles'
 
 
-const AlarmConfigCategoryDetailBodyLightStart: React.FC<IAlarmConfigCategoryDetailStateControl> = ({...stateControl}) => {
+const AlarmConfigCategoryDetailBodyVibrationStart: React.FC<IAlarmConfigCategoryDetailStateControl> = ({...stateControl}) => {
 
     const theme = useTheme()
 
     return (<>
         <Box className='alarm-config-field-contents'>
             <Slider
-                defaultValue={stateControl.vars.lightAdvanceMinutes}
-                value={stateControl.vars.lightAdvanceMinutes}
+                value={stateControl.vars.vibrationStartTime}
                 min={-30}
                 max={30}
                 marks={[{value: 0, label: 'Alarm Time'}]}
-                onChange={stateControl.handlers.handleLightAdvanceMinutesSliderChange}
+                onChange={stateControl.handlers.handleVibrationStartTimeChange}
                 sx={{
                     '& .MuiSlider-mark': {
                         transform: 'translate(-50%, -50%)',
@@ -40,4 +39,4 @@ const AlarmConfigCategoryDetailBodyLightStart: React.FC<IAlarmConfigCategoryDeta
     
 }
 
-export default AlarmConfigCategoryDetailBodyLightStart
+export default AlarmConfigCategoryDetailBodyVibrationStart

@@ -41,9 +41,9 @@ const alarmConfigCategoryFieldKeysOrdered: AlarmConfigCategoryFieldKeysOrdered =
 
 
 
-export type IAlarmCategorySoundFieldName = 'source' | 'type' | 'title' | 'artist' | 'volume'
+export type IAlarmCategorySoundFieldName = 'source' | 'search' | 'volume'
 export type IAlarmCategoryLightFieldName = 'start_relative' | 'color' | 'brightness'
-export type IAlarmCategoryVibrationFieldName = 'intensity'
+export type IAlarmCategoryVibrationFieldName = 'start_relative' | 'intensity'
 
 export type IAlarmGroupMetadata = {
     label: string,
@@ -56,9 +56,8 @@ export type IAlarmGroupMetadata = {
 
 export type IAlarmGroupSoundFields = {
     source: IAlarmConfigCategoryDetailMetadata
-                type: IAlarmConfigCategoryDetailMetadata
-                title: IAlarmConfigCategoryDetailMetadata
-                artist: IAlarmConfigCategoryDetailMetadata
+                source: IAlarmConfigCategoryDetailMetadata
+                search: IAlarmConfigCategoryDetailMetadata
                 volume: IAlarmConfigCategoryDetailMetadata
 }
 
@@ -69,6 +68,7 @@ export type IAlarmGroupLightFields = {
 }
 
 export type IAlarmGroupVibrationFields = {
+    start_relative: IAlarmConfigCategoryDetailMetadata
     intensity: IAlarmConfigCategoryDetailMetadata
 }
 
@@ -81,18 +81,21 @@ export type IAlarmConfigCategoryMetadata = {
         sound: {
             label: string,
             id: string,
+            icon: string,
             fieldNamesOrdered: IAlarmCategorySoundFieldName[]
             fields: IAlarmGroupSoundFields
         },
         light: {
             label: string,
             id: string,
+            icon: string,
             fieldNamesOrdered: IAlarmCategoryLightFieldName[]
             fields: IAlarmGroupLightFields
         },
         vibration: {
             label: string,
             id: string,
+            icon: string
             fieldNamesOrdered: IAlarmCategoryVibrationFieldName[]
             fields: IAlarmGroupVibrationFields
         }
