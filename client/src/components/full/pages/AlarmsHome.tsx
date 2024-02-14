@@ -602,7 +602,7 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({appConfig}) => {
                         padding: '25px'
                     }}
                 >
-                    <Typography variant='pageTitle'>Your Alarms</Typography>
+                    <Typography variant='pageTitle'>My Alarms</Typography>
                 </Paper>
                 <Paper 
                     id='btn-new-alarm-container'
@@ -635,7 +635,7 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({appConfig}) => {
                         sx={{
                             background: '#8080802e',
                             display: 'flex',
-                            flexDirection: 'row',
+                            flexDirection: 'row-reverse',
                             flexWrap: 'wrap',
                             columnGap: '1rem',
                             rowGap: '1rem',
@@ -650,13 +650,25 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({appConfig}) => {
                         >
                             <TextField
                                 variant='filled'
-                                label='Filter'
+                                placeholder='Filter'
                                 type='search'
+                                size='small'
                                 InputProps={{
                                     endAdornment: <InputAdornment position="end">{<FilterListIcon />}</InputAdornment>,
+                                    disableUnderline: true,
+                                    sx: {
+                                        borderRadius: '4px',
+                                        '& .MuiInputBase-input': {
+                                            paddingTop: '4px'
+                                        }
+                                    }
                                 }}
                                 sx={{
-                                    width: '100%'
+                                    width: '100%',
+                                    '& .MuiInputLabel-root': {
+                                        border: '2px solid blue',
+                                        transform: 'none'
+                                    }
                                 }}
                             />
                         </Box>
