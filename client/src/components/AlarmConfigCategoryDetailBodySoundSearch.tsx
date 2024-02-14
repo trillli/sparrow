@@ -9,10 +9,6 @@ const AlarmConfigCategoryDetailBodySoundSearch: React.FC<IAlarmConfigCategoryDet
     const showPlaylistField = stateControl.vars.soundType == 'playlist' ? true : false
     const showArtistField = stateControl.vars.soundType == 'artist' ? true : false
 
-    console.log('vars:')
-    console.log(stateControl.vars)
-    // stateControl.vars.soundSong = ''
-
     return (
         <>
             <ToggleButtonGroup
