@@ -7,7 +7,7 @@ import SwapVertIcon from '@mui/icons-material/SwapVert';
 import AddAlarmIcon from '@mui/icons-material/AddAlarm';
 import DeleteIcon from '@mui/icons-material/Delete';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import SearchIcon from '@mui/icons-material/Search';
+import FilterListIcon from '@mui/icons-material/FilterList';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import MusicNoteIcon from '@mui/icons-material/MusicNote';
@@ -37,9 +37,14 @@ import AlarmConfigCategoryDetailBodyVibrationStart from 'src/components/AlarmCon
 import AlarmConfigCategoryDetailSoundSource from 'src/components/AlarmConfigCategoryDetailSoundSource';
 import AlarmConfigCategoryDetailBodySoundSearch from 'src/components/AlarmConfigCategoryDetailBodySoundSearch';
 import AlarmConfigCategoryDetailBodySoundVolume from 'src/components/AlarmConfigCategoryDetailBodySoundVolume';
+import AppConfig from 'src/AppConfig';
+import ITrillliConfig from 'trillli/src/types/ITrillliConfig';
 
+interface AlarmsHomeProps {
+    appConfig: ITrillliConfig
+}
 
-const AlarmsHome: React.FC = () => {
+const AlarmsHome: React.FC<AlarmsHomeProps> = ({appConfig}) => {
 
     //PLACEHOLDERS ---------------------------------------------------------------------------------
 
@@ -164,6 +169,9 @@ const AlarmsHome: React.FC = () => {
 
 
     //STATE VARIALES, REFS, VARIABLES  ----------------------------------------------------------------------
+    const [alarmListSortDirection, setAlarmListSortDirection] = React.useState<'asc' | 'desc'>('desc')
+    const [alarmListSortType, setAlarmListSortType] = React.useState<'time' | 'name'>('time')
+
     const [soundSource, setSoundSource] = React.useState<string>('spotify')
     const [soundType, setSoundType] = React.useState<'song' | 'playlist' | 'artist'>('song')
     const [soundSong, setSoundSong] = React.useState<string>('')
@@ -258,8 +266,12 @@ const AlarmsHome: React.FC = () => {
         event.stopPropagation()
     }
 
-    const handleSort = () => {
-        console.log('Handling sort: Need to sort the alarms list.')
+    const handleAlarmListSortDirectionClick = () => {
+        console.log('handling sort direction click: need to sort the alarms list')
+    }
+
+    const handleAlarmListSortTypeChange = () => {
+        console.log('Handling sort type change: Need to sort the alarms list.')
     }
 
     const handleSearch = () => {
@@ -569,42 +581,136 @@ const AlarmsHome: React.FC = () => {
 
     return (
         <PageBuilder navSide={false}>
-            <Box id='alarms-container-outer'>
-                <LocalizationProvider dateAdapter={AdapterDayjs}>
+            <Box 
+                id='alarms-container-outer'
+                sx={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    rowGap: '2rem'
+                }}
+            >
+                {/* <LocalizationProvider dateAdapter={AdapterDayjs}>
                     <DemoContainer components={['TimePicker']}>
                         <TimePicker label="Basic time picker" />
                     </DemoContainer>
-                </LocalizationProvider>
-                <Paper id='alarms-container-title' elevation={3}>
-                    Your alarms
+                </LocalizationProvider> */}
+                <Paper 
+                    id='alarms-container-title' 
+                    elevation={3}
+                    sx={{
+                        borderRadius: '0px',
+                        padding: '25px'
+                    }}
+                >
+                    <Typography variant='pageTitle'>Your Alarms</Typography>
                 </Paper>
-                <Paper id='paper-btn-new-alarm'>
-                    <Button id='btn-new-alarm' startIcon={<AddAlarmIcon />}>New Alarm</Button>
+                <Paper 
+                    id='btn-new-alarm-container'
+                    elevation={5} 
+                >
+                    <Button 
+                        id='btn-new-alarm' 
+                        startIcon={<AddAlarmIcon />}
+                        sx={{
+                            width: '100%',
+                            padding: '15px',
+                            borderRadius: '0px',
+                            background: appConfig.theme.palette.primary.main,
+                            color: appConfig.theme.palette.primary.contrastText
+                        }}
+                    >
+                        <Typography>New Alarm</Typography>
+                    </Button>
                 </Paper>
-                <Paper id='paper-alarms-list>'>
-                    <Box id='alarms-list-header'>
-                        <Box id='alarms-search-container'>
+                <Paper 
+                    id='paper-alarms-list>'
+                    sx={{
+                        display: 'flex',
+                        flexDirection: 'column',
+                        rowGap: '2rem'
+                    }}
+                >
+                    <Box 
+                        id='alarms-list-header'
+                        sx={{
+                            background: '#8080802e',
+                            display: 'flex',
+                            flexDirection: 'row',
+                            flexWrap: 'wrap',
+                            columnGap: '1rem',
+                            rowGap: '1rem',
+                            padding: '1rem'
+                        }}
+                    >
+                        <Box 
+                            id='alarms-search-container'
+                            sx={{
+                                flexGrow: 1
+                            }}
+                        >
                             <TextField
                                 variant='filled'
-                                label='Search'
+                                label='Filter'
                                 type='search'
                                 InputProps={{
-                                    endAdornment: <InputAdornment position="end">{<SearchIcon />}</InputAdornment>,
+                                    endAdornment: <InputAdornment position="end">{<FilterListIcon />}</InputAdornment>,
+                                }}
+                                sx={{
+                                    width: '100%'
                                 }}
                             />
                         </Box>
-                        <Box id='alarms-sort-container'>
-                            <Box id='sort-direction-container'>
-                                <IconButton className='btn-sort-direction'><SwapVertIcon /></IconButton>
+                        <Box 
+                            id='alarms-sort-container'
+                            sx={{
+                                display: 'flex',
+                                flexDirection: 'row',
+                                flexWrap: 'wrap',
+                                alignItems: 'center',
+                                columnGap: '.25rem'
+                            }}
+                        >
+                                                        <Box 
+                                id='sort-options-container'
+                                sx={{
+                                    display: 'flex',
+                                    flexWrap: 'wrap'
+                                }}
+                            >
+                                <ToggleButtonGroup 
+                                    value={alarmListSortType}
+                                    onChange={handleAlarmListSortTypeChange}
+                                    sx={{
+                                        height: '2rem'
+                                    }}    
+                                >
+                                    <ToggleButton className='btn-sort-option' value='time'>Time</ToggleButton>
+                                    <ToggleButton className='btn-sort-option' value='name'>Name</ToggleButton>
+                                </ToggleButtonGroup>
                             </Box>
-                            <Box id='sort-options-container'>
-                                <Button className='btn-sort-option'>Created</Button>
-                                <Button className='btn-sort-option'>Name</Button>
-                                <Button className='btn-sort-option'>Time</Button>
+                            <Box 
+                                id='sort-direction-container'
+                                sx={{
+                                    display: 'flex',
+                                    justifyContent: 'center',
+                                    height: '2rem',
+                                    width: '2rem',
+                                    borderRadius: '4px',
+                                    background: appConfig.theme.palette.primary.main,
+                                }}
+                            >
+                                <IconButton 
+                                    className='btn-sort-direction'
+                                    onClick={handleAlarmListSortDirectionClick}
+                                    sx={{
+                                        height: '100%',
+                                        color: appConfig.theme.palette.tertiary.main
+                                    }}
+                                >
+                                    <SwapVertIcon />
+                                </IconButton>
                             </Box>
-                        </Box>
-                        <Box id='summary-visibility-toggler-container'>
-                            <Button variant='contained' onClick={handleToggleSummary} startIcon={<VisibilityIcon />}>Summary</Button>
+
                         </Box>
                     </Box>
                     <Box id='alarms-list-container'>
