@@ -17,7 +17,7 @@ import Accordion from '@mui/material/Accordion';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import { IAlarmMetadata } from '../../types/IAlarmMetadata'
-import { Expand, Visibility } from '@mui/icons-material';
+import { DoNotDisturbAlt, Expand, Repeat, SyncDisabled, Visibility } from '@mui/icons-material';
 import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
@@ -172,6 +172,7 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({appConfig}) => {
     const [alarmListSortDirection, setAlarmListSortDirection] = React.useState<'asc' | 'desc'>('desc')
     const [alarmListSortType, setAlarmListSortType] = React.useState<'time' | 'name'>('time')
 
+    const [alarmExpanded, setAlarmExpanded] = React.useState<boolean>(false)
     const [noRepeat, setNoRepeat] = React.useState<boolean>(true)
     type DayAbbrev = 'su' | 'm' | 'tu' | 'w' | 'th' | 'f' | 'sa'
     const [repeatDays, setRepeatDays] = React.useState<Set<DayAbbrev>>(new Set<DayAbbrev>())
@@ -257,14 +258,20 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({appConfig}) => {
         console.log('Handling save alarm: Need to post alarm to server')
     }
 
-    const handleDeleteAalrm = (event: React.MouseEvent<HTMLElement>) => {
+    const handleDeleteAlarm = (event: React.MouseEvent<HTMLElement>) => {
         event.stopPropagation()
         console.log('Handling delete alarm: Need to stop propagation and send delete request to server & rerender alarms list')
     }
 
+    // const handleExpandAlarmClick = (event: React.MouseEvent<HTMLElement>) => {
+    //     console.log('need to rotate:')
+    //     console.log(event.target.parentElement.parentElement.classList.toggle('alarm-expand-rotated'))
+    // }
+
     const handleAlarmExpand = (event: React.SyntheticEvent, expanded: boolean) => {
-        console.log('Handling expansion of an alarm; need to enlarge / emphasize timing options')
-        console.log('Expanded flag: ' + expanded)
+        // console.log('Handling expansion of an alarm; need to enlarge / emphasize timing options')
+        // console.log('Expanded flag: ' + expanded)
+        setAlarmExpanded(!alarmExpanded)
     }
 
     const handleToggleSummary = (event: React.MouseEvent<HTMLElement>) => {
@@ -588,16 +595,21 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({appConfig}) => {
                                 margin: '0px',
                                 display: 'flex',
                                 flexDirection: 'row',
-                                flexWrap: 'wrap'
+                                flexWrap: 'wrap',
+                                '&.Mui-expanded': {
+                                    marginTop: '0px'
+                                }
                             }
                         }}
                     >
                         <Box 
                             className='alarm-essentials'
                             sx={{
+                                padding: '.5rem .75rem',
                                 width: '100%',
                                 display: 'flex',
                                 alignItems: 'center',
+                                background: '#00003350'
                                 // columnGap: '1rem',
                                 // border: '1px solid red'
                             }}
@@ -649,17 +661,32 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({appConfig}) => {
                         <Box 
                             className='alarm-summary'
                             sx={{
+                                padding: '.5rem .75rem',
                                 display: 'flex',
                                 width: '100%'
                             }}
                         >
-                            <Box className='alarm-summary-timing'>
-                                {/* <Typography onClick={handleSummaryTimeClick}>{alarmMetadata.timing.time}</Typography> */}
+                            <Box 
+                                className='alarm-summary-timing'
+                                sx={{
+                                    display: 'flex',
+                                    flexWrap: 'wrap'
+                                }}
+                            >
                                 <ToggleButtonGroup 
                                     className='alarm-summary-days'
                                     // value={['m', 'tu', 'th']}
                                     value={Array.from(repeatDays)}
                                     onChange={handleSummaryDayChange}
+                                    sx={{
+                                        display: 'flex',
+                                        flexWrap: 'wrap',
+                                        '& .MuiButtonBase-root': {
+                                            padding: '.5rem',
+                                            height: '2.25rem',
+                                            width: '2.5rem',
+                                        }
+                                    }}
                                 >
                                     <ToggleButton value='su' className='alarm-day alarm-summary-day'>Su</ToggleButton>
                                     <ToggleButton value='m' className='alarm-day alarm-summary-day'>M</ToggleButton>
@@ -673,18 +700,43 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({appConfig}) => {
                                     className='alarm-summary-no-repeat'
                                     value={noRepeat}
                                     onClick={handleSummaryDayNoRepeatChange}
+                                    sx={{
+                                        '& .MuiButtonBase-root': {
+                                            padding: '.5rem',
+                                            height: '2.25rem',
+                                            width: '2.5rem',
+                                            marginLeft: '.5rem'
+                                        }
+                                    }}
                                 >
-                                    <ToggleButton value={true} className='alarm-day alarm-summary-day'>No Repeat</ToggleButton>
+                                    <ToggleButton 
+                                        className='alarm-day alarm-summary-day'
+                                        value={true} 
+                                    >
+                                        <SyncDisabled />
+                                    </ToggleButton>
                                 </ToggleButtonGroup>
                             </Box>
-                            <IconButton 
-                                onClick={handleDeleteAalrm}>
-                                {/* sx={{
-                                    marginLeft: 'auto'
-                                }} */}
-                                <DeleteIcon />
-                                <GearIcon />
-                            </IconButton>
+                            <Box
+                                className='alarm-action-btns-container'
+                                sx={{
+                                    marginLeft: 'auto',
+                                    display: 'flex'
+                                }}
+                            >
+                                {/* <IconButton 
+                                    onClick={handleDeleteAlarm}>
+                                    <DeleteIcon />
+                                </IconButton> */}
+                                <IconButton
+                                    sx={{
+                                        transition: 'rotate 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms',
+                                        rotate: alarmExpanded ? '180deg' : '0deg',
+                                    }}    
+                                >
+                                    <ExpandMoreIcon />
+                                </IconButton>
+                            </Box>
                         </Box>
                     </AccordionSummary>
                     <AccordionDetails className='alarm-config-categories-container'>
@@ -864,7 +916,7 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({appConfig}) => {
                     </Button>
                 </Paper>
                 
-                <Paper 
+                <Box
                     id='paper-alarms-list>'
                     sx={{
                         display: 'flex',
@@ -872,105 +924,10 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({appConfig}) => {
                         rowGap: '2rem'
                     }}
                 >
-                    {/* <Box 
-                        id='alarms-list-header'
-                        sx={{
-                            background: '#8080802e',
-                            display: 'flex',
-                            flexDirection: 'row-reverse',
-                            flexWrap: 'wrap',
-                            columnGap: '1rem',
-                            rowGap: '1rem',
-                            padding: '1rem'
-                        }}
-                    >
-                        <Box 
-                            id='alarms-search-container'
-                            sx={{
-                                flexGrow: 1
-                            }}
-                        >
-                            <TextField
-                                variant='filled'
-                                placeholder='Filter'
-                                type='search'
-                                size='small'
-                                InputProps={{
-                                    endAdornment: <InputAdornment position="end">{<FilterListIcon />}</InputAdornment>,
-                                    disableUnderline: true,
-                                    sx: {
-                                        borderRadius: '4px',
-                                        '& .MuiInputBase-input': {
-                                            paddingTop: '4px'
-                                        }
-                                    }
-                                }}
-                                sx={{
-                                    width: '100%',
-                                    '& .MuiInputLabel-root': {
-                                        border: '2px solid blue',
-                                        transform: 'none'
-                                    }
-                                }}
-                            />
-                        </Box>
-                        <Box 
-                            id='alarms-sort-container'
-                            sx={{
-                                display: 'flex',
-                                flexDirection: 'row',
-                                flexWrap: 'wrap',
-                                alignItems: 'center',
-                                columnGap: '.25rem'
-                            }}
-                        >
-                                                        <Box 
-                                id='sort-options-container'
-                                sx={{
-                                    display: 'flex',
-                                    flexWrap: 'wrap'
-                                }}
-                            >
-                                <ToggleButtonGroup 
-                                    value={alarmListSortType}
-                                    onChange={handleAlarmListSortTypeChange}
-                                    sx={{
-                                        height: '2rem'
-                                    }}    
-                                >
-                                    <ToggleButton className='btn-sort-option' value='time'>Time</ToggleButton>
-                                    <ToggleButton className='btn-sort-option' value='name'>Name</ToggleButton>
-                                </ToggleButtonGroup>
-                            </Box>
-                            <Box 
-                                id='sort-direction-container'
-                                sx={{
-                                    display: 'flex',
-                                    justifyContent: 'center',
-                                    height: '2rem',
-                                    width: '2rem',
-                                    borderRadius: '4px',
-                                    background: appConfig.theme.palette.primary.main,
-                                }}
-                            >
-                                <IconButton 
-                                    className='btn-sort-direction'
-                                    onClick={handleAlarmListSortDirectionClick}
-                                    sx={{
-                                        height: '100%',
-                                        color: appConfig.theme.palette.tertiary.main
-                                    }}
-                                >
-                                    <SwapVertIcon />
-                                </IconButton>
-                            </Box>
-
-                        </Box>
-                    </Box> */}
                     <Box id='alarms-list-container'>
                         {generateAlarmComponents()}
                     </Box>
-                </Paper>
+                </Box>
             </Box>
         </PageBuilder>
     )

@@ -47,8 +47,19 @@ const AlarmConfigCategoryBody: React.FC<AlarmConfigCategoryBodyProps> = ({ group
 
 
     return (
-        <AccordionDetails className='alarm-config-container'>
-            <Box className='configuration-details-container'>
+        <AccordionDetails className='alarm-config-container'
+            sx={{
+                // paddingTop: '0px',
+                // paddingBottom: '0px',
+                padding: '0px',
+                border: '1px solid blue'
+            }}
+        >    
+            <Box className='configuration-details-container'
+                sx={{
+                    padding: '1rem 0px'
+                }}
+            >
 
                 {alarmConfigCategoryDetailsComponents}
 

@@ -16,11 +16,27 @@ const AlarmConfigCategoryHeader: React.FC<AlarmConfigSunriseProps> = ({ groupLab
             className='alarm-config-category-header' 
             expandIcon={<ExpandMoreIcon />} 
         >
-            <Box className='category-header-primary'>
-                <Icon>{icon}</Icon>
+            <Box 
+                sx={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    columnGap: '1rem'
+                }}
+                className='category-header-primary'>
+                <Icon
+                    sx={{
+                        display: 'flex',
+                        alignItems: 'center',
+                    }}
+                >{icon}</Icon>
                 <Typography>{groupLabel}</Typography>
             </Box>
-            <Box className='category-header-secondary'>
+            <Box 
+                className='category-header-secondary'
+                sx={{
+                    marginLeft: 'auto'
+                }}
+            >
                 <Switch onClick={stateControl.handlers.handleCategorySwitchClick} />
             </Box>
         </AccordionSummary>

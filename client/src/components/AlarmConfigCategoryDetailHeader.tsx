@@ -13,7 +13,7 @@ const AlarmConfigCategoryDetailHeader: React.FC<AlarmConfigCategoryDetailHeaderP
 
     return (
         <Box className='alarm-config-field-header'>
-            <Typography className='alarm-config-input-label'>{label}</Typography>
+            <Typography className='alarm-config-input-label' variant='pageSubtitle'>{label}</Typography>
         </Box>
     )
 

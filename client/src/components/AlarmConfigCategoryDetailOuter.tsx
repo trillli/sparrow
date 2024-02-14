@@ -14,7 +14,19 @@ interface ConfigCategoryDetailOuterProps {
 const AlarmConfigCategoryDetailOuter: React.FC<AlarmConfigSunriseProps> = ({ detailMetadata, stateControl }) => {
 
 
-    // const bodyWithProps = React.cloneElement(detailMetadata.body, detailMetadata.stateControl)
+    
+
+    const containerStyling = {
+        display: 'flex',
+        flexDirection: 'column',
+        rowGap: '1.00rem'
+    }
+
+    const props = {
+        containerStyling: containerStyling
+    }
+
+    const bodyWithProps = React.cloneElement(detailMetadata.body, props)
 
     
 
@@ -22,8 +34,18 @@ const AlarmConfigCategoryDetailOuter: React.FC<AlarmConfigSunriseProps> = ({ det
 
 
 
-        <Box className='alarm-config-category-detail-outer'>
-            <Box className='alarm-config-field'>
+        <Box className='alarm-config-category-detail-outer'
+            sx={{
+                padding: '1rem'
+            }}
+        >
+            <Box className='alarm-config-field'
+                sx={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    rowGap: '1.5rem'
+                }}
+            >
 
                 {/* If required, render detail Header component (serves as a label to the config input; some config inputs are intuitive enough that the header can be omitted for design / ui/ux purposes, hence the showHeader flag) */}
                 { detailMetadata.showHeader ? (
@@ -31,7 +53,8 @@ const AlarmConfigCategoryDetailOuter: React.FC<AlarmConfigSunriseProps> = ({ det
                 ) : (<></>)}
 
                 {/* Render the detail Body component (contains the input field that the user will interact with */}
-                {detailMetadata.body}
+                {/* {detailMetadata.body} */}
+                {bodyWithProps}
                 
             </Box>
         </Box>
