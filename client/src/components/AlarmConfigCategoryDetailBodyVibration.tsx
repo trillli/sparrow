@@ -2,6 +2,7 @@ import React from 'react'
 import { HexColorPicker } from 'react-colorful'
 import IAlarmConfigCategoryDetailStateControl from './types/IAlarmConfigCategoryDetailStateControl'
 import { ToggleButtonGroup, ToggleButton, Slider } from '@mui/material'
+import TrSlider from 'trillli/src/components/TrSlider'
 
 const AlarmConfigCategoryDetailBodyVibration: React.FC<IAlarmConfigCategoryDetailStateControl> = ({...stateControl}) => {
 
@@ -19,14 +20,14 @@ const AlarmConfigCategoryDetailBodyVibration: React.FC<IAlarmConfigCategoryDetai
                                 <ToggleButton value="ramp">Ramp</ToggleButton>
                             </ToggleButtonGroup>
             {stateControl.vars.vibrationType == 'constant' ? (
-                                <Slider
+                                <TrSlider
                                     value={stateControl.vars.vibrationConstant}
                                     min={0}
                                     max={100}
                                     onChange={stateControl.handlers.handleVibrationChangeConstant}
                                 />
                             ) : (
-                                <Slider
+                                <TrSlider
                                     value={stateControl.vars.vibrationRamp}
                                     min={0}
                                     max={100}

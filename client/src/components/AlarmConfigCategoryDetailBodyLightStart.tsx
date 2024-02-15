@@ -2,6 +2,7 @@ import React from 'react'
 import  IAlarmConfigCategoryDetailStateControl  from './types/IAlarmConfigCategoryDetailStateControl'
 import { Box, Typography, Slider } from '@mui/material'
 import { useTheme } from '@mui/material/styles'
+import TrSlider from 'trillli/src/components/TrSlider'
 
 
 const AlarmConfigCategoryDetailBodyLightStart: React.FC<IAlarmConfigCategoryDetailStateControl> = ({...stateControl}) => {
@@ -10,7 +11,7 @@ const AlarmConfigCategoryDetailBodyLightStart: React.FC<IAlarmConfigCategoryDeta
 
     return (<>
         <Box className='alarm-config-field-contents'>
-            <Slider
+            <TrSlider
                 defaultValue={stateControl.vars.lightAdvanceMinutes}
                 value={stateControl.vars.lightAdvanceMinutes}
                 min={-30}

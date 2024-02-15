@@ -497,18 +497,12 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({appConfig}) => {
                 label: 'Music',
                 id: 'sound',
                 icon: 'music_note',
-                fieldNamesOrdered: ['source', 'search', 'volume'],
+                fieldNamesOrdered: ['search', 'volume'],
                 fields: {
-                    source: {
-                        label: 'Sound Source',
-                        id: 'source',
-                        showHeader: true,
-                        body: <AlarmConfigCategoryDetailSoundSource {...alarmConfigStateControl.sound} />
-                    },
                     search: {
-                        label: 'Select You Alarm Music',
+                        label: 'Search for music on Spotify',
                         id: 'type',
-                        showHeader: false,
+                        showHeader: true,
                         body: <AlarmConfigCategoryDetailBodySoundSearch {...alarmConfigStateControl.sound} />
                     },
                     volume: {
@@ -597,7 +591,8 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({appConfig}) => {
                                 flexDirection: 'row',
                                 flexWrap: 'wrap',
                                 '&.Mui-expanded': {
-                                    marginTop: '0px'
+                                    marginTop: '0px',
+                                    marginBottom: '0px'
                                 }
                             }
                         }}
@@ -695,8 +690,28 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({appConfig}) => {
                                     <ToggleButton value='th' className='alarm-day alarm-summary-day'>Th</ToggleButton>
                                     <ToggleButton value='f' className='alarm-day alarm-summary-day'>F</ToggleButton>
                                     <ToggleButton value='sa' className='alarm-day alarm-summary-day'>Sa</ToggleButton>
+                                    <ToggleButtonGroup
+                                    className='alarm-summary-no-repeat'
+                                    value={noRepeat}
+                                    onClick={handleSummaryDayNoRepeatChange}
+                                    sx={{
+                                        '& .MuiButtonBase-root': {
+                                            padding: '.5rem',
+                                            height: '2.25rem',
+                                            width: '2.5rem',
+                                            // marginLeft: '.5rem'
+                                        }
+                                    }}
+                                >
+                                    <ToggleButton 
+                                        className='alarm-day alarm-summary-day'
+                                        value={true} 
+                                    >
+                                        <SyncDisabled />
+                                    </ToggleButton>
                                 </ToggleButtonGroup>
-                                <ToggleButtonGroup
+                                </ToggleButtonGroup>
+                                {/* <ToggleButtonGroup
                                     className='alarm-summary-no-repeat'
                                     value={noRepeat}
                                     onClick={handleSummaryDayNoRepeatChange}
@@ -715,7 +730,7 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({appConfig}) => {
                                     >
                                         <SyncDisabled />
                                     </ToggleButton>
-                                </ToggleButtonGroup>
+                                </ToggleButtonGroup> */}
                             </Box>
                             <Box
                                 className='alarm-action-btns-container'
@@ -739,7 +754,12 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({appConfig}) => {
                             </Box>
                         </Box>
                     </AccordionSummary>
-                    <AccordionDetails className='alarm-config-categories-container'>
+                    <AccordionDetails 
+                        className='alarm-config-categories-container'
+                        sx={{
+                            padding: '0px'
+                        }}
+                    >
                         <AlarmConfigCategoryOuter alarmConfigCategoryMetadata={alarmConfigCategoryMetadata} />
                     </AccordionDetails>
                 </Accordion>

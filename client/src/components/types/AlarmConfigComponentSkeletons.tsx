@@ -22,7 +22,6 @@ type AlarmConfigCategoryFieldKeysOrdered = {
 
 const alarmConfigCategoryFieldKeysOrdered: AlarmConfigCategoryFieldKeysOrdered = {
     sound: [
-        'source',
         'type',
         'title',
         'artist',
@@ -41,7 +40,7 @@ const alarmConfigCategoryFieldKeysOrdered: AlarmConfigCategoryFieldKeysOrdered =
 
 
 
-export type IAlarmCategorySoundFieldName = 'source' | 'search' | 'volume'
+export type IAlarmCategorySoundFieldName = 'search' | 'volume'
 export type IAlarmCategoryLightFieldName = 'start_relative' | 'color' | 'brightness'
 export type IAlarmCategoryVibrationFieldName = 'start_relative' | 'intensity'
 
@@ -55,8 +54,6 @@ export type IAlarmGroupMetadata = {
 }
 
 export type IAlarmGroupSoundFields = {
-    source: IAlarmConfigCategoryDetailMetadata
-                source: IAlarmConfigCategoryDetailMetadata
                 search: IAlarmConfigCategoryDetailMetadata
                 volume: IAlarmConfigCategoryDetailMetadata
 }
