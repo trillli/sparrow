@@ -13,8 +13,21 @@ const PageBuilder: React.FC<PageBuilderProps> = ({
     navSide = false,
     children
 }) => {
+
+    const styling: {[key: string]: any} = {
+        mainContents: {
+            // background: `linear-gradient(147deg, #f9e351, #d8684d)`
+            background: 'white'
+        }
+    }
+
     return (
-        <TrillliPageBuilder navTop navSide={navSide} appConfig={new AppConfig()} children={children} />
+        <TrillliPageBuilder 
+            navTop 
+            navSide={navSide} 
+            appConfig={new AppConfig()}
+            styling={styling}
+            children={children} />
     )
 }
 

@@ -579,10 +579,18 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({appConfig}) => {
             const alarmName = alarmMetadata.name
 
             const alarmItemContent =
-                <Accordion key={alarmKey} className='alarm-container' onChange={handleAlarmExpand}>
+                <Accordion 
+                elevation={0}
+                key={alarmKey} className='alarm-container' onChange={handleAlarmExpand}
+                sx={{
+                    overflow: 'hidden',
+                    // border: `2px solid #eebb50`,
+                    borderTop: 'none',
+                    background: 'linear-gradient(148deg, #ff9f4e, #fef751)'
+                }}
+                >
                     <AccordionSummary 
                         className='alarm-header' 
-                        // expandIcon={<ExpandMoreIcon />}
                         sx={{
                             padding: '0px',
                             '& .MuiAccordionSummary-content': {
@@ -600,11 +608,13 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({appConfig}) => {
                         <Box 
                             className='alarm-essentials'
                             sx={{
-                                padding: '.5rem .75rem',
+                                // padding: '.5rem .75rem',
                                 width: '100%',
                                 display: 'flex',
+                                // columnGap: '1rem',
                                 alignItems: 'center',
-                                background: '#00003350'
+                                background: 'linear-gradient(148deg, #ff9f4e, #fef751)'
+                                // background: appConfig.theme.palette.shades.tertiary[4]
                                 // columnGap: '1rem',
                                 // border: '1px solid red'
                             }}
@@ -616,15 +626,22 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({appConfig}) => {
                                     display: 'flex',
                                     alignItems: 'center',
                                     height: '100%',
-                                    // padding: '1rem',
-                                    borderRadius: '0px',
-                                    borderRight: '1px solid gray',
-                                    // background: appConfig.theme.palette.primary.main,
-                                    // color: appConfig.theme.palette.tertiary.main
+                                    // marginRight: '1rem',
+                                    // background: appConfig.theme.palette.shades.secondary[0],
+                                    // border: `2px solid ${appConfig.theme.palette.shades.primary[10]}`,
+                                    // boxShadow: `4px 4px 0px ${appConfig.theme.palette.shades.primary[10]}`,
+                                    padding: '0px .75rem',
+                                    borderRadius: '4px',
+                                    color: appConfig.theme.palette.secondary.contrastText,
+                                    // background: '#FFFFFF57',
                                 }}
                             >
                                 <Typography 
                                     onClick={handleSummaryTimeClick}
+                                    sx={{
+                                        fontSize: '1.25rem',
+                                        fontWeight: 'bold'
+                                    }}
                                 >
                                     {alarmMetadata.timing.time}
                                 </Typography>
@@ -638,16 +655,21 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({appConfig}) => {
                                     display: 'flex',
                                     alignItems: 'center',
                                     flexGrow: '1',
-                                    borderRight: '1px solid gray',
+                                    borderRadius: '4px',
+                                    // background: '#FFFFFF57',
+                                    padding: '0px .75rem'
                                 }}
                             >
                                 <Typography>{alarmName}</Typography>
+                                {/* <TextField value={alarmName} variant='filled' /> */}
                             </Box>
                             <Box 
                                 className='alarm-status-container'
                                 sx={{
-                                    marginLeft: 'auto',
-                                    height: 'fit-content'
+                                    // marginLeft: '3px',
+                                    marginRight: '-0px',
+                                    height: 'fit-content',
+                                    // background: '#FFFFFF57',
                                 }}    
                             >
                                 <Switch onClick={handleToggleAlarmStatusClick} />
@@ -656,16 +678,18 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({appConfig}) => {
                         <Box 
                             className='alarm-summary'
                             sx={{
-                                padding: '.5rem .75rem',
+                                // padding: '.5rem .75rem',
                                 display: 'flex',
-                                width: '100%'
+                                width: '100%',
+                                background: '#FFFFFF57',
                             }}
                         >
                             <Box 
                                 className='alarm-summary-timing'
                                 sx={{
                                     display: 'flex',
-                                    flexWrap: 'wrap'
+                                    flexWrap: 'wrap',
+                                    // width: '100%'
                                 }}
                             >
                                 <ToggleButtonGroup 
@@ -676,10 +700,20 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({appConfig}) => {
                                     sx={{
                                         display: 'flex',
                                         flexWrap: 'wrap',
+                                        // width: '100%',
+                                        // justifyContent: 'space-between',
+                                        // columnGap: '.25rem',
+                                        // rowGap: '.25rem',
+                                        height: 'fit-content',
+                                        borderRadius: '0px',
                                         '& .MuiButtonBase-root': {
-                                            padding: '.5rem',
-                                            height: '2.25rem',
+                                            borderRadius: '9999px',
+                                            border: 'none',
+                                            background: 'none',
+                                            padding: '0px',
+                                            height: '2rem',
                                             width: '2.5rem',
+                                            borderRadius: '0px'
                                         }
                                     }}
                                 >
@@ -695,11 +729,15 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({appConfig}) => {
                                     value={noRepeat}
                                     onClick={handleSummaryDayNoRepeatChange}
                                     sx={{
+                                        height: 'fit-content',
                                         '& .MuiButtonBase-root': {
-                                            padding: '.5rem',
-                                            height: '2.25rem',
+                                            // borderRadius: '9999px',
+                                            // border: 'none',
+                                            borderLeft: 'none',
+                                            background: 'none',
+                                            padding: '0px',
+                                            height: '2rem',
                                             width: '2.5rem',
-                                            // marginLeft: '.5rem'
                                         }
                                     }}
                                 >
@@ -711,26 +749,6 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({appConfig}) => {
                                     </ToggleButton>
                                 </ToggleButtonGroup>
                                 </ToggleButtonGroup>
-                                {/* <ToggleButtonGroup
-                                    className='alarm-summary-no-repeat'
-                                    value={noRepeat}
-                                    onClick={handleSummaryDayNoRepeatChange}
-                                    sx={{
-                                        '& .MuiButtonBase-root': {
-                                            padding: '.5rem',
-                                            height: '2.25rem',
-                                            width: '2.5rem',
-                                            marginLeft: '.5rem'
-                                        }
-                                    }}
-                                >
-                                    <ToggleButton 
-                                        className='alarm-day alarm-summary-day'
-                                        value={true} 
-                                    >
-                                        <SyncDisabled />
-                                    </ToggleButton>
-                                </ToggleButtonGroup> */}
                             </Box>
                             <Box
                                 className='alarm-action-btns-container'
@@ -739,14 +757,11 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({appConfig}) => {
                                     display: 'flex'
                                 }}
                             >
-                                {/* <IconButton 
-                                    onClick={handleDeleteAlarm}>
-                                    <DeleteIcon />
-                                </IconButton> */}
                                 <IconButton
                                     sx={{
                                         transition: 'rotate 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms',
                                         rotate: alarmExpanded ? '180deg' : '0deg',
+                                        padding: '0px'
                                     }}    
                                 >
                                     <ExpandMoreIcon />
@@ -784,52 +799,23 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({appConfig}) => {
                     rowGap: '2rem'
                 }}
             >
-                {/* <LocalizationProvider dateAdapter={AdapterDayjs}>
-                    <DemoContainer components={['TimePicker']}>
-                        <TimePicker label="Basic time picker" />
-                    </DemoContainer>
-                </LocalizationProvider> */}
-                {/* <Paper 
-                    id='alarms-container-title' 
-                    elevation={3}
-                    sx={{
-                        borderRadius: '0px',
-                        padding: '25px'
-                    }}
-                >
-                    <Typography variant='pageTitle'>My Alarms</Typography>
-                </Paper> */}
-                {/* <Paper 
-                    id='btn-new-alarm-container'
-                    elevation={5} 
-                >
-                    <Button 
-                        id='btn-new-alarm' 
-                        startIcon={<AddAlarmIcon />}
-                        sx={{
-                            width: '100%',
-                            padding: '15px',
-                            borderRadius: '0px',
-                            background: appConfig.theme.palette.primary.main,
-                            color: appConfig.theme.palette.primary.contrastText
-                        }}
-                    >
-                        <Typography>New Alarm</Typography>
-                    </Button>
-                </Paper> */}
                 <Paper 
-                    elevation={3}
+                    elevation={0}
+                    sx={{
+                        borderRadius: '4px',
+                        overflow: 'hidden'
+                    }}
                 >
                 <Box 
                         id='alarms-list-header'
                         sx={{
-                            background: '#8080802e',
+                            background: 'white',
                             display: 'flex',
                             flexDirection: 'row-reverse',
                             flexWrap: 'wrap',
                             columnGap: '1rem',
                             rowGap: '1rem',
-                            padding: '1rem'
+                            // padding: '1rem'
                         }}
                     >
                         <Box 
@@ -919,20 +905,25 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({appConfig}) => {
 
                 <Paper 
                     id='btn-new-alarm-container'
-                    elevation={5} 
+                    elevation={3}
+                    sx={{
+                        background: `linear-gradient(148deg, #ff9f4e, #fef751)`
+                    }} 
                 >
                     <Button 
                         id='btn-new-alarm' 
                         startIcon={<AddAlarmIcon />}
                         sx={{
                             width: '100%',
-                            padding: '15px',
-                            borderRadius: '0px',
-                            background: appConfig.theme.palette.primary.main,
-                            color: appConfig.theme.palette.primary.contrastText
+                            padding: '.5rem',
+                            borderRadius: '4px',
+                            // background: appConfig.theme.palette.primary.main,
+                            background: appConfig.theme.palette.shades.primary[6],
+                            color: appConfig.theme.palette.primary.contrastText,
+                            // color: 'red'
                         }}
                     >
-                        <Typography>New Alarm</Typography>
+                        <Typography fontWeight={'normal'} fontSize={'1.25rem'}>New Alarm</Typography>
                     </Button>
                 </Paper>
                 
@@ -944,7 +935,23 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({appConfig}) => {
                         rowGap: '2rem'
                     }}
                 >
-                    <Box id='alarms-list-container'>
+                    <Box 
+                        id='alarms-list-container'
+                        sx={{
+                            display: 'flex',
+                            flexDirection: 'column',
+                            rowGap: '1rem',
+                            '&>.MuiPaper-root': {
+                                // borderTop: `1px solid ${appConfig.theme.palette.shades.primary[10]}`,
+                                borderRadius: '4px',
+                                // boxShadow: 'none',
+                                // border: `1px solid ${appConfig.theme.palette.shades.primary[10]}`,
+                            },
+                            '&>.MuiPaper-root::before': {
+                                display: 'none'
+                            }
+                        }}    
+                    >
                         {generateAlarmComponents()}
                     </Box>
                 </Box>
