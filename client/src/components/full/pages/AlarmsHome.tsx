@@ -179,7 +179,9 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({appConfig}) => {
 
 
     const [soundSource, setSoundSource] = React.useState<string>('spotify')
-    const [soundType, setSoundType] = React.useState<'song' | 'playlist' | 'artist'>('song')
+    type SoundType = 'song' | 'artist' | 'playlist'
+    const [soundType, setSoundType] = React.useState<Set<SoundType>>(new Set<SoundType>())
+    const [soundTypeNoFilter, setSoundTypeNoFilter] = React.useState<boolean>(true)
     const [soundSong, setSoundSong] = React.useState<string>('')
     const [soundPlaylist, setSoundPlaylist] = React.useState<string>('')
     const [soundArtist, setSoundArtist] = React.useState<string>('')
@@ -221,6 +223,22 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({appConfig}) => {
             setNoRepeat(false)
         }
     }, [repeatDays])
+
+    React.useEffect(() => {
+        console.log('in use effect of soundtypefilter!')
+        if (soundTypeNoFilter) {
+            setSoundType(new Set<SoundType>())
+        }
+    }, [soundTypeNoFilter])
+
+    React.useEffect(() => {
+        console.log('in use effect of sound type!')
+        if (soundType.size == 0) {
+            setSoundTypeNoFilter(true)
+        } else {
+            setSoundTypeNoFilter(false)
+        }
+    }, [soundType])
 
     React.useEffect(() => {
         setSoundVolumeConstant(soundVolumeMax)
@@ -332,10 +350,40 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({appConfig}) => {
     }
 
     const handleSoundTypeChange = (event: React.MouseEvent<HTMLElement>) => {
+        // const target: HTMLInputElement = event.target as HTMLInputElement
+        // let value: string = target.value
+        // const valueTyped: 'song' | 'playlist' | 'artist' = ((['song', 'playlist', 'artist'].includes(value)) ? value : 'constant') as 'song' | 'playlist' | 'artist'
+        // setSoundType(valueTyped)
+        
+
+
+
+        event.stopPropagation()
         const target: HTMLInputElement = event.target as HTMLInputElement
-        let value: string = target.value
-        const valueTyped: 'song' | 'playlist' | 'artist' = ((['song', 'playlist', 'artist'].includes(value)) ? value : 'constant') as 'song' | 'playlist' | 'artist'
-        setSoundType(valueTyped)
+        const value: SoundType = target.value as SoundType
+
+        let soundTypeUpdated = new Set(soundType)
+
+        if (soundType.has(value)) {
+            soundTypeUpdated.delete(value)
+        } else {
+            soundTypeUpdated.add(value)
+        }
+
+        setSoundType(soundTypeUpdated) 
+
+
+
+
+
+    }
+
+    const handleSoundTypeNoFilterChange = (event: React.MouseEvent<HTMLElement>) => {
+        event.stopPropagation()
+        console.log('Handling sound type filter click. Need to stop propogation and style the selected/unselected dates')
+        if (!soundTypeNoFilter) {
+            setSoundTypeNoFilter(true)
+        }
     }
 
     const handleSoundSongChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -438,6 +486,7 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({appConfig}) => {
             vars: {
                 soundSource: soundSource,
                 soundType: soundType,
+                soundTypeNoFilter: soundTypeNoFilter,
                 soundSong: soundSong,
                 soundPlaylist: soundPlaylist,
                 soundArtist: soundArtist,
@@ -448,6 +497,7 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({appConfig}) => {
             handlers: {
                 handleSoundSourceChange: handleSoundSourceChange,
                 handleSoundTypeChange: handleSoundTypeChange,
+                handleSoundTypeNoFilterChange: handleSoundTypeNoFilterChange,
                 handleSoundSongChange: handleSoundSongChange,
                 handleSoundPlaylistChange: handleSoundPlaylistChange,
                 handleSoundArtistChange: handleSoundArtistChange,
@@ -492,6 +542,7 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({appConfig}) => {
 
     const alarmConfigCategoryMetadata: IAlarmConfigCategoryMetadata = {
         stateControl: alarmConfigStateControl,
+        appConfig: appConfig,
         groups: {
             sound: {
                 label: 'Music',
@@ -502,13 +553,13 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({appConfig}) => {
                     search: {
                         label: 'Search for music on Spotify',
                         id: 'type',
-                        showHeader: true,
+                        showHeader: false,
                         body: <AlarmConfigCategoryDetailBodySoundSearch {...alarmConfigStateControl.sound} />
                     },
                     volume: {
                         label: 'Volume',
                         id: 'volume',
-                        showHeader: true,
+                        // showHeader: true,
                         body: <AlarmConfigCategoryDetailBodySoundVolume {...alarmConfigStateControl.sound} />
                     },
                 }
@@ -522,19 +573,19 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({appConfig}) => {
                     start_relative: {
                         label: 'Turn light on ' + (Math.abs(alarmConfigStateControl.light.vars.lightAdvanceMinutes)) + ' ' + (Math.abs(alarmConfigStateControl.light.vars.lightAdvanceMinutes) == 1 ? 'minute' : 'minutes') + ' ' + (alarmConfigStateControl.light.vars.lightAdvanceMinutes > 0 ? 'after' : 'before') + ' alarm time',
                         id: 'start',
-                        showHeader: true,
+                        showHeader: false,
                         body: <AlarmConfigCategoryDetailBodyLightStart {...alarmConfigStateControl.light} />
                     },
                     color: {
                         label: 'Color',
                         id: 'color',
-                        showHeader: true,
+                        showHeader: false,
                         body: <AlarmConfigCategoryDetailBodyLightColor {...alarmConfigStateControl.light} />
                     },
                     brightness: {
                         label: 'Brightness',
                         id: 'brightness',
-                        showHeader: true,
+                        showHeader: false,
                         body: <AlarmConfigCategoryDetailBodyLightBrightness {...alarmConfigStateControl.light} />
                     }
                 }
@@ -548,13 +599,13 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({appConfig}) => {
                     start_relative: {
                         label: 'Begin vibration ' + (Math.abs(alarmConfigStateControl.vibration.vars.vibrationStartTime)) + ' ' + (Math.abs(alarmConfigStateControl.vibration.vars.vibrationStartTime) == 1 ? 'minute' : 'minutes') + ' ' + (alarmConfigStateControl.vibration.vars.vibrationStartTime > 0 ? 'after' : 'before') + ' alarm time',
                         id: 'start',
-                        showHeader: true,
+                        showHeader: false,
                         body: <AlarmConfigCategoryDetailBodyVibrationStart {...alarmConfigStateControl.vibration} />
                     },
                     intensity: {
                         label: 'Intensity',
                         id: 'intensity',
-                        showHeader: true,
+                        showHeader: false,
                         body: <AlarmConfigCategoryDetailBodyVibration {...alarmConfigStateControl.vibration} />
                     }
                 }
@@ -586,7 +637,11 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({appConfig}) => {
                     overflow: 'hidden',
                     // border: `2px solid #eebb50`,
                     borderTop: 'none',
-                    background: 'linear-gradient(148deg, #ff9f4e, #fef751)'
+                    background: 'linear-gradient(148deg, #ff9f4e, #fef751)',
+                    '&>.MuiCollapse-root': {
+                        background: '#FFFFFF57',
+                        // padding: '.5rem'
+                    }
                 }}
                 >
                     <AccordionSummary 
@@ -679,9 +734,11 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({appConfig}) => {
                             className='alarm-summary'
                             sx={{
                                 // padding: '.5rem .75rem',
+                                transition: '.2s',
                                 display: 'flex',
                                 width: '100%',
                                 background: '#FFFFFF57',
+                                padding: `${(alarmExpanded ? '1rem 1rem' : '0px 0px')}`
                             }}
                         >
                             <Box 
@@ -700,10 +757,6 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({appConfig}) => {
                                     sx={{
                                         display: 'flex',
                                         flexWrap: 'wrap',
-                                        // width: '100%',
-                                        // justifyContent: 'space-between',
-                                        // columnGap: '.25rem',
-                                        // rowGap: '.25rem',
                                         height: 'fit-content',
                                         borderRadius: '0px',
                                         '& .MuiButtonBase-root': {
@@ -714,6 +767,11 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({appConfig}) => {
                                             height: '2rem',
                                             width: '2.5rem',
                                             borderRadius: '0px'
+                                        },
+                                        '&>.MuiButtonBase-root.Mui-selected': {
+                                            background: appConfig.theme.palette.shades.tertiary[8],
+                                            color: 'white',
+                                            fontWeight: 'bold',
                                         }
                                     }}
                                 >
@@ -738,7 +796,7 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({appConfig}) => {
                                             padding: '0px',
                                             height: '2rem',
                                             width: '2.5rem',
-                                        }
+                                        },
                                     }}
                                 >
                                     <ToggleButton 
@@ -754,6 +812,7 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({appConfig}) => {
                                 className='alarm-action-btns-container'
                                 sx={{
                                     marginLeft: 'auto',
+                                    marginRight: '6px',
                                     display: 'flex'
                                 }}
                             >
@@ -772,7 +831,11 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({appConfig}) => {
                     <AccordionDetails 
                         className='alarm-config-categories-container'
                         sx={{
-                            padding: '0px'
+                            padding: '1rem',
+                            paddingTop: '.25rem',
+                            display: 'flex',
+                            flexDirection: 'column',
+                            rowGap: '.5rem',
                         }}
                     >
                         <AlarmConfigCategoryOuter alarmConfigCategoryMetadata={alarmConfigCategoryMetadata} />

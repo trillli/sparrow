@@ -3,14 +3,19 @@ import  IAlarmConfigCategoryDetailStateControl  from './types/IAlarmConfigCatego
 import { Box, Typography, Slider } from '@mui/material'
 import { useTheme } from '@mui/material/styles'
 import TrSlider from 'trillli/src/components/TrSlider'
+import AlarmConfigCategoryDetailHeader from './AlarmConfigCategoryDetailHeader'
 
 
 const AlarmConfigCategoryDetailBodyLightStart: React.FC<IAlarmConfigCategoryDetailStateControl> = ({...stateControl}) => {
 
     const theme = useTheme()
 
+    const fieldLabel = 'Turn light on ' + (Math.abs(stateControl.vars.lightAdvanceMinutes)) + ' ' + (Math.abs(stateControl.vars.lightAdvanceMinutes) == 1 ? 'minute' : 'minutes') + ' ' + (stateControl.vars.lightAdvanceMinutes > 0 ? 'after' : 'before') + ' alarm time'
+
     return (<>
-        <Box className='alarm-config-field-contents'>
+        <Box className='alarm-config-category-detail-field-container'>
+        <AlarmConfigCategoryDetailHeader label={fieldLabel} />
+        <Box className='alarm-config-category-detail-field-contents-container'>
             <TrSlider
                 defaultValue={stateControl.vars.lightAdvanceMinutes}
                 value={stateControl.vars.lightAdvanceMinutes}
@@ -35,6 +40,7 @@ const AlarmConfigCategoryDetailBodyLightStart: React.FC<IAlarmConfigCategoryDeta
                     }
                 }}
             />
+        </Box>
         </Box>
     </>
     )

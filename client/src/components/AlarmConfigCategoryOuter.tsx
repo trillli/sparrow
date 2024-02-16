@@ -32,7 +32,22 @@ const AlarmConfigCategoryOuter: React.FC<AlarmConfigCategoryOuterProps> = ({alar
                     key={index} 
                     id={`alarm_config_group_${alarmConfigCategoryMetadata.groups[key].id}`}
                     className='alarm-config-category-container'
-                    elevation={1}
+                    elevation={0}
+                    square={false}
+                    sx={{
+                        display: 'flex',
+                        flexDirection: 'column',
+                        // rowGap: '.5rem',
+                        borderRadius: '0px',
+                        background: 'none',
+                        // border: '4px solid red',
+                        '& .MuiAccordionSummary-content': {
+                            margin: '0px'
+                        },
+                        '&::before': {
+                            display: 'none'
+                        }
+                    }}
                 >
                     <AlarmConfigCategoryHeader 
                         groupLabel={alarmConfigCategoryMetadata.groups[key].label} 
@@ -40,6 +55,7 @@ const AlarmConfigCategoryOuter: React.FC<AlarmConfigCategoryOuterProps> = ({alar
                         stateControl={alarmConfigCategoryMetadata.stateControl[key]} 
                     />
                     <AlarmConfigCategoryBody 
+                        appConfig={alarmConfigCategoryMetadata.appConfig}
                         groupMetadata={alarmConfigCategoryMetadata.groups[key]} 
                         stateControl={alarmConfigCategoryMetadata.stateControl[key]} />
                 </Accordion>

@@ -3,14 +3,20 @@ import  IAlarmConfigCategoryDetailStateControl  from './types/IAlarmConfigCatego
 import { Box, Typography, Slider } from '@mui/material'
 import { useTheme } from '@mui/material/styles'
 import TrSlider from 'trillli/src/components/TrSlider'
+import AlarmConfigCategoryDetailHeader from './AlarmConfigCategoryDetailHeader'
 
 
 const AlarmConfigCategoryDetailBodyVibrationStart: React.FC<IAlarmConfigCategoryDetailStateControl> = ({...stateControl}) => {
 
     const theme = useTheme()
 
-    return (<>
-        <Box className='alarm-config-field-contents'>
+    const fieldLabel = 'Begin vibration ' + (Math.abs(stateControl.vars.vibrationStartTime)) + ' ' + (Math.abs(stateControl.vars.vibrationStartTime) == 1 ? 'minute' : 'minutes') + ' ' + (stateControl.vars.vibrationStartTime > 0 ? 'after' : 'before') + ' alarm time'
+
+    return (
+    <>
+        <Box className='alarm-config-category-detail-field-container'>
+        <AlarmConfigCategoryDetailHeader label={fieldLabel} />
+        <Box className='alarm-config-category-detail-field-contents-container'>
             <TrSlider
                 value={stateControl.vars.vibrationStartTime}
                 min={-30}
@@ -34,6 +40,7 @@ const AlarmConfigCategoryDetailBodyVibrationStart: React.FC<IAlarmConfigCategory
                     }
                 }}
             />
+        </Box>
         </Box>
     </>
     )

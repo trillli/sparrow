@@ -5,13 +5,15 @@ import IAlarmConfigCategoryDetailStateControl, { AlarmConfigSunriseProps } from 
 import AlarmConfigCategoryDetailHeader from './AlarmConfigCategoryDetailHeader'
 import AlarmConfigCategoryDetailBody from './AlarmConfigCategoryDetailBody'
 import AlarmConfigCategoryDetailBodyLightColor from './AlarmConfigCategoryDetailBodyLightColor'
+import ITrillliConfig from 'trillli/src/types/ITrillliConfig'
 
 interface ConfigCategoryDetailOuterProps {
-    detailMetadata: IAlarmConfigCategoryDetailMetadata,
+    appConfig: ITrillliConfig
+    detailMetadata: IAlarmConfigCategoryDetailMetadata
     stateControl: IAlarmConfigCategoryDetailStateControl
 }
 
-const AlarmConfigCategoryDetailOuter: React.FC<AlarmConfigSunriseProps> = ({ detailMetadata, stateControl }) => {
+const AlarmConfigCategoryDetailOuter: React.FC<AlarmConfigSunriseProps> = ({ appConfig, detailMetadata, stateControl }) => {
 
 
     
@@ -19,10 +21,11 @@ const AlarmConfigCategoryDetailOuter: React.FC<AlarmConfigSunriseProps> = ({ det
     const containerStyling = {
         display: 'flex',
         flexDirection: 'column',
-        rowGap: '1.00rem'
+        rowGap: '1rem'
     }
 
     const props = {
+        appConfig: appConfig,
         containerStyling: containerStyling
     }
 
@@ -36,16 +39,20 @@ const AlarmConfigCategoryDetailOuter: React.FC<AlarmConfigSunriseProps> = ({ det
 
         <Box className='alarm-config-category-detail-outer'
             sx={{
-                padding: '1rem'
+                // padding: '1rem',
+                // paddingTop: '0px'
+                display: 'flex',
+                flexDirection: 'column',
+                rowGap: '2rem'
             }}
         >
-            <Box className='alarm-config-field'
+            {/* <Box className='alarm-config-field'
                 sx={{
                     display: 'flex',
                     flexDirection: 'column',
-                    rowGap: '1.5rem'
+                    // rowGap: '1.5rem'
                 }}
-            >
+            > */}
 
                 {/* If required, render detail Header component (serves as a label to the config input; some config inputs are intuitive enough that the header can be omitted for design / ui/ux purposes, hence the showHeader flag) */}
                 { detailMetadata.showHeader ? (
@@ -56,7 +63,7 @@ const AlarmConfigCategoryDetailOuter: React.FC<AlarmConfigSunriseProps> = ({ det
                 {/* {detailMetadata.body} */}
                 {bodyWithProps}
                 
-            </Box>
+            {/* </Box> */}
         </Box>
 
 
