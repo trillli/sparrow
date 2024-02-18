@@ -75,7 +75,7 @@ const AlarmConfigCategoryHeader: React.FC<AlarmConfigSunriseProps> = ({ groupLab
                     
                 }}
             >
-                <Switch onClick={stateControl.handlers.handleCategorySwitchClick} />
+                <Switch checked={stateControl.vars.categoryEnabled} onClick={stateControl.handlers.handleCategorySwitchClick} />
             </Box>
         </AccordionSummary>
 

@@ -13,6 +13,7 @@ import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import MusicNoteIcon from '@mui/icons-material/MusicNote';
 import WbTwilightIcon from '@mui/icons-material/WbTwilight';
 import VibrationIcon from '@mui/icons-material/Vibration';
+import SortIcon from '@mui/icons-material/Sort';
 import Accordion from '@mui/material/Accordion';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import AccordionSummary from '@mui/material/AccordionSummary';
@@ -169,7 +170,7 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
 
 
     //STATE VARIALES, REFS, VARIABLES  ----------------------------------------------------------------------
-    const [alarmListSortDirection, setAlarmListSortDirection] = React.useState<'asc' | 'desc'>('desc')
+    const [alarmListSortAsc, setAlarmListSortAsc] = React.useState<boolean>(true)
     const [alarmListSortType, setAlarmListSortType] = React.useState<'time' | 'name'>('time')
 
     const [alarmExpanded, setAlarmExpanded] = React.useState<boolean>(false)
@@ -178,6 +179,7 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
     const [repeatDays, setRepeatDays] = React.useState<Set<DayAbbrev>>(new Set<DayAbbrev>())
 
 
+    const [soundEnabled, setSoundEnabled] = React.useState<boolean>(false)
     const [soundSource, setSoundSource] = React.useState<string>('spotify')
     type SoundType = 'song' | 'artist' | 'playlist'
     const [soundType, setSoundType] = React.useState<Set<SoundType>>(new Set<SoundType>())
@@ -191,6 +193,7 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
     const [soundVolumeRamp, setSoundVolumeRamp] = React.useState<number[]>([0, soundVolumeMax])
     // const [soundVolumeRampDuration, setSoundVolumeRampDuration] = React.useState<number>(30)
 
+    const [lightEnabled, setLightEnabled] = React.useState<boolean>(true)
     const [lightAdvanceMinutes, setLightAdvanceMinutes] = React.useState<number>(-15)
     const [lightColor, setLightColor] = React.useState<number>(60);
     const [lightBrightnessType, setLightBrightnessType] = React.useState<'constant' | 'ramp'>('constant')
@@ -198,6 +201,7 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
     const [lightBrightnessConstant, setLightBrightnessConstant] = React.useState<number>(lightBrightnessMax)
     const [lightBrightnessRamp, setLightBrightnessRamp] = React.useState<number[]>([25, lightBrightnessMax])
 
+    const [vibrationEnabled, setVibrationEnabled] = React.useState<boolean>(false)
     const [vibrationStartTime, setVibrationStartTime] = React.useState<number>(0)
     const [vibrationType, setVibrationType] = React.useState<'constant' | 'ramp'>('constant')
     const [vibrationEnd, setVibrationEnd] = React.useState<number>(75)
@@ -335,10 +339,13 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
 
     const handleAlarmListSortDirectionClick = () => {
         console.log('handling sort direction click: need to sort the alarms list')
+        setAlarmListSortAsc(!alarmListSortAsc)
     }
 
-    const handleAlarmListSortTypeChange = () => {
+    const handleAlarmListSortTypeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         console.log('Handling sort type change: Need to sort the alarms list.')
+        const value: 'time' | 'name' = event.target.value as 'time' | 'name'
+        setAlarmListSortType(value)
     }
 
     const handleSearch = () => {
@@ -404,6 +411,7 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
         const target: HTMLInputElement = event.target as HTMLInputElement
         let value: string = target.value
         const valueTyped: 'constant' | 'ramp' = ((value == 'string' || value == 'ramp') ? value : 'constant') as 'constant' | 'ramp'
+        setSoundVolumeProfile(valueTyped)
     }
 
     const handleSoundVolumeConstantChange = (event: Event, value: number | number[]) => {
@@ -415,9 +423,28 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
         setSoundVolumeRamp(valueTyped)
     }
 
-    const handleCategorySwitchClick = (event: React.MouseEvent<HTMLElement>) => {
-        console.log('Handling category switch click; Need to toggle category status and stop propogation')
+    const handleCategorySoundSwitchClick = (event: React.ChangeEvent<HTMLInputElement>) => {
         event.stopPropagation()
+        console.log('Handling category sound click; Need to toggle category status and stop propogation')
+        const checked: boolean = event.target.checked
+        setSoundEnabled(checked)
+        
+    }
+
+    const handleCategoryLightSwitchClick = (event: React.ChangeEvent<HTMLInputElement>) => {
+        event.stopPropagation()
+        console.log('Handling category light click; Need to toggle category status and stop propogation')
+        const checked: boolean = event.target.checked
+        setLightEnabled(checked)
+        
+    }
+
+    const handleCategoryVibrationSwitchClick = (event: React.ChangeEvent<HTMLInputElement>) => {
+        event.stopPropagation()
+        console.log('Handling category vibration click; Need to toggle category status and stop propogation')
+        const checked: boolean = event.target.checked
+        setVibrationEnabled(checked)
+        
     }
 
     const handleLightAdvanceMinutesSliderChange = (event: Event) => {
@@ -484,6 +511,7 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
     const alarmConfigStateControl: IAlarmConfigStateControl = {
         sound: {
             vars: {
+                categoryEnabled: soundEnabled,
                 soundSource: soundSource,
                 soundType: soundType,
                 soundTypeNoFilter: soundTypeNoFilter,
@@ -495,6 +523,7 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
                 soundVolumeRamp: soundVolumeRamp
             },
             handlers: {
+                handleCategorySwitchClick: handleCategorySoundSwitchClick,
                 handleSoundSourceChange: handleSoundSourceChange,
                 handleSoundTypeChange: handleSoundTypeChange,
                 handleSoundTypeNoFilterChange: handleSoundTypeNoFilterChange,
@@ -508,6 +537,7 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
         },
         light: {
             vars: {
+                categoryEnabled: lightEnabled,
                 lightAdvanceMinutes: lightAdvanceMinutes,
                 lightColor: lightColor,
                 lightBrightnessType: lightBrightnessType,
@@ -515,7 +545,7 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
                 lightBrightnessRamp: lightBrightnessRamp
             },
             handlers: {
-                handleCategorySwitchClick: handleCategorySwitchClick,
+                handleCategorySwitchClick: handleCategoryLightSwitchClick,
                 handleLightAdvanceMinutesSliderChange: handleLightAdvanceMinutesSliderChange,
                 handleLightColorChange: handleLightColorChange,
                 handleLightBrightnessTypeChange: handleLightBrightnessTypeChange,
@@ -525,6 +555,7 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
         },
         vibration: {
             vars: {
+                categoryEnabled: vibrationEnabled,
                 lightColor: lightColor,
                 vibrationStartTime,
                 vibrationType: vibrationType,
@@ -532,6 +563,7 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
                 vibrationRamp: vibrationRamp,
             },
             handlers: {
+                handleCategorySwitchClick: handleCategoryVibrationSwitchClick,
                 handleVibrationStartTimeChange: handleVibrationStartTimeChange,
                 handleVibrationChangeConstant: handleVibrationChangeConstant,
                 handleVibrationChangeRamp: handleVibrationChangeRamp,
@@ -904,8 +936,10 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
                             marginBottom: '1rem',
                             // border: '1px solid orange',
                             display: 'flex',
-                            flexDirection: 'column',
-                            rowGap: '.5rem'
+                            // flexDirection: 'column',
+                            rowGap: '.5rem',
+                            columnGap: '.5rem',
+                            flexWrap: 'wrap'
                         }}
                         >
                     <Box
@@ -943,12 +977,47 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
                         sx={{
                             display: 'flex',
                             flexDirection: 'row',
-                            flexWrap: 'wrap',
+                            flexWrap: 'no-wrap',
                             alignItems: 'center',
-                            columnGap: '.25rem',
                             marginLeft: 'auto'
                         }}
                     >
+                        <Box
+                            id='sort-direction-container'
+                            sx={{
+
+                                display: 'flex',
+                                justifyContent: 'center',
+                                height: '2rem',
+                                // width: '2rem',
+                                borderRadius: '4px',
+                                borderTopRightRadius: '0px',
+                                borderBottomRightRadius: '0px',
+                                overflow: 'hidden',
+                                background: appConfig.theme.palette.primary.main,
+                            }}
+                        >
+                            <IconButton
+                                className='btn-sort-direction'
+                                onClick={handleAlarmListSortDirectionClick}
+                                sx={{
+                                    // transition: '200ms',
+                                    height: '100%',
+                                    color: appConfig.theme.palette.tertiary.main,
+                                    background: appConfig.theme.palette.shades.primary[8],
+                                    borderRadius: '0px'
+                                    // transform: alarmListSortAsc ? 'none' : 'rotate(180deg)'
+                                }}
+                            >
+                                <SwapVertIcon 
+                                    sx={{
+                                        transition: '200ms',
+                                        transform: alarmListSortAsc ? 'none' : 'rotate(180deg)'
+                                    }}
+                                />
+                                <SortIcon />
+                            </IconButton>
+                        </Box>
                         <Box
                             id='sort-options-container'
                             sx={{
@@ -956,24 +1025,34 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
                                 flexWrap: 'wrap'
                             }}
                         >
+                            {/* <SortIcon /> */}
                             <ToggleButtonGroup
                                 value={alarmListSortType}
                                 onChange={handleAlarmListSortTypeChange}
                                 sx={{
-                                    height: '2rem'
+                                    height: '2rem',
+                                    '&>.MuiButtonBase-root.Mui-selected': {
+                                        background: appConfig.theme.palette.shades.tertiary[2],
+                                    }
                                 }}
                             >
-                                <ToggleButton className='btn-sort-option' value='time'>Time</ToggleButton>
+                                <ToggleButton className='btn-sort-option' value='time'
+                                    sx={{
+                                        borderTopLeftRadius: '0px',
+                                        borderBottomLeftRadius: '0px'
+                                    }}
+                                >Time</ToggleButton>
                                 <ToggleButton className='btn-sort-option' value='name'>Name</ToggleButton>
                             </ToggleButtonGroup>
                         </Box>
-                        <Box
+                        {/* <Box
                             id='sort-direction-container'
                             sx={{
+
                                 display: 'flex',
                                 justifyContent: 'center',
                                 height: '2rem',
-                                width: '2rem',
+                                // width: '2rem',
                                 borderRadius: '4px',
                                 background: appConfig.theme.palette.primary.main,
                             }}
@@ -982,13 +1061,21 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
                                 className='btn-sort-direction'
                                 onClick={handleAlarmListSortDirectionClick}
                                 sx={{
+                                    // transition: '200ms',
                                     height: '100%',
-                                    color: appConfig.theme.palette.tertiary.main
+                                    color: appConfig.theme.palette.tertiary.main,
+                                    // transform: alarmListSortAsc ? 'none' : 'rotate(180deg)'
                                 }}
                             >
-                                <SwapVertIcon />
+                                <SwapVertIcon 
+                                    sx={{
+                                        transition: '200ms',
+                                        transform: alarmListSortAsc ? 'none' : 'rotate(180deg)'
+                                    }}
+                                />
+                                <SortIcon />
                             </IconButton>
-                        </Box>
+                        </Box> */}
 
                     </Box>
                     </Box>
