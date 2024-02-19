@@ -59,6 +59,8 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
                 1707539001,
                 1707540123,
             ],
+            id: 45423563181,
+            shown: true,
             light: {
                 color: 'orange',
                 timing: {
@@ -87,7 +89,8 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
                 }
             },
             timing: {
-                time: '6:00am',
+                time: '7:00 AM',
+                format: 12,
                 days: {
                     m: true,
                     tu: true,
@@ -100,8 +103,10 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
             },
         },
         alarm_2: {
-            name: 'Easy Morning Wakeup',
+            name: 'Gym Morning',
             created: 1707534238,
+            id: 71476659345,
+            shown: true,
             light: {
                 color: 'blue',
                 timing: {
@@ -121,7 +126,8 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
                 }
             },
             timing: {
-                time: '8:30am',
+                time: '6:00 AM',
+                format: 12,
                 days: {
                     m: false,
                     tu: false,
@@ -136,6 +142,8 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
         alarm_3: {
             name: 'D&D',
             created: 1707033238,
+            id: 964238954903,
+            shown: true,
             edited: [
                 1707531001,
             ],
@@ -151,7 +159,8 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
                 }
             },
             timing: {
-                time: '6:30pm',
+                time: '6:30 PM',
+                format: 12,
                 days: {
                     m: false,
                     tu: true,
@@ -165,13 +174,24 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
         }
     }
 
+    let alarmsUnsorted: IAlarmMetadata[] = []
+    const allAlarmsKeys = Object.keys(alarms);
+    allAlarmsKeys.forEach((alarmKey) => {
+        alarmsUnsorted.push(alarms[alarmKey])
+    })
+
     //----------------------------------------------------------------------------------------------
 
 
 
     //STATE VARIALES, REFS, VARIABLES  ----------------------------------------------------------------------
+    const [alarmComponents, setAlarmComponents] = React.useState<React.ReactNode>(<></>)
+    
+    const [alarmsList, setAlarmsList] = React.useState<IAlarmMetadata[]>(alarmsUnsorted)
     const [alarmListSortAsc, setAlarmListSortAsc] = React.useState<boolean>(true)
     const [alarmListSortType, setAlarmListSortType] = React.useState<'time' | 'name'>('time')
+    const [alarmsListPendingSortOrFilter, setAlarmsListPendingSortOrFilter] = React.useState<boolean>(true)
+    const [alarmsSearchValue, setAlarmsSearchValue] = React.useState<string>('')
 
     const [alarmExpanded, setAlarmExpanded] = React.useState<boolean>(false)
     const [noRepeat, setNoRepeat] = React.useState<boolean>(true)
@@ -213,14 +233,32 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
     //----------------------------------------------------------------------------------------------
 
     React.useEffect(() => {
-        console.log('in use effect of noRepeat!')
+        // console.log('component mounted. now hopefully im setting alarms list for real')
+    }, []);
+
+    React.useEffect(() => {
+
+        // console.log('now in alarms list use effect pendingsortorfilter is:')
+        // console.log(alarmsListPendingSortOrFilter)
+
+        if (alarmsListPendingSortOrFilter) {
+            console.log('alarms list is pending sort or filter. not going to update yet.')
+            sortAndFilterAlarmList()
+        } else {
+            console.log('alarms list is not pending sort or filter. updating alarm components')
+            setAlarmComponents(generateAlarmComponents())
+        }
+        
+
+    }, [alarmsList, alarmListSortType, alarmListSortAsc, alarmsSearchValue])
+
+    React.useEffect(() => {
         if (noRepeat) {
             setRepeatDays(new Set<DayAbbrev>())
         }
     }, [noRepeat])
 
     React.useEffect(() => {
-        console.log('in use effect of repeatDays!')
         if (repeatDays.size == 0) {
             setNoRepeat(true)
         } else {
@@ -229,14 +267,12 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
     }, [repeatDays])
 
     React.useEffect(() => {
-        console.log('in use effect of soundtypefilter!')
         if (soundTypeNoFilter) {
             setSoundType(new Set<SoundType>())
         }
     }, [soundTypeNoFilter])
 
     React.useEffect(() => {
-        console.log('in use effect of sound type!')
         if (soundType.size == 0) {
             setSoundTypeNoFilter(true)
         } else {
@@ -262,6 +298,251 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
     //----------------------------------------------------------------------------------------------
 
     //HELPER FUNCTIONS
+
+    // function getAllAlarmNames() {
+
+    //     const alarmKeys: string[] = Object.keys(alarmsUnsorted)
+    //     // let alarmKeysOrdered
+    //     let alarmNames: string[] = []
+    //     let alarmsSorted = []
+    //     let sortedAlarmsIds = new Set<number>()
+
+
+    //     //Loop over all alarms
+    //     alarmKeys.forEach((alarmKey) => {
+    //         const alarm = alarms[alarmKey]
+    //         const name = alarm.name
+    //         alarmNames.push(name)
+    //     })
+
+    //     alarmNames.sort()
+
+    //     alarmNames.forEach((alarmName) => {
+    //         console.log('alarm name:')
+    //         alarmKeys.forEach((alarmKey) => {
+    //             const alarm = alarms[alarmKey]
+    //             const id = alarm.id
+    //             if (!sortedAlarmsIds.has(id)) {
+    //                 if (alarm.name == alarmName) {
+    //                     alarmsSorted.push(alarm)
+    //                 }
+    //             }
+    //         })
+    //     })
+
+    // }
+
+    function getAllAlarmTimes24Hr() {
+
+    }
+
+    function sortAndFilterAlarmList() {
+
+        let sortedAlarmsList = []
+
+        if (alarmListSortType == 'time') {
+            sortedAlarmsList = sortAndFilterAlarmListByTime()
+        } else {
+            sortedAlarmsList = sortAndFilterAlarmListByName()
+        }
+
+        // let sortedAlarmsListCopy = Object.assign([], sortedAlarmsList)
+        if (!alarmListSortAsc) {
+            // console.log('Need to reverse the results. before and then after reverse:')
+            // console.log(sortedAlarmsList)
+            // sortedAlarmsListCopy.reverse()
+            sortedAlarmsList.reverse()
+            // console.log(sortedAlarmsList)
+            // console.log(sortedAlarmsListCopy)
+        }
+
+        // let sortedAndFilteredAlarmsList = []
+        sortedAlarmsList.forEach((alarm, index) => {
+            const alarmNameLower = alarm.name.toLowerCase()
+            if (alarmsSearchValue == '' || alarmNameLower.includes(alarmsSearchValue.toLowerCase())) {
+                alarm.shown = true
+            } else {
+                alarm.shown = false
+            }
+            sortedAlarmsList[index] = alarm
+        })
+
+        // console.log('now going to set alarms list to the sorted list:')
+        // console.log(sortedAlarmsList)
+        setAlarmsListPendingSortOrFilter(false)
+        setAlarmsList(sortedAlarmsList)
+
+        // setAlarmComponents(generateAlarmComponents())
+
+    }
+
+    function sortAndFilterAlarmListByTime() {
+
+        // const alarmKeys: string[] = Object.keys(alarmsUnsorted)
+        let alarmTimes: string[] = []
+        let alarmsSorted = []
+        let sortedAlarmsIds = new Set<number>()
+
+
+        //Loop over all alarms
+        // alarmKeys.forEach((alarmKey) => {
+        //     const alarm = alarms[alarmKey]
+        //     let time = alarm.timing.time
+        //     if (alarm.timing.format == 12) {
+        //         time = time12hrTo24hr(time)
+        //     }
+        //     alarmTimes.push(time)
+        // })
+
+        alarmsList.forEach((alarm) => {
+            let time = alarm.timing.time
+            if (alarm.timing.format == 12) {
+                time = time12hrTo24hr(time)
+            }
+            alarmTimes.push(time)
+        })
+
+        alarmTimes.sort()
+
+
+        alarmTimes.forEach((alarmTime) => {
+
+            alarmsList.forEach((alarm) => {
+
+                const id = alarm.id
+                if (!sortedAlarmsIds.has(id)) {
+                    let currentAlarmTime = alarm.timing.time
+                    if (alarm.timing.format == 12) {
+                        currentAlarmTime = time12hrTo24hr(currentAlarmTime)
+                    }
+                    if (currentAlarmTime == alarmTime) {
+                        alarmsSorted.push(alarm)
+                    }
+                }
+            })
+        })
+
+        // console.log('alarms sorted by time:')
+        // console.log(alarmsSorted)
+
+        // if (!alarmListSortAsc) {
+        //     console.log('')
+        //     alarmsSorted.reverse()
+        // }
+
+        return alarmsSorted
+
+    }
+
+    function sortAndFilterAlarmListByName() {
+
+        const alarmKeys: string[] = Object.keys(alarmsUnsorted)
+        let alarmNames: string[] = []
+        let alarmsSorted = []
+        let sortedAlarmsIds = new Set<number>()
+
+
+        //Loop over all alarms
+        alarmsList.forEach((alarm) => {
+            // const alarm = alarms[alarmKey]
+            const name = alarm.name
+            alarmNames.push(name)
+        })
+
+        alarmNames.sort()
+
+        alarmNames.forEach((alarmName) => {
+            console.log('alarm name:')
+            alarmsList.forEach((alarm) => {
+                // const alarm = alarms[alarmKey]
+                const id = alarm.id
+                if (!sortedAlarmsIds.has(id)) {
+                    if (alarm.name == alarmName) {
+                        alarmsSorted.push(alarm)
+                    }
+                }
+            })
+        })
+
+        console.log('alarms sorted by name:')
+        console.log(alarmsSorted)
+
+        // if (!alarmListSortAsc) {
+        //     alarmsSorted.reverse()
+        // }
+
+        return alarmsSorted
+
+    }
+
+    // sortAndFilterAlarmList()
+
+
+    function time12hrTo24hr(time12hr: string) {
+        // Split the time string into hours, minutes, and AM/PM
+        const [timeString, period] = time12hr.split(' ');
+        const [hours, minutes] = timeString.split(':').map(Number);
+    
+        // Convert 12-hour time to 24-hour time
+        let hours24 = hours;
+        if (period === 'PM' && hours < 12) {
+            hours24 += 12;
+        } else if (period === 'AM' && hours === 12) {
+            hours24 = 0;
+        }
+    
+        // Format hours and minutes with leading zeros
+        const formattedHours = String(hours24).padStart(2, '0');
+        const formattedMinutes = String(minutes).padStart(2, '0');
+    
+        // Return the time in 24-hour format
+        return `${formattedHours}:${formattedMinutes}`;
+    }
+
+    function time24hrTo12hr(time24Hr: string) {
+
+        // Split the time string into hours and minutes
+        const [hours, minutes] = time24Hr.split(':').map(Number);
+    
+        // Determine the period (AM or PM) based on the hours
+        const period = hours >= 12 ? 'PM' : 'AM';
+    
+        // Convert hours to 12-hour format
+        let hours12 = hours % 12;
+        hours12 = hours12 || 12; // Convert 0 to 12
+    
+        // Format hours and minutes with leading zeros
+        const formattedHours = String(hours12).padStart(2, '0');
+        const formattedMinutes = String(minutes).padStart(2, '0');
+    
+        // Return the time in 12-hour format
+        return `${formattedHours}:${formattedMinutes} ${period}`;
+    }
+
+    function getEarlier24HrTime(times24Hr: [string, string]) {
+        
+        // Split the time strings into hours and minutes
+        const [hours1, minutes1] = times24Hr[0].split(':').map(Number);
+        const [hours2, minutes2] = times24Hr[1].split(':').map(Number);
+
+        // Compare hours
+        if (hours1 < hours2) {
+            return -1; // time1 comes before time2
+        } else if (hours1 > hours2) {
+            return 1; // time1 comes after time2
+        } else {
+            // If hours are the same, compare minutes
+            if (minutes1 < minutes2) {
+                return -1; // time1 comes before time2
+            } else if (minutes1 > minutes2) {
+                return 1; // time1 comes after time2
+            } else {
+                return 0; // Both times are equal
+            }
+    }
+    }
+    
+
 
     function searchForSound() {
         console.log('searching for sound. should have a state variable tracking whether any search fetch requests are still out, and if so keep the results visible but grayed out')
@@ -339,17 +620,24 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
 
     const handleAlarmListSortDirectionClick = () => {
         console.log('handling sort direction click: need to sort the alarms list')
+        setAlarmsListPendingSortOrFilter(true)
         setAlarmListSortAsc(!alarmListSortAsc)
     }
 
     const handleAlarmListSortTypeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         console.log('Handling sort type change: Need to sort the alarms list.')
         const value: 'time' | 'name' = event.target.value as 'time' | 'name'
-        setAlarmListSortType(value)
+        if (alarmListSortType != value) {
+            setAlarmsListPendingSortOrFilter(true)
+            setAlarmListSortType(value)
+        }
+        
     }
 
-    const handleSearch = () => {
-        console.log('Handling search: Need to search / filter the alarms list.')
+    const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
+        console.log(event.target.value)
+        setAlarmsListPendingSortOrFilter(true)
+        setAlarmsSearchValue(event.target.value)
     }
 
     const handleSoundSourceChange = (event: React.MouseEvent<HTMLElement>) => {
@@ -655,16 +943,22 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
 
         //Loop over all alarms; for each one, generate their config components
         let alarmComponentsList: React.ReactNode[] = []
-        alarmNames.forEach((alarmKey) => {
+        alarmsList.forEach((alarmMetadata: IAlarmMetadata) => {
+
+            if (alarmMetadata.shown) {
 
             //Get alarm metadata
-            const alarmMetadata: IAlarmMetadata = alarms[alarmKey]
+            // const alarmMetadata: IAlarmMetadata = alarms[alarmKey]
             const alarmName = alarmMetadata.name
 
             const alarmItemContent =
                 <Accordion
                     elevation={0}
-                    key={alarmKey} className='alarm-container' onChange={handleAlarmExpand}
+                    prop_alarm_name={alarmMetadata.name}
+                    prop_alarm_time={alarmMetadata.timing.time}
+                    key={alarmMetadata.id} 
+                    className='alarm-container' 
+                    onChange={handleAlarmExpand}
                     sx={{
                         overflow: 'hidden',
                         // border: `2px solid #eebb50`,
@@ -747,7 +1041,7 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
                                     padding: '0px .75rem'
                                 }}
                             >
-                                <Typography>{alarmName}</Typography>
+                                <Typography>{alarmMetadata.name}</Typography>
                                 {/* <TextField value={alarmName} variant='filled' /> */}
                             </Box>
                             <Box
@@ -876,6 +1170,8 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
 
             alarmComponentsList.push(alarmItemContent)
 
+                    }
+
         })
 
         return alarmComponentsList
@@ -953,6 +1249,7 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
                             placeholder='Filter'
                             type='search'
                             size='small'
+                            onChange={handleSearch}
                             InputProps={{
                                 endAdornment: <InputAdornment position="end">{<FilterListIcon />}</InputAdornment>,
                                 disableUnderline: true,
@@ -1106,7 +1403,8 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
                             }
                         }}
                     >
-                        {generateAlarmComponents()}
+                        {/* {generateAlarmComponents()} */}
+                        {alarmComponents}
                     </Box>
                 </Box>
             </Box>
