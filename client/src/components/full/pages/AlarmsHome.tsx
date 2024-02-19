@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { AccordionActions, Box, Button, Container, Icon, IconButton, InputAdornment, Paper, Slider, Switch, TextField, ToggleButton, ToggleButtonGroup, Typography } from '@mui/material';
+import { AccordionActions, Box, Button, Container, Icon, IconButton, InputAdornment, Modal, Paper, Slider, Switch, TextField, ToggleButton, ToggleButtonGroup, Typography } from '@mui/material';
 import AlarmsList from 'src/components/full/elements/AlarmsList';
 import ConfigCategoryLabel from 'src/components/full/elements/ConfigCategoryLabel';
 import PageBuilder from 'src/components/PageBuilder';
@@ -21,6 +21,7 @@ import { IAlarmMetadata } from '../../types/IAlarmMetadata'
 import { DoNotDisturbAlt, Expand, Repeat, SyncDisabled, Visibility } from '@mui/icons-material';
 import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import dayjs, { Dayjs } from 'dayjs'
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { TimePicker } from '@mui/x-date-pickers/TimePicker';
 import { HexColorPicker } from "react-colorful";
@@ -40,6 +41,10 @@ import AlarmConfigCategoryDetailBodySoundSearch from 'src/components/AlarmConfig
 import AlarmConfigCategoryDetailBodySoundVolume from 'src/components/AlarmConfigCategoryDetailBodySoundVolume';
 import AppConfig from 'src/AppConfig';
 import ITrillliConfig from 'trillli/src/types/ITrillliConfig';
+import { TIME_VALIDATION_PROP_NAMES } from '@mui/x-date-pickers/internals/utils/validation/extractValidationProps';
+import { FieldChangeHandlerContext } from '@mui/x-date-pickers/internals';
+import { StaticTimePicker } from '@mui/x-date-pickers/StaticTimePicker';
+import { PickersActionBarProps } from '@mui/x-date-pickers';
 
 interface AlarmsHomeProps {
     appConfig: ITrillliConfig
@@ -180,13 +185,22 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
         alarmsUnsorted.push(alarms[alarmKey])
     })
 
+    let allAlarmsMetadata = {
+        preferences: {
+            format: 24,
+            sort: 'time',
+            sortAsc: 'true'
+        },
+        alarmsUnsorted: alarmsUnsorted
+    }
+
     //----------------------------------------------------------------------------------------------
 
 
 
     //STATE VARIALES, REFS, VARIABLES  ----------------------------------------------------------------------
     const [alarmComponents, setAlarmComponents] = React.useState<React.ReactNode>(<></>)
-    
+
     const [alarmsList, setAlarmsList] = React.useState<IAlarmMetadata[]>(alarmsUnsorted)
     const [alarmListSortAsc, setAlarmListSortAsc] = React.useState<boolean>(true)
     const [alarmListSortType, setAlarmListSortType] = React.useState<'time' | 'name'>('time')
@@ -197,6 +211,10 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
     const [noRepeat, setNoRepeat] = React.useState<boolean>(true)
     type DayAbbrev = 'su' | 'm' | 'tu' | 'w' | 'th' | 'f' | 'sa'
     const [repeatDays, setRepeatDays] = React.useState<Set<DayAbbrev>>(new Set<DayAbbrev>())
+
+    const [alarmTime, setAlarmTime] = React.useState<string>('17:23')
+    const [timePickerOpen, setTimePickerOpen] = React.useState<boolean>(false)
+    const [timeFormat24Hr, setTimeFormat24Hr] = React.useState<boolean>(false)
 
 
     const [soundEnabled, setSoundEnabled] = React.useState<boolean>(false)
@@ -248,7 +266,7 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
             console.log('alarms list is not pending sort or filter. updating alarm components')
             setAlarmComponents(generateAlarmComponents())
         }
-        
+
 
     }, [alarmsList, alarmListSortType, alarmListSortAsc, alarmsSearchValue])
 
@@ -482,7 +500,7 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
         // Split the time string into hours, minutes, and AM/PM
         const [timeString, period] = time12hr.split(' ');
         const [hours, minutes] = timeString.split(':').map(Number);
-    
+
         // Convert 12-hour time to 24-hour time
         let hours24 = hours;
         if (period === 'PM' && hours < 12) {
@@ -490,11 +508,11 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
         } else if (period === 'AM' && hours === 12) {
             hours24 = 0;
         }
-    
+
         // Format hours and minutes with leading zeros
         const formattedHours = String(hours24).padStart(2, '0');
         const formattedMinutes = String(minutes).padStart(2, '0');
-    
+
         // Return the time in 24-hour format
         return `${formattedHours}:${formattedMinutes}`;
     }
@@ -503,24 +521,24 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
 
         // Split the time string into hours and minutes
         const [hours, minutes] = time24Hr.split(':').map(Number);
-    
+
         // Determine the period (AM or PM) based on the hours
         const period = hours >= 12 ? 'PM' : 'AM';
-    
+
         // Convert hours to 12-hour format
         let hours12 = hours % 12;
         hours12 = hours12 || 12; // Convert 0 to 12
-    
+
         // Format hours and minutes with leading zeros
         const formattedHours = String(hours12).padStart(2, '0');
         const formattedMinutes = String(minutes).padStart(2, '0');
-    
+
         // Return the time in 12-hour format
         return `${formattedHours}:${formattedMinutes} ${period}`;
     }
 
     function getEarlier24HrTime(times24Hr: [string, string]) {
-        
+
         // Split the time strings into hours and minutes
         const [hours1, minutes1] = times24Hr[0].split(':').map(Number);
         const [hours2, minutes2] = times24Hr[1].split(':').map(Number);
@@ -539,9 +557,9 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
             } else {
                 return 0; // Both times are equal
             }
+        }
     }
-    }
-    
+
 
 
     function searchForSound() {
@@ -582,10 +600,35 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
         console.log('Handling toggle alarm summary: Need to stop propogation and switch summary visibility toggle status state variable')
     }
 
+    const handleTimePickerChange = (value: TValue) => {
+        console.log('handling time picker change. value: ')
+        console.log(value)
+    }
+
+    const handleTimeFormatToggle = (event: React.MouseEvent<HTMLElement>, value: boolean) => {
+        // console.log('doing the time format toggle')
+        // console.log(event)
+        // const target: HTMLInputElement = event.target as HTMLInputElement
+        // const value: boolean = Boolean(target.value)
+
+        // console.log(target)
+        // console.log(value)
+        if (value != null) {
+            setTimeFormat24Hr(value)
+        }
+    }
+
+    const CustomToolbar = () => (
+        // <input value={name} onChange={(event) => setName(event.target.value)} />
+        <div>Here is my custom toolbar</div>
+    );
+
     const handleSummaryTimeClick = (event: React.MouseEvent<HTMLElement>) => {
         console.log('Handling summary time click. Need to stop propogation and trigger the time picker')
         event.stopPropagation()
     }
+
+    let showAlarmNameAndTimeModal = true
 
     const handleSummaryDayChange = (event: React.MouseEvent<HTMLElement>) => {
 
@@ -631,7 +674,7 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
             setAlarmsListPendingSortOrFilter(true)
             setAlarmListSortType(value)
         }
-        
+
     }
 
     const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -716,7 +759,7 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
         console.log('Handling category sound click; Need to toggle category status and stop propogation')
         const checked: boolean = event.target.checked
         setSoundEnabled(checked)
-        
+
     }
 
     const handleCategoryLightSwitchClick = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -724,7 +767,7 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
         console.log('Handling category light click; Need to toggle category status and stop propogation')
         const checked: boolean = event.target.checked
         setLightEnabled(checked)
-        
+
     }
 
     const handleCategoryVibrationSwitchClick = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -732,7 +775,7 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
         console.log('Handling category vibration click; Need to toggle category status and stop propogation')
         const checked: boolean = event.target.checked
         setVibrationEnabled(checked)
-        
+
     }
 
     const handleLightAdvanceMinutesSliderChange = (event: Event) => {
@@ -941,236 +984,241 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
 
         const alarmNames: string[] = Object.keys(alarms)
 
+
+
         //Loop over all alarms; for each one, generate their config components
         let alarmComponentsList: React.ReactNode[] = []
         alarmsList.forEach((alarmMetadata: IAlarmMetadata) => {
 
             if (alarmMetadata.shown) {
 
-            //Get alarm metadata
-            // const alarmMetadata: IAlarmMetadata = alarms[alarmKey]
-            const alarmName = alarmMetadata.name
+                //Get alarm metadata
+                // const alarmMetadata: IAlarmMetadata = alarms[alarmKey]
+                const alarmName = alarmMetadata.name
 
-            const alarmItemContent =
-                <Accordion
-                    elevation={0}
-                    prop_alarm_name={alarmMetadata.name}
-                    prop_alarm_time={alarmMetadata.timing.time}
-                    key={alarmMetadata.id} 
-                    className='alarm-container' 
-                    onChange={handleAlarmExpand}
-                    sx={{
-                        overflow: 'hidden',
-                        // border: `2px solid #eebb50`,
-                        borderTop: 'none',
-                        background: 'linear-gradient(148deg, #ff9f4e, #fef751)',
-                        '&>.MuiCollapse-root': {
-                            background: '#FFFFFF57',
-                            // padding: '.5rem'
-                        }
-                    }}
-                >
-                    <AccordionSummary
-                        className='alarm-header'
+                const alarmItemContent =
+                    <Accordion
+                        elevation={0}
+                        prop_alarm_name={alarmMetadata.name}
+                        prop_alarm_time={alarmMetadata.timing.time}
+                        key={alarmMetadata.id}
+                        className='alarm-container'
+                        onChange={handleAlarmExpand}
                         sx={{
-                            padding: '0px',
-                            '& .MuiAccordionSummary-content': {
-                                margin: '0px',
-                                display: 'flex',
-                                flexDirection: 'row',
-                                flexWrap: 'wrap',
-                                '&.Mui-expanded': {
-                                    marginTop: '0px',
-                                    marginBottom: '0px'
-                                }
+                            overflow: 'hidden',
+                            // border: `2px solid #eebb50`,
+                            borderTop: 'none',
+                            background: 'linear-gradient(148deg, #ff9f4e, #fef751)',
+                            '&>.MuiCollapse-root': {
+                                background: '#FFFFFF57',
+                                // padding: '.5rem'
                             }
                         }}
                     >
-                        <Box
-                            className='alarm-essentials'
+                        <AccordionSummary
+                            className='alarm-header'
                             sx={{
-                                // padding: '.5rem .75rem',
-                                width: '100%',
-                                display: 'flex',
-                                // columnGap: '1rem',
-                                alignItems: 'center',
-                                background: 'linear-gradient(148deg, #ff9f4e, #fef751)'
-                                // background: appConfig.theme.palette.shades.tertiary[4]
-                                // columnGap: '1rem',
-                                // border: '1px solid red'
+                                padding: '0px',
+                                '& .MuiAccordionSummary-content': {
+                                    margin: '0px',
+                                    display: 'flex',
+                                    flexDirection: 'row',
+                                    flexWrap: 'wrap',
+                                    '&.Mui-expanded': {
+                                        marginTop: '0px',
+                                        marginBottom: '0px'
+                                    }
+                                }
                             }}
                         >
+
+
+
                             <Box
-                                className='alarm-time-container'
-                                alignItems='center'
+                                className='alarm-essentials'
                                 sx={{
+                                    // padding: '.5rem .75rem',
+                                    width: '100%',
                                     display: 'flex',
+                                    // columnGap: '1rem',
                                     alignItems: 'center',
-                                    height: '100%',
-                                    // marginRight: '1rem',
-                                    // background: appConfig.theme.palette.shades.secondary[0],
-                                    // border: `2px solid ${appConfig.theme.palette.shades.primary[10]}`,
-                                    // boxShadow: `4px 4px 0px ${appConfig.theme.palette.shades.primary[10]}`,
-                                    padding: '0px .75rem',
-                                    borderRadius: '4px',
-                                    color: appConfig.theme.palette.secondary.contrastText,
-                                    // background: '#FFFFFF57',
+                                    background: 'linear-gradient(148deg, #ff9f4e, #fef751)'
+                                    // background: appConfig.theme.palette.shades.tertiary[4]
+                                    // columnGap: '1rem',
+                                    // border: '1px solid red'
                                 }}
                             >
-                                <Typography
-                                    onClick={handleSummaryTimeClick}
+                                <Box
+                                    className='alarm-time-container'
+                                    alignItems='center'
                                     sx={{
-                                        fontSize: '1.25rem',
-                                        fontWeight: 'bold'
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        height: '100%',
+                                        // marginRight: '1rem',
+                                        // background: appConfig.theme.palette.shades.secondary[0],
+                                        // border: `2px solid ${appConfig.theme.palette.shades.primary[10]}`,
+                                        // boxShadow: `4px 4px 0px ${appConfig.theme.palette.shades.primary[10]}`,
+                                        padding: '0px .75rem',
+                                        borderRadius: '4px',
+                                        color: appConfig.theme.palette.secondary.contrastText,
+                                        // background: '#FFFFFF57',
                                     }}
                                 >
-                                    {alarmMetadata.timing.time}
-                                </Typography>
+                                    <Typography
+                                        onClick={handleSummaryTimeClick}
+                                        sx={{
+                                            fontSize: '1.25rem',
+                                            fontWeight: 'bold'
+                                        }}
+                                    >
+                                        {alarmMetadata.timing.time}
+                                    </Typography>
+                                </Box>
+                                <Box
+                                    className='alarm-name-container'
+                                    sx={{
+                                        whiteSpace: 'pre-wrap',
+                                        wordBreak: 'break-word',
+                                        height: '100%',
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        flexGrow: '1',
+                                        borderRadius: '4px',
+                                        // background: '#FFFFFF57',
+                                        padding: '0px .75rem'
+                                    }}
+                                >
+                                    <Typography>{alarmMetadata.name}</Typography>
+                                    {/* <TextField value={alarmName} variant='filled' /> */}
+                                </Box>
+                                <Box
+                                    className='alarm-status-container'
+                                    sx={{
+                                        // marginLeft: '3px',
+                                        marginRight: '-0px',
+                                        height: 'fit-content',
+                                        // background: '#FFFFFF57',
+                                    }}
+                                >
+                                    <Switch onClick={handleToggleAlarmStatusClick} />
+                                </Box>
                             </Box>
                             <Box
-                                className='alarm-name-container'
+                                className='alarm-summary'
                                 sx={{
-                                    whiteSpace: 'pre-wrap',
-                                    wordBreak: 'break-word',
-                                    height: '100%',
+                                    // padding: '.5rem .75rem',
+                                    transition: '.2s',
                                     display: 'flex',
-                                    alignItems: 'center',
-                                    flexGrow: '1',
-                                    borderRadius: '4px',
-                                    // background: '#FFFFFF57',
-                                    padding: '0px .75rem'
+                                    width: '100%',
+                                    background: '#FFFFFF57',
+                                    padding: `${(alarmExpanded ? '1rem 1rem' : '0px 0px')}`
                                 }}
                             >
-                                <Typography>{alarmMetadata.name}</Typography>
-                                {/* <TextField value={alarmName} variant='filled' /> */}
-                            </Box>
-                            <Box
-                                className='alarm-status-container'
-                                sx={{
-                                    // marginLeft: '3px',
-                                    marginRight: '-0px',
-                                    height: 'fit-content',
-                                    // background: '#FFFFFF57',
-                                }}
-                            >
-                                <Switch onClick={handleToggleAlarmStatusClick} />
-                            </Box>
-                        </Box>
-                        <Box
-                            className='alarm-summary'
-                            sx={{
-                                // padding: '.5rem .75rem',
-                                transition: '.2s',
-                                display: 'flex',
-                                width: '100%',
-                                background: '#FFFFFF57',
-                                padding: `${(alarmExpanded ? '1rem 1rem' : '0px 0px')}`
-                            }}
-                        >
-                            <Box
-                                className='alarm-summary-timing'
-                                sx={{
-                                    display: 'flex',
-                                    flexWrap: 'wrap',
-                                    // width: '100%'
-                                }}
-                            >
-                                <ToggleButtonGroup
-                                    className='alarm-summary-days'
-                                    // value={['m', 'tu', 'th']}
-                                    value={Array.from(repeatDays)}
-                                    onChange={handleSummaryDayChange}
+                                <Box
+                                    className='alarm-summary-timing'
                                     sx={{
                                         display: 'flex',
                                         flexWrap: 'wrap',
-                                        height: 'fit-content',
-                                        borderRadius: '0px',
-                                        '& .MuiButtonBase-root': {
-                                            borderRadius: '9999px',
-                                            border: 'none',
-                                            background: 'none',
-                                            padding: '0px',
-                                            height: '2rem',
-                                            width: '2.5rem',
-                                            borderRadius: '0px'
-                                        },
-                                        '&>.MuiButtonBase-root.Mui-selected': {
-                                            background: appConfig.theme.palette.shades.tertiary[8],
-                                            color: 'white',
-                                            fontWeight: 'bold',
-                                        }
+                                        // width: '100%'
                                     }}
                                 >
-                                    <ToggleButton value='su' className='alarm-day alarm-summary-day'>Su</ToggleButton>
-                                    <ToggleButton value='m' className='alarm-day alarm-summary-day'>M</ToggleButton>
-                                    <ToggleButton value='tu' className='alarm-day alarm-summary-day'>Tu</ToggleButton>
-                                    <ToggleButton value='w' className='alarm-day alarm-summary-day'>W</ToggleButton>
-                                    <ToggleButton value='th' className='alarm-day alarm-summary-day'>Th</ToggleButton>
-                                    <ToggleButton value='f' className='alarm-day alarm-summary-day'>F</ToggleButton>
-                                    <ToggleButton value='sa' className='alarm-day alarm-summary-day'>Sa</ToggleButton>
                                     <ToggleButtonGroup
-                                        className='alarm-summary-no-repeat'
-                                        value={noRepeat}
-                                        onClick={handleSummaryDayNoRepeatChange}
+                                        className='alarm-summary-days'
+                                        // value={['m', 'tu', 'th']}
+                                        value={Array.from(repeatDays)}
+                                        onChange={handleSummaryDayChange}
                                         sx={{
+                                            display: 'flex',
+                                            flexWrap: 'wrap',
                                             height: 'fit-content',
+                                            borderRadius: '0px',
                                             '& .MuiButtonBase-root': {
-                                                // borderRadius: '9999px',
-                                                // border: 'none',
-                                                borderLeft: 'none',
+                                                borderRadius: '9999px',
+                                                border: 'none',
                                                 background: 'none',
                                                 padding: '0px',
                                                 height: '2rem',
                                                 width: '2.5rem',
+                                                borderRadius: '0px'
                                             },
+                                            '&>.MuiButtonBase-root.Mui-selected': {
+                                                background: appConfig.theme.palette.shades.tertiary[8],
+                                                color: 'white',
+                                                fontWeight: 'bold',
+                                            }
                                         }}
                                     >
-                                        <ToggleButton
-                                            className='alarm-day alarm-summary-day'
-                                            value={true}
+                                        <ToggleButton value='su' className='alarm-day alarm-summary-day'>Su</ToggleButton>
+                                        <ToggleButton value='m' className='alarm-day alarm-summary-day'>M</ToggleButton>
+                                        <ToggleButton value='tu' className='alarm-day alarm-summary-day'>Tu</ToggleButton>
+                                        <ToggleButton value='w' className='alarm-day alarm-summary-day'>W</ToggleButton>
+                                        <ToggleButton value='th' className='alarm-day alarm-summary-day'>Th</ToggleButton>
+                                        <ToggleButton value='f' className='alarm-day alarm-summary-day'>F</ToggleButton>
+                                        <ToggleButton value='sa' className='alarm-day alarm-summary-day'>Sa</ToggleButton>
+                                        <ToggleButtonGroup
+                                            className='alarm-summary-no-repeat'
+                                            value={noRepeat}
+                                            onClick={handleSummaryDayNoRepeatChange}
+                                            sx={{
+                                                height: 'fit-content',
+                                                '& .MuiButtonBase-root': {
+                                                    // borderRadius: '9999px',
+                                                    // border: 'none',
+                                                    borderLeft: 'none',
+                                                    background: 'none',
+                                                    padding: '0px',
+                                                    height: '2rem',
+                                                    width: '2.5rem',
+                                                },
+                                            }}
                                         >
-                                            <SyncDisabled />
-                                        </ToggleButton>
+                                            <ToggleButton
+                                                className='alarm-day alarm-summary-day'
+                                                value={true}
+                                            >
+                                                <SyncDisabled />
+                                            </ToggleButton>
+                                        </ToggleButtonGroup>
                                     </ToggleButtonGroup>
-                                </ToggleButtonGroup>
-                            </Box>
-                            <Box
-                                className='alarm-action-btns-container'
-                                sx={{
-                                    marginLeft: 'auto',
-                                    marginRight: '6px',
-                                    display: 'flex'
-                                }}
-                            >
-                                <IconButton
+                                </Box>
+                                <Box
+                                    className='alarm-action-btns-container'
                                     sx={{
-                                        transition: 'rotate 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms',
-                                        rotate: alarmExpanded ? '180deg' : '0deg',
-                                        padding: '0px'
+                                        marginLeft: 'auto',
+                                        marginRight: '6px',
+                                        display: 'flex'
                                     }}
                                 >
-                                    <ExpandMoreIcon />
-                                </IconButton>
+                                    <IconButton
+                                        sx={{
+                                            transition: 'rotate 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms',
+                                            rotate: alarmExpanded ? '180deg' : '0deg',
+                                            padding: '0px'
+                                        }}
+                                    >
+                                        <ExpandMoreIcon />
+                                    </IconButton>
+                                </Box>
                             </Box>
-                        </Box>
-                    </AccordionSummary>
-                    <AccordionDetails
-                        className='alarm-config-categories-container'
-                        sx={{
-                            padding: '1rem',
-                            paddingTop: '.25rem',
-                            display: 'flex',
-                            flexDirection: 'column',
-                            rowGap: '.5rem',
-                        }}
-                    >
-                        <AlarmConfigCategoryOuter alarmConfigCategoryMetadata={alarmConfigCategoryMetadata} />
-                    </AccordionDetails>
-                </Accordion>
+                        </AccordionSummary>
+                        <AccordionDetails
+                            className='alarm-config-categories-container'
+                            sx={{
+                                padding: '1rem',
+                                paddingTop: '.25rem',
+                                display: 'flex',
+                                flexDirection: 'column',
+                                rowGap: '.5rem',
+                            }}
+                        >
+                            <AlarmConfigCategoryOuter alarmConfigCategoryMetadata={alarmConfigCategoryMetadata} />
+                        </AccordionDetails>
+                    </Accordion>
 
-            alarmComponentsList.push(alarmItemContent)
+                alarmComponentsList.push(alarmItemContent)
 
-                    }
+            }
 
         })
 
@@ -1191,6 +1239,12 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
                 }}
             >
 
+                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                    <DemoContainer components={['TimePicker']}>
+                        <TimePicker onChange={handleTimePickerChange} label="Basic time picker" />
+                    </DemoContainer>
+                </LocalizationProvider>
+
                 {/* <Box
                     id='alarms-list-header'
                     sx={{
@@ -1204,40 +1258,40 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
                         // padding: '1rem'
                     }}
                 > */}
-                    <Box
-                        id='btn-new-alarm-container'
+                <Box
+                    id='btn-new-alarm-container'
+                    sx={{
+                        background: `linear-gradient(148deg, #ff9f4e, #fef751)`,
+                        width: '100%'
+                    }}
+                >
+                    <Button
+                        id='btn-new-alarm'
+                        startIcon={<AddAlarmIcon />}
                         sx={{
-                            background: `linear-gradient(148deg, #ff9f4e, #fef751)`,
-                            width: '100%'
+                            width: '100%',
+                            padding: '.5rem',
+                            borderRadius: '4px',
+                            background: appConfig.theme.palette.shades.primary[6],
+                            color: appConfig.theme.palette.primary.contrastText,
                         }}
                     >
-                        <Button
-                            id='btn-new-alarm'
-                            startIcon={<AddAlarmIcon />}
-                            sx={{
-                                width: '100%',
-                                padding: '.5rem',
-                                borderRadius: '4px',
-                                background: appConfig.theme.palette.shades.primary[6],
-                                color: appConfig.theme.palette.primary.contrastText,
-                            }}
-                        >
-                            <Typography fontWeight={'normal'} fontSize={'1.25rem'}>New Alarm</Typography>
-                        </Button>
-                    </Box>
-                    <Box 
-                        id='alarms-list-organization-control-container'
-                        sx={{
-                            marginTop: '2rem',
-                            marginBottom: '1rem',
-                            // border: '1px solid orange',
-                            display: 'flex',
-                            // flexDirection: 'column',
-                            rowGap: '.5rem',
-                            columnGap: '.5rem',
-                            flexWrap: 'wrap'
-                        }}
-                        >
+                        <Typography fontWeight={'normal'} fontSize={'1.25rem'}>New Alarm</Typography>
+                    </Button>
+                </Box>
+                <Box
+                    id='alarms-list-organization-control-container'
+                    sx={{
+                        marginTop: '2rem',
+                        marginBottom: '1rem',
+                        // border: '1px solid orange',
+                        display: 'flex',
+                        // flexDirection: 'column',
+                        rowGap: '.5rem',
+                        columnGap: '.5rem',
+                        flexWrap: 'wrap'
+                    }}
+                >
                     <Box
                         id='alarms-search-container'
                         sx={{
@@ -1268,6 +1322,25 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
                                 }
                             }}
                         />
+                    </Box>
+                    <Box
+                        id='time-format-toggle-container'
+                    >
+                        <ToggleButtonGroup
+                            value={timeFormat24Hr}
+                            exclusive={true}
+                            onChange={handleTimeFormatToggle}
+                            sx={{
+                                height: '2rem',
+                                '&>.MuiButtonBase-root.Mui-selected': {
+                                    background: appConfig.theme.palette.shades.tertiary[2],
+                                }
+                            }}
+                        >
+                            <ToggleButton className='btn-sort-option' value={false}
+                            >AM:PM</ToggleButton>
+                            <ToggleButton className='btn-sort-option' value={true}>24hr</ToggleButton>
+                        </ToggleButtonGroup>
                     </Box>
                     <Box
                         id='alarms-sort-container'
@@ -1306,7 +1379,7 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
                                     // transform: alarmListSortAsc ? 'none' : 'rotate(180deg)'
                                 }}
                             >
-                                <SwapVertIcon 
+                                <SwapVertIcon
                                     sx={{
                                         transition: '200ms',
                                         transform: alarmListSortAsc ? 'none' : 'rotate(180deg)'
@@ -1375,7 +1448,7 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
                         </Box> */}
 
                     </Box>
-                    </Box>
+                </Box>
                 {/* </Box> */}
 
 
@@ -1408,6 +1481,96 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
                     </Box>
                 </Box>
             </Box>
+            <Modal
+                className='name-and-time-modal'
+                open={true}
+                sx={{
+                    transition: '.3s',
+                    height: showAlarmNameAndTimeModal ? '100vh' : '0px',
+                    width: '100vw',
+                    overflow: 'hidden',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    background: appConfig.theme.palette.shades.primary[10]
+                }}
+            // onClose={}
+            >
+
+                <Box
+                    className='name-and-time-input-container'
+                >
+                    <TextField variant='filled' label='input-alarm-name' />
+
+                    <LocalizationProvider dateAdapter={AdapterDayjs}>
+                        <DemoContainer components={['TimePicker']}>
+                            <StaticTimePicker
+                                // open={timePickerOpen}
+                                ampm={!timeFormat24Hr}
+                                value={dayjs(alarmTime, 'HH:mm')}
+                                onAccept={handleTimePickerChange}
+                                sx={{
+                                    // border: '3px solid orange',
+                                    background: 'none',
+                                    width: 'fit-content',
+                                    // marginLeft: 'auto'
+                                    color: 'yellow',
+                                    '& span': {
+                                        color: appConfig.theme.palette.shades.tertiary[3],
+                                        '&.Mui-selected': {
+                                            color: appConfig.theme.palette.shades.tertiary[1],
+                                            // fontWeight: 'bold'
+                                        }
+                                    },
+                                }}
+                                slotProps={{
+                                    actionBar: {
+                                        sx: {
+                                            // border: '2px solid red',
+                                            flexDirection: 'column-reverse',
+                                            rowGap: '1rem',
+                                            '& .MuiButtonBase-root': {
+                                                width: '100%',
+                                                border: `1px solid ${appConfig.theme.palette.shades.tertiary[1]}`,
+                                                margin: '0px',
+                                                padding: '.5rem',
+                                                fontSize: '1rem',
+                                                '&:last-child': {
+                                                    background: `${appConfig.theme.palette.shades.tertiary[3]}`
+                                                }
+                                            }
+                                        }
+                                    },
+                                    toolbar: {
+                                
+                                        sx: {
+                                            gridRow: '2 !important',    //sue me
+                                            '&>.MuiTypography-root': {
+                                                display: 'none'
+                                            },
+                                            '& .MuiPickersToolbar-content': {
+                                                justifyContent: 'center'
+                                            },
+                                            '& .MuiTimePickerToolbar-ampmSelection': {
+                                                marginRight: '0px'
+                                            }
+                                        }
+                                    },
+                                    layout: {
+                                        sx: {
+                                            '& .MuiPickersLayout-contentWrapper': {
+                                                gridRow: '1 !important',    //see above
+                                            },
+                                        }
+                                    }
+                                }}
+                            />
+
+                        </DemoContainer>
+                    </LocalizationProvider>
+                </Box>
+            </Modal>
         </PageBuilder>
     )
 
