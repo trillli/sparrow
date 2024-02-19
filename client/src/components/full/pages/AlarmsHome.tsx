@@ -45,6 +45,7 @@ import { TIME_VALIDATION_PROP_NAMES } from '@mui/x-date-pickers/internals/utils/
 import { FieldChangeHandlerContext } from '@mui/x-date-pickers/internals';
 import { StaticTimePicker } from '@mui/x-date-pickers/StaticTimePicker';
 import { PickersActionBarProps } from '@mui/x-date-pickers';
+import Fade from '@mui/material/Fade';
 
 interface AlarmsHomeProps {
     appConfig: ITrillliConfig
@@ -53,6 +54,139 @@ interface AlarmsHomeProps {
 const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
 
     //PLACEHOLDERS ---------------------------------------------------------------------------------
+
+    const defaultAlarmNames = [
+        "Golfing",
+        "Swimming",
+        "Hiking",
+        "Running",
+        "Cycling",
+        "Camping",
+        "Fishing",
+        "Boating",
+        "Skiing",
+        "Snowboarding",
+        "Skateboarding",
+        "Surfing",
+        "Rock climbing",
+        "Yoga",
+        "Pilates",
+        "Aerobics",
+        "Zumba",
+        "Martial arts",
+        "Tennis",
+        "Badminton",
+        "Squash",
+        "Table tennis",
+        "Basketball",
+        "Volleyball",
+        "Soccer",
+        "Football",
+        "Baseball",
+        "Softball",
+        "Cricket",
+        "Rugby",
+        "Hockey",
+        "Gymnastics",
+        "Cheerleading",
+        "Dance",
+        "Ballet",
+        "Tap dancing",
+        "Jazz dancing",
+        "Hip hop dancing",
+        "Ballroom dancing",
+        "Salsa dancing",
+        "Tango",
+        "Line dancing",
+        "Square dancing",
+        "Waltzing",
+        "Polka",
+        "Folk dancing",
+        "Irish dancing",
+        "Scottish dancing",
+        "Karaoke",
+        "Singing",
+        "Choir",
+        "Orchestra",
+        "Band",
+        "DJing",
+        "Painting",
+        "Drawing",
+        "Sketching",
+        "Sculpting",
+        "Pottery",
+        "Ceramics",
+        "Woodworking",
+        "Metalworking",
+        "Jewelry making",
+        "Embroidery",
+        "Cross-stitching",
+        "Knitting",
+        "Crocheting",
+        "Sewing",
+        "Quilting",
+        "Origami",
+        "Calligraphy",
+        "Photography",
+        "Videography",
+        "Cooking",
+        "Baking",
+        "Grilling",
+        "Barbecuing",
+        "Picnicking",
+        "Wine tasting",
+        "Beer brewing",
+        "Cocktail making",
+        "Gardening",
+        "Planting",
+        "Landscaping",
+        "Birdwatching",
+        "Stargazing",
+        "Journaling",
+        "Scrapbooking",
+        "Kayaking",
+        "Canoeing",
+        "Paddleboarding",
+        "Rowing",
+        "Surf fishing",
+        "Fly fishing",
+        "Ice fishing",
+        "Whitewater rafting",
+        "Bungee jumping",
+        "Skydiving",
+        "Parasailing",
+        "Hang gliding",
+        "Kite surfing",
+        "Zip lining",
+        "Trampoline jumping",
+        "Parkour",
+        "Freerunning",
+        "BMX biking",
+        "Motocross",
+        "Go-karting",
+        "Horseback riding",
+        "Trail riding",
+        "Rodeo",
+        "Barrel racing",
+        "Bull riding",
+        "Dog sledding",
+        "Sled dog racing",
+        "Cross-country skiing",
+        "Biathlon",
+        "Dog grooming",
+        "Pet sitting",
+        "Pet training",
+        "Pet photography",
+        "Scuba diving",
+        "Snorkeling",
+        "Water skiing",
+        "Wakeboarding",
+        "Tubing",
+        "Kayak fishing",
+        "Cave diving",
+        "Underwater photography"
+    ]
+
 
     //Paceholder: for const [alarms, setAalrms] = React.useState(), data type something like {[key: string]: AlarmMetadata}, AlarmMetadata should be a custom type with key=alarm name and then fields holding the alarm config
     // In fact, may make Alarm objet, with methods like getLightColor, getVibrationTiming, etc, so astract all the checks for undefined etc
@@ -212,9 +346,17 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
     type DayAbbrev = 'su' | 'm' | 'tu' | 'w' | 'th' | 'f' | 'sa'
     const [repeatDays, setRepeatDays] = React.useState<Set<DayAbbrev>>(new Set<DayAbbrev>())
 
+    const [alarmName, setAlarmName] = React.useState<string>();
+    const [alarmNamePlaceholder, setAlarmNamePlaceholder] = React.useState<string>(() => {
+        const index = Math.floor(Math.random() * defaultAlarmNames.length)
+        return (defaultAlarmNames[index] + ' alarm')
+    })
+    const [alarmNamePending, setAlarmNamePending] = React.useState<string>()
+
     const [alarmTime, setAlarmTime] = React.useState<string>('17:23')
-    const [timePickerOpen, setTimePickerOpen] = React.useState<boolean>(false)
+    const [timePickerOpen, setTimePickerOpen] = React.useState<boolean>(true)
     const [timeFormat24Hr, setTimeFormat24Hr] = React.useState<boolean>(false)
+    const [alarmTimePickerFormatted, setAlarmTimePickerFormatted] = React.useState<Dayjs>()
 
 
     const [soundEnabled, setSoundEnabled] = React.useState<boolean>(false)
@@ -253,6 +395,10 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
     React.useEffect(() => {
         // console.log('component mounted. now hopefully im setting alarms list for real')
     }, []);
+
+    React.useEffect(() => {
+        setAlarmTimePickerFormatted(dayjs(alarmTime, 'HH:mm'))
+    }, [alarmTime])
 
     React.useEffect(() => {
 
@@ -349,6 +495,15 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
     //     })
 
     // }
+
+    function setOrGenerateAlarmName() {
+
+        if (alarmName == null || alarmName == undefined) {
+            const index = Math.floor(Math.random() * defaultAlarmNames.length)
+            setAlarmName(defaultAlarmNames[index] + ' alarm')
+        }
+
+    }
 
     function getAllAlarmTimes24Hr() {
 
@@ -600,9 +755,143 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
         console.log('Handling toggle alarm summary: Need to stop propogation and switch summary visibility toggle status state variable')
     }
 
+    const handleAlarmNameTyping = (event: React.ChangeEvent<HTMLInputElement>) => {
+        console.log('handling alarm name type')
+        const value: string = event.target.value
+        const alarmNamePending = value
+        console.log('alarm name pending is:')
+        console.log(alarmNamePending)
+        console.log('printed it')
+        if (!alarmNamePending) {
+            setAlarmNamePending('')
+        } else {
+            setAlarmNamePending(alarmNamePending)
+        }
+
+    }
+
+    function getValue() {
+        return alarmName
+    }
+
+    function getPlaceholder() {
+        return 'who knows'
+    }
+
+    // const testClose = (event, context) => {
+    //     console.log('closing:')
+    //     console.log(event)
+    // }
+
+    const testOpen = () => {
+        console.log('testing open')
+    }
+
+    const handleBtnNewAlarmClick = () => {
+        setTimePickerOpen(true)
+    }
+
+    const handleTimePickerChangeDoneClick = () => {
+        console.log('clicked')
+
+
+
+        if (alarmNamePending == '') {
+            if (!alarmName) {
+                setAlarmName(alarmNamePlaceholder)
+                setAlarmNamePending(alarmNamePlaceholder)
+            } else {
+                setAlarmNamePending(alarmName)
+            }
+        } else if (alarmNamePending) {
+            setAlarmName(alarmNamePending)
+        } else {
+            setAlarmName(alarmNamePlaceholder)
+            setAlarmNamePending(alarmNamePlaceholder)
+        }
+        setAlarmNamePlaceholder('')
+
+        setTimePickerOpen(false)
+
+
+    }
+
+    const testChange = (value) => {
+        // console.log('new value:')
+        // console.log(value)
+        // console.log(context)
+        console.log('getting hours and minutes and stuff')
+        const hours = value.$H
+        const minutes = value.$m
+
+        console.log('hours minutes and is24hr:')
+        console.log([hours, minutes, timeFormat24Hr])
+        let timeString = hours + ':' + minutes
+        if (timeFormat24Hr) {
+
+        } else {
+            timeString = time24hrTo12hr(timeString)
+        }
+
+        console.log('RESULTING TIME STRING IS:')
+        console.log(timeString)
+
+        setAlarmTime(timeString)
+
+    }
+
+    const custom = () => {
+        return (
+            <div>action bar</div>
+        )
+    }
+
     const handleTimePickerChange = (value: TValue) => {
-        console.log('handling time picker change. value: ')
-        console.log(value)
+
+        // console.log('handling time picker change. value: ')
+        // console.log(value)
+        // console.log('this also updates the alarm name. placeholder, pending, and name are as follows:')
+        // console.log([alarmNamePlaceholder, alarmNamePending, alarmName])
+
+        // console.log('getting hours and minutes and stuff')
+        // const hours = value.$H
+        // const minutes = value.$m
+
+        // console.log('hours minutes and is24hr:')
+        // console.log([hours, minutes, timeFormat24Hr])
+        // let timeString = hours + ':' + minutes
+        // if (timeFormat24Hr) {
+
+        // } else {
+        //     timeString = time24hrTo12hr(timeString)
+        // }
+
+        // console.log('RESULTING TIME STRING IS:')
+        // console.log(timeString)
+
+        // setAlarmTime(timeString)
+
+
+
+
+
+
+
+
+        // if (alarmNamePending == '') {
+        //     if (!alarmName) {
+        //         setAlarmName(alarmNamePlaceholder)
+        //         setAlarmNamePending(alarmNamePlaceholder)
+        //     } else {
+        //         setAlarmNamePending(alarmName)
+        //     }
+        // } else if (alarmNamePending) {
+        //     setAlarmName(alarmNamePending)
+        // } else {
+        //     setAlarmName(alarmNamePlaceholder)
+        //     setAlarmNamePending(alarmNamePlaceholder)
+        // }
+        // setAlarmNamePlaceholder('')
     }
 
     const handleTimeFormatToggle = (event: React.MouseEvent<HTMLElement>, value: boolean) => {
@@ -625,6 +914,7 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
 
     const handleSummaryTimeClick = (event: React.MouseEvent<HTMLElement>) => {
         console.log('Handling summary time click. Need to stop propogation and trigger the time picker')
+        setTimePickerOpen(true)
         event.stopPropagation()
     }
 
@@ -1089,7 +1379,7 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
                                         padding: '0px .75rem'
                                     }}
                                 >
-                                    <Typography>{alarmMetadata.name}</Typography>
+                                    <Typography onClick={handleSummaryTimeClick}>{alarmMetadata.name}</Typography>
                                     {/* <TextField value={alarmName} variant='filled' /> */}
                                 </Box>
                                 <Box
@@ -1239,11 +1529,11 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
                 }}
             >
 
-                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                {/* <LocalizationProvider dateAdapter={AdapterDayjs}>
                     <DemoContainer components={['TimePicker']}>
                         <TimePicker onChange={handleTimePickerChange} label="Basic time picker" />
                     </DemoContainer>
-                </LocalizationProvider>
+                </LocalizationProvider> */}
 
                 {/* <Box
                     id='alarms-list-header'
@@ -1268,6 +1558,7 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
                     <Button
                         id='btn-new-alarm'
                         startIcon={<AddAlarmIcon />}
+                        onClick={handleBtnNewAlarmClick}
                         sx={{
                             width: '100%',
                             padding: '.5rem',
@@ -1376,7 +1667,6 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
                                     color: appConfig.theme.palette.tertiary.main,
                                     background: appConfig.theme.palette.shades.primary[8],
                                     borderRadius: '0px'
-                                    // transform: alarmListSortAsc ? 'none' : 'rotate(180deg)'
                                 }}
                             >
                                 <SwapVertIcon
@@ -1415,41 +1705,8 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
                                 <ToggleButton className='btn-sort-option' value='name'>Name</ToggleButton>
                             </ToggleButtonGroup>
                         </Box>
-                        {/* <Box
-                            id='sort-direction-container'
-                            sx={{
-
-                                display: 'flex',
-                                justifyContent: 'center',
-                                height: '2rem',
-                                // width: '2rem',
-                                borderRadius: '4px',
-                                background: appConfig.theme.palette.primary.main,
-                            }}
-                        >
-                            <IconButton
-                                className='btn-sort-direction'
-                                onClick={handleAlarmListSortDirectionClick}
-                                sx={{
-                                    // transition: '200ms',
-                                    height: '100%',
-                                    color: appConfig.theme.palette.tertiary.main,
-                                    // transform: alarmListSortAsc ? 'none' : 'rotate(180deg)'
-                                }}
-                            >
-                                <SwapVertIcon 
-                                    sx={{
-                                        transition: '200ms',
-                                        transform: alarmListSortAsc ? 'none' : 'rotate(180deg)'
-                                    }}
-                                />
-                                <SortIcon />
-                            </IconButton>
-                        </Box> */}
-
                     </Box>
                 </Box>
-                {/* </Box> */}
 
 
 
@@ -1476,58 +1733,60 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
                             }
                         }}
                     >
-                        {/* {generateAlarmComponents()} */}
                         {alarmComponents}
                     </Box>
                 </Box>
             </Box>
             <Modal
                 className='name-and-time-modal'
-                open={true}
+                open={timePickerOpen}
                 sx={{
-                    transition: '.3s',
-                    height: showAlarmNameAndTimeModal ? '100vh' : '0px',
-                    width: '100vw',
-                    overflow: 'hidden',
-                    display: 'flex',
-                    flexDirection: 'column',
-                    justifyContent: 'center',
-                    alignItems: 'center',
                     background: appConfig.theme.palette.shades.primary[10]
                 }}
             // onClose={}
             >
+                <Fade 
+                    in={timePickerOpen}
+                >
+                <Box 
+                    sx={{
+                        display: 'flex',
+                        flexDirection: 'column',
+                        rowGap: '3rem',
+                        position: 'absolute' as 'absolute',
+                        top: '50%',
+                        left: '50%',
+                        transform: 'translate(-50%, -50%)',
+                    }}
+                    className='name-and-time-modal-contents'
+                >
 
                 <Box
-                    className='name-and-time-input-container'
+                    className='time-input-container'
                 >
-                    <TextField variant='filled' label='input-alarm-name' />
-
                     <LocalizationProvider dateAdapter={AdapterDayjs}>
+                        {/* TODO: Research LocalizationProvider - should wrap whole page? */}
                         <DemoContainer components={['TimePicker']}>
                             <StaticTimePicker
-                                // open={timePickerOpen}
                                 ampm={!timeFormat24Hr}
-                                value={dayjs(alarmTime, 'HH:mm')}
-                                onAccept={handleTimePickerChange}
+                                value={alarmTimePickerFormatted || dayjs('12:00', 'HH:mm')}
+                                onChange={testChange}
+
                                 sx={{
-                                    // border: '3px solid orange',
                                     background: 'none',
                                     width: 'fit-content',
-                                    // marginLeft: 'auto'
                                     color: 'yellow',
                                     '& span': {
                                         color: appConfig.theme.palette.shades.tertiary[3],
                                         '&.Mui-selected': {
                                             color: appConfig.theme.palette.shades.tertiary[1],
-                                            // fontWeight: 'bold'
                                         }
                                     },
                                 }}
                                 slotProps={{
                                     actionBar: {
                                         sx: {
-                                            // border: '2px solid red',
+                                            display: 'none',
                                             flexDirection: 'column-reverse',
                                             rowGap: '1rem',
                                             '& .MuiButtonBase-root': {
@@ -1543,7 +1802,7 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
                                         }
                                     },
                                     toolbar: {
-                                
+
                                         sx: {
                                             gridRow: '2 !important',    //sue me
                                             '&>.MuiTypography-root': {
@@ -1570,6 +1829,36 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
                         </DemoContainer>
                     </LocalizationProvider>
                 </Box>
+                <Box id='name-input-container'>
+                    <TextField
+                        variant='filled'
+                        label='Alarm Name'
+                        placeholder={alarmNamePlaceholder}
+                        value={alarmNamePending || ''}
+                        onChange={handleAlarmNameTyping}
+                        InputLabelProps={{
+                            shrink: true
+                        }}
+                        sx={{
+                            width: '100%',
+                            color: 'white',
+                            background: 'white'
+                        }}
+                    />
+                </Box>
+                <Box
+                    className='btn-accept-alarm-time-and-name-container'
+                >
+                    <Button
+                        variant='contained'
+                        onClick={handleTimePickerChangeDoneClick}
+                        sx={{
+                            width: '100%'
+                        }}
+                    >Done</Button>
+                </Box>
+                </Box>
+                </Fade>
             </Modal>
         </PageBuilder>
     )
