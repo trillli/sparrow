@@ -31,7 +31,7 @@ SECRET_KEY =  get_env_var('DJANGO_SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+# ALLOWED_HOSTS = ['localhost']
 
 
 # Application definition
@@ -47,6 +47,7 @@ INSTALLED_APPS = [
 'trillli',
 'trillli_rest',
 'sparrow_rest',
+'api'
 ]
 
 ROOT_URLCONF = 'sparrow.urls'
@@ -73,7 +74,9 @@ DATABASES = {
 
 CLIENT_ORIGIN_URL = get_env_var('CLIENT_ORIGIN_URL')
 
-CORS_ALLOWED_ORIGINS = [CLIENT_ORIGIN_URL]
+# CORS_ALLOWED_ORIGINS = [CLIENT_ORIGIN_URL]
+CORS_ALLOWED_ORIGINS = ['http://localhost:4040', 'http://localhost:4040/']
+# CORS_ORIGIN_ALLOW_ALL = True
 
 # CORS_ALLOW_METHODS = [
 #     "GET",

@@ -1,5 +1,7 @@
 import * as React from 'react';
-import { AccordionActions, Box, Button, Container, Icon, IconButton, InputAdornment, Modal, Paper, Slider, Switch, TextField, ToggleButton, ToggleButtonGroup, Typography } from '@mui/material';
+import { AccordionActions, Box, Button, Container, Icon, IconButton, InputAdornment, Modal, Paper, Slider, Switch, TextField, 
+    ToggleButton, ToggleButtonGroup, Typography } from '@mui/material';
+import { trFetch, TrFetchConfig, TrFetchResult } from "trillli/src/components/TrApiClient";
 import AlarmsList from 'src/components/full/elements/AlarmsList';
 import ConfigCategoryLabel from 'src/components/full/elements/ConfigCategoryLabel';
 import PageBuilder from 'src/components/PageBuilder';
@@ -46,6 +48,7 @@ import { FieldChangeHandlerContext } from '@mui/x-date-pickers/internals';
 import { StaticTimePicker } from '@mui/x-date-pickers/StaticTimePicker';
 import { PickersActionBarProps } from '@mui/x-date-pickers';
 import Fade from '@mui/material/Fade';
+import { useAuth0 } from '@auth0/auth0-react';
 
 interface AlarmsHomeProps {
     appConfig: ITrillliConfig
@@ -333,6 +336,8 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
 
 
     //STATE VARIALES, REFS, VARIABLES  ----------------------------------------------------------------------
+    const { user, isAuthenticated, getAccessTokenSilently } = useAuth0();
+
     const [alarmComponents, setAlarmComponents] = React.useState<React.ReactNode>(<></>)
 
     const [alarmsList, setAlarmsList] = React.useState<IAlarmMetadata[]>(alarmsUnsorted)
@@ -354,7 +359,7 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
     const [alarmNamePending, setAlarmNamePending] = React.useState<string>()
 
     const [alarmTime, setAlarmTime] = React.useState<string>('17:23')
-    const [timePickerOpen, setTimePickerOpen] = React.useState<boolean>(true)
+    const [timePickerOpen, setTimePickerOpen] = React.useState<boolean>(false)
     const [timeFormat24Hr, setTimeFormat24Hr] = React.useState<boolean>(false)
     const [alarmTimePickerFormatted, setAlarmTimePickerFormatted] = React.useState<Dayjs>()
 
@@ -431,13 +436,13 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
         }
     }, [repeatDays])
 
-    React.useEffect(() => {
-        if (soundSearchValue == undefined || soundSearchValue == '') {
-            console.log('TODO: Clear search results table')
-        } else {
-            performSoundSearch()
-        }
-    }, [soundSearchValue])
+    // React.useEffect(() => {
+    //     if (soundSearchValue == undefined || soundSearchValue == '') {
+    //         console.log('TODO: Clear search results table')
+    //     } else {
+    //         performSoundSearch()
+    //     }
+    // }, [soundSearchValue])
 
     React.useEffect(() => {
         if (soundTypeNoFilter) {
@@ -452,6 +457,33 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
             setSoundTypeNoFilter(false)
         }
     }, [soundType])
+
+    React.useEffect(() => {
+
+        const searchParams = {
+            query: soundSearchValue,
+            type: soundType
+        }
+
+        const getSoundSearchResults = async () => {
+            const accessToken = await getAccessTokenSilently();
+            const requestConfig: TrFetchConfig = {
+                accessToken: accessToken,
+                method: 'POST',
+                path: "/api/sound_search",
+                payload: JSON.stringify(searchParams)
+            }
+            const result: TrFetchResult = await trFetch(requestConfig);
+            console.log(result.error?.response?.json())
+            console.log(result.ok?.data)
+        }
+
+        console.log('going to call getsoundsearch results now')
+        getSoundSearchResults()
+
+    
+
+    }, [soundType, soundSearchValue])
 
     React.useEffect(() => {
         setSoundVolumeConstant(soundVolumeMax)
@@ -803,7 +835,7 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
     }
 
     const handleTimePickerChangeDoneClick = () => {
-        console.log('clicked')
+        console.log('MODAL CLOSED')
 
 
 
@@ -855,54 +887,6 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
         return (
             <div>action bar</div>
         )
-    }
-
-    const handleTimePickerChange = (value: TValue) => {
-
-        // console.log('handling time picker change. value: ')
-        // console.log(value)
-        // console.log('this also updates the alarm name. placeholder, pending, and name are as follows:')
-        // console.log([alarmNamePlaceholder, alarmNamePending, alarmName])
-
-        // console.log('getting hours and minutes and stuff')
-        // const hours = value.$H
-        // const minutes = value.$m
-
-        // console.log('hours minutes and is24hr:')
-        // console.log([hours, minutes, timeFormat24Hr])
-        // let timeString = hours + ':' + minutes
-        // if (timeFormat24Hr) {
-
-        // } else {
-        //     timeString = time24hrTo12hr(timeString)
-        // }
-
-        // console.log('RESULTING TIME STRING IS:')
-        // console.log(timeString)
-
-        // setAlarmTime(timeString)
-
-
-
-
-
-
-
-
-        // if (alarmNamePending == '') {
-        //     if (!alarmName) {
-        //         setAlarmName(alarmNamePlaceholder)
-        //         setAlarmNamePending(alarmNamePlaceholder)
-        //     } else {
-        //         setAlarmNamePending(alarmName)
-        //     }
-        // } else if (alarmNamePending) {
-        //     setAlarmName(alarmNamePending)
-        // } else {
-        //     setAlarmName(alarmNamePlaceholder)
-        //     setAlarmNamePending(alarmNamePlaceholder)
-        // }
-        // setAlarmNamePlaceholder('')
     }
 
     const handleTimeFormatToggle = (event: React.MouseEvent<HTMLElement>, value: boolean) => {
@@ -988,19 +972,14 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
         console.log('TODO')
     }
 
-    const handleSoundSearchTyping = (event: React.ChangeEvent<HTMLInputElement>, value: string) {
-        console.log('current search value:')
-        console.log(value)
-        setSoundSearchValue(value)
+    const handleSoundSearchTyping = (event: React.ChangeEvent<HTMLInputElement>) => {
+        // console.log('current search value:')
+        // console.log(value)
+        // console.log(event.target.value)
+        setSoundSearchValue(event.target.value)
     }
 
     const handleSoundTypeChange = (event: React.MouseEvent<HTMLElement>) => {
-        // const target: HTMLInputElement = event.target as HTMLInputElement
-        // let value: string = target.value
-        // const valueTyped: 'song' | 'playlist' | 'artist' = ((['song', 'playlist', 'artist'].includes(value)) ? value : 'constant') as 'song' | 'playlist' | 'artist'
-        // setSoundType(valueTyped)
-
-
 
 
         event.stopPropagation()
@@ -1164,6 +1143,7 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
                 handleCategorySwitchClick: handleCategorySoundSwitchClick,
                 handleSoundSourceChange: handleSoundSourceChange,
                 handleSoundTypeChange: handleSoundTypeChange,
+                handleSoundSearchTyping: handleSoundSearchTyping,
                 handleSoundTypeNoFilterChange: handleSoundTypeNoFilterChange,
                 handleSoundSongChange: handleSoundSongChange,
                 handleSoundPlaylistChange: handleSoundPlaylistChange,
@@ -1757,13 +1737,14 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
             <Modal
                 className='name-and-time-modal'
                 open={timePickerOpen}
+                onClose={handleTimePickerChangeDoneClick}
                 sx={{
-                    background: appConfig.theme.palette.shades.primary[10]
+                    background: '#000000cc'
                 }}
-            // onClose={}
             >
                 <Fade 
                     in={timePickerOpen}
+                    timeout={100}
                 >
                 <Box 
                     sx={{
@@ -1774,6 +1755,9 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
                         top: '50%',
                         left: '50%',
                         transform: 'translate(-50%, -50%)',
+                        background: appConfig.theme.palette.shades.primary[10],
+                        padding: '1rem 2rem 2rem 2rem',
+                        borderRadius: '4px'
                     }}
                     className='name-and-time-modal-contents'
                 >

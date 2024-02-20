@@ -66,7 +66,9 @@ const AlarmConfigCategoryDetailBodySoundSearch: React.FC<AlarmConfigCategoryDeta
                                 variant='filled'
                                 placeholder='Search for music on Spotify!'
                                 type='search'
+                                value={stateControl.vars.soundSearchValue}
                                 multiline
+                                onChange={stateControl.handlers.handleSoundSearchTyping}
                                 InputProps={{
                                     endAdornment: <InputAdornment position="end">{<SearchIcon />}</InputAdornment>,
                                     disableUnderline: true,
