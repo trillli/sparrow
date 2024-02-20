@@ -460,9 +460,14 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
 
     React.useEffect(() => {
 
+        let testset = new Set<SoundType>()
+        testset.add('artist')
+        testset.add('song')
+        console.log(testset)
+
         const searchParams = {
-            query: soundSearchValue,
-            type: soundType
+            queryString: soundSearchValue,
+            queryTypes: Array.from(testset)
         }
 
         const getSoundSearchResults = async () => {
@@ -474,8 +479,67 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
                 payload: JSON.stringify(searchParams)
             }
             const result: TrFetchResult = await trFetch(requestConfig);
-            console.log(result.error?.response?.json())
+            // console.log(result.error?.response?.json())
             console.log(result.ok?.data)
+            const spotifySearchResults = result.ok?.data
+            const songs: any[] = spotifySearchResults.tracks.items
+            const albums: any[] = spotifySearchResults.albums.items
+            const artists: any[] = spotifySearchResults.artists.items
+            const playlists: any[] = spotifySearchResults.playlists.items
+
+            let soundSearchResultsFormatted = {
+                songs: [] as any[],
+                albums: [] as any[],
+                artists: [] as any[],
+                playlists: [] as any[]
+            }
+
+            songs.forEach((song) => {
+                const songName: string = song.name
+                const songAlbum: string = song.album.name
+                const songArtists: any[] = song.artists
+                let songArtistNames: string[] = []
+                songArtists.forEach((songArtist) => {
+                    songArtistNames.push(songArtist.name)
+                })
+                const songPreviewUrl: string = song.preview_url
+                soundSearchResultsFormatted.songs.push({
+                    name: songName,
+                    album: songAlbum,
+                    artist: songArtistNames,
+                    previewUrl: songPreviewUrl
+                })
+            })
+
+            albums.forEach((album) => {
+                const albumName: string = album.name
+                const albumArtists: any[] = album.artists
+                let albumArtistNames: string[] = []
+                albumArtists.forEach((albumArtist) => {
+                    albumArtistNames.push(albumArtist.name)
+                })
+                soundSearchResultsFormatted.albums.push({
+                    name: albumName,
+                    artist: albumArtistNames
+                })
+            })
+
+            artists.forEach((artist) => {
+                const artistName: string = artist.name
+                soundSearchResultsFormatted.artists.push({
+                    name: artistName
+                })
+            })
+
+            playlists.forEach((playlist) => {
+                const playlistName: string = playlist.name
+                const playlistAuthor: string = playlist.owner
+                soundSearchResultsFormatted.playlists.push({
+                    name: playlistName,
+                    author: playlistAuthor
+                })
+            })
+
         }
 
         console.log('going to call getsoundsearch results now')

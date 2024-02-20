@@ -18,12 +18,11 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
-import api.views
+from api import views
 
 urlpatterns = [
  path('tr/', include('trillli.urls')),
- path('api/sound_search', api.views.sound_search, name='sound_search'),
-#  path('public/api', include('api/public/views.py'))
+ path('api/', include('api.urls')),
 ]
 
 # urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

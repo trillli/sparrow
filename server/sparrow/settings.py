@@ -75,12 +75,8 @@ DATABASES = {
 CLIENT_ORIGIN_URL = get_env_var('CLIENT_ORIGIN_URL')
 
 # CORS_ALLOWED_ORIGINS = [CLIENT_ORIGIN_URL]
-CORS_ALLOWED_ORIGINS = ['http://localhost:4040', 'http://localhost:4040/']
+CORS_ALLOWED_ORIGINS = ['http://localhost:4040']
 # CORS_ORIGIN_ALLOW_ALL = True
-
-# CORS_ALLOW_METHODS = [
-#     "GET",
-# ]
 
 CORS_ALLOW_HEADERS = [
     "authorization",
