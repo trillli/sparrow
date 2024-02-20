@@ -361,6 +361,7 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
 
     const [soundEnabled, setSoundEnabled] = React.useState<boolean>(false)
     const [soundSource, setSoundSource] = React.useState<string>('spotify')
+    const [soundSearchValue, setSoundSearchValue] = React.useState<string>('')
     type SoundType = 'song' | 'artist' | 'playlist'
     const [soundType, setSoundType] = React.useState<Set<SoundType>>(new Set<SoundType>())
     const [soundTypeNoFilter, setSoundTypeNoFilter] = React.useState<boolean>(true)
@@ -429,6 +430,14 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
             setNoRepeat(false)
         }
     }, [repeatDays])
+
+    React.useEffect(() => {
+        if (soundSearchValue == undefined || soundSearchValue == '') {
+            console.log('TODO: Clear search results table')
+        } else {
+            performSoundSearch()
+        }
+    }, [soundSearchValue])
 
     React.useEffect(() => {
         if (soundTypeNoFilter) {
@@ -715,11 +724,13 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
         }
     }
 
-
-
-    function searchForSound() {
-        console.log('searching for sound. should have a state variable tracking whether any search fetch requests are still out, and if so keep the results visible but grayed out')
+    function performSoundSearch() {
+        console.log('make request using TrFetch to django api, from there make request to spotify api, then send results back')
     }
+
+    // function searchForSound() {
+    //     console.log('searching for sound. should have a state variable tracking whether any search fetch requests are still out, and if so keep the results visible but grayed out')
+    // }
 
     //----------------------------------------------------------------------------------------------
 
@@ -975,6 +986,12 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
 
     const handleSoundSourceChange = (event: React.MouseEvent<HTMLElement>) => {
         console.log('TODO')
+    }
+
+    const handleSoundSearchTyping = (event: React.ChangeEvent<HTMLInputElement>, value: string) {
+        console.log('current search value:')
+        console.log(value)
+        setSoundSearchValue(value)
     }
 
     const handleSoundTypeChange = (event: React.MouseEvent<HTMLElement>) => {
