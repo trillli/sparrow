@@ -1,7 +1,9 @@
 export type IAlarmMetadata = {
     name: string
     created: number
-    edited?: number[]
+    edited?: number[],
+    id: number,
+    enabled: boolean,
     light?: {
         color: string
         timing: {

@@ -2,7 +2,7 @@ import * as React from 'react';
 import { AccordionActions, Box, Button, Container, Icon, IconButton, InputAdornment, Modal, Paper, Slider, Switch, TextField, 
     ToggleButton, ToggleButtonGroup, Typography } from '@mui/material';
 import { trFetch, TrFetchConfig, TrFetchResult } from "trillli/src/components/TrApiClient";
-import AlarmsList from 'src/components/full/elements/AlarmsList';
+import AlarmsList from 'src/components/AlarmsList'
 import ConfigCategoryLabel from 'src/components/full/elements/ConfigCategoryLabel';
 import PageBuilder from 'src/components/PageBuilder';
 import SwapVertIcon from '@mui/icons-material/SwapVert';
@@ -190,7 +190,6 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
         "Underwater photography"
     ]
 
-
     //Paceholder: for const [alarms, setAalrms] = React.useState(), data type something like {[key: string]: AlarmMetadata}, AlarmMetadata should be a custom type with key=alarm name and then fields holding the alarm config
     // In fact, may make Alarm objet, with methods like getLightColor, getVibrationTiming, etc, so astract all the checks for undefined etc
     let alarms: { [key: string]: IAlarmMetadata } = {
@@ -243,76 +242,6 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
                     su: false
                 },
             },
-        },
-        alarm_2: {
-            name: 'Gym Morning',
-            created: 1707534238,
-            id: 71476659345,
-            shown: true,
-            light: {
-                color: 'blue',
-                timing: {
-                    advance_seconds: 600
-                },
-                luminosity: {
-                    end: 100,
-                }
-            },
-            sound: {
-                source: 'spotify',
-                type: 'playlist',
-                title: 'Beep Boop',
-                artist: 'Tim Johnston',
-                volume: {
-                    end: 100,
-                }
-            },
-            timing: {
-                time: '6:00 AM',
-                format: 12,
-                days: {
-                    m: false,
-                    tu: false,
-                    w: false,
-                    th: false,
-                    f: false,
-                    sa: true,
-                    su: true
-                },
-            },
-        },
-        alarm_3: {
-            name: 'D&D',
-            created: 1707033238,
-            id: 964238954903,
-            shown: true,
-            edited: [
-                1707531001,
-            ],
-            sound: {
-                source: 'spotify',
-                type: 'album',
-                title: 'Baldur\'s Gate 3 (Original Game Soundtrack)',
-                artist: 'Borislav Slavov',
-                volume: {
-                    start: 50,
-                    end: 75,
-                    ramp_seconds: 1800
-                }
-            },
-            timing: {
-                time: '6:30 PM',
-                format: 12,
-                days: {
-                    m: false,
-                    tu: true,
-                    w: false,
-                    th: false,
-                    f: false,
-                    sa: false,
-                    su: false
-                },
-            },
         }
     }
 
@@ -321,15 +250,6 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
     allAlarmsKeys.forEach((alarmKey) => {
         alarmsUnsorted.push(alarms[alarmKey])
     })
-
-    let allAlarmsMetadata = {
-        preferences: {
-            format: 24,
-            sort: 'time',
-            sortAsc: 'true'
-        },
-        alarmsUnsorted: alarmsUnsorted
-    }
 
     //----------------------------------------------------------------------------------------------
 
@@ -346,10 +266,11 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
     const [alarmsListPendingSortOrFilter, setAlarmsListPendingSortOrFilter] = React.useState<boolean>(true)
     const [alarmsSearchValue, setAlarmsSearchValue] = React.useState<string>('')
 
-    const [alarmExpanded, setAlarmExpanded] = React.useState<boolean>(false)
-    const [noRepeat, setNoRepeat] = React.useState<boolean>(true)
-    type DayAbbrev = 'su' | 'm' | 'tu' | 'w' | 'th' | 'f' | 'sa'
-    const [repeatDays, setRepeatDays] = React.useState<Set<DayAbbrev>>(new Set<DayAbbrev>())
+    
+    const [alarmExpanded, setAlarmExpanded] = React.useState<boolean>(false) //alarm level
+    const [noRepeat, setNoRepeat] = React.useState<boolean>(true)//alarm level
+    type DayAbbrev = 'su' | 'm' | 'tu' | 'w' | 'th' | 'f' | 'sa'//alarm level
+    const [repeatDays, setRepeatDays] = React.useState<Set<DayAbbrev>>(new Set<DayAbbrev>())//alarm level
 
     const [alarmName, setAlarmName] = React.useState<string>();
     const [alarmNamePlaceholder, setAlarmNamePlaceholder] = React.useState<string>(() => {
@@ -362,7 +283,6 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
     const [timePickerOpen, setTimePickerOpen] = React.useState<boolean>(false)
     const [timeFormat24Hr, setTimeFormat24Hr] = React.useState<boolean>(false)
     const [alarmTimePickerFormatted, setAlarmTimePickerFormatted] = React.useState<Dayjs>()
-
 
     const [soundEnabled, setSoundEnabled] = React.useState<boolean>(false)
     const [soundSource, setSoundSource] = React.useState<string>('spotify')
@@ -377,7 +297,6 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
     const [soundVolumeMax, setSoundVolumeMax] = React.useState<number>(50)
     const [soundVolumeConstant, setSoundVolumeConstant] = React.useState<number>(soundVolumeMax)
     const [soundVolumeRamp, setSoundVolumeRamp] = React.useState<number[]>([0, soundVolumeMax])
-    // const [soundVolumeRampDuration, setSoundVolumeRampDuration] = React.useState<number>(30)
 
     const [lightEnabled, setLightEnabled] = React.useState<boolean>(true)
     const [lightAdvanceMinutes, setLightAdvanceMinutes] = React.useState<number>(-15)
@@ -397,11 +316,6 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
 
 
     //----------------------------------------------------------------------------------------------
-
-    // React.useEffect(() => {
-
-    // }, []);
-
     React.useEffect(() => {
         setVibrationConstant(99)
         setAlarmTimePickerFormatted(dayjs(alarmTime, 'HH:mm'))
@@ -410,13 +324,10 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
     React.useEffect(() => {
 
         if (alarmsListPendingSortOrFilter) {
-            console.log('alarms list is pending sort or filter. not going to update yet.')
             sortAndFilterAlarmList()
         } else {
-            console.log('alarms list is not pending sort or filter. updating alarm components')
             setAlarmComponents(generateAlarmComponents()) 
         }
-
 
     }, [alarmsList, alarmListSortType, alarmListSortAsc, alarmsSearchValue])
 
@@ -434,27 +345,11 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
         }
     }, [repeatDays])
 
-    // React.useEffect(() => {
-    //     if (soundSearchValue == undefined || soundSearchValue == '') {
-    //         console.log('TODO: Clear search results table')
-    //     } else {
-    //         performSoundSearch()
-    //     }
-    // }, [soundSearchValue])
-
     React.useEffect(() => {
         if (soundTypeNoFilter) {
             setSoundType([])
         }
     }, [soundTypeNoFilter])
-
-    React.useEffect(() => {
-        // if (soundType.size == 0) {
-        //     setSoundTypeNoFilter(true)
-        // } else {
-        //     setSoundTypeNoFilter(false)
-        // }
-    }, [soundType])
 
     React.useEffect(() => {
 
@@ -477,8 +372,7 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
                 payload: JSON.stringify(searchParams)
             }
             const result: TrFetchResult = await trFetch(requestConfig);
-            // console.log(result.error?.response?.json())
-            console.log(result.ok?.data)
+
             const spotifySearchResults = result.ok?.data
             const songs: any[] = spotifySearchResults.tracks?.items || []
             const albums: any[] = spotifySearchResults.albums?.items || []
@@ -538,14 +432,9 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
                 })
             })
 
-            console.log(soundSearchResultsFormatted)
-
         }
 
-        console.log('going to call getsoundsearch results now')
         getSoundSearchResults()
-
-    
 
     }, [soundSearchValue, soundType])
 
@@ -567,20 +456,6 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
     //----------------------------------------------------------------------------------------------
 
     //HELPER FUNCTIONS
-
-    function setOrGenerateAlarmName() {
-
-        if (alarmName == null || alarmName == undefined) {
-            const index = Math.floor(Math.random() * defaultAlarmNames.length)
-            setAlarmName(defaultAlarmNames[index] + ' alarm')
-        }
-
-    }
-
-    function getAllAlarmTimes24Hr() {
-
-    }
-
     function sortAndFilterAlarmList() {
 
         let sortedAlarmsList = []
@@ -591,17 +466,10 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
             sortedAlarmsList = sortAndFilterAlarmListByName()
         }
 
-        // let sortedAlarmsListCopy = Object.assign([], sortedAlarmsList)
         if (!alarmListSortAsc) {
-            // console.log('Need to reverse the results. before and then after reverse:')
-            // console.log(sortedAlarmsList)
-            // sortedAlarmsListCopy.reverse()
             sortedAlarmsList.reverse()
-            // console.log(sortedAlarmsList)
-            // console.log(sortedAlarmsListCopy)
         }
 
-        // let sortedAndFilteredAlarmsList = []
         sortedAlarmsList.forEach((alarm, index) => {
             const alarmNameLower = alarm.name.toLowerCase()
             if (alarmsSearchValue == '' || alarmNameLower.includes(alarmsSearchValue.toLowerCase())) {
@@ -612,32 +480,16 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
             sortedAlarmsList[index] = alarm
         })
 
-        // console.log('now going to set alarms list to the sorted list:')
-        // console.log(sortedAlarmsList)
         setAlarmsListPendingSortOrFilter(false)
         setAlarmsList(sortedAlarmsList)
-
-        // setAlarmComponents(generateAlarmComponents())
 
     }
 
     function sortAndFilterAlarmListByTime() {
 
-        // const alarmKeys: string[] = Object.keys(alarmsUnsorted)
         let alarmTimes: string[] = []
         let alarmsSorted = []
         let sortedAlarmsIds = new Set<number>()
-
-
-        //Loop over all alarms
-        // alarmKeys.forEach((alarmKey) => {
-        //     const alarm = alarms[alarmKey]
-        //     let time = alarm.timing.time
-        //     if (alarm.timing.format == 12) {
-        //         time = time12hrTo24hr(time)
-        //     }
-        //     alarmTimes.push(time)
-        // })
 
         alarmsList.forEach((alarm) => {
             let time = alarm.timing.time
@@ -667,14 +519,6 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
             })
         })
 
-        // console.log('alarms sorted by time:')
-        // console.log(alarmsSorted)
-
-        // if (!alarmListSortAsc) {
-        //     console.log('')
-        //     alarmsSorted.reverse()
-        // }
-
         return alarmsSorted
 
     }
@@ -686,10 +530,7 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
         let alarmsSorted = []
         let sortedAlarmsIds = new Set<number>()
 
-
-        //Loop over all alarms
         alarmsList.forEach((alarm) => {
-            // const alarm = alarms[alarmKey]
             const name = alarm.name
             alarmNames.push(name)
         })
@@ -699,7 +540,6 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
         alarmNames.forEach((alarmName) => {
             console.log('alarm name:')
             alarmsList.forEach((alarm) => {
-                // const alarm = alarms[alarmKey]
                 const id = alarm.id
                 if (!sortedAlarmsIds.has(id)) {
                     if (alarm.name == alarmName) {
@@ -709,19 +549,9 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
             })
         })
 
-        console.log('alarms sorted by name:')
-        console.log(alarmsSorted)
-
-        // if (!alarmListSortAsc) {
-        //     alarmsSorted.reverse()
-        // }
-
         return alarmsSorted
 
     }
-
-    // sortAndFilterAlarmList()
-
 
     function time12hrTo24hr(time12hr: string) {
         // Split the time string into hours, minutes, and AM/PM
@@ -786,56 +616,24 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
             }
         }
     }
-
-    function performSoundSearch() {
-        console.log('make request using TrFetch to django api, from there make request to spotify api, then send results back')
-    }
-
-    // function searchForSound() {
-    //     console.log('searching for sound. should have a state variable tracking whether any search fetch requests are still out, and if so keep the results visible but grayed out')
-    // }
-
     //----------------------------------------------------------------------------------------------
 
 
 
     //EVENT HANDLERS
-    const handleAddAlarm = () => {
-        console.log('Handling add alarm: Need to create empty alarm config')
-    }
-
-    const handleSaveAlarm = () => {
-        console.log('Handling save alarm: Need to post alarm to server')
-    }
-
     const handleDeleteAlarm = (event: React.MouseEvent<HTMLElement>) => {
         event.stopPropagation()
         console.log('Handling delete alarm: Need to stop propagation and send delete request to server & rerender alarms list')
     }
 
-    // const handleExpandAlarmClick = (event: React.MouseEvent<HTMLElement>) => {
-    //     console.log('need to rotate:')
-    //     console.log(event.target.parentElement.parentElement.classList.toggle('alarm-expand-rotated'))
-    // }
-
+    //alarm level
     const handleAlarmExpand = (event: React.SyntheticEvent, expanded: boolean) => {
-        // console.log('Handling expansion of an alarm; need to enlarge / emphasize timing options')
-        // console.log('Expanded flag: ' + expanded)
         setAlarmExpanded(!alarmExpanded)
     }
 
-    const handleToggleSummary = (event: React.MouseEvent<HTMLElement>) => {
-        event.stopPropagation()
-        console.log('Handling toggle alarm summary: Need to stop propogation and switch summary visibility toggle status state variable')
-    }
-
     const handleAlarmNameTyping = (event: React.ChangeEvent<HTMLInputElement>) => {
-        console.log('handling alarm name type')
         const value: string = event.target.value
         const alarmNamePending = value
-        console.log('alarm name pending is:')
-        console.log(alarmNamePending)
-        console.log('printed it')
         if (!alarmNamePending) {
             setAlarmNamePending('')
         } else {
@@ -844,32 +642,11 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
 
     }
 
-    function getValue() {
-        return alarmName
-    }
-
-    function getPlaceholder() {
-        return 'who knows'
-    }
-
-    // const testClose = (event, context) => {
-    //     console.log('closing:')
-    //     console.log(event)
-    // }
-
-    const testOpen = () => {
-        console.log('testing open')
-    }
-
     const handleBtnNewAlarmClick = () => {
         setTimePickerOpen(true)
     }
 
     const handleTimePickerChangeDoneClick = () => {
-        console.log('MODAL CLOSED')
-
-
-
         if (alarmNamePending == '') {
             if (!alarmName) {
                 setAlarmName(alarmNamePlaceholder)
@@ -887,19 +664,13 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
 
         setTimePickerOpen(false)
 
-
     }
 
     const testChange = (value) => {
-        // console.log('new value:')
-        // console.log(value)
-        // console.log(context)
-        console.log('getting hours and minutes and stuff')
+
         const hours = value.$H
         const minutes = value.$m
 
-        console.log('hours minutes and is24hr:')
-        console.log([hours, minutes, timeFormat24Hr])
         let timeString = hours + ':' + minutes
         if (timeFormat24Hr) {
 
@@ -907,45 +678,23 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
             timeString = time24hrTo12hr(timeString)
         }
 
-        console.log('RESULTING TIME STRING IS:')
-        console.log(timeString)
-
         setAlarmTime(timeString)
 
     }
 
-    const custom = () => {
-        return (
-            <div>action bar</div>
-        )
-    }
-
     const handleTimeFormatToggle = (event: React.MouseEvent<HTMLElement>, value: boolean) => {
-        // console.log('doing the time format toggle')
-        // console.log(event)
-        // const target: HTMLInputElement = event.target as HTMLInputElement
-        // const value: boolean = Boolean(target.value)
-
-        // console.log(target)
-        // console.log(value)
         if (value != null) {
             setTimeFormat24Hr(value)
         }
     }
 
-    const CustomToolbar = () => (
-        // <input value={name} onChange={(event) => setName(event.target.value)} />
-        <div>Here is my custom toolbar</div>
-    );
-
-    const handleSummaryTimeClick = (event: React.MouseEvent<HTMLElement>) => {
-        console.log('Handling summary time click. Need to stop propogation and trigger the time picker')
+    //alarm level
+    const handleAlarmTimeOrNameClick = (event: React.MouseEvent<HTMLElement>) => {
         setTimePickerOpen(true)
         event.stopPropagation()
     }
 
-    let showAlarmNameAndTimeModal = true
-
+    //alarm level
     const handleSummaryDayChange = (event: React.MouseEvent<HTMLElement>) => {
 
         event.stopPropagation()
@@ -964,27 +713,26 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
 
     }
 
+    //alarm level
     const handleSummaryDayNoRepeatChange = (event: React.MouseEvent<HTMLElement>) => {
         event.stopPropagation()
-        console.log('Handling summary day NO REPEAT click. Need to stop propogation and style the selected/unselected dates')
         if (!noRepeat) {
             setNoRepeat(true)
         }
     }
 
+    //alarm level
     const handleToggleAlarmStatusClick = (event: React.MouseEvent<HTMLElement>) => {
-        console.log('Handling alarm status toggle click. Need to stop propogation and enable/disable the alarm')
         event.stopPropagation()
     }
 
+
     const handleAlarmListSortDirectionClick = () => {
-        console.log('handling sort direction click: need to sort the alarms list')
         setAlarmsListPendingSortOrFilter(true)
         setAlarmListSortAsc(!alarmListSortAsc)
     }
 
     const handleAlarmListSortTypeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        console.log('Handling sort type change: Need to sort the alarms list.')
         const value: 'time' | 'name' = event.target.value as 'time' | 'name'
         if (alarmListSortType != value) {
             setAlarmsListPendingSortOrFilter(true)
@@ -994,31 +742,25 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
     }
 
     const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
-        console.log(event.target.value)
         setAlarmsListPendingSortOrFilter(true)
         setAlarmsSearchValue(event.target.value)
     }
 
     const handleSoundSourceChange = (event: React.MouseEvent<HTMLElement>) => {
-        console.log('TODO')
+
     }
 
     const handleSoundSearchTyping = (event: React.ChangeEvent<HTMLInputElement>) => {
-        // console.log('current search value:')
-        // console.log(value)
-        // console.log(event.target.value)
         setSoundSearchValue(event.target.value)
     }
 
-    const handleSoundTypeChange = (event: React.MouseEvent<HTMLElement>, value2) => {
-
-        setSoundType(value2)
+    const handleSoundTypeChange = (event: React.MouseEvent<HTMLElement>, value) => {
+        setSoundType(value)
 
     }
 
     const handleSoundTypeNoFilterChange = (event: React.MouseEvent<HTMLElement>) => {
         event.stopPropagation()
-        console.log('Handling sound type filter click. Need to stop propogation and style the selected/unselected dates')
         if (!soundTypeNoFilter) {
             setSoundTypeNoFilter(true)
         }
@@ -1029,12 +771,10 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
     }
 
     const handleSoundPlaylistChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        console.log('handling sound playlist change')
         setSoundPlaylist(event.target.value)
     }
 
     const handleSoundArtistChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        console.log('handling sound artist change')
         setSoundArtist(event.target.value)
     }
 
@@ -1056,7 +796,6 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
 
     const handleCategorySoundSwitchClick = (event: React.ChangeEvent<HTMLInputElement>) => {
         event.stopPropagation()
-        console.log('Handling category sound click; Need to toggle category status and stop propogation')
         const checked: boolean = event.target.checked
         setSoundEnabled(checked)
 
@@ -1064,7 +803,6 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
 
     const handleCategoryLightSwitchClick = (event: React.ChangeEvent<HTMLInputElement>) => {
         event.stopPropagation()
-        console.log('Handling category light click; Need to toggle category status and stop propogation')
         const checked: boolean = event.target.checked
         setLightEnabled(checked)
 
@@ -1072,7 +810,6 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
 
     const handleCategoryVibrationSwitchClick = (event: React.ChangeEvent<HTMLInputElement>) => {
         event.stopPropagation()
-        console.log('Handling category vibration click; Need to toggle category status and stop propogation')
         const checked: boolean = event.target.checked
         setVibrationEnabled(checked)
 
@@ -1081,33 +818,27 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
     const handleLightAdvanceMinutesSliderChange = (event: Event) => {
         const target: HTMLInputElement = event.target as HTMLInputElement
         const value: number = Number(target.value)
-        console.log('handling light advance minutes change')
         setLightAdvanceMinutes(value)
     }
 
     const handleLightColorChange = (event: React.MouseEvent<HTMLElement>) => {
-        console.log('handling light color change; need to modify lightColor state variable')
         const target: HTMLInputElement = event.target as HTMLInputElement
         const value: number = Number(target.value)
         setLightColor(value)
     }
 
     const handleLightBrightnessTypeChange = (event: React.MouseEvent<HTMLElement>) => {
-        console.log('Handling light brightness toggler change. need to change corresponding state variable and show/hide other input elements based on that selection')
         const target: HTMLInputElement = event.target as HTMLInputElement
         let value: string = target.value
         const valueTyped: 'constant' | 'ramp' = ((value == 'string' || value == 'ramp') ? value : 'constant') as 'constant' | 'ramp'
-
         setLightBrightnessType(valueTyped)
     }
 
     const handleLightBrightnessChangeConstant = (event: Event, value: number | number[]) => {
-        console.log('Handling light brightness constant slider change')
         setLightBrightnessMax(value as number)
     }
 
     const handleLightBrightnessChangeRamp = (event: Event, value: number | number[]) => {
-        console.log('Handling light brightness ramp slider change')
         const values = value as number[]
         setLightBrightnessRamp(values as number[])
         setLightBrightnessMax(values[1] as number)
@@ -1120,24 +851,20 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
     }
 
     const handleVibrationTypeChange = (event: React.MouseEvent<HTMLInputElement>) => {
-        console.log('handling vibration type toggler change')
         const target: HTMLInputElement = event.target as HTMLInputElement
         const value: string = target.value
         setVibrationType(value)
     }
 
     const handleVibrationChangeConstant = (event: Event, value: number | number[]) => {
-        console.log('Handling vibration constant slider change')
         setVibrationEnd(value as number)
     }
 
     const handleVibrationChangeRamp = (event: Event, value: number | number[]) => {
-        console.log('Handling vibration constant slider change')
         const values = value as number[]
         setVibrationRamp(values as number[])
         setVibrationEnd(values[1] as number)
     }
-
 
     const alarmConfigStateControl: IAlarmConfigStateControl = {
         sound: {
@@ -1283,10 +1010,6 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
     //COMPONENT GENERATION
     const generateAlarmComponents = () => {
 
-        const alarmNames: string[] = Object.keys(alarms)
-
-
-
         //Loop over all alarms; for each one, generate their config components
         let alarmComponentsList: React.ReactNode[] = []
         alarmsList.forEach((alarmMetadata: IAlarmMetadata) => {
@@ -1338,15 +1061,10 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
                             <Box
                                 className='alarm-essentials'
                                 sx={{
-                                    // padding: '.5rem .75rem',
                                     width: '100%',
                                     display: 'flex',
-                                    // columnGap: '1rem',
                                     alignItems: 'center',
                                     background: 'linear-gradient(148deg, #ff9f4e, #fef751)'
-                                    // background: appConfig.theme.palette.shades.tertiary[4]
-                                    // columnGap: '1rem',
-                                    // border: '1px solid red'
                                 }}
                             >
                                 <Box
@@ -1356,18 +1074,13 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
                                         display: 'flex',
                                         alignItems: 'center',
                                         height: '100%',
-                                        // marginRight: '1rem',
-                                        // background: appConfig.theme.palette.shades.secondary[0],
-                                        // border: `2px solid ${appConfig.theme.palette.shades.primary[10]}`,
-                                        // boxShadow: `4px 4px 0px ${appConfig.theme.palette.shades.primary[10]}`,
                                         padding: '0px .75rem',
                                         borderRadius: '4px',
                                         color: appConfig.theme.palette.secondary.contrastText,
-                                        // background: '#FFFFFF57',
                                     }}
                                 >
                                     <Typography
-                                        onClick={handleSummaryTimeClick}
+                                        onClick={handleAlarmTimeOrNameClick}
                                         sx={{
                                             fontSize: '1.25rem',
                                             fontWeight: 'bold'
@@ -1386,20 +1099,16 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
                                         alignItems: 'center',
                                         flexGrow: '1',
                                         borderRadius: '4px',
-                                        // background: '#FFFFFF57',
                                         padding: '0px .75rem'
                                     }}
                                 >
-                                    <Typography onClick={handleSummaryTimeClick}>{alarmMetadata.name}</Typography>
-                                    {/* <TextField value={alarmName} variant='filled' /> */}
+                                    <Typography onClick={handleAlarmTimeOrNameClick}>{alarmMetadata.name}</Typography>
                                 </Box>
                                 <Box
                                     className='alarm-status-container'
                                     sx={{
-                                        // marginLeft: '3px',
                                         marginRight: '-0px',
                                         height: 'fit-content',
-                                        // background: '#FFFFFF57',
                                     }}
                                 >
                                     <Switch onClick={handleToggleAlarmStatusClick} />
@@ -1408,12 +1117,10 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
                             <Box
                                 className='alarm-summary'
                                 sx={{
-                                    // padding: '.5rem .75rem',
                                     transition: '.2s',
                                     display: 'flex',
                                     width: '100%',
                                     background: '#FFFFFF57',
-                                    // padding: `${(alarmExpanded ? '1rem 1rem' : '0px 0px')}`
                                 }}
                             >
                                 <Box
@@ -1421,12 +1128,10 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
                                     sx={{
                                         display: 'flex',
                                         flexWrap: 'wrap',
-                                        // width: '100%'
                                     }}
                                 >
                                     <ToggleButtonGroup
                                         className='alarm-summary-days'
-                                        // value={['m', 'tu', 'th']}
                                         value={Array.from(repeatDays)}
                                         onChange={handleSummaryDayChange}
                                         sx={{
@@ -1435,7 +1140,6 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
                                             height: 'fit-content',
                                             borderRadius: '0px',
                                             '& .MuiButtonBase-root': {
-                                                borderRadius: '9999px',
                                                 border: 'none',
                                                 background: 'none',
                                                 padding: '0px',
@@ -1464,8 +1168,6 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
                                             sx={{
                                                 height: 'fit-content',
                                                 '& .MuiButtonBase-root': {
-                                                    // borderRadius: '9999px',
-                                                    // border: 'none',
                                                     borderLeft: 'none',
                                                     background: 'none',
                                                     padding: '0px',
@@ -1507,10 +1209,8 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
                             className='alarm-config-categories-container'
                             sx={{
                                 padding: '0px',
-                                // paddingTop: '.25rem',
                                 display: 'flex',
                                 flexDirection: 'column',
-                                // rowGap: '.5rem',
                             }}
                         >
                             <AlarmConfigCategoryOuter alarmConfigCategoryMetadata={alarmConfigCategoryMetadata} />
@@ -1527,6 +1227,14 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
 
     }
 
+    const handlers = {
+        handleAlarmTimeOrNameClick: handleAlarmTimeOrNameClick
+    }
+
+    const setters = {
+        setTimePickerOpen: setTimePickerOpen
+    }
+
     //----------------------------------------------------------------------------------------------
 
     return (
@@ -1539,26 +1247,6 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
                     rowGap: '1rem'
                 }}
             >
-
-                {/* <LocalizationProvider dateAdapter={AdapterDayjs}>
-                    <DemoContainer components={['TimePicker']}>
-                        <TimePicker onChange={handleTimePickerChange} label="Basic time picker" />
-                    </DemoContainer>
-                </LocalizationProvider> */}
-
-                {/* <Box
-                    id='alarms-list-header'
-                    sx={{
-                        background: 'white',
-                        display: 'flex',
-                        // flexDirection: 'row-reverse',
-                        flexWrap: 'wrap',
-                        columnGap: '1rem',
-                        rowGap: '1rem',
-                        // border: '2px solid red'
-                        // padding: '1rem'
-                    }}
-                > */}
                 <Box
                     id='btn-new-alarm-container'
                     sx={{
@@ -1586,9 +1274,7 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
                     sx={{
                         marginTop: '2rem',
                         marginBottom: '1rem',
-                        // border: '1px solid orange',
                         display: 'flex',
-                        // flexDirection: 'column',
                         rowGap: '.5rem',
                         columnGap: '.5rem',
                         flexWrap: 'wrap'
@@ -1661,7 +1347,6 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
                                 display: 'flex',
                                 justifyContent: 'center',
                                 height: '2rem',
-                                // width: '2rem',
                                 borderRadius: '4px',
                                 borderTopRightRadius: '0px',
                                 borderBottomRightRadius: '0px',
@@ -1673,7 +1358,6 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
                                 className='btn-sort-direction'
                                 onClick={handleAlarmListSortDirectionClick}
                                 sx={{
-                                    // transition: '200ms',
                                     height: '100%',
                                     color: appConfig.theme.palette.tertiary.main,
                                     background: appConfig.theme.palette.shades.primary[8],
@@ -1696,7 +1380,6 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
                                 flexWrap: 'wrap'
                             }}
                         >
-                            {/* <SortIcon /> */}
                             <ToggleButtonGroup
                                 value={alarmListSortType}
                                 onChange={handleAlarmListSortTypeChange}
@@ -1719,8 +1402,12 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
                     </Box>
                 </Box>
 
-
-
+                <AlarmsList 
+                    alarms={alarmsUnsorted} 
+                    appConfig={appConfig} 
+                    handlers={handlers}
+                    setters={setters}
+                />
 
                 <Box
                     id='paper-alarms-list>'
@@ -1748,6 +1435,8 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
                     </Box>
                 </Box>
             </Box>
+
+
             <Modal
                 className='name-and-time-modal'
                 open={timePickerOpen}
