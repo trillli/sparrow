@@ -63,6 +63,7 @@ const AlarmConfigCategoryDetailOuter: React.FC<AlarmConfigSunriseProps> = ({ app
                 {/* {detailMetadata.body} */}
                 {bodyWithProps}
                 
+                
             {/* </Box> */}
         </Box>
 

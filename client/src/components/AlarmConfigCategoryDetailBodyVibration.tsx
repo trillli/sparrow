@@ -49,7 +49,7 @@ const AlarmConfigCategoryDetailBodyVibration: React.FC<AlarmConfigCategoryDetail
                 </Box>
                 </Box>
                 <Box className='alarm-config-category-detail-field-container'>
-                    <AlarmConfigCategoryDetailHeader label='Volume' />
+                    <AlarmConfigCategoryDetailHeader label='Intensity' />
                     {stateControl.vars.vibrationType == 'constant' ? (
                         <TrSlider
                             value={stateControl.vars.vibrationConstant}

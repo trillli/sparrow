@@ -367,8 +367,8 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
     const [soundEnabled, setSoundEnabled] = React.useState<boolean>(false)
     const [soundSource, setSoundSource] = React.useState<string>('spotify')
     const [soundSearchValue, setSoundSearchValue] = React.useState<string>('')
-    type SoundType = 'song' | 'artist' | 'playlist'
-    const [soundType, setSoundType] = React.useState<Set<SoundType>>(new Set<SoundType>())
+    type SoundType = 'track' | 'album' | 'artist' | 'playlist'
+    const [soundType, setSoundType] = React.useState<SoundType[]>([])
     const [soundTypeNoFilter, setSoundTypeNoFilter] = React.useState<boolean>(true)
     const [soundSong, setSoundSong] = React.useState<string>('')
     const [soundPlaylist, setSoundPlaylist] = React.useState<string>('')
@@ -398,25 +398,23 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
 
     //----------------------------------------------------------------------------------------------
 
-    React.useEffect(() => {
-        // console.log('component mounted. now hopefully im setting alarms list for real')
-    }, []);
+    // React.useEffect(() => {
+
+    // }, []);
 
     React.useEffect(() => {
+        setVibrationConstant(99)
         setAlarmTimePickerFormatted(dayjs(alarmTime, 'HH:mm'))
     }, [alarmTime])
 
     React.useEffect(() => {
-
-        // console.log('now in alarms list use effect pendingsortorfilter is:')
-        // console.log(alarmsListPendingSortOrFilter)
 
         if (alarmsListPendingSortOrFilter) {
             console.log('alarms list is pending sort or filter. not going to update yet.')
             sortAndFilterAlarmList()
         } else {
             console.log('alarms list is not pending sort or filter. updating alarm components')
-            setAlarmComponents(generateAlarmComponents())
+            setAlarmComponents(generateAlarmComponents()) 
         }
 
 
@@ -425,7 +423,7 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
     React.useEffect(() => {
         if (noRepeat) {
             setRepeatDays(new Set<DayAbbrev>())
-        }
+        } 
     }, [noRepeat])
 
     React.useEffect(() => {
@@ -446,28 +444,28 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
 
     React.useEffect(() => {
         if (soundTypeNoFilter) {
-            setSoundType(new Set<SoundType>())
+            setSoundType([])
         }
     }, [soundTypeNoFilter])
 
     React.useEffect(() => {
-        if (soundType.size == 0) {
-            setSoundTypeNoFilter(true)
-        } else {
-            setSoundTypeNoFilter(false)
-        }
+        // if (soundType.size == 0) {
+        //     setSoundTypeNoFilter(true)
+        // } else {
+        //     setSoundTypeNoFilter(false)
+        // }
     }, [soundType])
 
     React.useEffect(() => {
 
         let testset = new Set<SoundType>()
         testset.add('artist')
-        testset.add('song')
+        testset.add('track')
         console.log(testset)
 
         const searchParams = {
             queryString: soundSearchValue,
-            queryTypes: Array.from(testset)
+            queryTypes: soundType
         }
 
         const getSoundSearchResults = async () => {
@@ -482,10 +480,10 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
             // console.log(result.error?.response?.json())
             console.log(result.ok?.data)
             const spotifySearchResults = result.ok?.data
-            const songs: any[] = spotifySearchResults.tracks.items
-            const albums: any[] = spotifySearchResults.albums.items
-            const artists: any[] = spotifySearchResults.artists.items
-            const playlists: any[] = spotifySearchResults.playlists.items
+            const songs: any[] = spotifySearchResults.tracks?.items || []
+            const albums: any[] = spotifySearchResults.albums?.items || []
+            const artists: any[] = spotifySearchResults.artists?.items || []
+            const playlists: any[] = spotifySearchResults.playlists?.items || []
 
             let soundSearchResultsFormatted = {
                 songs: [] as any[],
@@ -540,6 +538,8 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
                 })
             })
 
+            console.log(soundSearchResultsFormatted)
+
         }
 
         console.log('going to call getsoundsearch results now')
@@ -547,7 +547,7 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
 
     
 
-    }, [soundType, soundSearchValue])
+    }, [soundSearchValue, soundType])
 
     React.useEffect(() => {
         setSoundVolumeConstant(soundVolumeMax)
@@ -567,39 +567,6 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
     //----------------------------------------------------------------------------------------------
 
     //HELPER FUNCTIONS
-
-    // function getAllAlarmNames() {
-
-    //     const alarmKeys: string[] = Object.keys(alarmsUnsorted)
-    //     // let alarmKeysOrdered
-    //     let alarmNames: string[] = []
-    //     let alarmsSorted = []
-    //     let sortedAlarmsIds = new Set<number>()
-
-
-    //     //Loop over all alarms
-    //     alarmKeys.forEach((alarmKey) => {
-    //         const alarm = alarms[alarmKey]
-    //         const name = alarm.name
-    //         alarmNames.push(name)
-    //     })
-
-    //     alarmNames.sort()
-
-    //     alarmNames.forEach((alarmName) => {
-    //         console.log('alarm name:')
-    //         alarmKeys.forEach((alarmKey) => {
-    //             const alarm = alarms[alarmKey]
-    //             const id = alarm.id
-    //             if (!sortedAlarmsIds.has(id)) {
-    //                 if (alarm.name == alarmName) {
-    //                     alarmsSorted.push(alarm)
-    //                 }
-    //             }
-    //         })
-    //     })
-
-    // }
 
     function setOrGenerateAlarmName() {
 
@@ -1043,26 +1010,9 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
         setSoundSearchValue(event.target.value)
     }
 
-    const handleSoundTypeChange = (event: React.MouseEvent<HTMLElement>) => {
+    const handleSoundTypeChange = (event: React.MouseEvent<HTMLElement>, value2) => {
 
-
-        event.stopPropagation()
-        const target: HTMLInputElement = event.target as HTMLInputElement
-        const value: SoundType = target.value as SoundType
-
-        let soundTypeUpdated = new Set(soundType)
-
-        if (soundType.has(value)) {
-            soundTypeUpdated.delete(value)
-        } else {
-            soundTypeUpdated.add(value)
-        }
-
-        setSoundType(soundTypeUpdated)
-
-
-
-
+        setSoundType(value2)
 
     }
 
@@ -1463,7 +1413,7 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
                                     display: 'flex',
                                     width: '100%',
                                     background: '#FFFFFF57',
-                                    padding: `${(alarmExpanded ? '1rem 1rem' : '0px 0px')}`
+                                    // padding: `${(alarmExpanded ? '1rem 1rem' : '0px 0px')}`
                                 }}
                             >
                                 <Box
@@ -1556,11 +1506,11 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
                         <AccordionDetails
                             className='alarm-config-categories-container'
                             sx={{
-                                padding: '1rem',
-                                paddingTop: '.25rem',
+                                padding: '0px',
+                                // paddingTop: '.25rem',
                                 display: 'flex',
                                 flexDirection: 'column',
-                                rowGap: '.5rem',
+                                // rowGap: '.5rem',
                             }}
                         >
                             <AlarmConfigCategoryOuter alarmConfigCategoryMetadata={alarmConfigCategoryMetadata} />

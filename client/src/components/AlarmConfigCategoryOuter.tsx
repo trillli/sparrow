@@ -33,7 +33,7 @@ const AlarmConfigCategoryOuter: React.FC<AlarmConfigCategoryOuterProps> = ({alar
                     id={`alarm_config_group_${alarmConfigCategoryMetadata.groups[key].id}`}
                     className='alarm-config-category-container'
                     elevation={0}
-                    square={false}
+                    square={true}
                     sx={{
                         display: 'flex',
                         flexDirection: 'column',

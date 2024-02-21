@@ -112,4 +112,7 @@ SIMPLE_JWT = {
     'AUTH_TOKEN_CLASSES': ('authz.tokens.Auth0Token',),
 }
 
+SPOTIFY_CLIENT_SECRET = get_env_var('SPOTIFY_CLIENT_SECRET')
+SPOTIFY_CLIENT_ID = get_env_var('SPOTIFY_CLIENT_ID')
+
 

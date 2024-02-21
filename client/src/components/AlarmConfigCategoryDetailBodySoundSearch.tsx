@@ -1,7 +1,7 @@
 import React from 'react'
 import { HexColorPicker } from 'react-colorful'
 import IAlarmConfigCategoryDetailStateControl from './types/IAlarmConfigCategoryDetailStateControl'
-import { ToggleButtonGroup, ToggleButton, Slider, TextField, Box, Typography, Button, InputAdornment } from '@mui/material'
+import { ToggleButtonGroup, ToggleButton, Slider, TextField, Box, Typography, Button, InputAdornment, Accordion, AccordionSummary, AccordionDetails, TableContainer, Table, TableHead, TableRow, TableCell, TableBody } from '@mui/material'
 import SearchIcon from '@mui/icons-material/Search';
 import FilterListOffIcon from '@mui/icons-material/FilterListOff';
 import ITrillliConfig from 'trillli/src/types/ITrillliConfig';
@@ -13,54 +13,71 @@ interface AlarmConfigCategoryDetailBodySoundSearchProps {
 
 const AlarmConfigCategoryDetailBodySoundSearch: React.FC<AlarmConfigCategoryDetailBodySoundSearchProps> = ({ appConfig, ...stateControl}) => {
 
-    const showSongField = stateControl.vars.soundType == 'song' ? true : false
-    const showPlaylistField = stateControl.vars.soundType == 'playlist' ? true : false
-    const showArtistField = stateControl.vars.soundType == 'artist' ? true : false
+    console.log('in search component. sound type:')
+    console.log(stateControl.vars.soundType)
+    console.log(Array.from(stateControl.vars.soundType))
+
+    const soundSearchResultsFormatted = {
+        songs: [
+            {
+                name: 'Inner Cell',
+                album: 'Polygondawanaland',
+                artist: 'KGLW'
+            },
+            {
+                name: 'Loyalty',
+                album: 'Polygondawanaland',
+                artist: 'KGLW'
+            },
+            {
+                name: 'Horology',
+                album: 'Polygondawanaland',
+                artist: 'KGLW'
+            },
+        ],
+        artists: [
+            {
+                name: 'KGLW'
+            },
+            {
+                name: 'Bruce Springsteen'
+            },
+            {
+                name: 'LCD Soundsystem'
+            }
+        ],
+        albums: [
+            {
+                name: 'Polygondawanaland',
+                artist: 'KGLW'
+            },
+            {
+                name: 'Float Along Fill Your Lungs',
+                artist: 'KGLW'
+            },
+            {
+                name: 'Eyes Like the Sky',
+                artist: 'KGLW'
+            },
+        ],
+        playlists: [
+            {
+                name: 'Chill Mix',
+                author: 'Dave Thomas'
+            },
+            {
+                name: 'Study Playlist',
+                author: 'Mary Shelley'
+            },
+            {
+                name: 'Super Hype Tunes',
+                author: 'Travis Pastrana'
+            }
+        ]
+    }
 
     return (
         <>
-            {/* <ToggleButtonGroup
-                color="primary"
-                value={stateControl.vars.soundType}
-                exclusive
-                onChange={stateControl.handlers.handleSoundTypeChange}
-            >
-                <ToggleButton value="song">Song</ToggleButton>
-                <ToggleButton value="playlist">Playlist</ToggleButton>
-                <ToggleButton value="artist">Artist</ToggleButton>
-            </ToggleButtonGroup>
-
-            {showSongField ? (
-                <TextField
-                    label='Song Title'
-                    defaultValue={stateControl.vars.soundSong}
-                    name='song'
-                    variant='filled'
-                    onChange={stateControl.handlers.handleSoundSongChange}
-                />
-            ) : (<></>)}
-
-            {showPlaylistField ? (
-                <TextField
-                    label='Playlist Name'
-                    value={stateControl.vars.soundPlaylist}
-                    name='playlist'
-                    variant='filled'
-                    onChange={stateControl.handlers.handleSoundPlaylistChange}
-                />
-            ) : (<></>)}
-
-            {showArtistField ? (
-                <TextField
-                    label='Artist Name'
-                    value={stateControl.vars.soundArtist}
-                    name='artist'
-                    variant='filled'
-                    onChange={stateControl.handlers.handleSoundArtistChange}
-                />
-            ) : (<></>)}
-
-            <TextField variant='filled' helperText='Search Spotify' /> */}
             <Box className='alarm-config-category-detail-field-container'>
             <TextField
                                 variant='filled'
@@ -98,7 +115,9 @@ const AlarmConfigCategoryDetailBodySoundSearch: React.FC<AlarmConfigCategoryDeta
                             >
                                 <ToggleButtonGroup 
                                     className='search-category-filters'
-                                    value={Array.from(stateControl.vars.soundType)}
+                                    value={stateControl.vars.soundType}
+                                    // value={['track', 'artist']}
+                                    // exclusive={false}
                                     onChange={stateControl.handlers.handleSoundTypeChange}
                                     sx={{
                                         marginTop: '.5rem',
@@ -118,8 +137,9 @@ const AlarmConfigCategoryDetailBodySoundSearch: React.FC<AlarmConfigCategoryDeta
                                         }
                                     }}
                                 >
-                                    <ToggleButton value='song' className='alarm-day alarm-summary-day'>Song</ToggleButton>
+                                    <ToggleButton value='track' className='alarm-day alarm-summary-day'>Song</ToggleButton>
                                     <ToggleButton value='artist' className='alarm-day alarm-summary-day'>Artist</ToggleButton>
+                                    <ToggleButton value='album' className='alarm-day alarm-summary-day'>Album</ToggleButton>
                                     <ToggleButton value='playlist' className='alarm-day alarm-summary-day'>Playlist</ToggleButton>
                                     <ToggleButtonGroup
                                     className='soundCategoryNofilter'
@@ -149,6 +169,197 @@ const AlarmConfigCategoryDetailBodySoundSearch: React.FC<AlarmConfigCategoryDeta
             </Box>
 
             <Box className='sound-search-results-outer'>
+                <Accordion >
+                    <AccordionSummary >
+                        Search Results
+                        <Button size='small' variant='contained'><Typography>stateControl.vars.soundSearchResultsExpandAll</Typography></Button>
+                    </AccordionSummary>
+                    <AccordionDetails >
+                        <Box>
+                            <Accordion >
+                                <AccordionSummary >
+                                    Songs
+                                </AccordionSummary>
+                                <AccordionDetails >
+                                    <TableContainer >
+                                        <Table
+                                            size='small'
+                                        >
+                                            <TableBody>
+                                                {soundSearchResultsFormatted.songs.map((row, index) => (
+                                                    <TableRow key={index}>
+                                                        <TableCell component='th' scope='row'>
+                                                            <Box
+                                                                sx={{
+                                                                    display: 'flex',
+                                                                    flexWrap: 'wrap',
+                                                                    columnGap: '1rem',
+                                                                    rowGap: '.5rem',
+                                                                    alignItems: 'flex-end'
+                                                                }}
+                                                            >
+                                                                <Typography
+                                                                    sx={{
+                                                                        fontWeight: 'bold',
+                                                                        lineHeight: '1.0'
+                                                                    }}
+                                                                >
+                                                                    {row.name}
+                                                                </Typography>
+                                                                <Typography
+                                                                    sx={{
+                                                                        fontSize: '1rem',
+                                                                        lineHeight: '1.0'
+                                                                    }}
+                                                                >
+                                                                    {row.artist}
+                                                                </Typography>
+                                                            </Box>
+                                                        </TableCell>
+                                                    </TableRow>
+                                                ))}
+                                            </TableBody>
+                                        </Table>
+                                    </TableContainer>
+                                </AccordionDetails>
+                            </Accordion>
+                            <Accordion >
+                                <AccordionSummary >
+                                    Artists
+                                </AccordionSummary>
+                                <AccordionDetails >
+                                    <TableContainer >
+                                        <Table
+                                            size='small'
+                                        >
+                                            <TableBody>
+                                                {soundSearchResultsFormatted.artists.map((row, index) => (
+                                                    <TableRow key={index}>
+                                                        <TableCell component='th' scope='row'>
+                                                            <Box
+                                                                sx={{
+                                                                    display: 'flex',
+                                                                    flexWrap: 'wrap',
+                                                                    columnGap: '1rem',
+                                                                    rowGap: '.5rem',
+                                                                    alignItems: 'flex-end'
+                                                                }}
+                                                            >
+                                                                <Typography
+                                                                    sx={{
+                                                                        fontWeight: 'bold',
+                                                                        lineHeight: '1.0'
+                                                                    }}
+                                                                >
+                                                                    {row.name}
+                                                                </Typography>
+                                                            </Box>
+                                                        </TableCell>
+                                                    </TableRow>
+                                                ))}
+                                            </TableBody>
+                                        </Table>
+                                    </TableContainer>
+                                </AccordionDetails>
+                            </Accordion>
+                            <Accordion >
+                                <AccordionSummary >
+                                    Albums
+                                </AccordionSummary>
+                                <AccordionDetails >
+                                    <TableContainer >
+                                        <Table
+                                            size='small'
+                                        >
+                                            <TableBody>
+                                                {soundSearchResultsFormatted.albums.map((row, index) => (
+                                                    <TableRow key={index}>
+                                                        <TableCell component='th' scope='row'>
+                                                            <Box
+                                                                sx={{
+                                                                    display: 'flex',
+                                                                    flexWrap: 'wrap',
+                                                                    columnGap: '1rem',
+                                                                    rowGap: '.5rem',
+                                                                    alignItems: 'flex-end'
+                                                                }}
+                                                            >
+                                                                <Typography
+                                                                    sx={{
+                                                                        fontWeight: 'bold',
+                                                                        lineHeight: '1.0'
+                                                                    }}
+                                                                >
+                                                                    {row.name}
+                                                                </Typography>
+                                                                <Typography
+                                                                    sx={{
+                                                                        fontSize: '1rem',
+                                                                        lineHeight: '1.0'
+                                                                    }}
+                                                                >
+                                                                    {row.artist}
+                                                                </Typography>
+                                                            </Box>
+                                                        </TableCell>
+                                                    </TableRow>
+                                                ))}
+                                            </TableBody>
+                                        </Table>
+                                    </TableContainer>
+                                </AccordionDetails>
+                            </Accordion>
+                            <Accordion >
+                                <AccordionSummary >
+                                    Playlists
+                                </AccordionSummary>
+                                <AccordionDetails >
+                                    <TableContainer >
+                                        <Table
+                                            size='small'
+                                        >
+                                            <TableBody>
+                                                {soundSearchResultsFormatted.playlists.map((row, index) => (
+                                                    <TableRow key={index}>
+                                                        <TableCell component='th' scope='row'>
+                                                            <Box
+                                                                sx={{
+                                                                    display: 'flex',
+                                                                    flexWrap: 'wrap',
+                                                                    columnGap: '1rem',
+                                                                    rowGap: '.5rem',
+                                                                    alignItems: 'flex-end'
+                                                                }}
+                                                            >
+                                                                <Typography
+                                                                    sx={{
+                                                                        fontWeight: 'bold',
+                                                                        lineHeight: '1.0'
+                                                                    }}
+                                                                >
+                                                                    {row.name}
+                                                                </Typography>
+                                                                <Typography
+                                                                    sx={{
+                                                                        fontSize: '1rem',
+                                                                        lineHeight: '1.0'
+                                                                    }}
+                                                                >
+                                                                    {row.author}
+                                                                </Typography>
+                                                            </Box>
+                                                        </TableCell>
+                                                    </TableRow>
+                                                ))}
+                                            </TableBody>
+                                        </Table>
+                                    </TableContainer>
+                                </AccordionDetails>
+                            </Accordion>
+                        </Box>
+                        
+                    </AccordionDetails>
+                </Accordion>
                 <Typography>
                     Search Results
                 </Typography>
@@ -161,21 +372,6 @@ const AlarmConfigCategoryDetailBodySoundSearch: React.FC<AlarmConfigCategoryDeta
                     <Typography>Result 5</Typography>
                 </Box>
             </Box>
-
-            {/* <Button 
-                variant='contained'
-                sx={{
-                    flexDirection: 'column'
-                }}
-            >
-                <Box>
-                    <Typography>Confirm Alarm Sound:</Typography>
-                </Box>
-                <Box>
-                    <Typography>value from selection here</Typography>
-                </Box>
-            </Button> */}
-
         </>
     )
 

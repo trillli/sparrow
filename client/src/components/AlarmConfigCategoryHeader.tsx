@@ -19,7 +19,7 @@ const AlarmConfigCategoryHeader: React.FC<AlarmConfigSunriseProps> = ({ groupLab
                 transition: '100ms',
                 paddingBottom: '1px',
                 background: '#FFFFFF57',
-                borderRadius: '4px',
+                borderRadius: '0px',
                 minHeight: '0px',
                 '&.Mui-expanded': {
                     // border: '8px solid black',
@@ -28,7 +28,7 @@ const AlarmConfigCategoryHeader: React.FC<AlarmConfigSunriseProps> = ({ groupLab
                     paddingTop: '1rem',
                     '& .category-header-primary': {
                         '&>.MuiIcon-root': {
-                            fontSize: '2.25rem'
+                            fontSize: '2rem'
                         },
                         '&>.MuiTypography-root': {
                             fontSize: '1.25rem',
