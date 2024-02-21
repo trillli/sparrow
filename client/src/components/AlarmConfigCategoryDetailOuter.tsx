@@ -39,20 +39,11 @@ const AlarmConfigCategoryDetailOuter: React.FC<AlarmConfigSunriseProps> = ({ app
 
         <Box className='alarm-config-category-detail-outer'
             sx={{
-                // padding: '1rem',
-                // paddingTop: '0px'
                 display: 'flex',
                 flexDirection: 'column',
                 rowGap: '2rem'
             }}
         >
-            {/* <Box className='alarm-config-field'
-                sx={{
-                    display: 'flex',
-                    flexDirection: 'column',
-                    // rowGap: '1.5rem'
-                }}
-            > */}
 
                 {/* If required, render detail Header component (serves as a label to the config input; some config inputs are intuitive enough that the header can be omitted for design / ui/ux purposes, hence the showHeader flag) */}
                 { detailMetadata.showHeader ? (

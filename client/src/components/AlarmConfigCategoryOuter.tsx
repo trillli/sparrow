@@ -37,10 +37,8 @@ const AlarmConfigCategoryOuter: React.FC<AlarmConfigCategoryOuterProps> = ({alar
                     sx={{
                         display: 'flex',
                         flexDirection: 'column',
-                        // rowGap: '.5rem',
                         borderRadius: '0px',
                         background: 'none',
-                        // border: '4px solid red',
                         '& .MuiAccordionSummary-content': {
                             margin: '0px'
                         },

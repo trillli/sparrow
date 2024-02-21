@@ -284,19 +284,20 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
     const [timeFormat24Hr, setTimeFormat24Hr] = React.useState<boolean>(false)
     const [alarmTimePickerFormatted, setAlarmTimePickerFormatted] = React.useState<Dayjs>()
 
-    const [soundEnabled, setSoundEnabled] = React.useState<boolean>(false)
-    const [soundSource, setSoundSource] = React.useState<string>('spotify')
-    const [soundSearchValue, setSoundSearchValue] = React.useState<string>('')
-    type SoundType = 'track' | 'album' | 'artist' | 'playlist'
-    const [soundType, setSoundType] = React.useState<SoundType[]>([])
-    const [soundTypeNoFilter, setSoundTypeNoFilter] = React.useState<boolean>(true)
-    const [soundSong, setSoundSong] = React.useState<string>('')
-    const [soundPlaylist, setSoundPlaylist] = React.useState<string>('')
-    const [soundArtist, setSoundArtist] = React.useState<string>('')
-    const [soundVolumeProfile, setSoundVolumeProfile] = React.useState<'constant' | 'ramp'>('constant')
-    const [soundVolumeMax, setSoundVolumeMax] = React.useState<number>(50)
-    const [soundVolumeConstant, setSoundVolumeConstant] = React.useState<number>(soundVolumeMax)
-    const [soundVolumeRamp, setSoundVolumeRamp] = React.useState<number[]>([0, soundVolumeMax])
+    
+    const [soundEnabled, setSoundEnabled] = React.useState<boolean>(false) //sound group level
+    const [soundSource, setSoundSource] = React.useState<string>('spotify') //sound group level
+    const [soundSearchValue, setSoundSearchValue] = React.useState<string>('') //sound group level
+    type SoundType = 'track' | 'album' | 'artist' | 'playlist' //sound group level
+    const [soundType, setSoundType] = React.useState<SoundType[]>([]) //sound group level
+    const [soundTypeNoFilter, setSoundTypeNoFilter] = React.useState<boolean>(true) //sound group level
+    const [soundSong, setSoundSong] = React.useState<string>('') //sound group level
+    const [soundPlaylist, setSoundPlaylist] = React.useState<string>('') //sound group level
+    const [soundArtist, setSoundArtist] = React.useState<string>('') //sound group level
+    const [soundVolumeProfile, setSoundVolumeProfile] = React.useState<'constant' | 'ramp'>('constant') //sound group level
+    const [soundVolumeMax, setSoundVolumeMax] = React.useState<number>(50) //sound group level
+    const [soundVolumeConstant, setSoundVolumeConstant] = React.useState<number>(soundVolumeMax) //sound group level
+    const [soundVolumeRamp, setSoundVolumeRamp] = React.useState<number[]>([0, soundVolumeMax]) //sound group level
 
     const [lightEnabled, setLightEnabled] = React.useState<boolean>(true)
     const [lightAdvanceMinutes, setLightAdvanceMinutes] = React.useState<number>(-15)
@@ -326,17 +327,20 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
         if (alarmsListPendingSortOrFilter) {
             sortAndFilterAlarmList()
         } else {
-            setAlarmComponents(generateAlarmComponents()) 
+            console.log('no longer using setalarmcomponents - instead need to implement & update an alarm state variable')
+            // setAlarmComponents(generateAlarmComponents()) 
         }
 
     }, [alarmsList, alarmListSortType, alarmListSortAsc, alarmsSearchValue])
 
+    //Alarm level
     React.useEffect(() => {
         if (noRepeat) {
             setRepeatDays(new Set<DayAbbrev>())
         } 
     }, [noRepeat])
 
+    //Alarm level
     React.useEffect(() => {
         if (repeatDays.size == 0) {
             setNoRepeat(true)
@@ -345,12 +349,14 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
         }
     }, [repeatDays])
 
+    //sound group level
     React.useEffect(() => {
         if (soundTypeNoFilter) {
             setSoundType([])
         }
     }, [soundTypeNoFilter])
 
+    //sound group level
     React.useEffect(() => {
 
         let testset = new Set<SoundType>()
@@ -438,16 +444,19 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
 
     }, [soundSearchValue, soundType])
 
+    //Sound group level
     React.useEffect(() => {
         setSoundVolumeConstant(soundVolumeMax)
         setSoundVolumeRamp([soundVolumeRamp[0], soundVolumeMax])
     }, [soundVolumeMax])
 
+    //Light group level
     React.useEffect(() => {
         setLightBrightnessConstant(lightBrightnessMax)
         setLightBrightnessRamp([lightBrightnessRamp[0], lightBrightnessMax])
     }, [lightBrightnessMax])
 
+    //Vibration group level
     React.useEffect(() => {
         setVibrationConstant(vibrationEnd)
         setVibrationRamp([vibrationRamp[0], vibrationEnd])
@@ -746,19 +755,23 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
         setAlarmsSearchValue(event.target.value)
     }
 
+    //alarm group level
     const handleSoundSourceChange = (event: React.MouseEvent<HTMLElement>) => {
 
     }
 
+    //alarm group level
     const handleSoundSearchTyping = (event: React.ChangeEvent<HTMLInputElement>) => {
         setSoundSearchValue(event.target.value)
     }
 
+    //alarm group level
     const handleSoundTypeChange = (event: React.MouseEvent<HTMLElement>, value) => {
         setSoundType(value)
 
     }
 
+    //alarm group level
     const handleSoundTypeNoFilterChange = (event: React.MouseEvent<HTMLElement>) => {
         event.stopPropagation()
         if (!soundTypeNoFilter) {
@@ -766,18 +779,19 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
         }
     }
 
-    const handleSoundSongChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setSoundSong(event.target.value)
-    }
+    // const handleSoundSongChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    //     setSoundSong(event.target.value)
+    // }
 
-    const handleSoundPlaylistChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setSoundPlaylist(event.target.value)
-    }
+    // const handleSoundPlaylistChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    //     setSoundPlaylist(event.target.value)
+    // }
 
-    const handleSoundArtistChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setSoundArtist(event.target.value)
-    }
+    // const handleSoundArtistChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    //     setSoundArtist(event.target.value)
+    // }
 
+    //sound vol group level
     const handleSoundVolumeProfileChange = (event: React.MouseEvent<HTMLElement>) => {
         const target: HTMLInputElement = event.target as HTMLInputElement
         let value: string = target.value
@@ -785,15 +799,18 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
         setSoundVolumeProfile(valueTyped)
     }
 
+    //sound vol group level
     const handleSoundVolumeConstantChange = (event: Event, value: number | number[]) => {
         setSoundVolumeMax(value as number)
     }
 
+    //sound vol group level
     const handleSoundVolumeRampChange = (event: Event, value: number | number[]) => {
         const valueTyped = value as number[]
         setSoundVolumeRamp(valueTyped)
     }
 
+    //sound group level
     const handleCategorySoundSwitchClick = (event: React.ChangeEvent<HTMLInputElement>) => {
         event.stopPropagation()
         const checked: boolean = event.target.checked
@@ -801,6 +818,7 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
 
     }
 
+    //light group level
     const handleCategoryLightSwitchClick = (event: React.ChangeEvent<HTMLInputElement>) => {
         event.stopPropagation()
         const checked: boolean = event.target.checked
@@ -808,6 +826,7 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
 
     }
 
+    //vibration group level
     const handleCategoryVibrationSwitchClick = (event: React.ChangeEvent<HTMLInputElement>) => {
         event.stopPropagation()
         const checked: boolean = event.target.checked
@@ -815,18 +834,21 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
 
     }
 
+    //light group level
     const handleLightAdvanceMinutesSliderChange = (event: Event) => {
         const target: HTMLInputElement = event.target as HTMLInputElement
         const value: number = Number(target.value)
         setLightAdvanceMinutes(value)
     }
 
+    //light group level
     const handleLightColorChange = (event: React.MouseEvent<HTMLElement>) => {
         const target: HTMLInputElement = event.target as HTMLInputElement
         const value: number = Number(target.value)
         setLightColor(value)
     }
 
+    //light group level
     const handleLightBrightnessTypeChange = (event: React.MouseEvent<HTMLElement>) => {
         const target: HTMLInputElement = event.target as HTMLInputElement
         let value: string = target.value
@@ -834,32 +856,38 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
         setLightBrightnessType(valueTyped)
     }
 
+    //light group level
     const handleLightBrightnessChangeConstant = (event: Event, value: number | number[]) => {
         setLightBrightnessMax(value as number)
     }
 
+    //light group level
     const handleLightBrightnessChangeRamp = (event: Event, value: number | number[]) => {
         const values = value as number[]
         setLightBrightnessRamp(values as number[])
         setLightBrightnessMax(values[1] as number)
     }
 
+    //vibration group level
     const handleVibrationStartTimeChange = (event: Event) => {
         const target: HTMLInputElement = event.target as HTMLInputElement
         const value: number = Number(target.value)
         setVibrationStartTime(value)
     }
 
+    //vibration group level
     const handleVibrationTypeChange = (event: React.MouseEvent<HTMLInputElement>) => {
         const target: HTMLInputElement = event.target as HTMLInputElement
         const value: string = target.value
         setVibrationType(value)
     }
 
+    //vibration group level
     const handleVibrationChangeConstant = (event: Event, value: number | number[]) => {
         setVibrationEnd(value as number)
     }
 
+    //vibration group level
     const handleVibrationChangeRamp = (event: Event, value: number | number[]) => {
         const values = value as number[]
         setVibrationRamp(values as number[])
@@ -886,9 +914,9 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
                 handleSoundTypeChange: handleSoundTypeChange,
                 handleSoundSearchTyping: handleSoundSearchTyping,
                 handleSoundTypeNoFilterChange: handleSoundTypeNoFilterChange,
-                handleSoundSongChange: handleSoundSongChange,
-                handleSoundPlaylistChange: handleSoundPlaylistChange,
-                handleSoundArtistChange: handleSoundArtistChange,
+                // handleSoundSongChange: handleSoundSongChange,
+                // handleSoundPlaylistChange: handleSoundPlaylistChange,
+                // handleSoundArtistChange: handleSoundArtistChange,
                 handleSoundVolumeProfileChange: handleSoundVolumeProfileChange,
                 handleSoundVolumeConstantChange: handleSoundVolumeConstantChange,
                 handleSoundVolumeRampChange: handleSoundVolumeRampChange
@@ -1409,7 +1437,7 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
                     setters={setters}
                 />
 
-                <Box
+                {/* <Box
                     id='paper-alarms-list>'
                     sx={{
                         display: 'flex',
@@ -1433,7 +1461,7 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
                     >
                         {alarmComponents}
                     </Box>
-                </Box>
+                </Box> */}
             </Box>
 
 

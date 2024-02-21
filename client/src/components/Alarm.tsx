@@ -4,6 +4,11 @@ import { Accordion, AccordionDetails, AccordionSummary, Box, IconButton, Switch,
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { ExpandMore, SyncDisabled } from '@mui/icons-material'
 import ITrillliConfig from 'trillli/src/types/ITrillliConfig';
+import AlarmConfigCategoryOuter from './AlarmConfigCategoryOuter';
+import AlarmConfigGroups from './AlarmConfigGroups';
+import AlarmConfigGroupLight from './AlarmConfigGroupLight';
+import AlarmConfigGroupSound from './AlarmConfigGroupSound';
+import AlarmConfigGroupVibration from './AlarmConfigGroupVibration';
 
 
 interface AlarmProps {
@@ -27,7 +32,7 @@ const Alarm: React.FC<AlarmProps> = ({ alarm, appConfig, handlers, setters }) =>
         console.log('in no repeat use effect')
         if (noRepeat) {
             setRepeatDays(new Set<DayAbbrev>())
-        } 
+        }
     }, [noRepeat])
 
     React.useEffect(() => {
@@ -266,8 +271,17 @@ const Alarm: React.FC<AlarmProps> = ({ alarm, appConfig, handlers, setters }) =>
                 </Box>
 
             </AccordionSummary>
-            <AccordionDetails>
-
+            <AccordionDetails
+                className='alarm-config-categories-container'
+                sx={{
+                    padding: '0px',
+                    display: 'flex',
+                    flexDirection: 'column',
+                }}
+            >
+                <AlarmConfigGroupSound alarm={alarm} appConfig={appConfig} handlers={handlers} setters={setters} />
+                <AlarmConfigGroupLight alarm={alarm} appConfig={appConfig} handlers={handlers} setters={setters} />
+                <AlarmConfigGroupVibration alarm={alarm} appConfig={appConfig} handlers={handlers} setters={setters} />
             </AccordionDetails>
         </Accordion>
     )

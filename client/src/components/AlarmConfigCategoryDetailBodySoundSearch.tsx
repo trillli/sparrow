@@ -5,20 +5,23 @@ import { ToggleButtonGroup, ToggleButton, Slider, TextField, Box, Typography, Bu
 import SearchIcon from '@mui/icons-material/Search';
 import FilterListOffIcon from '@mui/icons-material/FilterListOff';
 import ITrillliConfig from 'trillli/src/types/ITrillliConfig';
+import { IAlarmMetadata } from './types/IAlarmMetadata';
+import { useAuth0 } from '@auth0/auth0-react';
+import { TrFetchConfig, TrFetchResult, trFetch } from 'trillli/src/components/TrApiClient';
 
 interface AlarmConfigCategoryDetailBodySoundSearchProps {
-    stateControl: IAlarmConfigCategoryDetailStateControl
+    alarm: IAlarmMetadata
     appConfig: ITrillliConfig
 }
 
-const AlarmConfigCategoryDetailBodySoundSearch: React.FC<AlarmConfigCategoryDetailBodySoundSearchProps> = ({ appConfig, ...stateControl}) => {
+const AlarmConfigCategoryDetailBodySoundSearch: React.FC<AlarmConfigCategoryDetailBodySoundSearchProps> = ({ alarm, appConfig}) => {
 
-    console.log('in search component. sound type:')
-    console.log(stateControl.vars.soundType)
-    console.log(Array.from(stateControl.vars.soundType))
+    // console.log('in search component. sound type:')
+    // console.log(stateControl.vars.soundType)
+    // console.log(Array.from(stateControl.vars.soundType))
 
-    const soundSearchResultsFormatted = {
-        songs: [
+    const soundSearchResultsFormattedTest = {
+        tracks: [
             {
                 name: 'Inner Cell',
                 album: 'Polygondawanaland',
@@ -76,6 +79,132 @@ const AlarmConfigCategoryDetailBodySoundSearch: React.FC<AlarmConfigCategoryDeta
         ]
     }
 
+    type SoundType = 'track' | 'album' | 'artist' | 'playlist'
+    const { user, isAuthenticated, getAccessTokenSilently } = useAuth0();
+    const [soundSearchValue, setSoundSearchValue] = React.useState<string>('')
+    const [soundSearchResults, setSoundSearchResults] = React.useState({
+        tracks: [],
+        albums: [],
+        artists: [],
+        playlists: []
+    })
+    const [soundType, setSoundType] = React.useState<SoundType[]>([])
+    const [soundTypeNoFilter, setSoundTypeNoFilter] = React.useState<boolean>(true)
+
+
+    React.useEffect(() => {
+        if (soundTypeNoFilter) {
+            setSoundType([])
+        }
+    }, [soundTypeNoFilter])
+
+    React.useEffect(() => {
+
+        let testset = new Set<SoundType>()
+        testset.add('artist')
+        testset.add('track')
+        console.log(testset)
+
+        const searchParams = {
+            queryString: soundSearchValue,
+            queryTypes: soundType
+        }
+
+        const getSoundSearchResults = async () => {
+            const accessToken = await getAccessTokenSilently();
+            const requestConfig: TrFetchConfig = {
+                accessToken: accessToken,
+                method: 'POST',
+                path: "/api/sound_search",
+                payload: JSON.stringify(searchParams)
+            }
+            const result: TrFetchResult = await trFetch(requestConfig);
+
+            const spotifySearchResults = result.ok?.data
+            const songs: any[] = spotifySearchResults.tracks?.items || []
+            const albums: any[] = spotifySearchResults.albums?.items || []
+            const artists: any[] = spotifySearchResults.artists?.items || []
+            const playlists: any[] = spotifySearchResults.playlists?.items || []
+
+            let soundSearchResultsFormatted = {
+                tracks: [] as any[],
+                albums: [] as any[],
+                artists: [] as any[],
+                playlists: [] as any[]
+            }
+
+            songs.forEach((song) => {
+                const songName: string = song.name
+                const songAlbum: string = song.album.name
+                const songArtists: any[] = song.artists
+                let songArtistNames: string[] = []
+                songArtists.forEach((songArtist) => {
+                    songArtistNames.push(songArtist.name)
+                })
+                const songPreviewUrl: string = song.preview_url
+                soundSearchResultsFormatted.tracks.push({
+                    name: songName,
+                    album: songAlbum,
+                    artist: songArtistNames,
+                    previewUrl: songPreviewUrl
+                })
+            })
+
+            albums.forEach((album) => {
+                const albumName: string = album.name
+                const albumArtists: any[] = album.artists
+                let albumArtistNames: string[] = []
+                albumArtists.forEach((albumArtist) => {
+                    albumArtistNames.push(albumArtist.name)
+                })
+                soundSearchResultsFormatted.albums.push({
+                    name: albumName,
+                    artist: albumArtistNames
+                })
+            })
+
+            artists.forEach((artist) => {
+                const artistName: string = artist.name
+                soundSearchResultsFormatted.artists.push({
+                    name: artistName
+                })
+            })
+
+            playlists.forEach((playlist) => {
+                const playlistName: string = playlist.name
+                const playlistAuthor: string = playlist.owner.display_name
+                soundSearchResultsFormatted.playlists.push({
+                    name: playlistName,
+                    author: playlistAuthor
+                })
+            })
+
+            setSoundSearchResults(soundSearchResultsFormatted)
+
+        }
+
+        getSoundSearchResults()
+
+    }, [soundSearchValue, soundType])
+
+
+    const handleSoundSearchTyping = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setSoundSearchValue(event.target.value)
+    }
+
+    const handleSoundTypeChange = (event: React.MouseEvent<HTMLElement>, value) => {
+        setSoundType(value)
+    }
+
+    const handleSoundTypeNoFilterChange = (event: React.MouseEvent<HTMLElement>) => {
+        event.stopPropagation()
+        if (!soundTypeNoFilter) {
+            setSoundTypeNoFilter(true)
+        }
+    }
+
+
+
     return (
         <>
             <Box className='alarm-config-category-detail-field-container'>
@@ -83,9 +212,9 @@ const AlarmConfigCategoryDetailBodySoundSearch: React.FC<AlarmConfigCategoryDeta
                                 variant='filled'
                                 placeholder='Search for music on Spotify!'
                                 type='search'
-                                value={stateControl.vars.soundSearchValue}
+                                value={soundSearchValue}
                                 multiline
-                                onChange={stateControl.handlers.handleSoundSearchTyping}
+                                onChange={handleSoundSearchTyping}
                                 InputProps={{
                                     endAdornment: <InputAdornment position="end">{<SearchIcon />}</InputAdornment>,
                                     disableUnderline: true,
@@ -115,10 +244,8 @@ const AlarmConfigCategoryDetailBodySoundSearch: React.FC<AlarmConfigCategoryDeta
                             >
                                 <ToggleButtonGroup 
                                     className='search-category-filters'
-                                    value={stateControl.vars.soundType}
-                                    // value={['track', 'artist']}
-                                    // exclusive={false}
-                                    onChange={stateControl.handlers.handleSoundTypeChange}
+                                    value={soundType}
+                                    onChange={handleSoundTypeChange}
                                     sx={{
                                         marginTop: '.5rem',
                                         display: 'flex',
@@ -143,8 +270,8 @@ const AlarmConfigCategoryDetailBodySoundSearch: React.FC<AlarmConfigCategoryDeta
                                     <ToggleButton value='playlist' className='alarm-day alarm-summary-day'>Playlist</ToggleButton>
                                     <ToggleButtonGroup
                                     className='soundCategoryNofilter'
-                                    value={stateControl.vars.soundTypeNoFilter}
-                                    onClick={stateControl.handlers.handleSoundTypeNoFilterChange}
+                                    value={soundTypeNoFilter}
+                                    onClick={handleSoundTypeNoFilterChange}
                                     sx={{
                                         height: 'fit-content',
                                         '& .MuiButtonBase-root': {
@@ -172,7 +299,7 @@ const AlarmConfigCategoryDetailBodySoundSearch: React.FC<AlarmConfigCategoryDeta
                 <Accordion >
                     <AccordionSummary >
                         Search Results
-                        <Button size='small' variant='contained'><Typography>stateControl.vars.soundSearchResultsExpandAll</Typography></Button>
+                        <Button size='small' variant='contained'><Typography>test</Typography></Button>
                     </AccordionSummary>
                     <AccordionDetails >
                         <Box>
@@ -186,7 +313,7 @@ const AlarmConfigCategoryDetailBodySoundSearch: React.FC<AlarmConfigCategoryDeta
                                             size='small'
                                         >
                                             <TableBody>
-                                                {soundSearchResultsFormatted.songs.map((row, index) => (
+                                                {soundSearchResults.tracks.map((row, index) => (
                                                     <TableRow key={index}>
                                                         <TableCell component='th' scope='row'>
                                                             <Box
@@ -233,7 +360,7 @@ const AlarmConfigCategoryDetailBodySoundSearch: React.FC<AlarmConfigCategoryDeta
                                             size='small'
                                         >
                                             <TableBody>
-                                                {soundSearchResultsFormatted.artists.map((row, index) => (
+                                                {soundSearchResults.artists.map((row, index) => (
                                                     <TableRow key={index}>
                                                         <TableCell component='th' scope='row'>
                                                             <Box
@@ -272,7 +399,7 @@ const AlarmConfigCategoryDetailBodySoundSearch: React.FC<AlarmConfigCategoryDeta
                                             size='small'
                                         >
                                             <TableBody>
-                                                {soundSearchResultsFormatted.albums.map((row, index) => (
+                                                {soundSearchResults.albums.map((row, index) => (
                                                     <TableRow key={index}>
                                                         <TableCell component='th' scope='row'>
                                                             <Box
@@ -319,7 +446,7 @@ const AlarmConfigCategoryDetailBodySoundSearch: React.FC<AlarmConfigCategoryDeta
                                             size='small'
                                         >
                                             <TableBody>
-                                                {soundSearchResultsFormatted.playlists.map((row, index) => (
+                                                {soundSearchResults.playlists.map((row, index) => (
                                                     <TableRow key={index}>
                                                         <TableCell component='th' scope='row'>
                                                             <Box

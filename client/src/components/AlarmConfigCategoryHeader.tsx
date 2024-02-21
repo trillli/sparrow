@@ -6,8 +6,14 @@ import VibrationIcon from '@mui/icons-material/Vibration';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 import { AlarmConfigSunriseProps } from './types/IAlarmConfigCategoryDetailStateControl';
 
+interface AlarmConfigCategoryHeaderProps {
+    groupLabel: string
+    icon: string
+    groupEnabled: boolean
+    toggleHandler: Function
+}
 
-const AlarmConfigCategoryHeader: React.FC<AlarmConfigSunriseProps> = ({ groupLabel, icon, stateControl }) => {
+const AlarmConfigCategoryHeader: React.FC<AlarmConfigSunriseProps> = ({ groupLabel, icon, groupEnabled, toggleHandler }) => {
 
 
     return (
@@ -75,7 +81,7 @@ const AlarmConfigCategoryHeader: React.FC<AlarmConfigSunriseProps> = ({ groupLab
                     
                 }}
             >
-                <Switch checked={stateControl.vars.categoryEnabled} onClick={stateControl.handlers.handleCategorySwitchClick} />
+                <Switch checked={groupEnabled} onClick={toggleHandler} />
             </Box>
         </AccordionSummary>
 
