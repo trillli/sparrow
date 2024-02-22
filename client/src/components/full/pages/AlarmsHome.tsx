@@ -192,7 +192,23 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
 
     //Paceholder: for const [alarms, setAalrms] = React.useState(), data type something like {[key: string]: AlarmMetadata}, AlarmMetadata should be a custom type with key=alarm name and then fields holding the alarm config
     // In fact, may make Alarm objet, with methods like getLightColor, getVibrationTiming, etc, so astract all the checks for undefined etc
-    let alarms: { [key: string]: IAlarmMetadata } = {
+    type IAlarmPageMetadata = {
+        timeFormat24Hr: boolean
+        sorting: {
+            type: 'time' | 'name'
+            asc: boolean
+        }
+        alarms: {
+            [key: string]: IAlarmMetadata
+        }
+    }
+    let alarmPageMetadata: IAlarmPageMetadata = {
+        timeFormat24Hr: true,
+        sorting: {
+            type: 'name',
+            asc: false
+        },
+        alarms: {
         alarm_1: {
             name: 'Work Morning',
             created: 1707533238,
@@ -215,7 +231,257 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
             },
             sound: {
                 source: 'spotify',
-                type: 'songg',
+                type: 'track',
+                title: 'Rattlesnake',
+                artist: 'King Gizzard and the Wizard Lizard',
+                volume: {
+                    start: 30,
+                    end: 100,
+                    ramp_seconds: '300'
+                }
+            },
+            vibration: {
+                timing: {
+                    advance_seconds: -300
+                }
+            },
+            timing: {
+                time: '7:00 AM',
+                format: 12,
+                days: {
+                    m: true,
+                    tu: true,
+                    w: true,
+                    th: true,
+                    f: true,
+                    sa: false,
+                    su: false
+                },
+            },
+        },
+        alarm_2: {
+            name: 'D&D Session',
+            created: 1707531008,
+            edited: [
+                1707539301,
+                1707540823,
+            ],
+            id: 45423563181,
+            shown: true,
+            light: {
+                color: 'orange',
+                timing: {
+                    advance_seconds: 900
+                },
+                luminosity: {
+                    start: 0,
+                    end: 75,
+                    profile: 'linear'
+                }
+            },
+            sound: {
+                source: 'spotify',
+                type: 'track',
+                title: 'Rattlesnake',
+                artist: 'King Gizzard and the Wizard Lizard',
+                volume: {
+                    start: 30,
+                    end: 100,
+                    ramp_seconds: '300'
+                }
+            },
+            vibration: {
+                timing: {
+                    advance_seconds: -300
+                }
+            },
+            timing: {
+                time: '7:00 AM',
+                format: 12,
+                days: {
+                    m: true,
+                    tu: true,
+                    w: true,
+                    th: true,
+                    f: true,
+                    sa: false,
+                    su: false
+                },
+            },
+        },
+        alarm_3: {
+            name: 'D&D Session',
+            created: 1707531008,
+            edited: [
+                1707539301,
+                1707540823,
+            ],
+            id: 45423563181,
+            shown: true,
+            light: {
+                color: 'orange',
+                timing: {
+                    advance_seconds: 900
+                },
+                luminosity: {
+                    start: 0,
+                    end: 75,
+                    profile: 'linear'
+                }
+            },
+            sound: {
+                source: 'spotify',
+                type: 'track',
+                title: 'Rattlesnake',
+                artist: 'King Gizzard and the Wizard Lizard',
+                volume: {
+                    start: 30,
+                    end: 100,
+                    ramp_seconds: '300'
+                }
+            },
+            vibration: {
+                timing: {
+                    advance_seconds: -300
+                }
+            },
+            timing: {
+                time: '7:00 AM',
+                format: 12,
+                days: {
+                    m: true,
+                    tu: true,
+                    w: true,
+                    th: true,
+                    f: true,
+                    sa: false,
+                    su: false
+                },
+            },
+        },
+        alarm_4: {
+            name: 'D&D Session',
+            created: 1707531008,
+            edited: [
+                1707539301,
+                1707540823,
+            ],
+            id: 45423563181,
+            shown: true,
+            light: {
+                color: 'orange',
+                timing: {
+                    advance_seconds: 900
+                },
+                luminosity: {
+                    start: 0,
+                    end: 75,
+                    profile: 'linear'
+                }
+            },
+            sound: {
+                source: 'spotify',
+                type: 'track',
+                title: 'Rattlesnake',
+                artist: 'King Gizzard and the Wizard Lizard',
+                volume: {
+                    start: 30,
+                    end: 100,
+                    ramp_seconds: '300'
+                }
+            },
+            vibration: {
+                timing: {
+                    advance_seconds: -300
+                }
+            },
+            timing: {
+                time: '7:00 AM',
+                format: 12,
+                days: {
+                    m: true,
+                    tu: true,
+                    w: true,
+                    th: true,
+                    f: true,
+                    sa: false,
+                    su: false
+                },
+            },
+        },
+        alarm_5: {
+            name: 'D&D Session',
+            created: 1707531008,
+            edited: [
+                1707539301,
+                1707540823,
+            ],
+            id: 45423563181,
+            shown: true,
+            light: {
+                color: 'orange',
+                timing: {
+                    advance_seconds: 900
+                },
+                luminosity: {
+                    start: 0,
+                    end: 75,
+                    profile: 'linear'
+                }
+            },
+            sound: {
+                source: 'spotify',
+                type: 'track',
+                title: 'Rattlesnake',
+                artist: 'King Gizzard and the Wizard Lizard',
+                volume: {
+                    start: 30,
+                    end: 100,
+                    ramp_seconds: '300'
+                }
+            },
+            vibration: {
+                timing: {
+                    advance_seconds: -300
+                }
+            },
+            timing: {
+                time: '7:00 AM',
+                format: 12,
+                days: {
+                    m: true,
+                    tu: true,
+                    w: true,
+                    th: true,
+                    f: true,
+                    sa: false,
+                    su: false
+                },
+            },
+        },
+        alarm_6: {
+            name: 'D&D Session',
+            created: 1707531008,
+            edited: [
+                1707539301,
+                1707540823,
+            ],
+            id: 45423563181,
+            shown: true,
+            light: {
+                color: 'orange',
+                timing: {
+                    advance_seconds: 900
+                },
+                luminosity: {
+                    start: 0,
+                    end: 75,
+                    profile: 'linear'
+                }
+            },
+            sound: {
+                source: 'spotify',
+                type: 'track',
                 title: 'Rattlesnake',
                 artist: 'King Gizzard and the Wizard Lizard',
                 volume: {
@@ -243,12 +509,13 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
                 },
             },
         }
+        }
     }
 
     let alarmsUnsorted: IAlarmMetadata[] = []
-    const allAlarmsKeys = Object.keys(alarms);
+    const allAlarmsKeys = Object.keys(alarmPageMetadata.alarms);
     allAlarmsKeys.forEach((alarmKey) => {
-        alarmsUnsorted.push(alarms[alarmKey])
+        alarmsUnsorted.push(alarmPageMetadata.alarms[alarmKey])
     })
 
     //----------------------------------------------------------------------------------------------
@@ -258,7 +525,7 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
     //STATE VARIALES, REFS, VARIABLES  ----------------------------------------------------------------------
     const { user, isAuthenticated, getAccessTokenSilently } = useAuth0();
 
-    const [alarmComponents, setAlarmComponents] = React.useState<React.ReactNode>(<></>)
+    const [alarmsSerialized, setAlarmsSerialized] = React.useState<String>(JSON.stringify(alarmPageMetadata.alarms))
 
     const [alarmsList, setAlarmsList] = React.useState<IAlarmMetadata[]>(alarmsUnsorted)
     const [alarmListSortAsc, setAlarmListSortAsc] = React.useState<boolean>(true)
@@ -268,9 +535,6 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
 
     
     const [alarmExpanded, setAlarmExpanded] = React.useState<boolean>(false) //alarm level
-    const [noRepeat, setNoRepeat] = React.useState<boolean>(true)//alarm level
-    type DayAbbrev = 'su' | 'm' | 'tu' | 'w' | 'th' | 'f' | 'sa'//alarm level
-    const [repeatDays, setRepeatDays] = React.useState<Set<DayAbbrev>>(new Set<DayAbbrev>())//alarm level
 
     const [alarmName, setAlarmName] = React.useState<string>();
     const [alarmNamePlaceholder, setAlarmNamePlaceholder] = React.useState<string>(() => {
@@ -285,40 +549,21 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
     const [alarmTimePickerFormatted, setAlarmTimePickerFormatted] = React.useState<Dayjs>()
 
     
-    // const [soundEnabled, setSoundEnabled] = React.useState<boolean>(false) //sound group level
-    // const [soundSource, setSoundSource] = React.useState<string>('spotify') //sound group level
-    // const [soundSearchValue, setSoundSearchValue] = React.useState<string>('') //sound group level
-    // type SoundType = 'track' | 'album' | 'artist' | 'playlist' //sound group level
-    // const [soundType, setSoundType] = React.useState<SoundType[]>([]) //sound group level
-    // const [soundTypeNoFilter, setSoundTypeNoFilter] = React.useState<boolean>(true) //sound group level
-    // const [soundSong, setSoundSong] = React.useState<string>('') //sound group level
-    // const [soundPlaylist, setSoundPlaylist] = React.useState<string>('') //sound group level
-    // const [soundArtist, setSoundArtist] = React.useState<string>('') //sound group level
-    // const [soundVolumeProfile, setSoundVolumeProfile] = React.useState<'constant' | 'ramp'>('constant') //sound group level
-    // const [soundVolumeMax, setSoundVolumeMax] = React.useState<number>(50) //sound group level
-    // const [soundVolumeConstant, setSoundVolumeConstant] = React.useState<number>(soundVolumeMax) //sound group level
-    // const [soundVolumeRamp, setSoundVolumeRamp] = React.useState<number[]>([0, soundVolumeMax]) //sound group level
 
-    // const [lightEnabled, setLightEnabled] = React.useState<boolean>(true)
-    // const [lightAdvanceMinutes, setLightAdvanceMinutes] = React.useState<number>(-15)
-    // const [lightColor, setLightColor] = React.useState<number>(60);
-    // const [lightBrightnessType, setLightBrightnessType] = React.useState<'constant' | 'ramp'>('constant')
-    // const [lightBrightnessMax, setLightBrightnessMax] = React.useState<number>(75)
-    // const [lightBrightnessConstant, setLightBrightnessConstant] = React.useState<number>(lightBrightnessMax)
-    // const [lightBrightnessRamp, setLightBrightnessRamp] = React.useState<number[]>([25, lightBrightnessMax])
-
-    // const [vibrationEnabled, setVibrationEnabled] = React.useState<boolean>(false)
-    // const [vibrationStartTime, setVibrationStartTime] = React.useState<number>(0)
-    // const [vibrationType, setVibrationType] = React.useState<'constant' | 'ramp'>('constant')
-    // const [vibrationEnd, setVibrationEnd] = React.useState<number>(75)
-    // const [vibrationConstant, setVibrationConstant] = React.useState<number>(vibrationEnd)
-    // const [vibrationRamp, setVibrationRamp] = React.useState<number[]>([0, vibrationEnd])
 
 
 
     //----------------------------------------------------------------------------------------------
     React.useEffect(() => {
-        // setVibrationConstant(99)
+        //MAKE API REQUEST TO GET ALARMPAGEMETADATA
+    }, [])
+    
+    React.useEffect(() => {
+        console.log('ALARMS SERIALIZED CHANGED; NEED TO PERSIST UPDATE TO DATABASE')
+    }, [alarmsSerialized])
+    
+    
+    React.useEffect(() => {
         setAlarmTimePickerFormatted(dayjs(alarmTime, 'HH:mm'))
     }, [alarmTime])
 
@@ -332,135 +577,6 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
         }
 
     }, [alarmsList, alarmListSortType, alarmListSortAsc, alarmsSearchValue])
-
-    // //Alarm level
-    // React.useEffect(() => {
-    //     if (noRepeat) {
-    //         setRepeatDays(new Set<DayAbbrev>())
-    //     } 
-    // }, [noRepeat])
-
-    // //Alarm level
-    // React.useEffect(() => {
-    //     if (repeatDays.size == 0) {
-    //         setNoRepeat(true)
-    //     } else {
-    //         setNoRepeat(false)
-    //     }
-    // }, [repeatDays])
-
-    // //sound group level
-    // React.useEffect(() => {
-    //     if (soundTypeNoFilter) {
-    //         setSoundType([])
-    //     }
-    // }, [soundTypeNoFilter])
-
-    //sound group level
-    // React.useEffect(() => {
-
-    //     // let testset = new Set<SoundType>()
-    //     // testset.add('artist')
-    //     // testset.add('track')
-    //     // console.log(testset)
-
-    //     const searchParams = {
-    //         queryString: soundSearchValue,
-    //         queryTypes: soundType
-    //     }
-
-    //     const getSoundSearchResults = async () => {
-    //         const accessToken = await getAccessTokenSilently();
-    //         const requestConfig: TrFetchConfig = {
-    //             accessToken: accessToken,
-    //             method: 'POST',
-    //             path: "/api/sound_search",
-    //             payload: JSON.stringify(searchParams)
-    //         }
-    //         const result: TrFetchResult = await trFetch(requestConfig);
-
-    //         const spotifySearchResults = result.ok?.data
-    //         const songs: any[] = spotifySearchResults.tracks?.items || []
-    //         const albums: any[] = spotifySearchResults.albums?.items || []
-    //         const artists: any[] = spotifySearchResults.artists?.items || []
-    //         const playlists: any[] = spotifySearchResults.playlists?.items || []
-
-    //         let soundSearchResultsFormatted = {
-    //             songs: [] as any[],
-    //             albums: [] as any[],
-    //             artists: [] as any[],
-    //             playlists: [] as any[]
-    //         }
-
-    //         songs.forEach((song) => {
-    //             const songName: string = song.name
-    //             const songAlbum: string = song.album.name
-    //             const songArtists: any[] = song.artists
-    //             let songArtistNames: string[] = []
-    //             songArtists.forEach((songArtist) => {
-    //                 songArtistNames.push(songArtist.name)
-    //             })
-    //             const songPreviewUrl: string = song.preview_url
-    //             soundSearchResultsFormatted.songs.push({
-    //                 name: songName,
-    //                 album: songAlbum,
-    //                 artist: songArtistNames,
-    //                 previewUrl: songPreviewUrl
-    //             })
-    //         })
-
-    //         albums.forEach((album) => {
-    //             const albumName: string = album.name
-    //             const albumArtists: any[] = album.artists
-    //             let albumArtistNames: string[] = []
-    //             albumArtists.forEach((albumArtist) => {
-    //                 albumArtistNames.push(albumArtist.name)
-    //             })
-    //             soundSearchResultsFormatted.albums.push({
-    //                 name: albumName,
-    //                 artist: albumArtistNames
-    //             })
-    //         })
-
-    //         artists.forEach((artist) => {
-    //             const artistName: string = artist.name
-    //             soundSearchResultsFormatted.artists.push({
-    //                 name: artistName
-    //             })
-    //         })
-
-    //         playlists.forEach((playlist) => {
-    //             const playlistName: string = playlist.name
-    //             const playlistAuthor: string = playlist.owner
-    //             soundSearchResultsFormatted.playlists.push({
-    //                 name: playlistName,
-    //                 author: playlistAuthor
-    //             })
-    //         })
-
-    //     }
-
-    //     // getSoundSearchResults()
-
-    // }, [soundSearchValue, soundType])
-
-    // //Sound group level
-    // React.useEffect(() => {
-    //     setSoundVolumeConstant(soundVolumeMax)
-    //     setSoundVolumeRamp([soundVolumeRamp[0], soundVolumeMax])
-    // }, [soundVolumeMax])
-
-    //Light group level
-    // React.useEffect(() => {
-    //     setLightBrightnessConstant(lightBrightnessMax)
-    //     setLightBrightnessRamp([lightBrightnessRamp[0], lightBrightnessMax])
-    // }, [lightBrightnessMax])
-
-    //Vibration group level
-    // React.useEffect(() => {
-    //     setVibrationConstant(vibrationEnd)
-    //     setVibrationRamp([vibrationRamp[0], vibrationEnd])
-    // }, [vibrationEnd])
 
     //----------------------------------------------------------------------------------------------
 
@@ -603,28 +719,6 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
         return `${formattedHours}:${formattedMinutes} ${period}`;
     }
 
-    function getEarlier24HrTime(times24Hr: [string, string]) {
-
-        // Split the time strings into hours and minutes
-        const [hours1, minutes1] = times24Hr[0].split(':').map(Number);
-        const [hours2, minutes2] = times24Hr[1].split(':').map(Number);
-
-        // Compare hours
-        if (hours1 < hours2) {
-            return -1; // time1 comes before time2
-        } else if (hours1 > hours2) {
-            return 1; // time1 comes after time2
-        } else {
-            // If hours are the same, compare minutes
-            if (minutes1 < minutes2) {
-                return -1; // time1 comes before time2
-            } else if (minutes1 > minutes2) {
-                return 1; // time1 comes after time2
-            } else {
-                return 0; // Both times are equal
-            }
-        }
-    }
     //----------------------------------------------------------------------------------------------
 
 
@@ -697,44 +791,10 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
         }
     }
 
-    // //alarm level
     const handleAlarmTimeOrNameClick = (event: React.MouseEvent<HTMLElement>) => {
         setTimePickerOpen(true)
         event.stopPropagation()
     }
-
-    // //alarm level
-    // const handleSummaryDayChange = (event: React.MouseEvent<HTMLElement>) => {
-
-    //     event.stopPropagation()
-    //     const target: HTMLInputElement = event.target as HTMLInputElement
-    //     const value: DayAbbrev = target.value as DayAbbrev
-
-    //     let repeatDaysUpdated = new Set(repeatDays)
-
-    //     if (repeatDays.has(value)) {
-    //         repeatDaysUpdated.delete(value)
-    //     } else {
-    //         repeatDaysUpdated.add(value)
-    //     }
-
-    //     setRepeatDays(repeatDaysUpdated)
-
-    // }
-
-    // //alarm level
-    // const handleSummaryDayNoRepeatChange = (event: React.MouseEvent<HTMLElement>) => {
-    //     event.stopPropagation()
-    //     if (!noRepeat) {
-    //         setNoRepeat(true)
-    //     }
-    // }
-
-    // //alarm level
-    // const handleToggleAlarmStatusClick = (event: React.MouseEvent<HTMLElement>) => {
-    //     event.stopPropagation()
-    // }
-
 
     const handleAlarmListSortDirectionClick = () => {
         setAlarmsListPendingSortOrFilter(true)
@@ -755,512 +815,16 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
         setAlarmsSearchValue(event.target.value)
     }
 
-    //alarm group level
-    // const handleSoundSourceChange = (event: React.MouseEvent<HTMLElement>) => {
-
-    // }
-
-    //alarm group level
-    // const handleSoundSearchTyping = (event: React.ChangeEvent<HTMLInputElement>) => {
-    //     setSoundSearchValue(event.target.value)
-    // }
-
-    //alarm group level
-    // const handleSoundTypeChange = (event: React.MouseEvent<HTMLElement>, value) => {
-    //     setSoundType(value)
-
-    // }
-
-    //alarm group level
-    // const handleSoundTypeNoFilterChange = (event: React.MouseEvent<HTMLElement>) => {
-    //     event.stopPropagation()
-    //     if (!soundTypeNoFilter) {
-    //         setSoundTypeNoFilter(true)
-    //     }
-    // }
-
-    // const handleSoundSongChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    //     setSoundSong(event.target.value)
-    // }
-
-    // const handleSoundPlaylistChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    //     setSoundPlaylist(event.target.value)
-    // }
-
-    // const handleSoundArtistChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    //     setSoundArtist(event.target.value)
-    // }
-
-    //sound vol group level
-    // const handleSoundVolumeProfileChange = (event: React.MouseEvent<HTMLElement>) => {
-    //     const target: HTMLInputElement = event.target as HTMLInputElement
-    //     let value: string = target.value
-    //     const valueTyped: 'constant' | 'ramp' = ((value == 'string' || value == 'ramp') ? value : 'constant') as 'constant' | 'ramp'
-    //     setSoundVolumeProfile(valueTyped)
-    // }
-
-    // //sound vol group level
-    // const handleSoundVolumeConstantChange = (event: Event, value: number | number[]) => {
-    //     setSoundVolumeMax(value as number)
-    // }
-
-    // //sound vol group level
-    // const handleSoundVolumeRampChange = (event: Event, value: number | number[]) => {
-    //     const valueTyped = value as number[]
-    //     setSoundVolumeRamp(valueTyped)
-    // }
-
-    //sound group level
-    // const handleCategorySoundSwitchClick = (event: React.ChangeEvent<HTMLInputElement>) => {
-    //     event.stopPropagation()
-    //     const checked: boolean = event.target.checked
-    //     setSoundEnabled(checked)
-
-    // }
-
-    //light group level
-    // const handleCategoryLightSwitchClick = (event: React.ChangeEvent<HTMLInputElement>) => {
-    //     event.stopPropagation()
-    //     const checked: boolean = event.target.checked
-    //     setLightEnabled(checked)
-
-    // }
-
-    //vibration group level
-    // const handleCategoryVibrationSwitchClick = (event: React.ChangeEvent<HTMLInputElement>) => {
-    //     event.stopPropagation()
-    //     const checked: boolean = event.target.checked
-    //     setVibrationEnabled(checked)
-
-    // }
-
-    //light group level
-    // const handleLightAdvanceMinutesSliderChange = (event: Event) => {
-    //     const target: HTMLInputElement = event.target as HTMLInputElement
-    //     const value: number = Number(target.value)
-    //     setLightAdvanceMinutes(value)
-    // }
-
-    //light group level
-    // const handleLightColorChange = (event: React.MouseEvent<HTMLElement>) => {
-    //     const target: HTMLInputElement = event.target as HTMLInputElement
-    //     const value: number = Number(target.value)
-    //     setLightColor(value)
-    // }
-
-    //light group level
-    // const handleLightBrightnessTypeChange = (event: React.MouseEvent<HTMLElement>) => {
-    //     const target: HTMLInputElement = event.target as HTMLInputElement
-    //     let value: string = target.value
-    //     const valueTyped: 'constant' | 'ramp' = ((value == 'string' || value == 'ramp') ? value : 'constant') as 'constant' | 'ramp'
-    //     setLightBrightnessType(valueTyped)
-    // }
-
-    // //light group level
-    // const handleLightBrightnessChangeConstant = (event: Event, value: number | number[]) => {
-    //     setLightBrightnessMax(value as number)
-    // }
-
-    // //light group level
-    // const handleLightBrightnessChangeRamp = (event: Event, value: number | number[]) => {
-    //     const values = value as number[]
-    //     setLightBrightnessRamp(values as number[])
-    //     setLightBrightnessMax(values[1] as number)
-    // }
-
-    //vibration group level
-    // const handleVibrationStartTimeChange = (event: Event) => {
-    //     const target: HTMLInputElement = event.target as HTMLInputElement
-    //     const value: number = Number(target.value)
-    //     setVibrationStartTime(value)
-    // }
-
-    // //vibration group level
-    // const handleVibrationTypeChange = (event: React.MouseEvent<HTMLInputElement>) => {
-    //     const target: HTMLInputElement = event.target as HTMLInputElement
-    //     const value: string = target.value
-    //     setVibrationType(value)
-    // }
-
-    // //vibration group level
-    // const handleVibrationChangeConstant = (event: Event, value: number | number[]) => {
-    //     setVibrationEnd(value as number)
-    // }
-
-    // //vibration group level
-    // const handleVibrationChangeRamp = (event: Event, value: number | number[]) => {
-    //     const values = value as number[]
-    //     setVibrationRamp(values as number[])
-    //     setVibrationEnd(values[1] as number)
-    // }
-
-    // const alarmConfigStateControl: IAlarmConfigStateControl = {
-    //     sound: {
-    //         vars: {
-    //             // categoryEnabled: soundEnabled,
-    //             // soundSource: soundSource,
-    //             // soundType: soundType,
-    //             // soundTypeNoFilter: soundTypeNoFilter,
-    //             // soundSong: soundSong,
-    //             // soundPlaylist: soundPlaylist,
-    //             // soundArtist: soundArtist,
-    //             // soundVolumeProfile: soundVolumeProfile,
-    //             // soundVolumeConstant: soundVolumeConstant,
-    //             // soundVolumeRamp: soundVolumeRamp
-    //         },
-    //         handlers: {
-    //             // handleCategorySwitchClick: handleCategorySoundSwitchClick,
-    //             // handleSoundSourceChange: handleSoundSourceChange,
-    //             // handleSoundTypeChange: handleSoundTypeChange,
-    //             // handleSoundSearchTyping: handleSoundSearchTyping,
-    //             // handleSoundTypeNoFilterChange: handleSoundTypeNoFilterChange,
-    //             // handleSoundSongChange: handleSoundSongChange,
-    //             // handleSoundPlaylistChange: handleSoundPlaylistChange,
-    //             // handleSoundArtistChange: handleSoundArtistChange,
-    //             // handleSoundVolumeProfileChange: handleSoundVolumeProfileChange,
-    //             // handleSoundVolumeConstantChange: handleSoundVolumeConstantChange,
-    //             // handleSoundVolumeRampChange: handleSoundVolumeRampChange
-    //         }
-    //     },
-    //     light: {
-    //         vars: {
-    //             // categoryEnabled: lightEnabled,
-    //             // lightAdvanceMinutes: lightAdvanceMinutes,
-    //             // lightColor: lightColor,
-    //             // lightBrightnessType: lightBrightnessType,
-    //             // lightBrightnessConstant: lightBrightnessConstant,
-    //             // lightBrightnessRamp: lightBrightnessRamp
-    //         },
-    //         handlers: {
-    //             // handleCategorySwitchClick: handleCategoryLightSwitchClick,
-    //             // handleLightAdvanceMinutesSliderChange: handleLightAdvanceMinutesSliderChange,
-    //             // handleLightColorChange: handleLightColorChange,
-    //             // handleLightBrightnessTypeChange: handleLightBrightnessTypeChange,
-    //             // handleLightBrightnessChangeConstant: handleLightBrightnessChangeConstant,
-    //             // handleLightBrightnessChangeRamp: handleLightBrightnessChangeRamp,
-    //         }
-    //     },
-    //     vibration: {
-    //         vars: {
-    //             // categoryEnabled: vibrationEnabled,
-    //             // lightColor: lightColor,
-    //             // vibrationStartTime,
-    //             // vibrationType: vibrationType,
-    //             // vibrationConstant: vibrationConstant,
-    //             // vibrationRamp: vibrationRamp,
-    //         },
-    //         handlers: {
-    //             // handleCategorySwitchClick: handleCategoryVibrationSwitchClick,
-    //             // handleVibrationStartTimeChange: handleVibrationStartTimeChange,
-    //             // handleVibrationChangeConstant: handleVibrationChangeConstant,
-    //             // handleVibrationChangeRamp: handleVibrationChangeRamp,
-    //             // handleVibrationTypeChange: handleVibrationTypeChange
-    //         }
-    //     }
-    // }
-
-    // const alarmConfigCategoryMetadata: IAlarmConfigCategoryMetadata = {
-    //     stateControl: alarmConfigStateControl,
-    //     appConfig: appConfig,
-    //     groups: {
-    //         sound: {
-    //             label: 'Music',
-    //             id: 'sound',
-    //             icon: 'music_note',
-    //             fieldNamesOrdered: ['search', 'volume'],
-    //             fields: {
-    //                 search: {
-    //                     label: 'Search for music on Spotify',
-    //                     id: 'type',
-    //                     showHeader: false,
-    //                     body: <AlarmConfigCategoryDetailBodySoundSearch {...alarmConfigStateControl.sound} />
-    //                 },
-    //                 volume: {
-    //                     label: 'Volume',
-    //                     id: 'volume',
-    //                     // showHeader: true,
-    //                     body: <AlarmConfigCategoryDetailBodySoundVolume {...alarmConfigStateControl.sound} />
-    //                 },
-    //             }
-    //         },
-    //         light: {
-    //             label: 'Sunlight',
-    //             id: 'light',
-    //             icon: 'wb_twilight',
-    //             fieldNamesOrdered: ['start_relative', 'color', 'brightness'],
-    //             fields: {
-    //                 start_relative: {
-    //                     label: 'Turn light on ' + (Math.abs(alarmConfigStateControl.light.vars.lightAdvanceMinutes)) + ' ' + (Math.abs(alarmConfigStateControl.light.vars.lightAdvanceMinutes) == 1 ? 'minute' : 'minutes') + ' ' + (alarmConfigStateControl.light.vars.lightAdvanceMinutes > 0 ? 'after' : 'before') + ' alarm time',
-    //                     id: 'start',
-    //                     showHeader: false,
-    //                     body: <AlarmConfigCategoryDetailBodyLightStart {...alarmConfigStateControl.light} />
-    //                 },
-    //                 color: {
-    //                     label: 'Color',
-    //                     id: 'color',
-    //                     showHeader: false,
-    //                     body: <AlarmConfigCategoryDetailBodyLightColor {...alarmConfigStateControl.light} />
-    //                 },
-    //                 brightness: {
-    //                     label: 'Brightness',
-    //                     id: 'brightness',
-    //                     showHeader: false,
-    //                     body: <AlarmConfigCategoryDetailBodyLightBrightness {...alarmConfigStateControl.light} />
-    //                 }
-    //             }
-    //         },
-    //         vibration: {
-    //             label: 'Vibration',
-    //             id: 'vibration',
-    //             icon: 'vibration',
-    //             fieldNamesOrdered: ['start_relative', 'intensity'],
-    //             fields: {
-    //                 start_relative: {
-    //                     label: 'Begin vibration ' + (Math.abs(alarmConfigStateControl.vibration.vars.vibrationStartTime)) + ' ' + (Math.abs(alarmConfigStateControl.vibration.vars.vibrationStartTime) == 1 ? 'minute' : 'minutes') + ' ' + (alarmConfigStateControl.vibration.vars.vibrationStartTime > 0 ? 'after' : 'before') + ' alarm time',
-    //                     id: 'start',
-    //                     showHeader: false,
-    //                     body: <AlarmConfigCategoryDetailBodyVibrationStart {...alarmConfigStateControl.vibration} />
-    //                 },
-    //                 intensity: {
-    //                     label: 'Intensity',
-    //                     id: 'intensity',
-    //                     showHeader: false,
-    //                     body: <AlarmConfigCategoryDetailBodyVibration {...alarmConfigStateControl.vibration} />
-    //                 }
-    //             }
-    //         }
-    //     }
-    // }
-
-
-    //----------------------------------------------------------------------------------------------
-
-    //COMPONENT GENERATION
-    // const generateAlarmComponents = () => {
-
-    //     //Loop over all alarms; for each one, generate their config components
-    //     let alarmComponentsList: React.ReactNode[] = []
-    //     alarmsList.forEach((alarmMetadata: IAlarmMetadata) => {
-
-    //         if (alarmMetadata.shown) {
-
-    //             //Get alarm metadata
-    //             // const alarmMetadata: IAlarmMetadata = alarms[alarmKey]
-    //             const alarmName = alarmMetadata.name
-
-    //             const alarmItemContent =
-    //                 <Accordion
-    //                     elevation={0}
-    //                     prop_alarm_name={alarmMetadata.name}
-    //                     prop_alarm_time={alarmMetadata.timing.time}
-    //                     key={alarmMetadata.id}
-    //                     className='alarm-container'
-    //                     onChange={handleAlarmExpand}
-    //                     sx={{
-    //                         overflow: 'hidden',
-    //                         // border: `2px solid #eebb50`,
-    //                         borderTop: 'none',
-    //                         background: 'linear-gradient(148deg, #ff9f4e, #fef751)',
-    //                         '&>.MuiCollapse-root': {
-    //                             background: '#FFFFFF57',
-    //                             // padding: '.5rem'
-    //                         }
-    //                     }}
-    //                 >
-    //                     <AccordionSummary
-    //                         className='alarm-header'
-    //                         sx={{
-    //                             padding: '0px',
-    //                             '& .MuiAccordionSummary-content': {
-    //                                 margin: '0px',
-    //                                 display: 'flex',
-    //                                 flexDirection: 'row',
-    //                                 flexWrap: 'wrap',
-    //                                 '&.Mui-expanded': {
-    //                                     marginTop: '0px',
-    //                                     marginBottom: '0px'
-    //                                 }
-    //                             }
-    //                         }}
-    //                     >
-
-
-
-    //                         <Box
-    //                             className='alarm-essentials'
-    //                             sx={{
-    //                                 width: '100%',
-    //                                 display: 'flex',
-    //                                 alignItems: 'center',
-    //                                 background: 'linear-gradient(148deg, #ff9f4e, #fef751)'
-    //                             }}
-    //                         >
-    //                             <Box
-    //                                 className='alarm-time-container'
-    //                                 alignItems='center'
-    //                                 sx={{
-    //                                     display: 'flex',
-    //                                     alignItems: 'center',
-    //                                     height: '100%',
-    //                                     padding: '0px .75rem',
-    //                                     borderRadius: '4px',
-    //                                     color: appConfig.theme.palette.secondary.contrastText,
-    //                                 }}
-    //                             >
-    //                                 <Typography
-    //                                     onClick={handleAlarmTimeOrNameClick}
-    //                                     sx={{
-    //                                         fontSize: '1.25rem',
-    //                                         fontWeight: 'bold'
-    //                                     }}
-    //                                 >
-    //                                     {alarmMetadata.timing.time}
-    //                                 </Typography>
-    //                             </Box>
-    //                             <Box
-    //                                 className='alarm-name-container'
-    //                                 sx={{
-    //                                     whiteSpace: 'pre-wrap',
-    //                                     wordBreak: 'break-word',
-    //                                     height: '100%',
-    //                                     display: 'flex',
-    //                                     alignItems: 'center',
-    //                                     flexGrow: '1',
-    //                                     borderRadius: '4px',
-    //                                     padding: '0px .75rem'
-    //                                 }}
-    //                             >
-    //                                 <Typography onClick={handleAlarmTimeOrNameClick}>{alarmMetadata.name}</Typography>
-    //                             </Box>
-    //                             <Box
-    //                                 className='alarm-status-container'
-    //                                 sx={{
-    //                                     marginRight: '-0px',
-    //                                     height: 'fit-content',
-    //                                 }}
-    //                             >
-    //                                 <Switch onClick={handleToggleAlarmStatusClick} />
-    //                             </Box>
-    //                         </Box>
-    //                         <Box
-    //                             className='alarm-summary'
-    //                             sx={{
-    //                                 transition: '.2s',
-    //                                 display: 'flex',
-    //                                 width: '100%',
-    //                                 background: '#FFFFFF57',
-    //                             }}
-    //                         >
-    //                             <Box
-    //                                 className='alarm-summary-timing'
-    //                                 sx={{
-    //                                     display: 'flex',
-    //                                     flexWrap: 'wrap',
-    //                                 }}
-    //                             >
-    //                                 <ToggleButtonGroup
-    //                                     className='alarm-summary-days'
-    //                                     value={Array.from(repeatDays)}
-    //                                     onChange={handleSummaryDayChange}
-    //                                     sx={{
-    //                                         display: 'flex',
-    //                                         flexWrap: 'wrap',
-    //                                         height: 'fit-content',
-    //                                         borderRadius: '0px',
-    //                                         '& .MuiButtonBase-root': {
-    //                                             border: 'none',
-    //                                             background: 'none',
-    //                                             padding: '0px',
-    //                                             height: '2rem',
-    //                                             width: '2.5rem',
-    //                                             borderRadius: '0px'
-    //                                         },
-    //                                         '&>.MuiButtonBase-root.Mui-selected': {
-    //                                             background: appConfig.theme.palette.shades.tertiary[8],
-    //                                             color: 'white',
-    //                                             fontWeight: 'bold',
-    //                                         }
-    //                                     }}
-    //                                 >
-    //                                     <ToggleButton value='su' className='alarm-day alarm-summary-day'>Su</ToggleButton>
-    //                                     <ToggleButton value='m' className='alarm-day alarm-summary-day'>M</ToggleButton>
-    //                                     <ToggleButton value='tu' className='alarm-day alarm-summary-day'>Tu</ToggleButton>
-    //                                     <ToggleButton value='w' className='alarm-day alarm-summary-day'>W</ToggleButton>
-    //                                     <ToggleButton value='th' className='alarm-day alarm-summary-day'>Th</ToggleButton>
-    //                                     <ToggleButton value='f' className='alarm-day alarm-summary-day'>F</ToggleButton>
-    //                                     <ToggleButton value='sa' className='alarm-day alarm-summary-day'>Sa</ToggleButton>
-    //                                     <ToggleButtonGroup
-    //                                         className='alarm-summary-no-repeat'
-    //                                         value={noRepeat}
-    //                                         onClick={handleSummaryDayNoRepeatChange}
-    //                                         sx={{
-    //                                             height: 'fit-content',
-    //                                             '& .MuiButtonBase-root': {
-    //                                                 borderLeft: 'none',
-    //                                                 background: 'none',
-    //                                                 padding: '0px',
-    //                                                 height: '2rem',
-    //                                                 width: '2.5rem',
-    //                                             },
-    //                                         }}
-    //                                     >
-    //                                         <ToggleButton
-    //                                             className='alarm-day alarm-summary-day'
-    //                                             value={true}
-    //                                         >
-    //                                             <SyncDisabled />
-    //                                         </ToggleButton>
-    //                                     </ToggleButtonGroup>
-    //                                 </ToggleButtonGroup>
-    //                             </Box>
-    //                             <Box
-    //                                 className='alarm-action-btns-container'
-    //                                 sx={{
-    //                                     marginLeft: 'auto',
-    //                                     marginRight: '6px',
-    //                                     display: 'flex'
-    //                                 }}
-    //                             >
-    //                                 <IconButton
-    //                                     sx={{
-    //                                         transition: 'rotate 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms',
-    //                                         rotate: alarmExpanded ? '180deg' : '0deg',
-    //                                         padding: '0px'
-    //                                     }}
-    //                                 >
-    //                                     <ExpandMoreIcon />
-    //                                 </IconButton>
-    //                             </Box>
-    //                         </Box>
-    //                     </AccordionSummary>
-    //                     <AccordionDetails
-    //                         className='alarm-config-categories-container'
-    //                         sx={{
-    //                             padding: '0px',
-    //                             display: 'flex',
-    //                             flexDirection: 'column',
-    //                         }}
-    //                     >
-    //                         <AlarmConfigCategoryOuter alarmConfigCategoryMetadata={alarmConfigCategoryMetadata} />
-    //                     </AccordionDetails>
-    //                 </Accordion>
-
-    //             alarmComponentsList.push(alarmItemContent)
-
-    //         }
-
-    //     })
-
-    //     return alarmComponentsList
-
-    // }
+    // const updateAlarmsObject = (key: string, alarm: IAlarmMetadata)
 
     const handlers = {
-        handleAlarmTimeOrNameClick: handleAlarmTimeOrNameClick
+        handleAlarmTimeOrNameClick: handleAlarmTimeOrNameClick,
+        // updateAlarmsObject: updateAlarmsObject
     }
 
     const setters = {
-        setTimePickerOpen: setTimePickerOpen
+        setTimePickerOpen: setTimePickerOpen,
+        setAlarmsSerialized: setAlarmsSerialized
     }
 
     //----------------------------------------------------------------------------------------------
@@ -1432,7 +996,7 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
 
                 <AlarmsList 
                     alarms={alarmsUnsorted} 
-                    appConfig={appConfig} 
+                    appConfig={appConfig}
                     handlers={handlers}
                     setters={setters}
                 />
