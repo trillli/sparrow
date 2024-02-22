@@ -14,9 +14,10 @@ interface AlarmConfigGroupLightProps {
     setters: { [key: string]: Function }
     lightColor: number
     onColorSliderChange: Function
+    onColorSliderChangeCommitted: Function
 }
 
-const AlarmConfigGroupLight: React.FC<AlarmConfigGroupLightProps> = ({alarm, appConfig, handlers, setters, lightColor, onColorSliderChange}) => {
+const AlarmConfigGroupLight: React.FC<AlarmConfigGroupLightProps> = ({alarm, appConfig, handlers, setters, lightColor, onColorSliderChange, onColorSliderChangeCommitted}) => {
 
     const [groupEnabled, setGroupEnabled] = React.useState<boolean>(true)
 
@@ -66,8 +67,8 @@ const AlarmConfigGroupLight: React.FC<AlarmConfigGroupLightProps> = ({alarm, app
                         rowGap: '2rem'
                     }}
                 >
-                    <AlarmConfigCategoryDetailBodyLightStart alarm={alarm} appConfig={appConfig} lightColor={lightColor} />
-                    <AlarmConfigCategoryDetailBodyLightColor alarm={alarm} appConfig={appConfig} lightColor={lightColor} onColorSliderChange={onColorSliderChange} />
+                    <AlarmConfigCategoryDetailBodyLightStart alarm={alarm} appConfig={appConfig} handlers={handlers} lightColor={lightColor} />
+                    <AlarmConfigCategoryDetailBodyLightColor alarm={alarm} appConfig={appConfig} lightColor={lightColor} onColorSliderChange={onColorSliderChange} onColorSliderChangeCommitted={onColorSliderChangeCommitted} />
                     <AlarmConfigCategoryDetailBodyLightBrightness alarm={alarm} appConfig={appConfig} />
                 </Box>
             </AccordionDetails>

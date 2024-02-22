@@ -12,9 +12,10 @@ interface AlarmConfigCategoryDetailBodyLightColorProps {
     appConfig: ITrillliConfig
     lightColor: number
     onColorSliderChange: Function
+    onColorSliderChangeCommitted: Function
 }
 
-const AlarmConfigCategoryDetailBodyLightColor: React.FC<AlarmConfigCategoryDetailBodyLightColorProps> = ({alarm, appConfig, lightColor, onColorSliderChange}) => {
+const AlarmConfigCategoryDetailBodyLightColor: React.FC<AlarmConfigCategoryDetailBodyLightColorProps> = ({alarm, appConfig, lightColor, onColorSliderChange, onColorSliderChangeCommitted}) => {
 
     // const [lightBrightnessType, setLightBrightnessType] = React.useState<'constant' | 'ramp'>('constant')
     // const [lightBrightnessMax, setLightBrightnessMax] = React.useState<number>(75)
@@ -33,7 +34,7 @@ const AlarmConfigCategoryDetailBodyLightColor: React.FC<AlarmConfigCategoryDetai
         <Box className='alarm-config-category-detail-field-container'>
         <AlarmConfigCategoryDetailHeader label={'Sunrise Light Color'} />
         <Box className='alarm-config-category-detail-field-contents-container'>
-        <TrSliderColorPicker lightHue={lightColor} onColorSliderChange={onColorSliderChange} />
+        <TrSliderColorPicker lightHue={lightColor} onChange={onColorSliderChange} onChangeCommitted={onColorSliderChangeCommitted} />
         </Box>
         </Box>
     )

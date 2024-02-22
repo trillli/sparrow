@@ -10,10 +10,11 @@ import { IAlarmMetadata } from './types/IAlarmMetadata'
 interface AlarmConfigCategoryDetailBodyLightStartProps {
     alarm: IAlarmMetadata
     appConfig: ITrillliConfig
+    handlers: { [key: string]: Function }
     lightColor: number
 }
 
-const AlarmConfigCategoryDetailBodyLightStart: React.FC<AlarmConfigCategoryDetailBodyLightStartProps> = ({alarm, appConfig, lightColor}) => {
+const AlarmConfigCategoryDetailBodyLightStart: React.FC<AlarmConfigCategoryDetailBodyLightStartProps> = ({alarm, appConfig, handlers, lightColor}) => {
 
     const theme = useTheme()
     const [lightAdvanceMinutes, setLightAdvanceMinutes] = React.useState<number>(-15)
@@ -22,6 +23,12 @@ const AlarmConfigCategoryDetailBodyLightStart: React.FC<AlarmConfigCategoryDetai
         const target: HTMLInputElement = event.target as HTMLInputElement
         const value: number = Number(target.value)
         setLightAdvanceMinutes(value)
+    }
+
+    const handleLightAdvanceMinutesSliderChangeCommitted = (event: React.MouseEvent<HTMLElement>) => {
+        // console.log(event.target.value)
+        alarm.light.timing['advance_minutes'] = lightAdvanceMinutes
+        handlers.updateAlarmsMetadata(alarm.id, alarm)
     }
 
     const fieldLabel = 'Turn light on ' + (Math.abs(lightAdvanceMinutes)) + ' ' + (Math.abs(lightAdvanceMinutes) == 1 ? 'minute' : 'minutes') + ' ' + (lightAdvanceMinutes > 0 ? 'after' : 'before') + ' alarm time'
@@ -37,6 +44,7 @@ const AlarmConfigCategoryDetailBodyLightStart: React.FC<AlarmConfigCategoryDetai
                 max={30}
                 marks={[{value: 0, label: 'Alarm Time'}]}
                 onChange={handleLightAdvanceMinutesSliderChange}
+                onChangeCommitted={handleLightAdvanceMinutesSliderChangeCommitted}
                 sx={{
                     '& .MuiSlider-mark': {
                         transform: 'translate(-50%, -50%)',

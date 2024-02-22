@@ -155,12 +155,6 @@ const AlarmConfigCategoryDetailBodySoundSearch: React.FC<AlarmConfigCategoryDeta
         }
     }
 
-
-
-
-    // console.log(!soundTypeNoFilter || !(soundType.includes('track')))
-    console.log(soundType.includes('track'))
-
     return (
         <>
             <Box className='alarm-config-category-detail-field-container'>

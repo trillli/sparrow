@@ -22,12 +22,18 @@ interface AlarmProps {
 
 const Alarm: React.FC<AlarmProps> = ({ alarm, appConfig, handlers, setters }) => {
 
+    const [alarmSerialized, setAlarmSerialized] = React.useState<string>(JSON.stringify(alarm))
     const [alarmExpanded, setAlarmExpanded] = React.useState<boolean>(false)
     const [alarmEnabled, setAlarmEnabled] = React.useState<boolean>(alarm.enabled || false)
-    const [noRepeat, setNoRepeat] = React.useState<boolean>(true)//alarm level
-    type DayAbbrev = 'su' | 'm' | 'tu' | 'w' | 'th' | 'f' | 'sa'//alarm level
-    const [repeatDays, setRepeatDays] = React.useState<Set<DayAbbrev>>(new Set<DayAbbrev>())//alarm level
-    const [lightColor, setLightColor] = React.useState<number>(60)
+    const [noRepeat, setNoRepeat] = React.useState<boolean>(alarm.timing.days.length == 0)
+    type DayAbbrev = 'su' | 'm' | 'tu' | 'w' | 'th' | 'f' | 'sa'
+    const [repeatDays, setRepeatDays] = React.useState<Set<DayAbbrev>>(new Set(alarm.timing.days))
+    const [lightColor, setLightColor] = React.useState<number>(alarm.light?.color.h)
+
+    React.useEffect(() => {
+        console.log('Updated alarmSerialized for alarm: ' + alarm.id)
+
+    }, [alarmSerialized])
 
     React.useEffect(() => {
         if (noRepeat) {
@@ -47,6 +53,11 @@ const Alarm: React.FC<AlarmProps> = ({ alarm, appConfig, handlers, setters }) =>
         const target: HTMLInputElement = event.target as HTMLInputElement
         const value: number = Number(target.value)
         setLightColor(value)
+    }
+
+    const onColorSliderChangeCommitted = (event: React.MouseEvent<HTMLElement>) => {
+        alarm.light.color.h = lightColor
+        handlers.updateAlarmsMetadata(alarm.id, alarm)
     }
 
     const handleAlarmExpand = (event: React.SyntheticEvent, expanded: boolean) => {
@@ -286,7 +297,7 @@ const Alarm: React.FC<AlarmProps> = ({ alarm, appConfig, handlers, setters }) =>
                 }}
             >
                 <AlarmConfigGroupSound alarm={alarm} appConfig={appConfig} handlers={handlers} setters={setters} />
-                <AlarmConfigGroupLight alarm={alarm} appConfig={appConfig} handlers={handlers} setters={setters} lightColor={lightColor} onColorSliderChange={onColorSliderChange} />
+                <AlarmConfigGroupLight alarm={alarm} appConfig={appConfig} handlers={handlers} setters={setters} lightColor={lightColor} onColorSliderChange={onColorSliderChange} onColorSliderChangeCommitted={onColorSliderChangeCommitted} />
                 <AlarmConfigGroupVibration alarm={alarm} appConfig={appConfig} handlers={handlers} setters={setters} lightColor={lightColor} />
             </AccordionDetails>
         </Accordion>

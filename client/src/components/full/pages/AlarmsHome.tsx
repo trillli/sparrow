@@ -1,52 +1,21 @@
 import * as React from 'react';
-import { AccordionActions, Box, Button, Container, Icon, IconButton, InputAdornment, Modal, Paper, Slider, Switch, TextField, 
-    ToggleButton, ToggleButtonGroup, Typography } from '@mui/material';
-import { trFetch, TrFetchConfig, TrFetchResult } from "trillli/src/components/TrApiClient";
+import {
+    Box, Button, IconButton, InputAdornment, Modal, TextField,
+    ToggleButton, ToggleButtonGroup, Typography
+} from '@mui/material';
 import AlarmsList from 'src/components/AlarmsList'
-import ConfigCategoryLabel from 'src/components/full/elements/ConfigCategoryLabel';
 import PageBuilder from 'src/components/PageBuilder';
 import SwapVertIcon from '@mui/icons-material/SwapVert';
 import AddAlarmIcon from '@mui/icons-material/AddAlarm';
-import DeleteIcon from '@mui/icons-material/Delete';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import FilterListIcon from '@mui/icons-material/FilterList';
-import VisibilityIcon from '@mui/icons-material/Visibility';
-import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
-import MusicNoteIcon from '@mui/icons-material/MusicNote';
-import WbTwilightIcon from '@mui/icons-material/WbTwilight';
-import VibrationIcon from '@mui/icons-material/Vibration';
 import SortIcon from '@mui/icons-material/Sort';
-import Accordion from '@mui/material/Accordion';
-import AccordionDetails from '@mui/material/AccordionDetails';
-import AccordionSummary from '@mui/material/AccordionSummary';
 import { IAlarmMetadata } from '../../types/IAlarmMetadata'
-import { DoNotDisturbAlt, Expand, Repeat, SyncDisabled, Visibility } from '@mui/icons-material';
 import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import dayjs, { Dayjs } from 'dayjs'
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { TimePicker } from '@mui/x-date-pickers/TimePicker';
-import { HexColorPicker } from "react-colorful";
-import AlarmConfigCategoryOuter from 'src/components/AlarmConfigCategoryOuter';
-import SliderColorPicker from 'trillli/src/components/SliderColorPicker'
-import { IAlarmCategoryGroupName, IAlarmConfigCategoryMetadata, IAlarmConfigComponentSkeleton, IAlarmConfigStateControl } from 'src/components/types/AlarmConfigComponentSkeletons';
-import AlarmConfigCategoryDetailBodyLightColor from 'src/components/AlarmConfigCategoryDetailBodyLightColor';
-import IAlarmConfigCategoryDetailStateControl from 'src/components/types/IAlarmConfigCategoryDetailStateControl';
-import AlarmConfigCategoryDetailBodyLightStart from 'src/components/AlarmConfigCategoryDetailBodyLightStart';
-import AlarmConfigCategoryDetailBodyLightBrightness from 'src/components/AlarmConfigCategoryDetailBodyLightBrightness';
-import AlarmConfigCategoryDetailBodyLightBrightnessProfile from 'src/components/AlarmConfigCategoryDetailBodyLightBrightness';
-import AlarmConfigCategoryDetailBodyLightProfile from 'src/components/AlarmConfigCategoryDetailBodyLightProfile';
-import AlarmConfigCategoryDetailBodyVibration from 'src/components/AlarmConfigCategoryDetailBodyVibration';
-import AlarmConfigCategoryDetailBodyVibrationStart from 'src/components/AlarmConfigCategoryDetailBodyVibrationStart';
-import AlarmConfigCategoryDetailSoundSource from 'src/components/AlarmConfigCategoryDetailSoundSource';
-import AlarmConfigCategoryDetailBodySoundSearch from 'src/components/AlarmConfigCategoryDetailBodySoundSearch';
-import AlarmConfigCategoryDetailBodySoundVolume from 'src/components/AlarmConfigCategoryDetailBodySoundVolume';
-import AppConfig from 'src/AppConfig';
 import ITrillliConfig from 'trillli/src/types/ITrillliConfig';
-import { TIME_VALIDATION_PROP_NAMES } from '@mui/x-date-pickers/internals/utils/validation/extractValidationProps';
-import { FieldChangeHandlerContext } from '@mui/x-date-pickers/internals';
 import { StaticTimePicker } from '@mui/x-date-pickers/StaticTimePicker';
-import { PickersActionBarProps } from '@mui/x-date-pickers';
 import Fade from '@mui/material/Fade';
 import { useAuth0 } from '@auth0/auth0-react';
 
@@ -192,7 +161,7 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
 
     //Paceholder: for const [alarms, setAalrms] = React.useState(), data type something like {[key: string]: AlarmMetadata}, AlarmMetadata should be a custom type with key=alarm name and then fields holding the alarm config
     // In fact, may make Alarm objet, with methods like getLightColor, getVibrationTiming, etc, so astract all the checks for undefined etc
-    type IAlarmPageMetadata = {
+    type IAlarmsPageMetadata = {
         timeFormat24Hr: boolean
         sorting: {
             type: 'time' | 'name'
@@ -202,320 +171,315 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
             [key: string]: IAlarmMetadata
         }
     }
-    let alarmPageMetadata: IAlarmPageMetadata = {
+    let alarmsPageMetadataTemp: IAlarmsPageMetadata = {
         timeFormat24Hr: true,
         sorting: {
             type: 'name',
             asc: false
         },
         alarms: {
-        alarm_1: {
-            name: 'Work Morning',
-            created: 1707533238,
-            edited: [
-                1707539001,
-                1707540123,
-            ],
-            id: 45423563181,
-            shown: true,
-            light: {
-                color: 'orange',
-                timing: {
-                    advance_seconds: 1800
+            45423563181: {
+                name: 'Work Morning',
+                created: 1707533238,
+                edited: [
+                    1707539001,
+                    1707540123,
+                ],
+                id: 45423563181,
+                shown: true,
+                light: {
+                    color: {
+                        h: 60,
+                        s: 100,
+                        l: 50
+                    },
+                    timing: {
+                        advance_seconds: 1800
+                    },
+                    luminosity: {
+                        start: 0,
+                        end: 100,
+                        profile: 'linear'
+                    }
                 },
-                luminosity: {
-                    start: 0,
-                    end: 100,
-                    profile: 'linear'
-                }
-            },
-            sound: {
-                source: 'spotify',
-                type: 'track',
-                title: 'Rattlesnake',
-                artist: 'King Gizzard and the Wizard Lizard',
-                volume: {
-                    start: 30,
-                    end: 100,
-                    ramp_seconds: '300'
-                }
-            },
-            vibration: {
+                sound: {
+                    source: 'spotify',
+                    type: 'track',
+                    title: 'Rattlesnake',
+                    artist: 'King Gizzard and the Wizard Lizard',
+                    volume: {
+                        start: 30,
+                        end: 100,
+                        ramp_seconds: '300'
+                    }
+                },
+                vibration: {
+                    timing: {
+                        advance_seconds: -300
+                    }
+                },
                 timing: {
-                    advance_seconds: -300
-                }
-            },
-            timing: {
-                time: '7:00 AM',
-                format: 12,
-                days: {
-                    m: true,
-                    tu: true,
-                    w: true,
-                    th: true,
-                    f: true,
-                    sa: false,
-                    su: false
+                    time: '7:00 AM',
+                    days: ['m', 'tu', 'w', 'th', 'f']
                 },
             },
-        },
-        alarm_2: {
-            name: 'D&D Session',
-            created: 1707531008,
-            edited: [
-                1707539301,
-                1707540823,
-            ],
-            id: 45423563181,
-            shown: true,
-            light: {
-                color: 'orange',
-                timing: {
-                    advance_seconds: 900
-                },
-                luminosity: {
-                    start: 0,
-                    end: 75,
-                    profile: 'linear'
-                }
-            },
-            sound: {
-                source: 'spotify',
-                type: 'track',
-                title: 'Rattlesnake',
-                artist: 'King Gizzard and the Wizard Lizard',
-                volume: {
-                    start: 30,
-                    end: 100,
-                    ramp_seconds: '300'
-                }
-            },
-            vibration: {
-                timing: {
-                    advance_seconds: -300
-                }
-            },
-            timing: {
-                time: '7:00 AM',
-                format: 12,
-                days: {
-                    m: true,
-                    tu: true,
-                    w: true,
-                    th: true,
-                    f: true,
-                    sa: false,
-                    su: false
-                },
-            },
-        },
-        alarm_3: {
-            name: 'D&D Session',
-            created: 1707531008,
-            edited: [
-                1707539301,
-                1707540823,
-            ],
-            id: 45423563181,
-            shown: true,
-            light: {
-                color: 'orange',
-                timing: {
-                    advance_seconds: 900
-                },
-                luminosity: {
-                    start: 0,
-                    end: 75,
-                    profile: 'linear'
-                }
-            },
-            sound: {
-                source: 'spotify',
-                type: 'track',
-                title: 'Rattlesnake',
-                artist: 'King Gizzard and the Wizard Lizard',
-                volume: {
-                    start: 30,
-                    end: 100,
-                    ramp_seconds: '300'
-                }
-            },
-            vibration: {
-                timing: {
-                    advance_seconds: -300
-                }
-            },
-            timing: {
-                time: '7:00 AM',
-                format: 12,
-                days: {
-                    m: true,
-                    tu: true,
-                    w: true,
-                    th: true,
-                    f: true,
-                    sa: false,
-                    su: false
-                },
-            },
-        },
-        alarm_4: {
-            name: 'D&D Session',
-            created: 1707531008,
-            edited: [
-                1707539301,
-                1707540823,
-            ],
-            id: 45423563181,
-            shown: true,
-            light: {
-                color: 'orange',
-                timing: {
-                    advance_seconds: 900
-                },
-                luminosity: {
-                    start: 0,
-                    end: 75,
-                    profile: 'linear'
-                }
-            },
-            sound: {
-                source: 'spotify',
-                type: 'track',
-                title: 'Rattlesnake',
-                artist: 'King Gizzard and the Wizard Lizard',
-                volume: {
-                    start: 30,
-                    end: 100,
-                    ramp_seconds: '300'
-                }
-            },
-            vibration: {
-                timing: {
-                    advance_seconds: -300
-                }
-            },
-            timing: {
-                time: '7:00 AM',
-                format: 12,
-                days: {
-                    m: true,
-                    tu: true,
-                    w: true,
-                    th: true,
-                    f: true,
-                    sa: false,
-                    su: false
-                },
-            },
-        },
-        alarm_5: {
-            name: 'D&D Session',
-            created: 1707531008,
-            edited: [
-                1707539301,
-                1707540823,
-            ],
-            id: 45423563181,
-            shown: true,
-            light: {
-                color: 'orange',
-                timing: {
-                    advance_seconds: 900
-                },
-                luminosity: {
-                    start: 0,
-                    end: 75,
-                    profile: 'linear'
-                }
-            },
-            sound: {
-                source: 'spotify',
-                type: 'track',
-                title: 'Rattlesnake',
-                artist: 'King Gizzard and the Wizard Lizard',
-                volume: {
-                    start: 30,
-                    end: 100,
-                    ramp_seconds: '300'
-                }
-            },
-            vibration: {
-                timing: {
-                    advance_seconds: -300
-                }
-            },
-            timing: {
-                time: '7:00 AM',
-                format: 12,
-                days: {
-                    m: true,
-                    tu: true,
-                    w: true,
-                    th: true,
-                    f: true,
-                    sa: false,
-                    su: false
-                },
-            },
-        },
-        alarm_6: {
-            name: 'D&D Session',
-            created: 1707531008,
-            edited: [
-                1707539301,
-                1707540823,
-            ],
-            id: 45423563181,
-            shown: true,
-            light: {
-                color: 'orange',
-                timing: {
-                    advance_seconds: 900
-                },
-                luminosity: {
-                    start: 0,
-                    end: 75,
-                    profile: 'linear'
-                }
-            },
-            sound: {
-                source: 'spotify',
-                type: 'track',
-                title: 'Rattlesnake',
-                artist: 'King Gizzard and the Wizard Lizard',
-                volume: {
-                    start: 30,
-                    end: 100,
-                    ramp_seconds: '300'
-                }
-            },
-            vibration: {
-                timing: {
-                    advance_seconds: -300
-                }
-            },
-            timing: {
-                time: '7:00 AM',
-                format: 12,
-                days: {
-                    m: true,
-                    tu: true,
-                    w: true,
-                    th: true,
-                    f: true,
-                    sa: false,
-                    su: false
-                },
-            },
-        }
+            // 45423563182: {
+            //     name: 'D&D Session',
+            //     created: 1707531008,
+            //     edited: [
+            //         1707539301,
+            //         1707540823,
+            //     ],
+            //     id: 45423563182,
+            //     shown: true,
+            //     light: {
+            //         color: 'orange',
+            //         timing: {
+            //             advance_seconds: 900
+            //         },
+            //         luminosity: {
+            //             start: 0,
+            //             end: 75,
+            //             profile: 'linear'
+            //         }
+            //     },
+            //     sound: {
+            //         source: 'spotify',
+            //         type: 'track',
+            //         title: 'Rattlesnake',
+            //         artist: 'King Gizzard and the Wizard Lizard',
+            //         volume: {
+            //             start: 30,
+            //             end: 100,
+            //             ramp_seconds: '300'
+            //         }
+            //     },
+            //     vibration: {
+            //         timing: {
+            //             advance_seconds: -300
+            //         }
+            //     },
+            //     timing: {
+            //         time: '7:00 AM',
+            //         format: 12,
+            //         days: {
+            //             m: true,
+            //             tu: true,
+            //             w: true,
+            //             th: true,
+            //             f: true,
+            //             sa: false,
+            //             su: false
+            //         },
+            //     },
+            // },
+            // 45423563183: {
+            //     name: 'D&D Session',
+            //     created: 1707531008,
+            //     edited: [
+            //         1707539301,
+            //         1707540823,
+            //     ],
+            //     id: 45423563183,
+            //     shown: true,
+            //     light: {
+            //         color: 'orange',
+            //         timing: {
+            //             advance_seconds: 900
+            //         },
+            //         luminosity: {
+            //             start: 0,
+            //             end: 75,
+            //             profile: 'linear'
+            //         }
+            //     },
+            //     sound: {
+            //         source: 'spotify',
+            //         type: 'track',
+            //         title: 'Rattlesnake',
+            //         artist: 'King Gizzard and the Wizard Lizard',
+            //         volume: {
+            //             start: 30,
+            //             end: 100,
+            //             ramp_seconds: '300'
+            //         }
+            //     },
+            //     vibration: {
+            //         timing: {
+            //             advance_seconds: -300
+            //         }
+            //     },
+            //     timing: {
+            //         time: '7:00 AM',
+            //         format: 12,
+            //         days: {
+            //             m: true,
+            //             tu: true,
+            //             w: true,
+            //             th: true,
+            //             f: true,
+            //             sa: false,
+            //             su: false
+            //         },
+            //     },
+            // },
+            // 45423563184: {
+            //     name: 'D&D Session',
+            //     created: 1707531008,
+            //     edited: [
+            //         1707539301,
+            //         1707540823,
+            //     ],
+            //     id: 45423563184,
+            //     shown: true,
+            //     light: {
+            //         color: 'orange',
+            //         timing: {
+            //             advance_seconds: 900
+            //         },
+            //         luminosity: {
+            //             start: 0,
+            //             end: 75,
+            //             profile: 'linear'
+            //         }
+            //     },
+            //     sound: {
+            //         source: 'spotify',
+            //         type: 'track',
+            //         title: 'Rattlesnake',
+            //         artist: 'King Gizzard and the Wizard Lizard',
+            //         volume: {
+            //             start: 30,
+            //             end: 100,
+            //             ramp_seconds: '300'
+            //         }
+            //     },
+            //     vibration: {
+            //         timing: {
+            //             advance_seconds: -300
+            //         }
+            //     },
+            //     timing: {
+            //         time: '7:00 AM',
+            //         format: 12,
+            //         days: {
+            //             m: true,
+            //             tu: true,
+            //             w: true,
+            //             th: true,
+            //             f: true,
+            //             sa: false,
+            //             su: false
+            //         },
+            //     },
+            // },
+            // 45423563185: {
+            //     name: 'D&D Session',
+            //     created: 1707531008,
+            //     edited: [
+            //         1707539301,
+            //         1707540823,
+            //     ],
+            //     id: 45423563185,
+            //     shown: true,
+            //     light: {
+            //         color: 'orange',
+            //         timing: {
+            //             advance_seconds: 900
+            //         },
+            //         luminosity: {
+            //             start: 0,
+            //             end: 75,
+            //             profile: 'linear'
+            //         }
+            //     },
+            //     sound: {
+            //         source: 'spotify',
+            //         type: 'track',
+            //         title: 'Rattlesnake',
+            //         artist: 'King Gizzard and the Wizard Lizard',
+            //         volume: {
+            //             start: 30,
+            //             end: 100,
+            //             ramp_seconds: '300'
+            //         }
+            //     },
+            //     vibration: {
+            //         timing: {
+            //             advance_seconds: -300
+            //         }
+            //     },
+            //     timing: {
+            //         time: '7:00 AM',
+            //         format: 12,
+            //         days: {
+            //             m: true,
+            //             tu: true,
+            //             w: true,
+            //             th: true,
+            //             f: true,
+            //             sa: false,
+            //             su: false
+            //         },
+            //     },
+            // },
+            // 45423563186: {
+            //     name: 'D&D Session',
+            //     created: 1707531008,
+            //     edited: [
+            //         1707539301,
+            //         1707540823,
+            //     ],
+            //     id: 45423563186,
+            //     shown: true,
+            //     light: {
+            //         color: 'orange',
+            //         timing: {
+            //             advance_seconds: 900
+            //         },
+            //         luminosity: {
+            //             start: 0,
+            //             end: 75,
+            //             profile: 'linear'
+            //         }
+            //     },
+            //     sound: {
+            //         source: 'spotify',
+            //         type: 'track',
+            //         title: 'Rattlesnake',
+            //         artist: 'King Gizzard and the Wizard Lizard',
+            //         volume: {
+            //             start: 30,
+            //             end: 100,
+            //             ramp_seconds: '300'
+            //         }
+            //     },
+            //     vibration: {
+            //         timing: {
+            //             advance_seconds: -300
+            //         }
+            //     },
+            //     timing: {
+            //         time: '7:00 AM',
+            //         format: 12,
+            //         days: {
+            //             m: true,
+            //             tu: true,
+            //             w: true,
+            //             th: true,
+            //             f: true,
+            //             sa: false,
+            //             su: false
+            //         },
+            //     },
+            // }
         }
     }
 
     let alarmsUnsorted: IAlarmMetadata[] = []
-    const allAlarmsKeys = Object.keys(alarmPageMetadata.alarms);
+    const allAlarmsKeys = Object.keys(alarmsPageMetadataTemp.alarms);
     allAlarmsKeys.forEach((alarmKey) => {
-        alarmsUnsorted.push(alarmPageMetadata.alarms[alarmKey])
+        alarmsUnsorted.push(alarmsPageMetadataTemp.alarms[alarmKey])
     })
 
     //----------------------------------------------------------------------------------------------
@@ -525,7 +489,8 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
     //STATE VARIALES, REFS, VARIABLES  ----------------------------------------------------------------------
     const { user, isAuthenticated, getAccessTokenSilently } = useAuth0();
 
-    const [alarmsSerialized, setAlarmsSerialized] = React.useState<String>(JSON.stringify(alarmPageMetadata.alarms))
+    const [alarmsPageMetadata, setAlarmsPageMetadata] = React.useState<IAlarmsPageMetadata>()
+    const [alarmsSerialized, setAlarmsSerialized] = React.useState<String>(JSON.stringify(alarmsPageMetadataTemp.alarms))
 
     const [alarmsList, setAlarmsList] = React.useState<IAlarmMetadata[]>(alarmsUnsorted)
     const [alarmListSortAsc, setAlarmListSortAsc] = React.useState<boolean>(true)
@@ -533,7 +498,7 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
     const [alarmsListPendingSortOrFilter, setAlarmsListPendingSortOrFilter] = React.useState<boolean>(true)
     const [alarmsSearchValue, setAlarmsSearchValue] = React.useState<string>('')
 
-    
+
     const [alarmExpanded, setAlarmExpanded] = React.useState<boolean>(false) //alarm level
 
     const [alarmName, setAlarmName] = React.useState<string>();
@@ -548,7 +513,7 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
     const [timeFormat24Hr, setTimeFormat24Hr] = React.useState<boolean>(false)
     const [alarmTimePickerFormatted, setAlarmTimePickerFormatted] = React.useState<Dayjs>()
 
-    
+
 
 
 
@@ -556,13 +521,19 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
     //----------------------------------------------------------------------------------------------
     React.useEffect(() => {
         //MAKE API REQUEST TO GET ALARMPAGEMETADATA
+        setAlarmsPageMetadata(alarmsPageMetadataTemp)
     }, [])
-    
+
+    React.useEffect(() => {
+        console.log('Updated alarms page metadata. it now is: ')
+        console.log(alarmsPageMetadata)
+    }, [alarmsPageMetadata])
+
     React.useEffect(() => {
         console.log('ALARMS SERIALIZED CHANGED; NEED TO PERSIST UPDATE TO DATABASE')
     }, [alarmsSerialized])
-    
-    
+
+
     React.useEffect(() => {
         setAlarmTimePickerFormatted(dayjs(alarmTime, 'HH:mm'))
     }, [alarmTime])
@@ -724,6 +695,15 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
 
 
     //EVENT HANDLERS
+    const updateAlarmsMetadata = (alarmId: number, alarmMetadata: IAlarmMetadata) => {
+        setAlarmsPageMetadata(prevState => {
+            if (prevState) {
+                const alarmsPageMetadataUpdated = { ...prevState.alarms, [alarmId]: alarmMetadata };
+                return { ...prevState, alarms: alarmsPageMetadataUpdated };
+            }
+        });
+    }
+
     const handleDeleteAlarm = (event: React.MouseEvent<HTMLElement>) => {
         event.stopPropagation()
         console.log('Handling delete alarm: Need to stop propagation and send delete request to server & rerender alarms list')
@@ -819,7 +799,7 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
 
     const handlers = {
         handleAlarmTimeOrNameClick: handleAlarmTimeOrNameClick,
-        // updateAlarmsObject: updateAlarmsObject
+        updateAlarmsMetadata: updateAlarmsMetadata
     }
 
     const setters = {
@@ -994,8 +974,8 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
                     </Box>
                 </Box>
 
-                <AlarmsList 
-                    alarms={alarmsUnsorted} 
+                <AlarmsList
+                    alarms={alarmsUnsorted}
                     appConfig={appConfig}
                     handlers={handlers}
                     setters={setters}
@@ -1037,123 +1017,123 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
                     background: '#000000cc'
                 }}
             >
-                <Fade 
+                <Fade
                     in={timePickerOpen}
                     timeout={100}
                 >
-                <Box 
-                    sx={{
-                        display: 'flex',
-                        flexDirection: 'column',
-                        rowGap: '3rem',
-                        position: 'absolute' as 'absolute',
-                        top: '50%',
-                        left: '50%',
-                        transform: 'translate(-50%, -50%)',
-                        background: appConfig.theme.palette.shades.primary[10],
-                        padding: '1rem 2rem 2rem 2rem',
-                        borderRadius: '4px'
-                    }}
-                    className='name-and-time-modal-contents'
-                >
+                    <Box
+                        sx={{
+                            display: 'flex',
+                            flexDirection: 'column',
+                            rowGap: '3rem',
+                            position: 'absolute' as 'absolute',
+                            top: '50%',
+                            left: '50%',
+                            transform: 'translate(-50%, -50%)',
+                            background: appConfig.theme.palette.shades.primary[10],
+                            padding: '1rem 2rem 2rem 2rem',
+                            borderRadius: '4px'
+                        }}
+                        className='name-and-time-modal-contents'
+                    >
 
-                <Box
-                    className='time-input-container'
-                >
-                    <LocalizationProvider dateAdapter={AdapterDayjs}>
-                        {/* TODO: Research LocalizationProvider - should wrap whole page? */}
-                        <DemoContainer components={['TimePicker']}>
-                            <StaticTimePicker
-                                ampm={!timeFormat24Hr}
-                                value={alarmTimePickerFormatted || dayjs('12:00', 'HH:mm')}
-                                onChange={testChange}
+                        <Box
+                            className='time-input-container'
+                        >
+                            <LocalizationProvider dateAdapter={AdapterDayjs}>
+                                {/* TODO: Research LocalizationProvider - should wrap whole page? */}
+                                <DemoContainer components={['TimePicker']}>
+                                    <StaticTimePicker
+                                        ampm={!timeFormat24Hr}
+                                        value={alarmTimePickerFormatted || dayjs('12:00', 'HH:mm')}
+                                        onChange={testChange}
 
-                                sx={{
-                                    background: 'none',
-                                    width: 'fit-content',
-                                    color: 'yellow',
-                                    '& span': {
-                                        color: appConfig.theme.palette.shades.tertiary[3],
-                                        '&.Mui-selected': {
-                                            color: appConfig.theme.palette.shades.tertiary[1],
-                                        }
-                                    },
-                                }}
-                                slotProps={{
-                                    actionBar: {
-                                        sx: {
-                                            display: 'none',
-                                            flexDirection: 'column-reverse',
-                                            rowGap: '1rem',
-                                            '& .MuiButtonBase-root': {
-                                                width: '100%',
-                                                border: `1px solid ${appConfig.theme.palette.shades.tertiary[1]}`,
-                                                margin: '0px',
-                                                padding: '.5rem',
-                                                fontSize: '1rem',
-                                                '&:last-child': {
-                                                    background: `${appConfig.theme.palette.shades.tertiary[3]}`
+                                        sx={{
+                                            background: 'none',
+                                            width: 'fit-content',
+                                            color: 'yellow',
+                                            '& span': {
+                                                color: appConfig.theme.palette.shades.tertiary[3],
+                                                '&.Mui-selected': {
+                                                    color: appConfig.theme.palette.shades.tertiary[1],
+                                                }
+                                            },
+                                        }}
+                                        slotProps={{
+                                            actionBar: {
+                                                sx: {
+                                                    display: 'none',
+                                                    flexDirection: 'column-reverse',
+                                                    rowGap: '1rem',
+                                                    '& .MuiButtonBase-root': {
+                                                        width: '100%',
+                                                        border: `1px solid ${appConfig.theme.palette.shades.tertiary[1]}`,
+                                                        margin: '0px',
+                                                        padding: '.5rem',
+                                                        fontSize: '1rem',
+                                                        '&:last-child': {
+                                                            background: `${appConfig.theme.palette.shades.tertiary[3]}`
+                                                        }
+                                                    }
+                                                }
+                                            },
+                                            toolbar: {
+
+                                                sx: {
+                                                    gridRow: '2 !important',    //sue me
+                                                    '&>.MuiTypography-root': {
+                                                        display: 'none'
+                                                    },
+                                                    '& .MuiPickersToolbar-content': {
+                                                        justifyContent: 'center'
+                                                    },
+                                                    '& .MuiTimePickerToolbar-ampmSelection': {
+                                                        marginRight: '0px'
+                                                    }
+                                                }
+                                            },
+                                            layout: {
+                                                sx: {
+                                                    '& .MuiPickersLayout-contentWrapper': {
+                                                        gridRow: '1 !important',    //see above
+                                                    },
                                                 }
                                             }
-                                        }
-                                    },
-                                    toolbar: {
+                                        }}
+                                    />
 
-                                        sx: {
-                                            gridRow: '2 !important',    //sue me
-                                            '&>.MuiTypography-root': {
-                                                display: 'none'
-                                            },
-                                            '& .MuiPickersToolbar-content': {
-                                                justifyContent: 'center'
-                                            },
-                                            '& .MuiTimePickerToolbar-ampmSelection': {
-                                                marginRight: '0px'
-                                            }
-                                        }
-                                    },
-                                    layout: {
-                                        sx: {
-                                            '& .MuiPickersLayout-contentWrapper': {
-                                                gridRow: '1 !important',    //see above
-                                            },
-                                        }
-                                    }
+                                </DemoContainer>
+                            </LocalizationProvider>
+                        </Box>
+                        <Box id='name-input-container'>
+                            <TextField
+                                variant='filled'
+                                label='Alarm Name'
+                                placeholder={alarmNamePlaceholder}
+                                value={alarmNamePending || ''}
+                                onChange={handleAlarmNameTyping}
+                                InputLabelProps={{
+                                    shrink: true
+                                }}
+                                sx={{
+                                    width: '100%',
+                                    color: 'white',
+                                    background: 'white'
                                 }}
                             />
-
-                        </DemoContainer>
-                    </LocalizationProvider>
-                </Box>
-                <Box id='name-input-container'>
-                    <TextField
-                        variant='filled'
-                        label='Alarm Name'
-                        placeholder={alarmNamePlaceholder}
-                        value={alarmNamePending || ''}
-                        onChange={handleAlarmNameTyping}
-                        InputLabelProps={{
-                            shrink: true
-                        }}
-                        sx={{
-                            width: '100%',
-                            color: 'white',
-                            background: 'white'
-                        }}
-                    />
-                </Box>
-                <Box
-                    className='btn-accept-alarm-time-and-name-container'
-                >
-                    <Button
-                        variant='contained'
-                        onClick={handleTimePickerChangeDoneClick}
-                        sx={{
-                            width: '100%'
-                        }}
-                    >Done</Button>
-                </Box>
-                </Box>
+                        </Box>
+                        <Box
+                            className='btn-accept-alarm-time-and-name-container'
+                        >
+                            <Button
+                                variant='contained'
+                                onClick={handleTimePickerChangeDoneClick}
+                                sx={{
+                                    width: '100%'
+                                }}
+                            >Done</Button>
+                        </Box>
+                    </Box>
                 </Fade>
             </Modal>
         </PageBuilder>
