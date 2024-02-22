@@ -10,40 +10,52 @@ import { IAlarmMetadata } from './types/IAlarmMetadata'
 interface AlarmConfigCategoryDetailBodySoundVolumeProps {
     alarm: IAlarmMetadata
     appConfig: ITrillliConfig
+    handlers: { [key: string]: Function }
 }
 
-const AlarmConfigCategoryDetailBodySoundVolume: React.FC<AlarmConfigCategoryDetailBodySoundVolumeProps> = ({ appConfig, alarm }) => {
+const AlarmConfigCategoryDetailBodySoundVolume: React.FC<AlarmConfigCategoryDetailBodySoundVolumeProps> = ({ appConfig, alarm, handlers }) => {
 
-    const [soundVolumeProfile, setSoundVolumeProfile] = React.useState<'constant' | 'ramp'>('constant') //sound group level
-    const [soundVolumeMax, setSoundVolumeMax] = React.useState<number>(50) //sound group level
-    const [soundVolumeConstant, setSoundVolumeConstant] = React.useState<number>(soundVolumeMax) //sound group level
-    const [soundVolumeRamp, setSoundVolumeRamp] = React.useState<number[]>([0, soundVolumeMax]) //sound group level
+    const [soundVolumeProfile, setSoundVolumeProfile] = React.useState<'constant' | 'ramp'>(alarm.sound.volume.profile)
+    const [soundVolumeMax, setSoundVolumeMax] = React.useState<number>(alarm.sound.volume.end)
+    const [soundVolumeConstant, setSoundVolumeConstant] = React.useState<number>(alarm.sound.volume.end) //sound group level
+    const [soundVolumeRamp, setSoundVolumeRamp] = React.useState<number[]>([0, alarm.sound.volume.end]) //sound group level
 
-    //Sound group level
     React.useEffect(() => {
         setSoundVolumeConstant(soundVolumeMax)
         setSoundVolumeRamp([soundVolumeRamp[0], soundVolumeMax])
     }, [soundVolumeMax])
 
+    React.useEffect(() => {
+        alarm.sound.volume.profile = soundVolumeProfile
+        handlers.updateAlarmsMetadata(alarm.id, alarm)
+    }, [soundVolumeProfile])
 
     const handleSoundVolumeProfileChange = (event: React.MouseEvent<HTMLElement>) => {
         const target: HTMLInputElement = event.target as HTMLInputElement
-        let value: string = target.value
-        const valueTyped: 'constant' | 'ramp' = ((value == 'string' || value == 'ramp') ? value : 'constant') as 'constant' | 'ramp'
-        setSoundVolumeProfile(valueTyped)
+        const value: 'constant' | 'ramp' = target.value as 'constant' | 'ramp'
+        setSoundVolumeProfile(value)
     }
 
-    //sound vol group level
     const handleSoundVolumeConstantChange = (event: Event, value: number | number[]) => {
         setSoundVolumeMax(value as number)
     }
 
-    //sound vol group level
     const handleSoundVolumeRampChange = (event: Event, value: number | number[]) => {
         const valueTyped = value as number[]
         setSoundVolumeRamp(valueTyped)
+        setSoundVolumeMax(valueTyped[1] as number)
     }
 
+    const handleSoundVolumeConstantChangeCommitted = (event: Event, value: number | number[]) => {
+        alarm.sound.volume.end = soundVolumeConstant
+        handlers.updateAlarmsMetadata(alarm.id, alarm)
+    }
+
+    const handleSoundVolumeRampChangeCommitted = (event: Event, value: number | number[]) => {
+        alarm.sound.volume.start = soundVolumeRamp[0]
+        alarm.sound.volume.end = soundVolumeRamp[1]
+        handlers.updateAlarmsMetadata(alarm.id, alarm)
+    }
 
     return (
         <>
@@ -86,6 +98,7 @@ const AlarmConfigCategoryDetailBodySoundVolume: React.FC<AlarmConfigCategoryDeta
                     min={0}
                     max={100}
                     onChange={handleSoundVolumeConstantChange}
+                    onChangeCommitted={handleSoundVolumeConstantChangeCommitted}
                 />
             ) : (
                 <TrSlider
@@ -93,6 +106,7 @@ const AlarmConfigCategoryDetailBodySoundVolume: React.FC<AlarmConfigCategoryDeta
                     min={0}
                     max={100}
                     onChange={handleSoundVolumeRampChange}
+                    onChangeCommitted={handleSoundVolumeRampChangeCommitted}
                     disableSwap
                 />
             )}

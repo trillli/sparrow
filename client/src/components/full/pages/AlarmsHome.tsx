@@ -194,12 +194,12 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
                         l: 50
                     },
                     timing: {
-                        advance_seconds: 1800
+                        advance_minutes: 1800
                     },
                     luminosity: {
                         start: 0,
                         end: 100,
-                        profile: 'linear'
+                        profile: 'ramp'
                     }
                 },
                 sound: {
@@ -208,14 +208,22 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
                     title: 'Rattlesnake',
                     artist: 'King Gizzard and the Wizard Lizard',
                     volume: {
+                        profile: 'ramp',
                         start: 30,
-                        end: 100,
-                        ramp_seconds: '300'
+                        end: 75,
+                        ramp_seconds: 300
                     }
                 },
                 vibration: {
+                    enabled: true,
                     timing: {
-                        advance_seconds: -300
+                        advance_minutes: 3
+                    },
+                    intensity: {
+                        profile: 'constant',
+                        start: 50,
+                        end: 75,
+                        ramp_seconds: 300
                     }
                 },
                 timing: {
@@ -223,256 +231,6 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
                     days: ['m', 'tu', 'w', 'th', 'f']
                 },
             },
-            // 45423563182: {
-            //     name: 'D&D Session',
-            //     created: 1707531008,
-            //     edited: [
-            //         1707539301,
-            //         1707540823,
-            //     ],
-            //     id: 45423563182,
-            //     shown: true,
-            //     light: {
-            //         color: 'orange',
-            //         timing: {
-            //             advance_seconds: 900
-            //         },
-            //         luminosity: {
-            //             start: 0,
-            //             end: 75,
-            //             profile: 'linear'
-            //         }
-            //     },
-            //     sound: {
-            //         source: 'spotify',
-            //         type: 'track',
-            //         title: 'Rattlesnake',
-            //         artist: 'King Gizzard and the Wizard Lizard',
-            //         volume: {
-            //             start: 30,
-            //             end: 100,
-            //             ramp_seconds: '300'
-            //         }
-            //     },
-            //     vibration: {
-            //         timing: {
-            //             advance_seconds: -300
-            //         }
-            //     },
-            //     timing: {
-            //         time: '7:00 AM',
-            //         format: 12,
-            //         days: {
-            //             m: true,
-            //             tu: true,
-            //             w: true,
-            //             th: true,
-            //             f: true,
-            //             sa: false,
-            //             su: false
-            //         },
-            //     },
-            // },
-            // 45423563183: {
-            //     name: 'D&D Session',
-            //     created: 1707531008,
-            //     edited: [
-            //         1707539301,
-            //         1707540823,
-            //     ],
-            //     id: 45423563183,
-            //     shown: true,
-            //     light: {
-            //         color: 'orange',
-            //         timing: {
-            //             advance_seconds: 900
-            //         },
-            //         luminosity: {
-            //             start: 0,
-            //             end: 75,
-            //             profile: 'linear'
-            //         }
-            //     },
-            //     sound: {
-            //         source: 'spotify',
-            //         type: 'track',
-            //         title: 'Rattlesnake',
-            //         artist: 'King Gizzard and the Wizard Lizard',
-            //         volume: {
-            //             start: 30,
-            //             end: 100,
-            //             ramp_seconds: '300'
-            //         }
-            //     },
-            //     vibration: {
-            //         timing: {
-            //             advance_seconds: -300
-            //         }
-            //     },
-            //     timing: {
-            //         time: '7:00 AM',
-            //         format: 12,
-            //         days: {
-            //             m: true,
-            //             tu: true,
-            //             w: true,
-            //             th: true,
-            //             f: true,
-            //             sa: false,
-            //             su: false
-            //         },
-            //     },
-            // },
-            // 45423563184: {
-            //     name: 'D&D Session',
-            //     created: 1707531008,
-            //     edited: [
-            //         1707539301,
-            //         1707540823,
-            //     ],
-            //     id: 45423563184,
-            //     shown: true,
-            //     light: {
-            //         color: 'orange',
-            //         timing: {
-            //             advance_seconds: 900
-            //         },
-            //         luminosity: {
-            //             start: 0,
-            //             end: 75,
-            //             profile: 'linear'
-            //         }
-            //     },
-            //     sound: {
-            //         source: 'spotify',
-            //         type: 'track',
-            //         title: 'Rattlesnake',
-            //         artist: 'King Gizzard and the Wizard Lizard',
-            //         volume: {
-            //             start: 30,
-            //             end: 100,
-            //             ramp_seconds: '300'
-            //         }
-            //     },
-            //     vibration: {
-            //         timing: {
-            //             advance_seconds: -300
-            //         }
-            //     },
-            //     timing: {
-            //         time: '7:00 AM',
-            //         format: 12,
-            //         days: {
-            //             m: true,
-            //             tu: true,
-            //             w: true,
-            //             th: true,
-            //             f: true,
-            //             sa: false,
-            //             su: false
-            //         },
-            //     },
-            // },
-            // 45423563185: {
-            //     name: 'D&D Session',
-            //     created: 1707531008,
-            //     edited: [
-            //         1707539301,
-            //         1707540823,
-            //     ],
-            //     id: 45423563185,
-            //     shown: true,
-            //     light: {
-            //         color: 'orange',
-            //         timing: {
-            //             advance_seconds: 900
-            //         },
-            //         luminosity: {
-            //             start: 0,
-            //             end: 75,
-            //             profile: 'linear'
-            //         }
-            //     },
-            //     sound: {
-            //         source: 'spotify',
-            //         type: 'track',
-            //         title: 'Rattlesnake',
-            //         artist: 'King Gizzard and the Wizard Lizard',
-            //         volume: {
-            //             start: 30,
-            //             end: 100,
-            //             ramp_seconds: '300'
-            //         }
-            //     },
-            //     vibration: {
-            //         timing: {
-            //             advance_seconds: -300
-            //         }
-            //     },
-            //     timing: {
-            //         time: '7:00 AM',
-            //         format: 12,
-            //         days: {
-            //             m: true,
-            //             tu: true,
-            //             w: true,
-            //             th: true,
-            //             f: true,
-            //             sa: false,
-            //             su: false
-            //         },
-            //     },
-            // },
-            // 45423563186: {
-            //     name: 'D&D Session',
-            //     created: 1707531008,
-            //     edited: [
-            //         1707539301,
-            //         1707540823,
-            //     ],
-            //     id: 45423563186,
-            //     shown: true,
-            //     light: {
-            //         color: 'orange',
-            //         timing: {
-            //             advance_seconds: 900
-            //         },
-            //         luminosity: {
-            //             start: 0,
-            //             end: 75,
-            //             profile: 'linear'
-            //         }
-            //     },
-            //     sound: {
-            //         source: 'spotify',
-            //         type: 'track',
-            //         title: 'Rattlesnake',
-            //         artist: 'King Gizzard and the Wizard Lizard',
-            //         volume: {
-            //             start: 30,
-            //             end: 100,
-            //             ramp_seconds: '300'
-            //         }
-            //     },
-            //     vibration: {
-            //         timing: {
-            //             advance_seconds: -300
-            //         }
-            //     },
-            //     timing: {
-            //         time: '7:00 AM',
-            //         format: 12,
-            //         days: {
-            //             m: true,
-            //             tu: true,
-            //             w: true,
-            //             th: true,
-            //             f: true,
-            //             sa: false,
-            //             su: false
-            //         },
-            //     },
-            // }
         }
     }
 
@@ -525,8 +283,12 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
     }, [])
 
     React.useEffect(() => {
-        console.log('Updated alarms page metadata. it now is: ')
-        console.log(alarmsPageMetadata)
+        if (alarmsPageMetadata) {
+            console.log('Updated alarms page metadata and ready to post/patch to api: ')
+            console.log(alarmsPageMetadata)
+            console.log(alarmsPageMetadata.alarms[45423563181].vibration.enabled)
+        }
+        
     }, [alarmsPageMetadata])
 
     React.useEffect(() => {

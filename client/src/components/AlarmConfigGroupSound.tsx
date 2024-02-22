@@ -20,6 +20,11 @@ const AlarmConfigGroupSound: React.FC<AlarmConfigGroupSoundProps> = ({ alarm, ap
 
     const [groupEnabled, setGroupEnabled] = React.useState<boolean>(true)
 
+    React.useEffect(() => {
+        alarm.sound.enabled = groupEnabled
+        handlers.updateAlarmsMetadata(alarm.id, alarm)
+    }, [groupEnabled])
+
     const handleGroupEnableToggle = (event: React.MouseEvent<HTMLElement>) => {
         event.stopPropagation()
         const checked: boolean = event.target.checked
@@ -66,8 +71,8 @@ const AlarmConfigGroupSound: React.FC<AlarmConfigGroupSoundProps> = ({ alarm, ap
                         rowGap: '2rem'
                     }}
                 >
-                    <AlarmConfigCategoryDetailBodySoundSearch alarm={alarm} appConfig={appConfig} />
-                    <AlarmConfigCategoryDetailBodySoundVolume alarm={alarm} appConfig={appConfig} />
+                    <AlarmConfigCategoryDetailBodySoundSearch alarm={alarm} appConfig={appConfig} handlers={handlers} />
+                    <AlarmConfigCategoryDetailBodySoundVolume alarm={alarm} appConfig={appConfig} handlers={handlers}/>
                 </Box>
             </AccordionDetails>
 

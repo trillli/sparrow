@@ -17,7 +17,7 @@ interface AlarmConfigCategoryDetailBodyLightStartProps {
 const AlarmConfigCategoryDetailBodyLightStart: React.FC<AlarmConfigCategoryDetailBodyLightStartProps> = ({alarm, appConfig, handlers, lightColor}) => {
 
     const theme = useTheme()
-    const [lightAdvanceMinutes, setLightAdvanceMinutes] = React.useState<number>(-15)
+    const [lightAdvanceMinutes, setLightAdvanceMinutes] = React.useState<number>(alarm.light.timing.advance_minutes)
 
     const handleLightAdvanceMinutesSliderChange = (event: Event) => {
         const target: HTMLInputElement = event.target as HTMLInputElement
@@ -26,12 +26,15 @@ const AlarmConfigCategoryDetailBodyLightStart: React.FC<AlarmConfigCategoryDetai
     }
 
     const handleLightAdvanceMinutesSliderChangeCommitted = (event: React.MouseEvent<HTMLElement>) => {
-        // console.log(event.target.value)
         alarm.light.timing['advance_minutes'] = lightAdvanceMinutes
         handlers.updateAlarmsMetadata(alarm.id, alarm)
     }
 
-    const fieldLabel = 'Turn light on ' + (Math.abs(lightAdvanceMinutes)) + ' ' + (Math.abs(lightAdvanceMinutes) == 1 ? 'minute' : 'minutes') + ' ' + (lightAdvanceMinutes > 0 ? 'after' : 'before') + ' alarm time'
+    let fieldLabel: string
+    if (lightAdvanceMinutes == 0) {
+        fieldLabel = 'Begin sunrise at alarm time'
+    } else {fieldLabel = 'Begin sunrise on ' + (Math.abs(lightAdvanceMinutes)) + ' ' + (Math.abs(lightAdvanceMinutes) == 1 ? 'minute' : 'minutes') + ' ' + (lightAdvanceMinutes > 0 ? 'after' : 'before') + ' alarm time'
+}
 
     return (<>
         <Box className='alarm-config-category-detail-field-container'>
@@ -49,11 +52,11 @@ const AlarmConfigCategoryDetailBodyLightStart: React.FC<AlarmConfigCategoryDetai
                     '& .MuiSlider-mark': {
                         transform: 'translate(-50%, -50%)',
                         height: '20px',
-                        width: '10px',
+                        width: '20px',
                         borderRadius: '999px',
                         opacity: 1,
                         background: `hsl(${lightColor}, 100%, 50%)`,
-                        boxShadow: '0px 0px 4px 4px #0000003d',
+                        boxShadow: `0px 0px 0px 6px hsl(${lightColor}, 100%, 50%, 58%)`,
                         color: 'blue'
                     },
                     '& .MuiSlider-markLabel': {

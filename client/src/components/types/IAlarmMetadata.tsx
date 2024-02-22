@@ -1,46 +1,48 @@
 export type IAlarmMetadata = {
     name: string
     created: number
-    edited?: number[],
+    edited: number[],
     id: number,
     enabled: boolean,
-    light?: {
+    light: {
+        enabled: boolean
         color: string
         timing: {
             advance_minutes: number
         }
-        luminosity?: {
-            start?: number
-            end?: number
-            profile?: string
+        luminosity: {
+            start: number
+            end: number
+            profile: 'constant' | 'ramp'
         }
     }
-    sound?: {
+    sound: {
+        enabled: boolean
         source: string
-        type: 'song' | 'album' | 'playlist'
+        type: 'track' | 'album' | 'artist' | 'playlist'
         title: string
         artist: string
-        volume?: {
-            start?: number
-            end?: number
-            ramp_seconds?: number
+        volume: {
+            profile: 'constant' | 'ramp'
+            start: number
+            end: number
+            ramp_seconds: number
         }
     },
-    vibration?: {
-        timing?: {
-            advance_seconds?: number
+    vibration: {
+        enabled: boolean
+        timing: {
+            advance_minutes: number
+        },
+        intensity: {
+            profile: 'constant' | 'ramp'
+            start: number,
+            end: number,
+            ramp_seconds: number
         }
     },
     timing: {
         time: string
-        days?: {
-            m?: boolean
-            tu?: boolean
-            w?: boolean
-            th?: boolean
-            f?: boolean
-            sa?: boolean
-            su?: boolean
-        }
+        days: []
     }
 }

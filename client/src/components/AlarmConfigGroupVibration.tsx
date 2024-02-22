@@ -18,6 +18,11 @@ const AlarmConfigGroupVibration: React.FC<AlarmConfigGroupVibrationProps> = ({al
 
     const [groupEnabled, setGroupEnabled] = React.useState<boolean>(true)
 
+    React.useEffect(() => {
+        alarm.vibration.enabled = groupEnabled
+        handlers.updateAlarmsMetadata(alarm.id, alarm)
+    }, [groupEnabled])
+
     const handleGroupEnableToggle = (event: React.MouseEvent<HTMLElement>) => {
         event.stopPropagation()
         const checked: boolean = event.target.checked
@@ -64,8 +69,8 @@ const AlarmConfigGroupVibration: React.FC<AlarmConfigGroupVibrationProps> = ({al
                         rowGap: '2rem'
                     }}
                 >
-                    <AlarmConfigCategoryDetailBodyVibrationStart alarm={alarm} appConfig={appConfig} lightColor={lightColor} />
-                    <AlarmConfigCategoryDetailBodyVibration alarm={alarm} appConfig={appConfig} />
+                    <AlarmConfigCategoryDetailBodyVibrationStart alarm={alarm} appConfig={appConfig} handlers={handlers} lightColor={lightColor} />
+                    <AlarmConfigCategoryDetailBodyVibration alarm={alarm} appConfig={appConfig} handlers={handlers} />
                 </Box>
             </AccordionDetails>
 

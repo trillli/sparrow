@@ -21,6 +21,11 @@ const AlarmConfigGroupLight: React.FC<AlarmConfigGroupLightProps> = ({alarm, app
 
     const [groupEnabled, setGroupEnabled] = React.useState<boolean>(true)
 
+    React.useEffect(() => {
+        alarm.light.enabled = groupEnabled
+        handlers.updateAlarmsMetadata(alarm.id, alarm)
+    }, [groupEnabled])
+
     const handleGroupEnableToggle = (event: React.MouseEvent<HTMLElement>) => {
         event.stopPropagation()
         const checked: boolean = event.target.checked
@@ -69,7 +74,7 @@ const AlarmConfigGroupLight: React.FC<AlarmConfigGroupLightProps> = ({alarm, app
                 >
                     <AlarmConfigCategoryDetailBodyLightStart alarm={alarm} appConfig={appConfig} handlers={handlers} lightColor={lightColor} />
                     <AlarmConfigCategoryDetailBodyLightColor alarm={alarm} appConfig={appConfig} lightColor={lightColor} onColorSliderChange={onColorSliderChange} onColorSliderChangeCommitted={onColorSliderChangeCommitted} />
-                    <AlarmConfigCategoryDetailBodyLightBrightness alarm={alarm} appConfig={appConfig} />
+                    <AlarmConfigCategoryDetailBodyLightBrightness alarm={alarm} appConfig={appConfig} handlers={handlers}/>
                 </Box>
             </AccordionDetails>
 

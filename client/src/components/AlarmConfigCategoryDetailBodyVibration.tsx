@@ -10,37 +10,51 @@ import { IAlarmMetadata } from './types/IAlarmMetadata'
 interface AlarmConfigCategoryDetailBodyVibrationProps {
     alarm: IAlarmMetadata
     appConfig: ITrillliConfig
+    handlers: { [key: string]: Function}
 }
 
-const AlarmConfigCategoryDetailBodyVibration: React.FC<AlarmConfigCategoryDetailBodyVibrationProps> = ({ alarm, appConfig }) => {
+const AlarmConfigCategoryDetailBodyVibration: React.FC<AlarmConfigCategoryDetailBodyVibrationProps> = ({ alarm, appConfig, handlers }) => {
 
-    const [vibrationType, setVibrationType] = React.useState<'constant' | 'ramp'>('constant')
-    const [vibrationEnd, setVibrationEnd] = React.useState<number>(75)
-    const [vibrationConstant, setVibrationConstant] = React.useState<number>(vibrationEnd)
-    const [vibrationRamp, setVibrationRamp] = React.useState<number[]>([0, vibrationEnd])
+    const [vibrationProfile, setVibrationProfile] = React.useState<'constant' | 'ramp'>(alarm.vibration.intensity.profile)
+    const [vibrationMax, setVibrationMax] = React.useState<number>(alarm.vibration.intensity.end)
+    const [vibrationConstant, setVibrationConstant] = React.useState<number>(alarm.vibration.intensity.end)
+    const [vibrationRamp, setVibrationRamp] = React.useState<number[]>([0, alarm.vibration.intensity.end])
 
     React.useEffect(() => {
-        setVibrationConstant(vibrationEnd)
-        setVibrationRamp([vibrationRamp[0], vibrationEnd])
-    }, [vibrationEnd])
+        setVibrationConstant(vibrationMax)
+        setVibrationRamp([vibrationRamp[0], vibrationMax])
+    }, [vibrationMax])
 
-    //vibration group level
-    const handleVibrationTypeChange = (event: React.MouseEvent<HTMLInputElement>) => {
+    React.useEffect(() => {
+        alarm.vibration.intensity.profile = vibrationProfile
+        handlers.updateAlarmsMetadata(alarm.id, alarm)
+    }, [vibrationProfile])
+
+    const handleVibrationProfileChange = (event: React.MouseEvent<HTMLInputElement>) => {
         const target: HTMLInputElement = event.target as HTMLInputElement
-        const value: string = target.value
-        setVibrationType(value)
+        const value: 'constant' | 'ramp' = target.value as 'constant' | 'ramp'
+        setVibrationProfile(value)
     }
 
-    //vibration group level
     const handleVibrationChangeConstant = (event: Event, value: number | number[]) => {
-        setVibrationEnd(value as number)
+        setVibrationMax(value as number)
     }
 
-    //vibration group level
     const handleVibrationChangeRamp = (event: Event, value: number | number[]) => {
         const values = value as number[]
         setVibrationRamp(values as number[])
-        setVibrationEnd(values[1] as number)
+        setVibrationMax(values[1] as number)
+    }
+
+    const handleVibrationConstantChangeCommitted = (event: Event, value: number | number[]) => {
+        alarm.light.luminosity.end = vibrationConstant
+        handlers.updateAlarmsMetadata(alarm.id, alarm)
+    }
+
+    const handleVibrationRampChangeCommitted = (event: Event, value: number | number[]) => {
+        alarm.light.luminosity.start = vibrationRamp[0]
+        alarm.light.luminosity.end = vibrationRamp[1]
+        handlers.updateAlarmsMetadata(alarm.id, alarm)
     }
 
 
@@ -51,9 +65,9 @@ const AlarmConfigCategoryDetailBodyVibration: React.FC<AlarmConfigCategoryDetail
                 <Box className='alarm-config-category-detail-field-contents-container'>
                     <ToggleButtonGroup
                         color="primary"
-                        value={vibrationType}
+                        value={vibrationProfile}
                         exclusive
-                        onChange={handleVibrationTypeChange}
+                        onChange={handleVibrationProfileChange}
                         sx={{
                             marginTop: '.5rem',
                             display: 'flex',
@@ -79,12 +93,13 @@ const AlarmConfigCategoryDetailBodyVibration: React.FC<AlarmConfigCategoryDetail
             </Box>
             <Box className='alarm-config-category-detail-field-container'>
                 <AlarmConfigCategoryDetailHeader label='Intensity' />
-                {vibrationType == 'constant' ? (
+                {vibrationProfile == 'constant' ? (
                     <TrSlider
                         value={vibrationConstant}
                         min={0}
                         max={100}
                         onChange={handleVibrationChangeConstant}
+                        onChangeCommitted={handleVibrationConstantChangeCommitted}
                     />
                 ) : (
                     <TrSlider
@@ -92,6 +107,7 @@ const AlarmConfigCategoryDetailBodyVibration: React.FC<AlarmConfigCategoryDetail
                         min={0}
                         max={100}
                         onChange={handleVibrationChangeRamp}
+                        onChangeCommitted={handleVibrationRampChangeCommitted}
                         valueLabelDisplay="auto"
                         disableSwap
                     />

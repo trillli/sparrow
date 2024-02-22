@@ -10,39 +10,52 @@ import { IAlarmMetadata } from './types/IAlarmMetadata'
 interface AlarmConfigCategoryDetailBodyLightBrightnessProps {
     alarm: IAlarmMetadata
     appConfig: ITrillliConfig
+    handlers: { [key: string]: Function }
 }
 
-const AlarmConfigCategoryDetailBodyBrightness: React.FC<AlarmConfigCategoryDetailBodyLightBrightnessProps> = ({appConfig, alarm}) => {
+const AlarmConfigCategoryDetailBodyBrightness: React.FC<AlarmConfigCategoryDetailBodyLightBrightnessProps> = ({appConfig, alarm, handlers}) => {
 
-    const [lightBrightnessType, setLightBrightnessType] = React.useState<'constant' | 'ramp'>('constant')
-    const [lightBrightnessMax, setLightBrightnessMax] = React.useState<number>(75)
-    const [lightBrightnessConstant, setLightBrightnessConstant] = React.useState<number>(lightBrightnessMax)
-    const [lightBrightnessRamp, setLightBrightnessRamp] = React.useState<number[]>([25, lightBrightnessMax])
+    const [lightBrightnessProfile, setLightBrightnessProfile] = React.useState<'constant' | 'ramp'>(alarm.light.luminosity.profile)
+    const [lightBrightnessMax, setLightBrightnessMax] = React.useState<number>(alarm.light.luminosity.end)
+    const [lightBrightnessConstant, setLightBrightnessConstant] = React.useState<number>(alarm.light.luminosity.end)
+    const [lightBrightnessRamp, setLightBrightnessRamp] = React.useState<number[]>([25, alarm.light.luminosity.end])
 
     React.useEffect(() => {
         setLightBrightnessConstant(lightBrightnessMax)
         setLightBrightnessRamp([lightBrightnessRamp[0], lightBrightnessMax])
     }, [lightBrightnessMax])
 
-    const handleLightBrightnessTypeChange = (event: React.MouseEvent<HTMLElement>) => {
+    React.useEffect(() => {
+        alarm.light.luminosity.profile = lightBrightnessProfile
+        handlers.updateAlarmsMetadata(alarm.id, alarm)
+    }, [lightBrightnessProfile])
+
+    const handleLightBrightnessProfileChange = (event: React.MouseEvent<HTMLElement>) => {
         const target: HTMLInputElement = event.target as HTMLInputElement
-        let value: string = target.value
-        const valueTyped: 'constant' | 'ramp' = ((value == 'string' || value == 'ramp') ? value : 'constant') as 'constant' | 'ramp'
-        setLightBrightnessType(valueTyped)
+        const value: 'constant' | 'ramp' = target.value as 'constant' | 'ramp'
+        setLightBrightnessProfile(value)
     }
 
-    //light group level
-    const handleLightBrightnessChangeConstant = (event: Event, value: number | number[]) => {
+    const handleLightBrightnessConstantChange = (event: Event, value: number | number[]) => {
         setLightBrightnessMax(value as number)
     }
 
-    //light group level
-    const handleLightBrightnessChangeRamp = (event: Event, value: number | number[]) => {
+    const handleLightBrightnessRampChange = (event: Event, value: number | number[]) => {
         const values = value as number[]
         setLightBrightnessRamp(values as number[])
         setLightBrightnessMax(values[1] as number)
     }
 
+    const handleLightBrightnessConstantChangeCommitted = (event: Event, value: number | number[]) => {
+        alarm.light.luminosity.end = lightBrightnessConstant
+        handlers.updateAlarmsMetadata(alarm.id, alarm)
+    }
+
+    const handleLightBrightnessRampChangeCommitted = (event: Event, value: number | number[]) => {
+        alarm.light.luminosity.start = lightBrightnessRamp[0]
+        alarm.light.luminosity.end = lightBrightnessRamp[1]
+        handlers.updateAlarmsMetadata(alarm.id, alarm)
+    }
 
     return (
         <>
@@ -54,9 +67,9 @@ const AlarmConfigCategoryDetailBodyBrightness: React.FC<AlarmConfigCategoryDetai
         {/* <Box sx={containerStyling} > */}
         <ToggleButtonGroup
                                 color="primary"
-                                value={lightBrightnessType}
+                                value={lightBrightnessProfile}
                                 exclusive
-                                onChange={handleLightBrightnessTypeChange}
+                                onChange={handleLightBrightnessProfileChange}
                                 sx={{
                                     marginTop: '.5rem',
                                     display: 'flex',
@@ -82,19 +95,21 @@ const AlarmConfigCategoryDetailBodyBrightness: React.FC<AlarmConfigCategoryDetai
         <Box className='alarm-config-category-detail-field-container'>
         <AlarmConfigCategoryDetailHeader label={'Brightness'} />
         <Box className='alarm-config-category-detail-field-contents-container'>
-        {lightBrightnessType == 'constant' ? (
+        {lightBrightnessProfile == 'constant' ? (
                                 <TrSlider
                                     value={lightBrightnessConstant}
                                     min={0}
                                     max={100}
-                                    onChange={handleLightBrightnessChangeConstant}
+                                    onChange={handleLightBrightnessConstantChange}
+                                    onChangeCommitted={handleLightBrightnessConstantChangeCommitted}
                                 />
                             ) : (
                                 <TrSlider
                                     value={lightBrightnessRamp}
                                     min={0}
                                     max={100}
-                                    onChange={handleLightBrightnessChangeRamp}
+                                    onChange={handleLightBrightnessRampChange}
+                                    onChangeCapture={handleLightBrightnessRampChangeCommitted}
                                     valueLabelDisplay="auto"
                                     disableSwap
                                 />
