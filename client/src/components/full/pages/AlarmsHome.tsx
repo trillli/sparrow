@@ -204,9 +204,11 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
                 },
                 sound: {
                     source: 'spotify',
-                    type: 'track',
+                    type: 'playlist',
                     title: 'Rattlesnake',
                     artist: 'King Gizzard and the Wizard Lizard',
+                    uri: 'https://abc/def',
+                    shuffle: true,
                     volume: {
                         profile: 'ramp',
                         start: 30,
@@ -285,8 +287,8 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
     React.useEffect(() => {
         if (alarmsPageMetadata) {
             console.log('Updated alarms page metadata and ready to post/patch to api: ')
-            console.log(alarmsPageMetadata)
-            console.log(alarmsPageMetadata.alarms[45423563181].vibration.enabled)
+            // console.log(alarmsPageMetadata)
+            // console.log(alarmsPageMetadata.alarms[45423563181].vibration.enabled)
         }
         
     }, [alarmsPageMetadata])

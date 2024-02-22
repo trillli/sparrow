@@ -42,11 +42,20 @@ const Alarm: React.FC<AlarmProps> = ({ alarm, appConfig, handlers, setters }) =>
     }, [noRepeat])
 
     React.useEffect(() => {
+        alarm.enabled = alarmEnabled
+        handlers.updateAlarmsMetadata(alarm.id, alarm)
+    }, [alarmEnabled])
+
+    React.useEffect(() => {
         if (repeatDays.size == 0) {
             setNoRepeat(true)
         } else {
             setNoRepeat(false)
         }
+
+        alarm.timing.days = repeatDays
+        handlers.updateAlarmsMetadata(alarm.id, alarm)
+
     }, [repeatDays])
 
     const onColorSliderChange = (event: React.MouseEvent<HTMLElement>) => {
