@@ -5,14 +5,43 @@ import { ToggleButtonGroup, ToggleButton, Slider, Box } from '@mui/material'
 import TrSlider from 'trillli/src/components/TrSlider'
 import AlarmConfigCategoryDetailHeader from './AlarmConfigCategoryDetailHeader'
 import ITrillliConfig from 'trillli/src/types/ITrillliConfig'
+import { IAlarmMetadata } from './types/IAlarmMetadata'
 
 interface AlarmConfigCategoryDetailBodyVibrationProps {
-    stateControl: IAlarmConfigCategoryDetailStateControl
+    alarm: IAlarmMetadata
     appConfig: ITrillliConfig
 }
 
-const AlarmConfigCategoryDetailBodyVibration: React.FC<AlarmConfigCategoryDetailBodyVibrationProps> = ({ appConfig, ...stateControl }) => {
+const AlarmConfigCategoryDetailBodyVibration: React.FC<AlarmConfigCategoryDetailBodyVibrationProps> = ({ alarm, appConfig }) => {
 
+    const [vibrationType, setVibrationType] = React.useState<'constant' | 'ramp'>('constant')
+    const [vibrationEnd, setVibrationEnd] = React.useState<number>(75)
+    const [vibrationConstant, setVibrationConstant] = React.useState<number>(vibrationEnd)
+    const [vibrationRamp, setVibrationRamp] = React.useState<number[]>([0, vibrationEnd])
+
+    React.useEffect(() => {
+        setVibrationConstant(vibrationEnd)
+        setVibrationRamp([vibrationRamp[0], vibrationEnd])
+    }, [vibrationEnd])
+
+    //vibration group level
+    const handleVibrationTypeChange = (event: React.MouseEvent<HTMLInputElement>) => {
+        const target: HTMLInputElement = event.target as HTMLInputElement
+        const value: string = target.value
+        setVibrationType(value)
+    }
+
+    //vibration group level
+    const handleVibrationChangeConstant = (event: Event, value: number | number[]) => {
+        setVibrationEnd(value as number)
+    }
+
+    //vibration group level
+    const handleVibrationChangeRamp = (event: Event, value: number | number[]) => {
+        const values = value as number[]
+        setVibrationRamp(values as number[])
+        setVibrationEnd(values[1] as number)
+    }
 
 
     return (
@@ -22,9 +51,9 @@ const AlarmConfigCategoryDetailBodyVibration: React.FC<AlarmConfigCategoryDetail
                 <Box className='alarm-config-category-detail-field-contents-container'>
                     <ToggleButtonGroup
                         color="primary"
-                        value={stateControl.vars.vibrationType}
+                        value={vibrationType}
                         exclusive
-                        onChange={stateControl.handlers.handleVibrationTypeChange}
+                        onChange={handleVibrationTypeChange}
                         sx={{
                             marginTop: '.5rem',
                             display: 'flex',
@@ -47,27 +76,27 @@ const AlarmConfigCategoryDetailBodyVibration: React.FC<AlarmConfigCategoryDetail
                         <ToggleButton value="ramp">Ramp</ToggleButton>
                     </ToggleButtonGroup>
                 </Box>
-                </Box>
-                <Box className='alarm-config-category-detail-field-container'>
-                    <AlarmConfigCategoryDetailHeader label='Intensity' />
-                    {stateControl.vars.vibrationType == 'constant' ? (
-                        <TrSlider
-                            value={stateControl.vars.vibrationConstant}
-                            min={0}
-                            max={100}
-                            onChange={stateControl.handlers.handleVibrationChangeConstant}
-                        />
-                    ) : (
-                        <TrSlider
-                            value={stateControl.vars.vibrationRamp}
-                            min={0}
-                            max={100}
-                            onChange={stateControl.handlers.handleVibrationChangeRamp}
-                            valueLabelDisplay="auto"
-                            disableSwap
-                        />
-                    )}
-                </Box>
+            </Box>
+            <Box className='alarm-config-category-detail-field-container'>
+                <AlarmConfigCategoryDetailHeader label='Intensity' />
+                {vibrationType == 'constant' ? (
+                    <TrSlider
+                        value={vibrationConstant}
+                        min={0}
+                        max={100}
+                        onChange={handleVibrationChangeConstant}
+                    />
+                ) : (
+                    <TrSlider
+                        value={vibrationRamp}
+                        min={0}
+                        max={100}
+                        onChange={handleVibrationChangeRamp}
+                        valueLabelDisplay="auto"
+                        disableSwap
+                    />
+                )}
+            </Box>
         </>
     )
 

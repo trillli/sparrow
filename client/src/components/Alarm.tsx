@@ -27,9 +27,9 @@ const Alarm: React.FC<AlarmProps> = ({ alarm, appConfig, handlers, setters }) =>
     const [noRepeat, setNoRepeat] = React.useState<boolean>(true)//alarm level
     type DayAbbrev = 'su' | 'm' | 'tu' | 'w' | 'th' | 'f' | 'sa'//alarm level
     const [repeatDays, setRepeatDays] = React.useState<Set<DayAbbrev>>(new Set<DayAbbrev>())//alarm level
+    const [lightColor, setLightColor] = React.useState<number>(60)
 
     React.useEffect(() => {
-        // console.log('in no repeat use effect')
         if (noRepeat) {
             setRepeatDays(new Set<DayAbbrev>())
         }
@@ -42,6 +42,12 @@ const Alarm: React.FC<AlarmProps> = ({ alarm, appConfig, handlers, setters }) =>
             setNoRepeat(false)
         }
     }, [repeatDays])
+
+    const onColorSliderChange = (event: React.MouseEvent<HTMLElement>) => {
+        const target: HTMLInputElement = event.target as HTMLInputElement
+        const value: number = Number(target.value)
+        setLightColor(value)
+    }
 
     const handleAlarmExpand = (event: React.SyntheticEvent, expanded: boolean) => {
         setAlarmExpanded(!alarmExpanded)
@@ -280,8 +286,8 @@ const Alarm: React.FC<AlarmProps> = ({ alarm, appConfig, handlers, setters }) =>
                 }}
             >
                 <AlarmConfigGroupSound alarm={alarm} appConfig={appConfig} handlers={handlers} setters={setters} />
-                <AlarmConfigGroupLight alarm={alarm} appConfig={appConfig} handlers={handlers} setters={setters} />
-                <AlarmConfigGroupVibration alarm={alarm} appConfig={appConfig} handlers={handlers} setters={setters} />
+                <AlarmConfigGroupLight alarm={alarm} appConfig={appConfig} handlers={handlers} setters={setters} lightColor={lightColor} onColorSliderChange={onColorSliderChange} />
+                <AlarmConfigGroupVibration alarm={alarm} appConfig={appConfig} handlers={handlers} setters={setters} lightColor={lightColor} />
             </AccordionDetails>
         </Accordion>
     )

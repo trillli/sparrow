@@ -10,10 +10,11 @@ interface AlarmsListProps {
     appConfig: ITrillliConfig
     handlers: {[key: string]: Function}
     setters: {[key: string]: Function}
+    lightColor: string
     arg5?: any
 }
 
-const AlarmsList: React.FC<AlarmsListProps> = ({alarms, appConfig, handlers, setters}) => {
+const AlarmsList: React.FC<AlarmsListProps> = ({alarms, appConfig, handlers, setters, lightColor}) => {
 
     return (
         <Box

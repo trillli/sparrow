@@ -7,6 +7,7 @@ import AlarmConfigCategoryHeader from './AlarmConfigCategoryHeader'
 import AlarmConfigCategoryDetailOuter from './AlarmConfigCategoryDetailOuter'
 import AlarmConfigCategoryDetailHeader from './AlarmConfigCategoryDetailHeader'
 import AlarmConfigCategoryDetailBodySoundSearch from './AlarmConfigCategoryDetailBodySoundSearch'
+import AlarmConfigCategoryDetailBodySoundVolume from './AlarmConfigCategoryDetailBodySoundVolume'
 
 interface AlarmConfigGroupSoundProps {
     alarm: IAlarmMetadata
@@ -15,9 +16,7 @@ interface AlarmConfigGroupSoundProps {
     setters: { [key: string]: Function }
 }
 
-const AlarmConfigGroupSound: React.FC<AlarmConfigGroupSoundProps> = ({alarm, appConfig, handlers, setters}) => {
-
-    const fieldNamesOrdered = ['search', 'volume']
+const AlarmConfigGroupSound: React.FC<AlarmConfigGroupSoundProps> = ({ alarm, appConfig, handlers, setters }) => {
 
     const [groupEnabled, setGroupEnabled] = React.useState<boolean>(true)
 
@@ -28,55 +27,51 @@ const AlarmConfigGroupSound: React.FC<AlarmConfigGroupSoundProps> = ({alarm, app
     }
 
     return (
-        <Accordion 
-        key={alarm.id} 
-        id={`alarm_config_group_sound_${alarm.id}`}
-        className='alarm-config-category-container'
-        elevation={0}
-        square={true}
-        sx={{
-            display: 'flex',
-            flexDirection: 'column',
-            borderRadius: '0px',
-            background: 'none',
-            '& .MuiAccordionSummary-content': {
-                margin: '0px'
-            },
-            '&::before': {
-                display: 'none'
-            }
-        }}
-    >
-        <AlarmConfigCategoryHeader 
-            groupLabel='Music'
-            icon='music_note'
-            groupEnabled={groupEnabled}
-            toggleHandler={handleGroupEnableToggle}
-        />
-        {/* <AlarmConfigCategoryBody 
-            appConfig={alarmConfigCategoryMetadata.appConfig}
-            groupMetadata={alarmConfigCategoryMetadata.groups[key]} 
-            stateControl={alarmConfigCategoryMetadata.stateControl[key]} /> */}
-                <AccordionDetails className='alarm-config-container'
+        <Accordion
+            key={alarm.id}
+            id={`alarm_config_group_sound_${alarm.id}`}
+            className='alarm-config-category-container'
+            elevation={0}
+            square={true}
             sx={{
-                background: '#FFFFFF57',
-                padding: '1.25rem 1rem',
+                display: 'flex',
+                flexDirection: 'column',
+                borderRadius: '0px',
+                background: 'none',
+                '& .MuiAccordionSummary-content': {
+                    margin: '0px'
+                },
+                '&::before': {
+                    display: 'none'
+                }
             }}
-        >    
-            <Box className='configuration-details-container'
+        >
+            <AlarmConfigCategoryHeader
+                groupLabel='Music'
+                icon='music_note'
+                groupEnabled={groupEnabled}
+                toggleHandler={handleGroupEnableToggle}
+            />
+
+            <AccordionDetails className='alarm-config-container'
                 sx={{
-                    display: 'flex',
-                    flexDirection: 'column',
-                    rowGap: '2rem'
+                    background: '#FFFFFF57',
+                    padding: '1.25rem 1rem',
                 }}
             >
-                {/* <AlarmConfigCategoryDetailHeader label={detailMetadata.label} stateControl={stateControl} /> */}
-                <AlarmConfigCategoryDetailBodySoundSearch alarm={alarm} appConfig={appConfig} />
+                <Box className='configuration-details-container'
+                    sx={{
+                        display: 'flex',
+                        flexDirection: 'column',
+                        rowGap: '2rem'
+                    }}
+                >
+                    <AlarmConfigCategoryDetailBodySoundSearch alarm={alarm} appConfig={appConfig} />
+                    <AlarmConfigCategoryDetailBodySoundVolume alarm={alarm} appConfig={appConfig} />
+                </Box>
+            </AccordionDetails>
 
-            </Box>
-        </AccordionDetails>
-        
-    </Accordion>
+        </Accordion>
     )
 
 }

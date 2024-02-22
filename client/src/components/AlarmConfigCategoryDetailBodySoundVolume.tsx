@@ -5,14 +5,44 @@ import { ToggleButtonGroup, ToggleButton, Slider, Box, Typography } from '@mui/m
 import TrSlider from 'trillli/src/components/TrSlider'
 import AlarmConfigCategoryDetailHeader from './AlarmConfigCategoryDetailHeader'
 import ITrillliConfig from 'trillli/src/types/ITrillliConfig'
+import { IAlarmMetadata } from './types/IAlarmMetadata'
 
 interface AlarmConfigCategoryDetailBodySoundVolumeProps {
-    stateControl: IAlarmConfigCategoryDetailStateControl
+    alarm: IAlarmMetadata
     appConfig: ITrillliConfig
 }
 
-const AlarmConfigCategoryDetailBodySoundVolume: React.FC<AlarmConfigCategoryDetailBodySoundVolumeProps> = ({ appConfig, ...stateControl }) => {
+const AlarmConfigCategoryDetailBodySoundVolume: React.FC<AlarmConfigCategoryDetailBodySoundVolumeProps> = ({ appConfig, alarm }) => {
 
+    const [soundVolumeProfile, setSoundVolumeProfile] = React.useState<'constant' | 'ramp'>('constant') //sound group level
+    const [soundVolumeMax, setSoundVolumeMax] = React.useState<number>(50) //sound group level
+    const [soundVolumeConstant, setSoundVolumeConstant] = React.useState<number>(soundVolumeMax) //sound group level
+    const [soundVolumeRamp, setSoundVolumeRamp] = React.useState<number[]>([0, soundVolumeMax]) //sound group level
+
+    //Sound group level
+    React.useEffect(() => {
+        setSoundVolumeConstant(soundVolumeMax)
+        setSoundVolumeRamp([soundVolumeRamp[0], soundVolumeMax])
+    }, [soundVolumeMax])
+
+
+    const handleSoundVolumeProfileChange = (event: React.MouseEvent<HTMLElement>) => {
+        const target: HTMLInputElement = event.target as HTMLInputElement
+        let value: string = target.value
+        const valueTyped: 'constant' | 'ramp' = ((value == 'string' || value == 'ramp') ? value : 'constant') as 'constant' | 'ramp'
+        setSoundVolumeProfile(valueTyped)
+    }
+
+    //sound vol group level
+    const handleSoundVolumeConstantChange = (event: Event, value: number | number[]) => {
+        setSoundVolumeMax(value as number)
+    }
+
+    //sound vol group level
+    const handleSoundVolumeRampChange = (event: Event, value: number | number[]) => {
+        const valueTyped = value as number[]
+        setSoundVolumeRamp(valueTyped)
+    }
 
 
     return (
@@ -22,9 +52,9 @@ const AlarmConfigCategoryDetailBodySoundVolume: React.FC<AlarmConfigCategoryDeta
                 <Box className='alarm-config-category-detail-field-contents-container'>
                     <ToggleButtonGroup
                         color="primary"
-                        value={stateControl.vars.soundVolumeProfile}
+                        value={soundVolumeProfile}
                         exclusive
-                        onChange={stateControl.handlers.handleSoundVolumeProfileChange}
+                        onChange={handleSoundVolumeProfileChange}
                         sx={{
                             marginTop: '.5rem',
                             display: 'flex',
@@ -50,19 +80,19 @@ const AlarmConfigCategoryDetailBodySoundVolume: React.FC<AlarmConfigCategoryDeta
             </Box>
             <Box className='alarm-config-category-detail-field-container'>
             <AlarmConfigCategoryDetailHeader label='Volume' />
-            {stateControl.vars.vibrationType == 'constant' ? (
+            {soundVolumeProfile == 'constant' ? (
                 <TrSlider
-                    value={stateControl.vars.soundVolumeConstant}
+                    value={soundVolumeConstant}
                     min={0}
                     max={100}
-                    onChange={stateControl.handlers.handleSoundVolumeConstantChange}
+                    onChange={handleSoundVolumeConstantChange}
                 />
             ) : (
                 <TrSlider
-                    value={stateControl.vars.soundVolumeRamp}
+                    value={soundVolumeRamp}
                     min={0}
                     max={100}
-                    onChange={stateControl.handlers.handleSoundVolumeRampChange}
+                    onChange={handleSoundVolumeRampChange}
                     disableSwap
                 />
             )}

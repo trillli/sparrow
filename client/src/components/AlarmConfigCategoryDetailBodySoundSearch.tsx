@@ -448,8 +448,7 @@ const AlarmConfigCategoryDetailBodySoundSearch: React.FC<AlarmConfigCategoryDeta
                                 </AccordionDetails>
                             </Accordion>
                             ):(<></>)}
-                        </Box>
-                        
+                        </Box> 
                     </AccordionDetails>
                 </Accordion>
             </Box>
