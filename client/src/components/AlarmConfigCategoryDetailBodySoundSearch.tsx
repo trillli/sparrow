@@ -16,69 +16,6 @@ interface AlarmConfigCategoryDetailBodySoundSearchProps {
 
 const AlarmConfigCategoryDetailBodySoundSearch: React.FC<AlarmConfigCategoryDetailBodySoundSearchProps> = ({ alarm, appConfig}) => {
 
-    // console.log('in search component. sound type:')
-    // console.log(stateControl.vars.soundType)
-    // console.log(Array.from(stateControl.vars.soundType))
-
-    const soundSearchResultsFormattedTest = {
-        tracks: [
-            {
-                name: 'Inner Cell',
-                album: 'Polygondawanaland',
-                artist: 'KGLW'
-            },
-            {
-                name: 'Loyalty',
-                album: 'Polygondawanaland',
-                artist: 'KGLW'
-            },
-            {
-                name: 'Horology',
-                album: 'Polygondawanaland',
-                artist: 'KGLW'
-            },
-        ],
-        artists: [
-            {
-                name: 'KGLW'
-            },
-            {
-                name: 'Bruce Springsteen'
-            },
-            {
-                name: 'LCD Soundsystem'
-            }
-        ],
-        albums: [
-            {
-                name: 'Polygondawanaland',
-                artist: 'KGLW'
-            },
-            {
-                name: 'Float Along Fill Your Lungs',
-                artist: 'KGLW'
-            },
-            {
-                name: 'Eyes Like the Sky',
-                artist: 'KGLW'
-            },
-        ],
-        playlists: [
-            {
-                name: 'Chill Mix',
-                author: 'Dave Thomas'
-            },
-            {
-                name: 'Study Playlist',
-                author: 'Mary Shelley'
-            },
-            {
-                name: 'Super Hype Tunes',
-                author: 'Travis Pastrana'
-            }
-        ]
-    }
-
     type SoundType = 'track' | 'album' | 'artist' | 'playlist'
     const { user, isAuthenticated, getAccessTokenSilently } = useAuth0();
     const [soundSearchValue, setSoundSearchValue] = React.useState<string>('')
@@ -91,7 +28,6 @@ const AlarmConfigCategoryDetailBodySoundSearch: React.FC<AlarmConfigCategoryDeta
     const [soundType, setSoundType] = React.useState<SoundType[]>([])
     const [soundTypeNoFilter, setSoundTypeNoFilter] = React.useState<boolean>(true)
 
-
     React.useEffect(() => {
         if (soundTypeNoFilter) {
             setSoundType([])
@@ -99,11 +35,24 @@ const AlarmConfigCategoryDetailBodySoundSearch: React.FC<AlarmConfigCategoryDeta
     }, [soundTypeNoFilter])
 
     React.useEffect(() => {
+        if (soundType.length == 0) {
+            setSoundTypeNoFilter(true)
+        } else {
+            setSoundTypeNoFilter(false)
+        }
+    }, [soundType])
 
-        let testset = new Set<SoundType>()
-        testset.add('artist')
-        testset.add('track')
-        console.log(testset)
+    function executeSearchRequest() {
+
+        if (soundSearchValue == undefined || soundSearchValue == '') {
+            setSoundSearchResults({
+                tracks: [],
+                albums: [],
+                artists: [],
+                playlists: []
+            })
+            return;
+        }
 
         const searchParams = {
             queryString: soundSearchValue,
@@ -184,7 +133,10 @@ const AlarmConfigCategoryDetailBodySoundSearch: React.FC<AlarmConfigCategoryDeta
         }
 
         getSoundSearchResults()
+    }
 
+    React.useEffect(() => {
+        executeSearchRequest()
     }, [soundSearchValue, soundType])
 
 
@@ -204,6 +156,10 @@ const AlarmConfigCategoryDetailBodySoundSearch: React.FC<AlarmConfigCategoryDeta
     }
 
 
+
+
+    // console.log(!soundTypeNoFilter || !(soundType.includes('track')))
+    console.log(soundType.includes('track'))
 
     return (
         <>
@@ -302,8 +258,10 @@ const AlarmConfigCategoryDetailBodySoundSearch: React.FC<AlarmConfigCategoryDeta
                         <Button size='small' variant='contained'><Typography>test</Typography></Button>
                     </AccordionSummary>
                     <AccordionDetails >
+                        
                         <Box>
-                            <Accordion >
+                            {soundType.includes('track') || soundTypeNoFilter ? (
+                            <Accordion>
                                 <AccordionSummary >
                                     Songs
                                 </AccordionSummary>
@@ -350,6 +308,8 @@ const AlarmConfigCategoryDetailBodySoundSearch: React.FC<AlarmConfigCategoryDeta
                                     </TableContainer>
                                 </AccordionDetails>
                             </Accordion>
+                            ):(<></>)}
+                            {soundType.includes('artist') || soundTypeNoFilter ? (
                             <Accordion >
                                 <AccordionSummary >
                                     Artists
@@ -389,6 +349,8 @@ const AlarmConfigCategoryDetailBodySoundSearch: React.FC<AlarmConfigCategoryDeta
                                     </TableContainer>
                                 </AccordionDetails>
                             </Accordion>
+                            ):(<></>)}
+                            {soundType.includes('album') || soundTypeNoFilter ? (
                             <Accordion >
                                 <AccordionSummary >
                                     Albums
@@ -436,6 +398,8 @@ const AlarmConfigCategoryDetailBodySoundSearch: React.FC<AlarmConfigCategoryDeta
                                     </TableContainer>
                                 </AccordionDetails>
                             </Accordion>
+                            ):(<></>)}
+                            {soundType.includes('playlist') || soundTypeNoFilter ? (
                             <Accordion >
                                 <AccordionSummary >
                                     Playlists
@@ -483,21 +447,11 @@ const AlarmConfigCategoryDetailBodySoundSearch: React.FC<AlarmConfigCategoryDeta
                                     </TableContainer>
                                 </AccordionDetails>
                             </Accordion>
+                            ):(<></>)}
                         </Box>
                         
                     </AccordionDetails>
                 </Accordion>
-                <Typography>
-                    Search Results
-                </Typography>
-                <Box className='sound-search-results-list'>
-                    {/* https://mui.com/material-ui/react-table/ */}
-                    <Typography>Result 1</Typography>
-                    <Typography>Result 2</Typography>
-                    <Typography>Result 3</Typography>
-                    <Typography>Result 4</Typography>
-                    <Typography>Result 5</Typography>
-                </Box>
             </Box>
         </>
     )

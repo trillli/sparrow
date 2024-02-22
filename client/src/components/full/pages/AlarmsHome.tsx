@@ -327,7 +327,7 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
         if (alarmsListPendingSortOrFilter) {
             sortAndFilterAlarmList()
         } else {
-            console.log('no longer using setalarmcomponents - instead need to implement & update an alarm state variable')
+            // console.log('no longer using setalarmcomponents - instead need to implement & update an alarm state variable')
             // setAlarmComponents(generateAlarmComponents()) 
         }
 
@@ -359,10 +359,10 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
     //sound group level
     React.useEffect(() => {
 
-        let testset = new Set<SoundType>()
-        testset.add('artist')
-        testset.add('track')
-        console.log(testset)
+        // let testset = new Set<SoundType>()
+        // testset.add('artist')
+        // testset.add('track')
+        // console.log(testset)
 
         const searchParams = {
             queryString: soundSearchValue,
@@ -440,7 +440,7 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
 
         }
 
-        getSoundSearchResults()
+        // getSoundSearchResults()
 
     }, [soundSearchValue, soundType])
 

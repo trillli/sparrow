@@ -29,7 +29,7 @@ const Alarm: React.FC<AlarmProps> = ({ alarm, appConfig, handlers, setters }) =>
     const [repeatDays, setRepeatDays] = React.useState<Set<DayAbbrev>>(new Set<DayAbbrev>())//alarm level
 
     React.useEffect(() => {
-        console.log('in no repeat use effect')
+        // console.log('in no repeat use effect')
         if (noRepeat) {
             setRepeatDays(new Set<DayAbbrev>())
         }
