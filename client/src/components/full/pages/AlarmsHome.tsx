@@ -340,43 +340,66 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
             const accessToken = await getAccessTokenSilently();
             const requestConfig: TrFetchConfig = {
                 accessToken: accessToken,
-                method: 'POST',
-                path: "/api/lazy/alarms",
-                payload: JSON.stringify(alarmsPageMetadata)
+                method: 'GET',
+                path: "/tr/data/lazyalarms",
+                // payload: {
+                //     'serialization': JSON.stringify(alarmsPageMetadata)
+                // }
             }
             const result: TrFetchResult = await trFetch(requestConfig)
+            console.log('made it back from request')
+            console.log(result)
+            console.log(result.error)
+            console.log(result.ok)
         }
 
-        // getAlarmConfig()
-        // setAlarmsPageMetadata(alarmsPageMetadataTemp)
+        console.log('making request')
+        getAlarmConfig()
+        setAlarmsPageMetadata(alarmsPageMetadataTemp)
     }, [])
 
     React.useEffect(() => {
+        console.log('in use effect for alarmspagemetadata')
         if (alarmsPageMetadata) {
             console.log('Updated alarms page metadata and ready to post/patch to api: ')
-            console.log(alarmsPageMetadata)
+            // console.log(alarmsPageMetadata)
+
+            
 
             const persistAlarmConfig = async () => {
-
+                const testdata = {'serialization': 'mytestdata'}
+                console.log('posting:')
+                console.log(JSON.stringify(alarmsPageMetadata))
                 const accessToken = await getAccessTokenSilently();
                 const requestConfig: TrFetchConfig = {
                     accessToken: accessToken,
                     method: 'POST',
-                    path: "/api/lazy/alarms",
-                    payload: JSON.stringify(alarmsPageMetadata)
+                    path: "/data/lazyalarms",
+                    payload: JSON.stringify({
+                        'serialization': JSON.stringify(alarmsPageMetadata)
+                    })
                 }
                 const result: TrFetchResult = await trFetch(requestConfig);
+                console.log('Made post request. result:')
+                console.log(result)
+                console.log(result.error)
+                console.log(result.request?.body?.getReader().read())
+
+
+
 
             }
 
-            // persistAlarmConfig()
+            persistAlarmConfig()
 
+        } else {
+            console.log('in else block?')
         }
 
     }, [alarmsPageMetadata])
 
     React.useEffect(() => {
-        console.log('ALARMS SERIALIZED CHANGED; NEED TO PERSIST UPDATE TO DATABASE')
+        // console.log('ALARMS SERIALIZED CHANGED; NEED TO PERSIST UPDATE TO DATABASE')
     }, [alarmsSerialized])
 
 

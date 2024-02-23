@@ -14,7 +14,92 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 
 from pathlib import Path
-from trillli.settings import ( LOGGING, MIDDLEWARE, TEMPLATES, AUTH_PASSWORD_VALIDATORS, LANGUAGE_CODE, TIME_ZONE, USE_I18N, USE_TZ, STATIC_URL, CORS_ALLOW_METHODS, DEFAULT_AUTO_FIELD)
+# from trillli.settings import ()
+
+LOGGING = {
+    "file_name_server": "trillli_server.log",
+    "version": 1,  # the dictConfig format version
+    "disable_existing_loggers": False,  # retain the default loggers
+}
+
+INSTALLED_APPS = [
+    'django.contrib.admin',
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.messages',
+    'django.contrib.staticfiles',
+    'corsheaders',
+    'rest_framework',
+    # 'trillli',
+    'trillli_rest',
+    'messages_api',
+    'data'
+]
+
+MIDDLEWARE = [
+    'django.middleware.security.SecurityMiddleware',
+    'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
+    'django.middleware.common.CommonMiddleware',
+    'django.middleware.csrf.CsrfViewMiddleware',
+    'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'django.contrib.messages.middleware.MessageMiddleware',
+    'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'django.middleware.security.SecurityMiddleware',
+    'trillli_rest.trillli_rest_middleware.TrillliRestMiddleware'
+]
+
+ROOT_URLCONF = 'trillli.urls'
+
+TEMPLATES = [
+    {
+        'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        'DIRS': [],
+        'APP_DIRS': True,
+        'OPTIONS': {
+            'context_processors': [
+                'django.template.context_processors.debug',
+                'django.template.context_processors.request',
+                'django.contrib.auth.context_processors.auth',
+                'django.contrib.messages.context_processors.messages',
+            ],
+        },
+    },
+]
+
+AUTH_PASSWORD_VALIDATORS = [
+    {
+        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
+    },
+    {
+        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
+    },
+    {
+        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
+    },
+    {
+        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
+    },
+]
+
+LANGUAGE_CODE = 'en-us'
+
+TIME_ZONE = 'UTC'
+
+USE_I18N = True
+
+USE_TZ = True
+
+STATIC_URL = 'static/'
+
+CORS_ALLOW_METHODS = [
+    "GET",
+    "POST",
+    "PUT",
+    "PATCH",
+    "DELETE"
+]
 
 # Build paths inside the project like this: # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
@@ -31,24 +116,14 @@ SECRET_KEY =  get_env_var('DJANGO_SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-# ALLOWED_HOSTS = ['localhost']
+ALLOWED_HOSTS = []
+
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
 # Application definition
 
-INSTALLED_APPS = [
-    'django.contrib.admin',
-    'django.contrib.auth',
-    'django.contrib.contenttypes',
-    'django.contrib.sessions',
-    'django.contrib.messages',
-    'django.contrib.staticfiles',
-'rest_framework',
-'trillli',
-'trillli_rest',
-'sparrow_rest',
-'api'
-]
+
 
 ROOT_URLCONF = 'sparrow.urls'
 
@@ -74,9 +149,11 @@ DATABASES = {
 
 CLIENT_ORIGIN_URL = get_env_var('CLIENT_ORIGIN_URL')
 
-# CORS_ALLOWED_ORIGINS = [CLIENT_ORIGIN_URL]
-CORS_ALLOWED_ORIGINS = ['http://localhost:4040']
-# CORS_ORIGIN_ALLOW_ALL = True
+CORS_ALLOWED_ORIGINS = [CLIENT_ORIGIN_URL]
+
+# CORS_ALLOW_METHODS = [
+#     "GET",
+# ]
 
 CORS_ALLOW_HEADERS = [
     "authorization",
@@ -111,8 +188,5 @@ SIMPLE_JWT = {
     'USER_ID_CLAIM': 'sub',
     'AUTH_TOKEN_CLASSES': ('authz.tokens.Auth0Token',),
 }
-
-SPOTIFY_CLIENT_SECRET = get_env_var('SPOTIFY_CLIENT_SECRET')
-SPOTIFY_CLIENT_ID = get_env_var('SPOTIFY_CLIENT_ID')
 
 

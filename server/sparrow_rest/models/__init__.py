@@ -1,9 +1,10 @@
-from .alarm import Alarm
-from .alarm_configuration import AlarmConfiguration
-from .alarm_time import AlarmTime
-from .alarm_vibration import AlarmVibration
-from .alarm_sound import AlarmSound
-from .alarm_device import AlarmDevice
-from .alarm_light import AlarmLight
-from .sound_source import SoundSource
-from .device_type import DeviceType
+# from .lazy_alarms import LazyAlarms
+# from .alarm import Alarm
+# from .alarm_configuration import AlarmConfiguration
+# from .alarm_time import AlarmTime
+# from .alarm_vibration import AlarmVibration
+# from .alarm_sound import AlarmSound
+# from .alarm_device import AlarmDevice
+# from .alarm_light import AlarmLight
+# from .sound_source import SoundSource
+# from .device_type import DeviceType

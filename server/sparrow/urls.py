@@ -19,10 +19,12 @@ from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 from api import views
+from data import urls as urls_data
 
 urlpatterns = [
  path('tr/', include('trillli.urls')),
  path('api/', include('api.urls')),
+ path('data/', include(urls_data))
 ]
 
 # urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

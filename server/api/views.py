@@ -1,5 +1,9 @@
-from rest_framework.views import APIView, exception_handler
+from rest_framework.views import APIView
 from rest_framework.response import Response
+from rest_framework import status
+from rest_framework import permissions
+# from sparrow_rest.models import LazyAlarms
+# from sparrow_rest.serializers import LazyAlarmsSerializer
 import requests
 from django.conf import settings
 import base64
@@ -7,19 +11,14 @@ import base64
 
 # Create your views here.
 
-class SoundSearchView(APIView):
+# class LazyAlarmsViewSet(APIView):
 
-    # def get(self, request, *args, **kwargs):
-    #     requestData = request.data
-    #     queryString = requestData.query
-    #     data = {
-    #         'queryString': queryString
-    #     }
-    #     # queryType = requestData.queryType
-    #     # data = {
-    #     #     'message': 'will this work'
-    #     # }
-    #     return Response(data)
+#     def get(self, request, *args, **kwargs):
+#         queryset = LazyAlarms.objects.all()
+#         serializer = LazyAlarmsSerializer(queryset, many=True)
+#         return Response(serializer.data, status=status.HTTP_200_OK)
+
+class SoundSearchView(APIView):
     
     def post(self, request, *args, **kwargs):
         requestData = request.data
