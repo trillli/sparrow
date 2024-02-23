@@ -18,6 +18,7 @@ import ITrillliConfig from 'trillli/src/types/ITrillliConfig';
 import { StaticTimePicker } from '@mui/x-date-pickers/StaticTimePicker';
 import Fade from '@mui/material/Fade';
 import { useAuth0 } from '@auth0/auth0-react';
+import { TrFetchConfig, TrFetchResult, trFetch } from 'trillli/src/components/TrApiClient';
 
 interface AlarmsHomeProps {
     appConfig: ITrillliConfig
@@ -194,7 +195,62 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
                         l: 50
                     },
                     timing: {
-                        advance_minutes: 1800
+                        advance_minutes: 15
+                    },
+                    luminosity: {
+                        start: 0,
+                        end: 100,
+                        profile: 'ramp'
+                    }
+                },
+                sound: {
+                    source: 'spotify',
+                    type: 'playlist',
+                    title: 'Rattlesnake',
+                    artist: 'King Gizzard and the Wizard Lizard',
+                    uri: 'https://abc/def',
+                    shuffle: true,
+                    volume: {
+                        profile: 'ramp',
+                        start: 30,
+                        end: 75,
+                        ramp_seconds: 300
+                    }
+                },
+                vibration: {
+                    enabled: true,
+                    timing: {
+                        advance_minutes: 3
+                    },
+                    intensity: {
+                        profile: 'constant',
+                        start: 50,
+                        end: 75,
+                        ramp_seconds: 300
+                    }
+                },
+                timing: {
+                    time: '7:00 AM',
+                    days: ['m', 'tu', 'w', 'th', 'f']
+                },
+            },
+            45423563182: {
+                name: 'Work Morning 2',
+                created: 1707533238,
+                edited: [
+                    1707539001,
+                    1707540123,
+                ],
+                id: 45423563182,
+                shown: true,
+                light: {
+                    color: {
+                        h: 60,
+                        s: 100,
+                        l: 50
+                    },
+                    timing: {
+                        advance_minutes: 15
                     },
                     luminosity: {
                         start: 0,
@@ -280,17 +336,43 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
 
     //----------------------------------------------------------------------------------------------
     React.useEffect(() => {
-        //MAKE API REQUEST TO GET ALARMPAGEMETADATA
-        setAlarmsPageMetadata(alarmsPageMetadataTemp)
+        const getAlarmConfig = async () => {
+            const accessToken = await getAccessTokenSilently();
+            const requestConfig: TrFetchConfig = {
+                accessToken: accessToken,
+                method: 'POST',
+                path: "/api/lazy/alarms",
+                payload: JSON.stringify(alarmsPageMetadata)
+            }
+            const result: TrFetchResult = await trFetch(requestConfig)
+        }
+
+        // getAlarmConfig()
+        // setAlarmsPageMetadata(alarmsPageMetadataTemp)
     }, [])
 
     React.useEffect(() => {
         if (alarmsPageMetadata) {
             console.log('Updated alarms page metadata and ready to post/patch to api: ')
-            // console.log(alarmsPageMetadata)
-            // console.log(alarmsPageMetadata.alarms[45423563181].vibration.enabled)
+            console.log(alarmsPageMetadata)
+
+            const persistAlarmConfig = async () => {
+
+                const accessToken = await getAccessTokenSilently();
+                const requestConfig: TrFetchConfig = {
+                    accessToken: accessToken,
+                    method: 'POST',
+                    path: "/api/lazy/alarms",
+                    payload: JSON.stringify(alarmsPageMetadata)
+                }
+                const result: TrFetchResult = await trFetch(requestConfig);
+
+            }
+
+            // persistAlarmConfig()
+
         }
-        
+
     }, [alarmsPageMetadata])
 
     React.useEffect(() => {
@@ -303,9 +385,15 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
     }, [alarmTime])
 
     React.useEffect(() => {
+        updateAlarmsPageMetadata()
+    }, [alarmListSortType, alarmListSortAsc, timeFormat24Hr])
+
+    React.useEffect(() => {
+
+        // updateAlarmsPageMetadata()
 
         if (alarmsListPendingSortOrFilter) {
-            sortAndFilterAlarmList()
+            // sortAndFilterAlarmList()
         } else {
             // console.log('no longer using setalarmcomponents - instead need to implement & update an alarm state variable')
             // setAlarmComponents(generateAlarmComponents()) 
@@ -459,11 +547,45 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
 
 
     //EVENT HANDLERS
+
+    const updateAlarmsPageMetadata = (field: string, value: any) => {
+        // console.log('in updatealarmspagemetadata')
+        setAlarmsPageMetadata(prevState => {
+            console.log('here in updatealarmspage metadata. prevState is:')
+            console.log(prevState)
+            if (prevState) {
+                let alarmsPageMetadataUpdated = { ...prevState }
+                if (field) {
+                    alarmsPageMetadataUpdated = { ...prevState, [field]: value }
+                }
+                alarmsPageMetadataUpdated.sorting.asc = alarmListSortAsc
+                alarmsPageMetadataUpdated.sorting.type = alarmListSortType
+                alarmsPageMetadataUpdated.timeFormat24Hr = timeFormat24Hr
+                //also handle add / delete of alarm here, or in updateAlarmsMetadata
+                // console.log('alarmspagemetadataupdated is: ')
+                // console.log(alarmsPageMetadataUpdated)
+                return alarmsPageMetadataUpdated
+            }
+        })
+    }
+
+
     const updateAlarmsMetadata = (alarmId: number, alarmMetadata: IAlarmMetadata) => {
         setAlarmsPageMetadata(prevState => {
+            // console.log('here in updatealarmspage metadata. prevState is:')
+            // console.log(prevState)
             if (prevState) {
-                const alarmsPageMetadataUpdated = { ...prevState.alarms, [alarmId]: alarmMetadata };
-                return { ...prevState, alarms: alarmsPageMetadataUpdated };
+                // console.log('made it into if prevState')
+                const prevAlarms = { ...prevState.alarms }
+                // console.log('prevAlarms is:')
+                // console.log(prevAlarms)
+                const alarmsUpdated = { ...prevAlarms, [alarmId]: alarmMetadata }
+                // console.log('alarmsUpdated is: ')
+                // console.log(alarmsUpdated)
+                const alarmsPageMetadataUpdated = { ...prevState, 'alarms': alarmsUpdated };
+                // console.log('alarmsPageMetadataUpdated is: ')
+                // console.log(alarmsPageMetadataUpdated)
+                return alarmsPageMetadataUpdated
             }
         });
     }
@@ -546,11 +668,12 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
     }
 
     const handleAlarmListSortTypeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        const value: 'time' | 'name' = event.target.value as 'time' | 'name'
-        if (alarmListSortType != value) {
-            setAlarmsListPendingSortOrFilter(true)
-            setAlarmListSortType(value)
-        }
+        setAlarmListSortType(event.target.value)
+        // const value: 'time' | 'name' = event.target.value as 'time' | 'name'
+        // if (alarmListSortType != value) {
+        //     setAlarmsListPendingSortOrFilter(true)
+        //     setAlarmListSortType(value)
+        // }
 
     }
 

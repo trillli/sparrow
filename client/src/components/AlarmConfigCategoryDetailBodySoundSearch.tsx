@@ -14,7 +14,7 @@ import { Shuffle, ShuffleOn } from '@mui/icons-material';
 interface AlarmConfigCategoryDetailBodySoundSearchProps {
     alarm: IAlarmMetadata
     appConfig: ITrillliConfig
-    handlers: {[key: string]: Function}
+    handlers: { [key: string]: Function }
 }
 
 const AlarmConfigCategoryDetailBodySoundSearch: React.FC<AlarmConfigCategoryDetailBodySoundSearchProps> = ({ alarm, appConfig, handlers }) => {
@@ -211,159 +211,159 @@ const AlarmConfigCategoryDetailBodySoundSearch: React.FC<AlarmConfigCategoryDeta
                     >
                         {currentSoundType == 'track' ? (
                             <Box
-                            sx={{
-                                display: 'flex',
-                                flexWrap: 'wrap',
-                                columnGap: '1rem',
-                                rowGap: '.5rem',
-                                alignItems: 'flex-end'
-                            }}
-                        >
-                            <Typography
                                 sx={{
-                                    fontWeight: 'bold',
-                                    lineHeight: '1.0'
+                                    display: 'flex',
+                                    flexWrap: 'wrap',
+                                    columnGap: '1rem',
+                                    rowGap: '.5rem',
+                                    alignItems: 'flex-end'
                                 }}
                             >
-                                {currentSoundTitle}
-                            </Typography>
-                            <Typography
-                                sx={{
-                                    fontSize: '1rem',
-                                    lineHeight: '1.0'
-                                }}
-                            >
-                                {currentSoundArtist}
-                            </Typography>
-                        </Box>
+                                <Typography
+                                    sx={{
+                                        fontWeight: 'bold',
+                                        lineHeight: '1.0'
+                                    }}
+                                >
+                                    {currentSoundTitle}
+                                </Typography>
+                                <Typography
+                                    sx={{
+                                        fontSize: '1rem',
+                                        lineHeight: '1.0'
+                                    }}
+                                >
+                                    {currentSoundArtist}
+                                </Typography>
+                            </Box>
                         ) : currentSoundType == 'artist' ? (
                             <Box
-                                                                    sx={{
-                                                                        display: 'flex',
-                                                                        flexWrap: 'wrap',
-                                                                        columnGap: '1rem',
-                                                                        rowGap: '.5rem',
-                                                                        alignItems: 'flex-end'
-                                                                    }}
-                                                                >
-                                                                    <Typography
-                                                                        sx={{
-                                                                            fontWeight: 'bold',
-                                                                            lineHeight: '1.0'
-                                                                        }}
-                                                                    >
-                                                                        {currentSoundArtist}
-                                                                    </Typography>
-                                                                    <Box>
-                                                                    <IconButton>
-                                                                    {currentSoundShuffle ? (
-                                                                        <ShuffleOn onClick={handleShuffleToggle} />
-                                                                    ) : (
-                                                                        <Shuffle onClick={handleShuffleToggle} />
-                                                                    )}
-                                                                    </IconButton>
-                                                                    
-                                                                    {currentSoundShuffle ? (
-                                                                        <Typography
-                                                                        sx={{
-                                                                            fontStyle: 'italic'
-                                                                        }}
-                                                                    >Shuffle on</Typography>
-                                                                    ) : <></>}
-                                                                    
-                                                                    </Box>
-                                                                </Box>
+                                sx={{
+                                    display: 'flex',
+                                    flexWrap: 'wrap',
+                                    columnGap: '1rem',
+                                    rowGap: '.5rem',
+                                    alignItems: 'flex-end'
+                                }}
+                            >
+                                <Typography
+                                    sx={{
+                                        fontWeight: 'bold',
+                                        lineHeight: '1.0'
+                                    }}
+                                >
+                                    {currentSoundArtist}
+                                </Typography>
+                                <Box>
+                                    <IconButton onClick={handleShuffleToggle}>
+                                        {currentSoundShuffle ? (
+                                            <ShuffleOn />
+                                        ) : (
+                                            <Shuffle />
+                                        )}
+                                    </IconButton>
+
+                                    {currentSoundShuffle ? (
+                                        <Typography
+                                            sx={{
+                                                fontStyle: 'italic'
+                                            }}
+                                        >Shuffle on</Typography>
+                                    ) : <></>}
+
+                                </Box>
+                            </Box>
                         ) : currentSoundType == 'album' ? (
                             <Box
-                                                                    sx={{
-                                                                        display: 'flex',
-                                                                        flexWrap: 'wrap',
-                                                                        columnGap: '1rem',
-                                                                        rowGap: '.5rem',
-                                                                        alignItems: 'flex-end'
-                                                                    }}
-                                                                >
-                                                                    <Typography
-                                                                        sx={{
-                                                                            fontWeight: 'bold',
-                                                                            lineHeight: '1.0'
-                                                                        }}
-                                                                    >
-                                                                        {currentSoundTitle}
-                                                                    </Typography>
-                                                                    <Typography
-                                                                        sx={{
-                                                                            fontSize: '1rem',
-                                                                            lineHeight: '1.0'
-                                                                        }}
-                                                                    >
-                                                                        {currentSoundArtist}
-                                                                    </Typography>
-                                                                    <Box>
-                                                                    <IconButton>
-                                                                    {currentSoundShuffle ? (
-                                                                        <ShuffleOn onClick={handleShuffleToggle} />
-                                                                    ) : (
-                                                                        <Shuffle onClick={handleShuffleToggle} />
-                                                                    )}
-                                                                    </IconButton>
-                                                                    
-                                                                    {currentSoundShuffle ? (
-                                                                        <Typography
-                                                                        sx={{
-                                                                            fontStyle: 'italic'
-                                                                        }}
-                                                                    >Shuffle on</Typography>
-                                                                    ) : <></>}
-                                                                    
-                                                                    </Box>
-                                                                </Box>
+                                sx={{
+                                    display: 'flex',
+                                    flexWrap: 'wrap',
+                                    columnGap: '1rem',
+                                    rowGap: '.5rem',
+                                    alignItems: 'flex-end'
+                                }}
+                            >
+                                <Typography
+                                    sx={{
+                                        fontWeight: 'bold',
+                                        lineHeight: '1.0'
+                                    }}
+                                >
+                                    {currentSoundTitle}
+                                </Typography>
+                                <Typography
+                                    sx={{
+                                        fontSize: '1rem',
+                                        lineHeight: '1.0'
+                                    }}
+                                >
+                                    {currentSoundArtist}
+                                </Typography>
+                                <Box>
+                                    <IconButton onClick={handleShuffleToggle}>
+                                        {currentSoundShuffle ? (
+                                            <ShuffleOn />
+                                        ) : (
+                                            <Shuffle />
+                                        )}
+                                    </IconButton>
+
+                                    {currentSoundShuffle ? (
+                                        <Typography
+                                            sx={{
+                                                fontStyle: 'italic'
+                                            }}
+                                        >Shuffle on</Typography>
+                                    ) : <></>}
+
+                                </Box>
+                            </Box>
                         ) : currentSoundType == 'playlist' ? (
                             <Box
-                                                                    sx={{
-                                                                        display: 'flex',
-                                                                        flexWrap: 'wrap',
-                                                                        columnGap: '1rem',
-                                                                        rowGap: '.5rem',
-                                                                        alignItems: 'flex-end'
-                                                                    }}
-                                                                >
-                                                                    <Typography
-                                                                        sx={{
-                                                                            fontWeight: 'bold',
-                                                                            lineHeight: '1.0'
-                                                                        }}
-                                                                    >
-                                                                        {currentSoundTitle}
-                                                                    </Typography>
-                                                                    <Typography
-                                                                        sx={{
-                                                                            fontSize: '1rem',
-                                                                            lineHeight: '1.0'
-                                                                        }}
-                                                                    >
-                                                                        {currentSoundArtist}
-                                                                    </Typography>
-                                                                    <Box>
-                                                                    <IconButton>
-                                                                    {currentSoundShuffle ? (
-                                                                        <ShuffleOn onClick={handleShuffleToggle} />
-                                                                    ) : (
-                                                                        <Shuffle onClick={handleShuffleToggle} />
-                                                                    )}
-                                                                    </IconButton>
-                                                                    
-                                                                    {currentSoundShuffle ? (
-                                                                        <Typography
-                                                                        sx={{
-                                                                            fontStyle: 'italic'
-                                                                        }}
-                                                                    >Shuffle on</Typography>
-                                                                    ) : <></>}
-                                                                    
-                                                                    </Box>
-                                                                </Box>
-                                                                
+                                sx={{
+                                    display: 'flex',
+                                    flexWrap: 'wrap',
+                                    columnGap: '1rem',
+                                    rowGap: '.5rem',
+                                    alignItems: 'flex-end'
+                                }}
+                            >
+                                <Typography
+                                    sx={{
+                                        fontWeight: 'bold',
+                                        lineHeight: '1.0'
+                                    }}
+                                >
+                                    {currentSoundTitle}
+                                </Typography>
+                                <Typography
+                                    sx={{
+                                        fontSize: '1rem',
+                                        lineHeight: '1.0'
+                                    }}
+                                >
+                                    {currentSoundArtist}
+                                </Typography>
+                                <Box>
+                                    <IconButton onClick={handleShuffleToggle}>
+                                        {currentSoundShuffle ? (
+                                            <ShuffleOn />
+                                        ) : (
+                                            <Shuffle />
+                                        )}
+                                    </IconButton>
+
+                                    {currentSoundShuffle ? (
+                                        <Typography
+                                            sx={{
+                                                fontStyle: 'italic'
+                                            }}
+                                        >Shuffle on</Typography>
+                                    ) : <></>}
+
+                                </Box>
+                            </Box>
+
                         ) : <></>}
                     </Box>
                 </Box>
@@ -474,11 +474,11 @@ const AlarmConfigCategoryDetailBodySoundSearch: React.FC<AlarmConfigCategoryDeta
                                             >
                                                 <TableBody>
                                                     {soundSearchResults.tracks.map((row, index) => (
-                                                        <TableRow 
+                                                        <TableRow
                                                             key={index}
                                                             hover
                                                             selection={JSON.stringify(row)}
-                                                            onClick={handleSearchResultSelection}    
+                                                            onClick={handleSearchResultSelection}
                                                         >
                                                             <TableCell component='th' scope='row'>
                                                                 <Box
@@ -529,9 +529,9 @@ const AlarmConfigCategoryDetailBodySoundSearch: React.FC<AlarmConfigCategoryDeta
                                                 <TableBody>
                                                     {soundSearchResults.artists.map((row, index) => (
                                                         <TableRow key={index}
-                                                        hover
-                                                        selection={JSON.stringify(row)}
-                                                        onClick={handleSearchResultSelection} 
+                                                            hover
+                                                            selection={JSON.stringify(row)}
+                                                            onClick={handleSearchResultSelection}
                                                         >
                                                             <TableCell component='th' scope='row'>
                                                                 <Box
@@ -574,9 +574,9 @@ const AlarmConfigCategoryDetailBodySoundSearch: React.FC<AlarmConfigCategoryDeta
                                                 <TableBody>
                                                     {soundSearchResults.albums.map((row, index) => (
                                                         <TableRow key={index}
-                                                        hover
-                                                        selection={JSON.stringify(row)}
-                                                        onClick={handleSearchResultSelection} 
+                                                            hover
+                                                            selection={JSON.stringify(row)}
+                                                            onClick={handleSearchResultSelection}
                                                         >
                                                             <TableCell component='th' scope='row'>
                                                                 <Box
@@ -627,9 +627,9 @@ const AlarmConfigCategoryDetailBodySoundSearch: React.FC<AlarmConfigCategoryDeta
                                                 <TableBody>
                                                     {soundSearchResults.playlists.map((row, index) => (
                                                         <TableRow key={index}
-                                                        hover
-                                                        selection={JSON.stringify(row)}
-                                                        onClick={handleSearchResultSelection} 
+                                                            hover
+                                                            selection={JSON.stringify(row)}
+                                                            onClick={handleSearchResultSelection}
                                                         >
                                                             <TableCell component='th' scope='row'>
                                                                 <Box
