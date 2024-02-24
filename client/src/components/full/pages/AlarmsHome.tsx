@@ -341,10 +341,7 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
             const requestConfig: TrFetchConfig = {
                 accessToken: accessToken,
                 method: 'GET',
-                path: "/tr/data/lazyalarms",
-                // payload: {
-                //     'serialization': JSON.stringify(alarmsPageMetadata)
-                // }
+                path: "/api/messages/lazyalarm",
             }
             const result: TrFetchResult = await trFetch(requestConfig)
             console.log('made it back from request')
@@ -374,7 +371,7 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
                 const requestConfig: TrFetchConfig = {
                     accessToken: accessToken,
                     method: 'POST',
-                    path: "/data/lazyalarms",
+                    path: "/api/messages/lazyalarm",
                     payload: JSON.stringify({
                         'serialization': JSON.stringify(alarmsPageMetadata)
                     })
