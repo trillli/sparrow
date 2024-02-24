@@ -33,7 +33,7 @@ class AdminMessageApiView(MessageApiView):
     permission_classes = [IsAuthenticated]
 
 class LazyAlarmView(APIView):
-    # permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated]
     # user = 
     def get(self, request, *args, **kwargs):
         lazyAlarm = LazyAlarm.objects.all()
