@@ -33,8 +33,6 @@ INSTALLED_APPS = [
     'rest_framework',
     'corsheaders',
     'trillli',
-    'trillli_rest',
-    'messages_api',
     'daybreakr_data'
 ]
 

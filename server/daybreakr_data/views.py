@@ -4,9 +4,8 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.views import exception_handler
+from tr_common.auth0_helper import Auth0Helper
 
-# from messages_api.models import Message
-# from messages_api.serializers import MessageSerializer
 from .serializers import *
 from .models import *
 
@@ -33,6 +32,7 @@ class AdminMessageApiView(MessageApiView):
     permission_classes = [IsAuthenticated]
 
 class LazyAlarmView(APIView):
+    auth0_helper = Auth0Helper()
     permission_classes = [IsAuthenticated]
     # user = 
     def get(self, request, *args, **kwargs):
