@@ -373,7 +373,7 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
                     method: 'POST',
                     path: "/api/messages/lazyalarm",
                     payload: JSON.stringify({
-                        'serialization': JSON.stringify(alarmsPageMetadata)
+                        'alarms_json': JSON.stringify(alarmsPageMetadata)
                     })
                 }
                 const result: TrFetchResult = await trFetch(requestConfig);

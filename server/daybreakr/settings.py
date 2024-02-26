@@ -76,8 +76,12 @@ WSGI_APPLICATION = 'daybreakr.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': get_env_var('DB_ENGINE'), 
+        'NAME': get_env_var('DB_NAME'),             
+        'USER': get_env_var('DB_USER'),            
+        'PASSWORD': get_env_var('DB_PASSWORD'),  
+        'HOST': get_env_var('DB_HOST'),               
+        'PORT': get_env_var('DB_PORT'),                 
     }
 }
 

@@ -42,30 +42,35 @@ class LazyAlarmView(APIView):
     def get(self, request, *args, **kwargs):
         user_id = self.auth0_helper._get_user_id_from_request(request)
         lazyAlarm = LazyAlarm.objects.filter(user_id=user_id)
+        LazyAlarm.objects.filter(user_id=user_id).update_or_create()
         serializer = LazyAlarmSerializer(lazyAlarm, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
     
-    def post(self, request, *args, **kwargs):
+    def put(self, request, *args, **kwargs):
         user_id = self.auth0_helper._get_user_id_from_request(request)
         data = {
             'alarms_json': request.data.get('alarms_json'),
             'user_id': user_id
         }
-        serializer = LazyAlarmSerializer(data=data)
+        try:
+            lazy_alarm = LazyAlarm.objects.get(user_id=user_id)
+        except: 
+            lazy_alarm = None
+        serializer = LazyAlarmSerializer(lazy_alarm, data=data)
         if serializer.is_valid():
-            serializer.create()
+            serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-def api_exception_handler(exc, context=None):
-    print('in api exception handler now')
-    response = exception_handler(exc, context=context)
-    if response and isinstance(response.data, dict):
-        response.data = {'message': response.data.get('detail', 'API Error')}
-    else:
-        response.data = {'message': 'API Error'}
-    return response
+# def api_exception_handler(exc, context=None):
+#     print('in api exception handler now')
+#     response = exception_handler(exc, context=context)
+#     if response and isinstance(response.data, dict):
+#         response.data = {'message': response.data.get('detail', 'API Error')}
+#     else:
+#         response.data = {'message': 'API Error'}
+#     return response
 
 
