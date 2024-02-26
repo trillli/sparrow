@@ -13,4 +13,4 @@ class MessageSerializer(serializers.Serializer):
 class LazyAlarmSerializer(serializers.ModelSerializer):
     class Meta:
         model = LazyAlarm
-        fields = ["serialization"]
+        fields = '__all__'

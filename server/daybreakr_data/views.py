@@ -32,26 +32,28 @@ class AdminMessageApiView(MessageApiView):
     permission_classes = [IsAuthenticated]
 
 class LazyAlarmView(APIView):
-    auth0_helper = Auth0Helper()
-    permission_classes = [IsAuthenticated]
-    # user = 
+
+    def __init__(self):
+        super().__init__()
+        self.auth0_helper = Auth0Helper()
+        self.permission_classes = [IsAuthenticated]
+
+
     def get(self, request, *args, **kwargs):
-        lazyAlarm = LazyAlarm.objects.all()
+        user_id = self.auth0_helper._get_user_id_from_request(request)
+        lazyAlarm = LazyAlarm.objects.filter(user_id=user_id)
         serializer = LazyAlarmSerializer(lazyAlarm, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
     
     def post(self, request, *args, **kwargs):
-        print('in post endpoint')
+        user_id = self.auth0_helper._get_user_id_from_request(request)
         data = {
-            'serialization': request.data.get('serialization')
+            'alarms_json': request.data.get('alarms_json'),
+            'user_id': user_id
         }
-        print('about to set serialize')
         serializer = LazyAlarmSerializer(data=data)
-        print('about to call isValid on serailizer')
         if serializer.is_valid():
-            print('is Valid!')
-            serializer.save()
-            print('saved. returning response now')
+            serializer.create()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
