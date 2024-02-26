@@ -172,6 +172,14 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
             [key: string]: IAlarmMetadata
         }
     }
+    let alarmsPageMetadataDefault: IAlarmsPageMetadata = {
+        timeFormat24Hr: true,
+        sorting: {
+            type: 'time',
+            asc: true
+        },
+        alarms: {}
+    }
     let alarmsPageMetadataTemp: IAlarmsPageMetadata = {
         timeFormat24Hr: true,
         sorting: {
@@ -292,11 +300,11 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
         }
     }
 
-    let alarmsUnsorted: IAlarmMetadata[] = []
-    const allAlarmsKeys = Object.keys(alarmsPageMetadataTemp.alarms);
-    allAlarmsKeys.forEach((alarmKey) => {
-        alarmsUnsorted.push(alarmsPageMetadataTemp.alarms[alarmKey])
-    })
+    // let alarmsUnsorted: IAlarmMetadata[] = []
+    // const allAlarmsKeys = Object.keys(alarmsPageMetadataTemp.alarms);
+    // allAlarmsKeys.forEach((alarmKey) => {
+    //     alarmsUnsorted.push(alarmsPageMetadataTemp.alarms[alarmKey])
+    // })
 
     //----------------------------------------------------------------------------------------------
 
@@ -306,9 +314,9 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
     const { user, isAuthenticated, getAccessTokenSilently } = useAuth0();
 
     const [alarmsPageMetadata, setAlarmsPageMetadata] = React.useState<IAlarmsPageMetadata>()
-    const [alarmsSerialized, setAlarmsSerialized] = React.useState<String>(JSON.stringify(alarmsPageMetadataTemp.alarms))
+    // const [alarmsSerialized, setAlarmsSerialized] = React.useState<String>(JSON.stringify(alarmsPageMetadataTemp.alarms))
 
-    const [alarmsList, setAlarmsList] = React.useState<IAlarmMetadata[]>(alarmsUnsorted)
+    const [alarmsList, setAlarmsList] = React.useState<IAlarmMetadata[]>([])
     const [alarmListSortAsc, setAlarmListSortAsc] = React.useState<boolean>(true)
     const [alarmListSortType, setAlarmListSortType] = React.useState<'time' | 'name'>('time')
     const [alarmsListPendingSortOrFilter, setAlarmsListPendingSortOrFilter] = React.useState<boolean>(true)
@@ -341,23 +349,47 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
             const requestConfig: TrFetchConfig = {
                 accessToken: accessToken,
                 method: 'GET',
-                path: "/api/messages/lazyalarm",
+                path: "/data/lazyalarm",
             }
             const result: TrFetchResult = await trFetch(requestConfig)
             console.log('made it back from request')
             console.log(result)
             console.log(result.error)
             console.log(result.ok)
+            console.log('data is:')
+            console.log(result.ok.data[0].alarms_page_metadata_json)
+            // console.log()
+            if (result.ok.data = []) {
+                // alert('empty data')
+                // setAlarmsPageMetadata()
+                setAlarmsPageMetadata(alarmsPageMetadataDefault)
+            } else {
+                setAlarmsPageMetadata(JSON.parse(result.ok.data[0].alarms_page_metadata_json))
+            }
+            
         }
 
-        console.log('making request')
+        // console.log('making request')
         getAlarmConfig()
-        setAlarmsPageMetadata(alarmsPageMetadataTemp)
+        // setAlarmsPageMetadata(alarmsPageMetadataTemp)
     }, [])
 
     React.useEffect(() => {
         console.log('in use effect for alarmspagemetadata')
         if (alarmsPageMetadata) {
+
+            console.log('alarmspagemetadata now is:')
+            console.log(alarmsPageMetadata)
+            console.log('and the alarmspagemetadatajson is:')
+            console.log(JSON.parse(alarmsPageMetadata.alarms_json))
+            // console.log('and the serialized metadata field is')
+
+            if (alarmsPageMetadata.alarms) {
+                setAlarmsList(alarmsPageMetadata.alarms)
+            }
+
+
+
             console.log('Updated alarms page metadata and ready to post/patch to api: ')
             // console.log(alarmsPageMetadata)
 
@@ -370,8 +402,8 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
                 const accessToken = await getAccessTokenSilently();
                 const requestConfig: TrFetchConfig = {
                     accessToken: accessToken,
-                    method: 'POST',
-                    path: "/api/messages/lazyalarm",
+                    method: 'PUT',
+                    path: "/data/lazyalarm",
                     payload: JSON.stringify({
                         'alarms_json': JSON.stringify(alarmsPageMetadata)
                     })
@@ -387,7 +419,7 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
 
             }
 
-            persistAlarmConfig()
+            // persistAlarmConfig()
 
         } else {
             console.log('in else block?')
@@ -395,9 +427,9 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
 
     }, [alarmsPageMetadata])
 
-    React.useEffect(() => {
-        // console.log('ALARMS SERIALIZED CHANGED; NEED TO PERSIST UPDATE TO DATABASE')
-    }, [alarmsSerialized])
+    // React.useEffect(() => {
+    //     // console.log('ALARMS SERIALIZED CHANGED; NEED TO PERSIST UPDATE TO DATABASE')
+    // }, [alarmsSerialized])
 
 
     React.useEffect(() => {
@@ -493,7 +525,7 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
 
     function sortAndFilterAlarmListByName() {
 
-        const alarmKeys: string[] = Object.keys(alarmsUnsorted)
+        // const alarmKeys: string[] = Object.keys(alarmsUnsorted)
         let alarmNames: string[] = []
         let alarmsSorted = []
         let sortedAlarmsIds = new Set<number>()
@@ -711,7 +743,7 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
 
     const setters = {
         setTimePickerOpen: setTimePickerOpen,
-        setAlarmsSerialized: setAlarmsSerialized
+        // setAlarmsSerialized: setAlarmsSerialized
     }
 
     //----------------------------------------------------------------------------------------------
@@ -723,37 +755,64 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
                 sx={{
                     display: 'flex',
                     flexDirection: 'column',
-                    rowGap: '1rem'
+                    rowGap: '1rem',
+                    height: '100%',
+                    justifyContent: alarmsList.length > 0 ? 'initial' : 'center',
+                    paddingBottom: alarmsList.length > 0 ? '0px' : '95px',
                 }}
             >
                 <Box
                     id='btn-new-alarm-container'
                     sx={{
-                        background: `linear-gradient(148deg, #ff9f4e, #fef751)`,
-                        width: '100%'
+                        // background: `linear-gradient(148deg, #ff9f4e, #fef751)`,
+                        width: '100%',
+                        display: 'flex',
+                        justifyContent: 'center'
                     }}
                 >
-                    <Button
-                        id='btn-new-alarm'
-                        startIcon={<AddAlarmIcon />}
-                        onClick={handleBtnNewAlarmClick}
-                        sx={{
-                            width: '100%',
-                            padding: '.5rem',
-                            borderRadius: '4px',
-                            background: appConfig.theme.palette.shades.primary[6],
-                            color: appConfig.theme.palette.primary.contrastText,
-                        }}
-                    >
-                        <Typography fontWeight={'normal'} fontSize={'1.25rem'}>New Alarm</Typography>
-                    </Button>
+                    {alarmsList.length > 0 ? (
+                        <Button
+                            id='btn-new-alarm'
+                            startIcon={<AddAlarmIcon />}
+                            onClick={handleBtnNewAlarmClick}
+                            sx={{
+                                width: '100%',
+                                padding: '.5rem',
+                                borderRadius: '4px',
+                                background: appConfig.theme.palette.shades.primary[6],
+                                color: appConfig.theme.palette.primary.contrastText,
+                            }}
+                        >
+                            <Typography fontWeight={'normal'} fontSize={'1.25rem'}>New Alarm</Typography>
+                        </Button>) : (
+                        <Button
+                            id='btn-first-alarm'
+                            startIcon={<AddAlarmIcon />}
+                            onClick={handleBtnNewAlarmClick}
+                            sx={{
+                                // width: '100%',
+                                // marginLeft: 'auto',
+                                width: '75vw',
+                                maxWidth: '250px',
+                                height: '75vw',
+                                maxHeight: '250px',
+                                padding: '.5rem',
+                                borderRadius: '4px',
+                                boxShadow: '0px 0px 10px 5px #00000047',
+                                background: appConfig.theme.palette.shades.primary[6],
+                                color: appConfig.theme.palette.primary.contrastText,
+                            }}
+                        >
+                            <Typography fontWeight={'normal'} fontSize={'1.25rem'}>New Alarm</Typography>
+                        </Button>
+                    )}
                 </Box>
                 <Box
                     id='alarms-list-organization-control-container'
                     sx={{
                         marginTop: '2rem',
                         marginBottom: '1rem',
-                        display: 'flex',
+                        display: alarmsList.length > 0 ? 'flex' : 'none',
                         rowGap: '.5rem',
                         columnGap: '.5rem',
                         flexWrap: 'wrap'
@@ -882,7 +941,7 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
                 </Box>
 
                 <AlarmsList
-                    alarms={alarmsUnsorted}
+                    alarms={alarmsList}
                     appConfig={appConfig}
                     handlers={handlers}
                     setters={setters}

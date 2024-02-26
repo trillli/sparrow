@@ -42,7 +42,7 @@ class LazyAlarmView(APIView):
     def get(self, request, *args, **kwargs):
         user_id = self.auth0_helper._get_user_id_from_request(request)
         lazyAlarm = LazyAlarm.objects.filter(user_id=user_id)
-        LazyAlarm.objects.filter(user_id=user_id).update_or_create()
+        LazyAlarm.objects.filter(user_id=user_id)
         serializer = LazyAlarmSerializer(lazyAlarm, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
     
