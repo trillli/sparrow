@@ -10,7 +10,6 @@ interface AlarmsListProps {
     appConfig: ITrillliConfig
     handlers: {[key: string]: Function}
     setters: {[key: string]: Function}
-    alarmsSerialized: string
 }
 
 const AlarmsList: React.FC<AlarmsListProps> = ({alarms, appConfig, handlers, setters}) => {
@@ -40,7 +39,7 @@ const AlarmsList: React.FC<AlarmsListProps> = ({alarms, appConfig, handlers, set
                     }
                 }}
             >
-                {alarms.map((alarm, index) => (
+                {Object.keys(alarms).length > 0 ? alarms.map((alarm, index) => (
                     <Alarm 
                         key={index} 
                         alarm={alarm} 
@@ -48,7 +47,7 @@ const AlarmsList: React.FC<AlarmsListProps> = ({alarms, appConfig, handlers, set
                         handlers={handlers}
                         setters={setters}
                     />
-                ))}
+                )):(<div>no alarms</div>)}
             </Box>
         </Box>
     )

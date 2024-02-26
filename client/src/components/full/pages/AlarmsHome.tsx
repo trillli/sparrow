@@ -180,6 +180,60 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
         },
         alarms: {}
     }
+    let alarmMetadataDefault: IAlarmMetadata = {
+        name: '',
+        created: 0,
+        edited: [],
+        shown: true,
+        enabled: true,
+        light: {
+            enabled: true,
+            color: {
+                h: 60,
+                s: 100,
+                l: 50
+            },
+            timing: {
+                advance_minutes: 15
+            },
+            luminosity: {
+                start: 0,
+                end: 100,
+                profile: 'ramp'
+            }
+        },
+        sound: {
+            enabled: true,
+            source: 'spotify',
+            type: 'playlist',
+            title: 'Morning Coffee',
+            artist: 'Spotify',
+            uri: 'https://abc/def',
+            shuffle: true,
+            volume: {
+                profile: 'ramp',
+                start: 30,
+                end: 75,
+                ramp_seconds: 300
+            }
+        },
+        vibration: {
+            enabled: true,
+            timing: {
+                advance_minutes: 3
+            },
+            intensity: {
+                profile: 'constant',
+                start: 50,
+                end: 75,
+                ramp_seconds: 300
+            }
+        },
+        timing: {
+            time: '7:30 AM',
+            days: []
+        },
+    }
     let alarmsPageMetadataTemp: IAlarmsPageMetadata = {
         timeFormat24Hr: true,
         sorting: {
@@ -334,8 +388,10 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
 
     const [alarmTime, setAlarmTime] = React.useState<string>('17:23')
     const [timePickerOpen, setTimePickerOpen] = React.useState<boolean>(false)
-    const [timeFormat24Hr, setTimeFormat24Hr] = React.useState<boolean>(false)
+    const [timeFormat24Hr, setTimeFormat24Hr] = React.useState<boolean>(true)
     const [alarmTimePickerFormatted, setAlarmTimePickerFormatted] = React.useState<Dayjs>()
+    const [timePickerMode, setTimePickerMode] = React.useState<'add' | 'edit'>()
+    const [timePickerAlarmId, setTimePickerAlarmId] = React.useState<number>()
 
 
 
@@ -352,12 +408,12 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
                 path: "/data/lazyalarm",
             }
             const result: TrFetchResult = await trFetch(requestConfig)
-            console.log('made it back from request')
-            console.log(result)
-            console.log(result.error)
-            console.log(result.ok)
-            console.log('data is:')
-            console.log(result.ok.data[0].alarms_page_metadata_json)
+            // console.log('made it back from request')
+            // console.log(result)
+            // console.log(result.error)
+            // console.log(result.ok)
+            // console.log('data is:')
+            // console.log(result.ok.data[0].alarms_page_metadata_json)
             // console.log()
             if (result.ok.data = []) {
                 // alert('empty data')
@@ -380,12 +436,16 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
 
             console.log('alarmspagemetadata now is:')
             console.log(alarmsPageMetadata)
-            console.log('and the alarmspagemetadatajson is:')
-            console.log(JSON.parse(alarmsPageMetadata.alarms_json))
+            // console.log('and the alarmspagemetadatajson is:')
+            // console.log(JSON.parse(alarmsPageMetadata.alarms_json))
             // console.log('and the serialized metadata field is')
 
             if (alarmsPageMetadata.alarms) {
-                setAlarmsList(alarmsPageMetadata.alarms)
+                let alarmsListArrayUnsorted: IAlarmMetadata[] = []
+                Object.keys(alarmsPageMetadata.alarms).forEach((key, index) => {
+                    alarmsListArrayUnsorted.push(alarmsPageMetadata.alarms[key])
+                })
+                sortAndFilterAlarmList(alarmsListArrayUnsorted)
             }
 
 
@@ -419,6 +479,8 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
 
             }
 
+            console.log('WOULD BE CALLING PERSIST ALARM CONFIG HERE, PASSING ALARMSPAGEMETADATA OBJECT:')
+            console.log(alarmsPageMetadata)
             // persistAlarmConfig()
 
         } else {
@@ -456,21 +518,28 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
     //----------------------------------------------------------------------------------------------
 
     //HELPER FUNCTIONS
-    function sortAndFilterAlarmList() {
+    function sortAndFilterAlarmList(unsortedAlarmsList: IAlarmMetadata[]) {
+
+        console.log('top of sortandfilteralarmlist. alarmlist unsorted array currently is:')
+        console.log(unsortedAlarmsList)
 
         let sortedAlarmsList = []
 
         if (alarmListSortType == 'time') {
-            sortedAlarmsList = sortAndFilterAlarmListByTime()
+            sortedAlarmsList = sortAndFilterAlarmListByTime(unsortedAlarmsList)
         } else {
-            sortedAlarmsList = sortAndFilterAlarmListByName()
+            sortedAlarmsList = sortAndFilterAlarmListByName(unsortedAlarmsList)
         }
+
+        console.log('sorted the alarmslist. it now is:')
+        console.log(sortedAlarmsList)
 
         if (!alarmListSortAsc) {
             sortedAlarmsList.reverse()
         }
 
         sortedAlarmsList.forEach((alarm, index) => {
+            console.log('in sortedalarslist for each loop. current index is: ' + index)
             const alarmNameLower = alarm.name.toLowerCase()
             if (alarmsSearchValue == '' || alarmNameLower.includes(alarmsSearchValue.toLowerCase())) {
                 alarm.shown = true
@@ -480,20 +549,24 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
             sortedAlarmsList[index] = alarm
         })
 
+
+        console.log('filtered alarms list. about to do setalarmslist. it is:')
+        console.log(sortedAlarmsList)
+
         setAlarmsListPendingSortOrFilter(false)
         setAlarmsList(sortedAlarmsList)
 
     }
 
-    function sortAndFilterAlarmListByTime() {
+    function sortAndFilterAlarmListByTime(unsortedAlarmsList: IAlarmMetadata[]) {
 
         let alarmTimes: string[] = []
         let alarmsSorted = []
         let sortedAlarmsIds = new Set<number>()
 
-        alarmsList.forEach((alarm) => {
+        unsortedAlarmsList.forEach((alarm) => {
             let time = alarm.timing.time
-            if (alarm.timing.format == 12) {
+            if (!timeFormat24Hr) {
                 time = time12hrTo24hr(time)
             }
             alarmTimes.push(time)
@@ -501,18 +574,29 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
 
         alarmTimes.sort()
 
+        console.log('going to do the sort by time. starting values:')
+        console.log(alarmTimes)
+        console.log(unsortedAlarmsList)
+
 
         alarmTimes.forEach((alarmTime) => {
 
-            alarmsList.forEach((alarm) => {
+            console.log('============= alarmTime loop: ' + alarmTime)
+
+            unsortedAlarmsList.forEach((alarm) => {
+
+                console.log('alarm loop: ' + alarm.id)
 
                 const id = alarm.id
                 if (!sortedAlarmsIds.has(id)) {
                     let currentAlarmTime = alarm.timing.time
+                    console.log('going to be comparing these two times [alarmTime, currentAlarmTime]')
+                    console.log([alarmTime, currentAlarmTime])
                     if (alarm.timing.format == 12) {
                         currentAlarmTime = time12hrTo24hr(currentAlarmTime)
                     }
                     if (currentAlarmTime == alarmTime) {
+                        console.log('match found; pushing to array !!!')
                         alarmsSorted.push(alarm)
                     }
                 }
@@ -523,14 +607,14 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
 
     }
 
-    function sortAndFilterAlarmListByName() {
+    function sortAndFilterAlarmListByName(unsortedAlarmsList: IAlarmMetadata[]) {
 
         // const alarmKeys: string[] = Object.keys(alarmsUnsorted)
         let alarmNames: string[] = []
         let alarmsSorted = []
         let sortedAlarmsIds = new Set<number>()
 
-        alarmsList.forEach((alarm) => {
+        unsortedAlarmsList.forEach((alarm) => {
             const name = alarm.name
             alarmNames.push(name)
         })
@@ -539,7 +623,7 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
 
         alarmNames.forEach((alarmName) => {
             console.log('alarm name:')
-            alarmsList.forEach((alarm) => {
+            unsortedAlarmsList.forEach((alarm) => {
                 const id = alarm.id
                 if (!sortedAlarmsIds.has(id)) {
                     if (alarm.name == alarmName) {
@@ -664,39 +748,114 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
     }
 
     const handleBtnNewAlarmClick = () => {
+        // setTimePickerMode('add')
         setTimePickerOpen(true)
     }
 
-    const handleTimePickerChangeDoneClick = () => {
-        if (alarmNamePending == '') {
-            if (!alarmName) {
-                setAlarmName(alarmNamePlaceholder)
-                setAlarmNamePending(alarmNamePlaceholder)
-            } else {
-                setAlarmNamePending(alarmName)
+    const handleTimePickerChangeDoneClick = (event) => {
+        console.log('time to save details of alarm')
+        console.log(alarmTimePickerFormatted)
+        console.log(alarmName)
+        console.log(alarmNamePending)
+        console.log(event.target.classList)
+
+        //If editing an existing alarm, we want to keep the changes whether the time picker was closed
+        //via a click on the Done button or on the modal backdrop
+        let keepChange = timePickerMode == 'edit' ? true : false
+
+        //If creating a new alarm, we want to keep the changes only if the time picker was closed via
+        //a click on the Done button
+        if (event.target) {
+            if (event.target.classList) {
+                const targetClassList = Array.from(event.target.classList)
+                if (targetClassList.includes('accept-alarm-time-and-name')) {
+                    keepChange = true
+                }
             }
-        } else if (alarmNamePending) {
-            setAlarmName(alarmNamePending)
-        } else {
-            setAlarmName(alarmNamePlaceholder)
-            setAlarmNamePending(alarmNamePlaceholder)
         }
-        setAlarmNamePlaceholder('')
 
         setTimePickerOpen(false)
 
+        if (keepChange) {
+            console.log('keeping change')
+            // const currentAlarms = alarmsPageMetadata.alarms
+
+                //check to see if this alarm exists
+                //only relevant for edit mode
+                let alarmId;
+                let alarmMetadata: IAlarmMetadata
+                // if (timePickerMode == 'add') {
+                    console.log('add mode')
+                    alarmMetadata = {}
+                // } else {
+                //     console.log('edit mode')
+                //     //need to get alarm id (alarm.id)
+                //     alarmId = timePickerAlarmId
+                //     alarmMetadata = alarmsPageMetadata.alarms.alarmId
+                // }
+
+
+                
+
+
+            
+
+
+            const dateNow = Date.now()
+            alarmMetadata.id = Math.floor(Math.random() * 10000000)
+            alarmMetadata.name = alarmNamePending || alarmNamePlaceholder
+            alarmMetadata.created = alarmMetadata.created || dateNow
+            alarmMetadata.edited = alarmMetadata.edited || []
+            alarmMetadata.edited.push(dateNow)
+            alarmMetadata.shown = true,
+            alarmMetadata.enabled = alarmMetadata.enabled || true
+            alarmMetadata.timing = alarmMetadata.timing || alarmMetadataDefault.timing
+            alarmMetadata.timing.time = alarmTime
+            alarmMetadata.light = alarmMetadata.light || alarmMetadataDefault.light
+            alarmMetadata.sound = alarmMetadata.sound || alarmMetadataDefault.sound
+            alarmMetadata.vibration = alarmMetadata.vibration || alarmMetadataDefault.vibration
+
+
+            console.log('now time to update alarmpagemetadata and send to db. going to call updateAlarmsMetadata')
+            updateAlarmsMetadata(alarmMetadata.id, alarmMetadata)
+
+
+
+        } else {
+            console.log('discarding change')
+            return
+        }
+        
+        
+        // if (alarmNamePending == '') {
+        //     if (!alarmName) {
+        //         setAlarmName(alarmNamePlaceholder)
+        //         setAlarmNamePending(alarmNamePlaceholder)
+        //     } else {
+        //         setAlarmNamePending(alarmName)
+        //     }
+        // } else if (alarmNamePending) {
+        //     setAlarmName(alarmNamePending)
+        // } else {
+        //     setAlarmName(alarmNamePlaceholder)
+        //     setAlarmNamePending(alarmNamePlaceholder)
+        // }
+        // setAlarmNamePlaceholder('')
+
+        // setTimePickerOpen(false)
+
     }
 
-    const testChange = (value) => {
+    const handleAlarmTimeChanged = (value) => {
 
         const hours = value.$H
         const minutes = value.$m
 
-        let timeString = hours + ':' + minutes
+        let timeString: string
         if (timeFormat24Hr) {
-
+            timeString = String(hours).padStart(2, '0') + ':' + String(minutes).padStart(2, '0')
         } else {
-            timeString = time24hrTo12hr(timeString)
+            timeString = time24hrTo12hr(hours + ':' + minutes)
         }
 
         setAlarmTime(timeString)
@@ -946,32 +1105,6 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
                     handlers={handlers}
                     setters={setters}
                 />
-
-                {/* <Box
-                    id='paper-alarms-list>'
-                    sx={{
-                        display: 'flex',
-                        flexDirection: 'column',
-                        rowGap: '2rem'
-                    }}
-                >
-                    <Box
-                        id='alarms-list-container'
-                        sx={{
-                            display: 'flex',
-                            flexDirection: 'column',
-                            rowGap: '1rem',
-                            '&>.MuiPaper-root': {
-                                borderRadius: '4px',
-                            },
-                            '&>.MuiPaper-root::before': {
-                                display: 'none'
-                            }
-                        }}
-                    >
-                        {alarmComponents}
-                    </Box>
-                </Box> */}
             </Box>
 
 
@@ -1012,7 +1145,7 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
                                     <StaticTimePicker
                                         ampm={!timeFormat24Hr}
                                         value={alarmTimePickerFormatted || dayjs('12:00', 'HH:mm')}
-                                        onChange={testChange}
+                                        onChange={handleAlarmTimeChanged}
 
                                         sx={{
                                             background: 'none',
@@ -1089,10 +1222,11 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
                             />
                         </Box>
                         <Box
-                            className='btn-accept-alarm-time-and-name-container'
+                            className='accept-alarm-time-and-name'
                         >
                             <Button
                                 variant='contained'
+                                className='accept-alarm-time-and-name'
                                 onClick={handleTimePickerChangeDoneClick}
                                 sx={{
                                     width: '100%'
