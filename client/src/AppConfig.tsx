@@ -4,6 +4,9 @@ import TrillliConfig from "trillli/src/components/TrillliConfig"
 import TrillliMenu from "trillli/src/types/TrillliMenu"
 import TrillliMenuItem from "trillli/src/types/TrillliMenuItem"
 import SparrowLight from "./themes/SparrowLight"
+import NotFoundPageContents from './components/404NotFound'
+import AppSplash from './components/AppSplash'
+
 
 
 class AppConfig extends TrillliConfig implements ITrillliConfig {
@@ -46,13 +49,18 @@ class AppConfig extends TrillliConfig implements ITrillliConfig {
     }
 
     readonly pages: { [key: string]: {[key: string]: any} } = {
+        landing: {
+            trBasic: true,
+            contents: <AppSplash />,
+            authPrompt: true
+        },
         loading: {
             trBasic: true,
             contents: <div>this is the loading page</div>
         },
         notFound: {
             trBasic: true,
-            contents: <div>404 not found, uh oh</div>
+            contents: <NotFoundPageContents />
         }
     }
 

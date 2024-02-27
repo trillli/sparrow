@@ -8,3 +8,5 @@ const NotFoundPageContents: React.FC = () => {
 
 
 }
+
+export default NotFoundPageContents

@@ -5,12 +5,12 @@ import TrillliPageBuilder from 'trillli/src/components/TrillliPageBuilder';
 const AppSplash: React.FC = () => {
 
     return (
-        <PageBuilder navTop navSide>
+        // <PageBuilder navTop navSide>
             <div id='mypage'>
                 <div>This is the splash screen</div>
-                <div>write some good ol html here!</div>
+                <div>write some good ol html here!!</div>
             </div>
-        </PageBuilder>
+        // </PageBuilder>
     )
 }
 

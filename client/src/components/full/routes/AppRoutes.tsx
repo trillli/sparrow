@@ -16,7 +16,7 @@ const AppRoutes: React.FC = () => {
         <Router>
             <Auth0Router >
                 <Routes>
-                    <Route path="/" element={<AppSplash />} />
+                    {/* <Route path="/" element={<AppSplash />} /> */}
                     <Route path="/alarms" element={<Auth0Authenticator appConfig={appConfig} component={AlarmsHome}/>} />
                     <Route path="/*" element={<TrillliRoutes appConfig={appConfig} />}/>
                 </Routes>
