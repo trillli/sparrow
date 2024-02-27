@@ -18,7 +18,9 @@ interface AlarmConfigGroupSoundProps {
 
 const AlarmConfigGroupSound: React.FC<AlarmConfigGroupSoundProps> = ({ alarm, appConfig, handlers, setters }) => {
 
-    const [groupEnabled, setGroupEnabled] = React.useState<boolean>(true)
+    const [groupEnabled, setGroupEnabled] = React.useState<boolean>(alarm.sound.enabled)
+
+    // console.log('in alarm')
 
     React.useEffect(() => {
         alarm.sound.enabled = groupEnabled

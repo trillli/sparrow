@@ -41,7 +41,6 @@ const AlarmConfigCategoryDetailBodyLightStart: React.FC<AlarmConfigCategoryDetai
         <AlarmConfigCategoryDetailHeader label={fieldLabel} />
         <Box className='alarm-config-category-detail-field-contents-container'>
             <TrSlider
-                defaultValue={lightAdvanceMinutes}
                 value={lightAdvanceMinutes}
                 min={-30}
                 max={30}
@@ -55,8 +54,8 @@ const AlarmConfigCategoryDetailBodyLightStart: React.FC<AlarmConfigCategoryDetai
                         width: '20px',
                         borderRadius: '999px',
                         opacity: 1,
-                        background: `hsl(${lightColor}, 100%, 50%)`,
-                        boxShadow: `0px 0px 0px 6px hsl(${lightColor}, 100%, 50%, 58%)`,
+                        background: `hsl(${alarm.light.color.h}, 100%, 50%)`,
+                        boxShadow: `0px 0px 0px 6px hsl(${alarm.light.color.h}, 100%, 50%, 58%)`,
                         color: 'blue'
                     },
                     '& .MuiSlider-markLabel': {

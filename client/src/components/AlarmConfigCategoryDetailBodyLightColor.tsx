@@ -34,7 +34,7 @@ const AlarmConfigCategoryDetailBodyLightColor: React.FC<AlarmConfigCategoryDetai
         <Box className='alarm-config-category-detail-field-container'>
         <AlarmConfigCategoryDetailHeader label={'Sunrise Light Color'} />
         <Box className='alarm-config-category-detail-field-contents-container'>
-        <TrSliderColorPicker lightHue={lightColor} onChange={onColorSliderChange} onChangeCommitted={onColorSliderChangeCommitted} />
+        <TrSliderColorPicker lightHue={alarm.light.color.h} onChange={onColorSliderChange} onChangeCommitted={onColorSliderChangeCommitted} />
         </Box>
         </Box>
     )

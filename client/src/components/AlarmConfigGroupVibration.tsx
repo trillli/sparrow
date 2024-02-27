@@ -16,7 +16,7 @@ interface AlarmConfigGroupVibrationProps {
 
 const AlarmConfigGroupVibration: React.FC<AlarmConfigGroupVibrationProps> = ({alarm, appConfig, handlers, setters, lightColor}) => {
 
-    const [groupEnabled, setGroupEnabled] = React.useState<boolean>(true)
+    const [groupEnabled, setGroupEnabled] = React.useState<boolean>(alarm.vibration.enabled)
 
     React.useEffect(() => {
         alarm.vibration.enabled = groupEnabled

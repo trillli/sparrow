@@ -22,11 +22,11 @@ const AlarmConfigCategoryDetailBodyVibrationStart: React.FC<AlarmConfigCategoryD
     const handleVibrationAdvanceMinutesChange = (event: Event) => {
         const target: HTMLInputElement = event.target as HTMLInputElement
         const value: number = Number(target.value)
-        setVibrationAdvanceMinutes(value)
+        setVibrationAdvanceMinutes(value)        
     }
 
     const handleVibrationAdvanceMinutesChangeCommitted = (event: React.MouseEvent<HTMLElement>) => {
-        alarm.light.timing['advance_minutes'] = vibrationAdvanceMinutes
+        alarm.vibration.timing['advance_minutes'] = vibrationAdvanceMinutes
         handlers.updateAlarmsMetadata(alarm.id, alarm)
     }
 

@@ -19,7 +19,7 @@ interface AlarmConfigGroupLightProps {
 
 const AlarmConfigGroupLight: React.FC<AlarmConfigGroupLightProps> = ({alarm, appConfig, handlers, setters, lightColor, onColorSliderChange, onColorSliderChangeCommitted}) => {
 
-    const [groupEnabled, setGroupEnabled] = React.useState<boolean>(true)
+    const [groupEnabled, setGroupEnabled] = React.useState<boolean>(alarm.light.enabled)
 
     React.useEffect(() => {
         alarm.light.enabled = groupEnabled

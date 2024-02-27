@@ -34,16 +34,24 @@ const AlarmConfigCategoryDetailBodyVibration: React.FC<AlarmConfigCategoryDetail
         const target: HTMLInputElement = event.target as HTMLInputElement
         const value: 'constant' | 'ramp' = target.value as 'constant' | 'ramp'
         setVibrationProfile(value)
+        alarm.vibration.intensity.profile = value
+        handlers.updateAlarmsMetadata(alarm.id, alarm)
     }
 
     const handleVibrationChangeConstant = (event: Event, value: number | number[]) => {
-        setVibrationMax(value as number)
+        // setVibrationMax(value as number)
+        alarm.vibration.intensity.end = value
+        // alarm.vibration.intensity.start = values[0]
+        handlers.updateAlarmsMetadata(alarm.id, alarm)
     }
 
     const handleVibrationChangeRamp = (event: Event, value: number | number[]) => {
         const values = value as number[]
-        setVibrationRamp(values as number[])
-        setVibrationMax(values[1] as number)
+        // setVibrationRamp(values as number[])
+        // setVibrationMax(values[1] as number)
+        alarm.vibration.intensity.end = values[1]
+        alarm.vibration.intensity.start = values[0]
+        handlers.updateAlarmsMetadata(alarm.id, alarm)
     }
 
     const handleVibrationConstantChangeCommitted = (event: Event, value: number | number[]) => {
@@ -65,7 +73,7 @@ const AlarmConfigCategoryDetailBodyVibration: React.FC<AlarmConfigCategoryDetail
                 <Box className='alarm-config-category-detail-field-contents-container'>
                     <ToggleButtonGroup
                         color="primary"
-                        value={vibrationProfile}
+                        value={alarm.vibration.intensity.profile}
                         exclusive
                         onChange={handleVibrationProfileChange}
                         sx={{
@@ -95,7 +103,7 @@ const AlarmConfigCategoryDetailBodyVibration: React.FC<AlarmConfigCategoryDetail
                 <AlarmConfigCategoryDetailHeader label='Intensity' />
                 {vibrationProfile == 'constant' ? (
                     <TrSlider
-                        value={vibrationConstant}
+                        value={alarm.vibration.intensity.end}
                         min={0}
                         max={100}
                         onChange={handleVibrationChangeConstant}
@@ -103,7 +111,7 @@ const AlarmConfigCategoryDetailBodyVibration: React.FC<AlarmConfigCategoryDetail
                     />
                 ) : (
                     <TrSlider
-                        value={vibrationRamp}
+                        value={[alarm.vibration.intensity.start, alarm.vibration.intensity.end]}
                         min={0}
                         max={100}
                         onChange={handleVibrationChangeRamp}
