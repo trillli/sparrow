@@ -42,20 +42,20 @@ const Alarm: React.FC<AlarmProps> = ({ alarm, appConfig, handlers, setters }) =>
     }, [])
 
     React.useEffect(() => {
-        console.log('in norepeat useeffect')
+        // console.log('in norepeat useeffect')
         if (noRepeat) {
             setRepeatDays(new Set<DayAbbrev>())
         }
     }, [noRepeat])
 
     React.useEffect(() => {
-        console.log('in alarmenabled useeffect')
+        // console.log('in alarmenabled useeffect')
         alarm.enabled = alarmEnabled
         handlers.updateAlarmsMetadata(alarm.id, alarm)
     }, [alarmEnabled])
 
     React.useEffect(() => {
-        console.log('in repeatdata useeffect')
+        // console.log('in repeatdata useeffect')
         if (repeatDays.size == 0) {
             setNoRepeat(true)
         } else {
@@ -121,6 +121,9 @@ const Alarm: React.FC<AlarmProps> = ({ alarm, appConfig, handlers, setters }) =>
         event.stopPropagation()
     }
 
+    if (alarm.shown) {
+
+    
 
     return (
         <Accordion
@@ -322,6 +325,9 @@ const Alarm: React.FC<AlarmProps> = ({ alarm, appConfig, handlers, setters }) =>
             </AccordionDetails>
         </Accordion>
     )
+            } else {
+                return
+            }
 
 }
 

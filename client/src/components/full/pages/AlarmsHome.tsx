@@ -440,18 +440,20 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
             // //console.log(JSON.parse(alarmsPageMetadata.alarms_json))
             // //console.log('and the serialized metadata field is')
 
-            if (alarmsPageMetadata.alarms) {
-                let alarmsListArrayUnsorted: IAlarmMetadata[] = []
-                Object.keys(alarmsPageMetadata.alarms).forEach((key, index) => {
-                    alarmsListArrayUnsorted.push(alarmsPageMetadata.alarms[key])
-                })
-                sortAndFilterAlarmList(alarmsListArrayUnsorted)
-            }
+            // if (alarmsPageMetadata.alarms) {
+            //     let alarmsListArrayUnsorted: IAlarmMetadata[] = []
+            //     Object.keys(alarmsPageMetadata.alarms).forEach((key, index) => {
+            //         alarmsListArrayUnsorted.push(alarmsPageMetadata.alarms[key])
+            //     })
+            //     sortAndFilterAlarmList(alarmsListArrayUnsorted)
+            // }
+
+            sortAndFilterAlarmList()
 
 
 
-            console.log('Updated alarms page metadata and ready to post/patch to api: ')
-            console.log(alarmsPageMetadata)
+            // console.log('Updated alarms page metadata and ready to post/patch to api: ')
+            // console.log(alarmsPageMetadata)
 
             
 
@@ -502,23 +504,40 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
         updateAlarmsPageMetadata()
     }, [alarmListSortType, alarmListSortAsc, timeFormat24Hr])
 
+    // React.useEffect(() => {
+
+    //     // updateAlarmsPageMetadata()
+
+    //     if (alarmsListPendingSortOrFilter) {
+    //         // sortAndFilterAlarmList()
+    //     } else {
+    //         // //console.log('no longer using setalarmcomponents - instead need to implement & update an alarm state variable')
+    //         // setAlarmComponents(generateAlarmComponents()) 
+    //     }
+
+    // }, [alarmsList, alarmListSortType, alarmListSortAsc, alarmsSearchValue])
+
     React.useEffect(() => {
-
-        // updateAlarmsPageMetadata()
-
-        if (alarmsListPendingSortOrFilter) {
-            // sortAndFilterAlarmList()
-        } else {
-            // //console.log('no longer using setalarmcomponents - instead need to implement & update an alarm state variable')
-            // setAlarmComponents(generateAlarmComponents()) 
-        }
-
-    }, [alarmsList, alarmListSortType, alarmListSortAsc, alarmsSearchValue])
+        sortAndFilterAlarmList()
+    }, [alarmsSearchValue])
 
     //----------------------------------------------------------------------------------------------
 
     //HELPER FUNCTIONS
-    function sortAndFilterAlarmList(unsortedAlarmsList: IAlarmMetadata[]) {
+    function sortAndFilterAlarmList() {
+
+
+        let unsortedAlarmsList: IAlarmMetadata[] = []
+        if (alarmsPageMetadata && alarmsPageMetadata.alarms) {
+            // let alarmsListArrayUnsorted: IAlarmMetadata[] = []
+            Object.keys(alarmsPageMetadata.alarms).forEach((key, index) => {
+                unsortedAlarmsList.push(alarmsPageMetadata.alarms[key])
+            })
+            // sortAndFilterAlarmList(alarmsListArrayUnsorted)
+        }
+
+
+        // console.log('filter')
 
         //console.log('top of sortandfilteralarmlist. alarmlist unsorted array currently is:')
         //console.log(unsortedAlarmsList)
@@ -538,12 +557,21 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
             sortedAlarmsList.reverse()
         }
 
+
+        console.log('now going to try to filter alarm list. alarmlist currently is: ')
+        console.log(sortedAlarmsList)
         sortedAlarmsList.forEach((alarm, index) => {
-            //console.log('in sortedalarslist for each loop. current index is: ' + index)
+
             const alarmNameLower = alarm.name.toLowerCase()
+
+            console.log('current comparison: [alarmsSearchValue, alarmNameLower]')
+            console.log([alarmsSearchValue, alarmNameLower])
+
             if (alarmsSearchValue == '' || alarmNameLower.includes(alarmsSearchValue.toLowerCase())) {
+                console.log('setting shown to true')
                 alarm.shown = true
             } else {
+                console.log('setting shown to false')
                 alarm.shown = false
             }
             sortedAlarmsList[index] = alarm
@@ -737,6 +765,7 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
     }
 
     const handleAlarmNameTyping = (event: React.ChangeEvent<HTMLInputElement>) => {
+        console.log('test')
         const value: string = event.target.value
         const alarmNamePending = value
         if (!alarmNamePending) {
@@ -889,6 +918,7 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
     }
 
     const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
+        console.log('typing now')
         setAlarmsListPendingSortOrFilter(true)
         setAlarmsSearchValue(event.target.value)
     }
