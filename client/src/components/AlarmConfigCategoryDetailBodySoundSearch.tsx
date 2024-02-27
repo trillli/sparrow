@@ -81,7 +81,7 @@ const AlarmConfigCategoryDetailBodySoundSearch: React.FC<AlarmConfigCategoryDeta
             const requestConfig: TrFetchConfig = {
                 accessToken: accessToken,
                 method: 'POST',
-                path: "/api/sound_search",
+                path: "/sound/search",
                 payload: JSON.stringify(searchParams)
             }
             const result: TrFetchResult = await trFetch(requestConfig);
