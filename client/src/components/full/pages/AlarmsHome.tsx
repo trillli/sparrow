@@ -629,6 +629,7 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
                     if (currentAlarmTime == alarmTime) {
                         //console.log('match found; pushing to array !!!')
                         alarmsSorted.push(alarm)
+                        sortedAlarmsIds.add(id) //to avoid duplicate additions, since we're allowing alarms to share names/times
                     }
                 }
             })
@@ -663,6 +664,7 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
                 if (!sortedAlarmsIds.has(id)) {
                     if (alarm.name == alarmName) {
                         alarmsSorted.push(alarm)
+                        sortedAlarmsIds.add(alarm.id) //to avoid duplicate additions, since we're allowing alarms to share names/times
                     }
                 }
             })
@@ -826,7 +828,7 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
 
         setTimePickerOpen(false)
 
-        if (keepChange) {
+        // if (keepChange) {
             //console.log('keeping change')
             // const currentAlarms = alarmsPageMetadata.alarms
 
@@ -882,10 +884,10 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
 
 
 
-        } else {
+        // } else {
             //console.log('discarding change')
-            return
-        }
+            // return
+        // }
         
         
         // if (alarmNamePending == '') {
