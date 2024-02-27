@@ -49,7 +49,7 @@ const AlarmsList: React.FC<AlarmsListProps> = ({alarms, appConfig, handlers, set
                         setters={setters}
                         timeFormat24Hr={timeFormat24Hr}
                     />
-                )):(<div>no alarms</div>)}
+                )):(<></>)}
             </Box>
         </Box>
     )

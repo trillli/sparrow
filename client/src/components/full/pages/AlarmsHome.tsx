@@ -382,13 +382,16 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
     const [alarmExpanded, setAlarmExpanded] = React.useState<boolean>(false) //alarm level
 
     const [alarmName, setAlarmName] = React.useState<string>();
-    const [alarmNamePlaceholder, setAlarmNamePlaceholder] = React.useState<string>(() => {
+    function getRandomDefaultAlarmName(): string {
         const index = Math.floor(Math.random() * defaultAlarmNames.length)
         return (defaultAlarmNames[index] + ' alarm')
-    })
+    }
+    const [alarmNamePlaceholder, setAlarmNamePlaceholder] = React.useState<string>(getRandomDefaultAlarmName())
     const [alarmNamePending, setAlarmNamePending] = React.useState<string>()
+    const [alarmId, setAlarmId] = React.useState<number>()
+    // const []
 
-    const [alarmTime, setAlarmTime] = React.useState<string>('17:23')
+    const [alarmTime, setAlarmTime] = React.useState<string>('12:00')
     const [timePickerOpen, setTimePickerOpen] = React.useState<boolean>(false)
     const [timeFormat24Hr, setTimeFormat24Hr] = React.useState<boolean>(true)
     const [alarmTimePickerFormatted, setAlarmTimePickerFormatted] = React.useState<Dayjs>()
@@ -801,6 +804,7 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
 
     const handleBtnNewAlarmClick = () => {
         // setTimePickerMode('add')
+        setAlarmNamePending('')
         setTimePickerOpen(true)
     }
 
@@ -834,11 +838,11 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
 
                 //check to see if this alarm exists
                 //only relevant for edit mode
-                let alarmId;
+                // let alarmId;
                 let alarmMetadata: IAlarmMetadata
                 // if (timePickerMode == 'add') {
                     //console.log('add mode')
-                    alarmMetadata = {}
+                    // alarmMetadata = {}
                 // } else {
                 //     //console.log('edit mode')
                 //     //need to get alarm id (alarm.id)
@@ -847,32 +851,27 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
                 // }
 
 
-                
+            //see if alarm of this id exists already; ie, check if we are editing an alarm or adding a new one
+            
+            if (alarmId && alarmsPageMetadata?.alarms[alarmId]) {
+                alarmMetadata = alarmsPageMetadata.alarms[alarmId]
+            } else {
+                alarmMetadata = {}
+            }
 
 
             
 
 
             const dateNow = Date.now()
-            alarmMetadata.id = Math.floor(Math.random() * 10000000)
+            alarmMetadata.id = alarmMetadata.id || Math.floor(Math.random() * 10000000)
             alarmMetadata.name = alarmNamePending || alarmNamePlaceholder
             alarmMetadata.created = alarmMetadata.created || dateNow
             alarmMetadata.edited = alarmMetadata.edited || []
             alarmMetadata.edited.push(dateNow)
-            alarmMetadata.shown = true,
+            alarmMetadata.shown = alarmMetadata.shown || true
             alarmMetadata.enabled = alarmMetadata.enabled || true
             alarmMetadata.timing = alarmMetadata.timing || alarmMetadataDefault.timing
-            console.log('SETTING METADTA. ALRMTIME:')
-            console.log(alarmTime)
-            console.log([alarmsPageMetadata.timeFormat24Hr, timeFormat24Hr])
-
-            // //Always want to persist time in 24hr format; if timeFormat24Hr = true, the 
-            // // if (timeFormat24Hr) {
-            //     alarmMetadata.timing.time = alarmTime
-            // // } else {
-            //     // const convertedTime = fnTime24hrTo12hr(alarmTime)
-            //     // alarmMetadata.timing.time = convertedTime
-            // // }
             alarmMetadata.timing.time = alarmTime
             alarmMetadata.light = alarmMetadata.light || alarmMetadataDefault.light
             alarmMetadata.sound = alarmMetadata.sound || alarmMetadataDefault.sound
@@ -880,6 +879,11 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
 
 
             //console.log('now time to update alarmpagemetadata and send to db. going to call updateAlarmsMetadata')
+            setAlarmName()
+            setAlarmId()
+            setAlarmTime('12:00')
+            setAlarmNamePlaceholder()
+            setAlarmNamePlaceholder(getRandomDefaultAlarmName())
             updateAlarmsMetadata(alarmMetadata.id, alarmMetadata)
 
 
@@ -943,8 +947,15 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
         }
     }
 
-    const handleAlarmTimeOrNameClick = (event: React.MouseEvent<HTMLElement>) => {
+    const handleAlarmTimeOrNameClick = (event: React.MouseEvent<HTMLElement>, alarmId: number) => {
         console.log('handling the alarm time or name click event')
+        console.log(event)
+        console.log(alarmId)
+        const editingAlarm = alarmsPageMetadata.alarms[alarmId]
+        setAlarmName(editingAlarm.name)
+        setAlarmNamePending(editingAlarm.name)
+        setAlarmId(alarmId)
+        setAlarmTime(editingAlarm.timing.time)
         setTimePickerOpen(true)
         event.stopPropagation()
     }
@@ -1268,7 +1279,7 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
                                         slotProps={{
                                             actionBar: {
                                                 sx: {
-                                                    // display: 'none',
+                                                    display: 'none',
                                                     flexDirection: 'column-reverse',
                                                     rowGap: '1rem',
                                                     '& .MuiButtonBase-root': {
@@ -1288,7 +1299,7 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
                                                 sx: {
                                                     gridRow: '2 !important',    //sue me
                                                     '&>.MuiTypography-root': {
-                                                        // display: 'none'
+                                                        display: 'none'
                                                     },
                                                     '& .MuiPickersToolbar-content': {
                                                         justifyContent: 'center'

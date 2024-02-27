@@ -37,7 +37,7 @@ const Alarm: React.FC<AlarmProps> = ({ alarm, appConfig, handlers, setters, time
     // console.log(repeatDays)
 
     React.useEffect(() => {
-        setRepeatDays(new Set(alarm.timing.days))
+        // setRepeatDays(new Set(alarm.timing.days))
     }, [])
 
     React.useEffect(() => {
@@ -198,14 +198,12 @@ const Alarm: React.FC<AlarmProps> = ({ alarm, appConfig, handlers, setters, time
                         }}
                     >
                         <Typography
-                            onClick={handlers.handleAlarmTimeOrNameClick(alarm.id)}
+                            onClick={(event) => handlers.handleAlarmTimeOrNameClick(event, alarm.id)}
                             sx={{
                                 fontSize: '1.25rem',
                                 fontWeight: 'bold'
                             }}
                         >
-                            {timeFormat24Hr ? alarm.timing.time : fnTime24hrTo12hr(alarm.timing.time)}
-                             - - - - 
                             {formattedTime}
                         </Typography>
                     </Box>
@@ -222,7 +220,11 @@ const Alarm: React.FC<AlarmProps> = ({ alarm, appConfig, handlers, setters, time
                             padding: '0px .75rem'
                         }}
                     >
-                        <Typography onClick={handlers.handleAlarmTimeOrNameClick(alarm.id)}>{alarm.name}</Typography>
+                        <Typography 
+                        onClick={(event) => handlers.handleAlarmTimeOrNameClick(event, alarm.id)}
+                        >
+                            {alarm.name}
+                        </Typography>
                     </Box>
                     <Box
                         className='alarm-status-container'
@@ -237,7 +239,7 @@ const Alarm: React.FC<AlarmProps> = ({ alarm, appConfig, handlers, setters, time
                         className='btn-delete-alarm-container'
                     >
                         <IconButton
-                            onClick={handleAlarmDeleteBtnClick(alarm.id)}
+                            onClick={handleAlarmDeleteBtnClick}
                         >
                             <Delete />
                         </IconButton>
