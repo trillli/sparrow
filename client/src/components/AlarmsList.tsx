@@ -10,9 +10,10 @@ interface AlarmsListProps {
     appConfig: ITrillliConfig
     handlers: {[key: string]: Function}
     setters: {[key: string]: Function}
+    timeFormat24Hr: boolean
 }
 
-const AlarmsList: React.FC<AlarmsListProps> = ({alarms, appConfig, handlers, setters}) => {
+const AlarmsList: React.FC<AlarmsListProps> = ({alarms, appConfig, handlers, setters, timeFormat24Hr}) => {
 
     
 
@@ -46,6 +47,7 @@ const AlarmsList: React.FC<AlarmsListProps> = ({alarms, appConfig, handlers, set
                         appConfig={appConfig}
                         handlers={handlers}
                         setters={setters}
+                        timeFormat24Hr={timeFormat24Hr}
                     />
                 )):(<div>no alarms</div>)}
             </Box>

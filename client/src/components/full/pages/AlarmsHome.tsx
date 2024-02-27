@@ -10,6 +10,7 @@ import AddAlarmIcon from '@mui/icons-material/AddAlarm';
 import FilterListIcon from '@mui/icons-material/FilterList';
 import SortIcon from '@mui/icons-material/Sort';
 import { IAlarmMetadata } from '../../types/IAlarmMetadata'
+import { fnTime12hrTo24hr, fnTime24hrTo12hr } from 'trillli/src/components/utils/TimeAndDateUtils'
 import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import dayjs, { Dayjs } from 'dayjs'
@@ -19,6 +20,7 @@ import { StaticTimePicker } from '@mui/x-date-pickers/StaticTimePicker';
 import Fade from '@mui/material/Fade';
 import { useAuth0 } from '@auth0/auth0-react';
 import { TrFetchConfig, TrFetchResult, trFetch } from 'trillli/src/components/TrApiClient';
+import { green } from '@mui/material/colors';
 
 interface AlarmsHomeProps {
     appConfig: ITrillliConfig
@@ -481,8 +483,8 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
 
             }
 
-            //console.log('WOULD BE CALLING PERSIST ALARM CONFIG HERE, PASSING ALARMSPAGEMETADATA OBJECT:')
-            //console.log(alarmsPageMetadata)
+            // console.log('WOULD BE CALLING PERSIST ALARM CONFIG HERE, PASSING ALARMSPAGEMETADATA OBJECT:')
+            // console.log(alarmsPageMetadata)
             // persistAlarmConfig()
 
         } else {
@@ -501,6 +503,7 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
     }, [alarmTime])
 
     React.useEffect(() => {
+        console.log('in useeffect or alamrlistsorttype, alarmlistsortasc, timeformat25hr')
         updateAlarmsPageMetadata()
     }, [alarmListSortType, alarmListSortAsc, timeFormat24Hr])
 
@@ -595,7 +598,7 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
         unsortedAlarmsList.forEach((alarm) => {
             let time = alarm.timing.time
             if (!timeFormat24Hr) {
-                time = time12hrTo24hr(time)
+                time = fnTime12hrTo24hr(time)
             }
             alarmTimes.push(time)
         })
@@ -621,7 +624,7 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
                     //console.log('going to be comparing these two times [alarmTime, currentAlarmTime]')
                     //console.log([alarmTime, currentAlarmTime])
                     if (alarm.timing.format == 12) {
-                        currentAlarmTime = time12hrTo24hr(currentAlarmTime)
+                        currentAlarmTime = fnTime12hrTo24hr(currentAlarmTime)
                     }
                     if (currentAlarmTime == alarmTime) {
                         //console.log('match found; pushing to array !!!')
@@ -647,10 +650,11 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
             alarmNames.push(name)
         })
 
+        //Custom sorting to ignore priority of capital letters
         alarmNames.sort((a, b) => a.toLowerCase().localeCompare(b.toLowerCase()));
 
-        console.log('going to sort based on these names:')
-        console.log(alarmNames)
+        // console.log('going to sort based on these names:')
+        // console.log(alarmNames)
 
         alarmNames.forEach((alarmName) => {
             //console.log('alarm name:')
@@ -668,46 +672,46 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
 
     }
 
-    function time12hrTo24hr(time12hr: string) {
-        // Split the time string into hours, minutes, and AM/PM
-        const [timeString, period] = time12hr.split(' ');
-        const [hours, minutes] = timeString.split(':').map(Number);
+    // function time12hrTo24hr(time12hr: string) {
+    //     // Split the time string into hours, minutes, and AM/PM
+    //     const [timeString, period] = time12hr.split(' ');
+    //     const [hours, minutes] = timeString.split(':').map(Number);
 
-        // Convert 12-hour time to 24-hour time
-        let hours24 = hours;
-        if (period === 'PM' && hours < 12) {
-            hours24 += 12;
-        } else if (period === 'AM' && hours === 12) {
-            hours24 = 0;
-        }
+    //     // Convert 12-hour time to 24-hour time
+    //     let hours24 = hours;
+    //     if (period === 'PM' && hours < 12) {
+    //         hours24 += 12;
+    //     } else if (period === 'AM' && hours === 12) {
+    //         hours24 = 0;
+    //     }
 
-        // Format hours and minutes with leading zeros
-        const formattedHours = String(hours24).padStart(2, '0');
-        const formattedMinutes = String(minutes).padStart(2, '0');
+    //     // Format hours and minutes with leading zeros
+    //     const formattedHours = String(hours24).padStart(2, '0');
+    //     const formattedMinutes = String(minutes).padStart(2, '0');
 
-        // Return the time in 24-hour format
-        return `${formattedHours}:${formattedMinutes}`;
-    }
+    //     // Return the time in 24-hour format
+    //     return `${formattedHours}:${formattedMinutes}`;
+    // }
 
-    function time24hrTo12hr(time24Hr: string) {
+    // function time24hrTo12hr(time24Hr: string) {
 
-        // Split the time string into hours and minutes
-        const [hours, minutes] = time24Hr.split(':').map(Number);
+    //     // Split the time string into hours and minutes
+    //     const [hours, minutes] = time24Hr.split(':').map(Number);
 
-        // Determine the period (AM or PM) based on the hours
-        const period = hours >= 12 ? 'PM' : 'AM';
+    //     // Determine the period (AM or PM) based on the hours
+    //     const period = hours >= 12 ? 'PM' : 'AM';
 
-        // Convert hours to 12-hour format
-        let hours12 = hours % 12;
-        hours12 = hours12 || 12; // Convert 0 to 12
+    //     // Convert hours to 12-hour format
+    //     let hours12 = hours % 12;
+    //     hours12 = hours12 || 12; // Convert 0 to 12
 
-        // Format hours and minutes with leading zeros
-        const formattedHours = String(hours12).padStart(2, '0');
-        const formattedMinutes = String(minutes).padStart(2, '0');
+    //     // Format hours and minutes with leading zeros
+    //     const formattedHours = String(hours12).padStart(2, '0');
+    //     const formattedMinutes = String(minutes).padStart(2, '0');
 
-        // Return the time in 12-hour format
-        return `${formattedHours}:${formattedMinutes} ${period}`;
-    }
+    //     // Return the time in 12-hour format
+    //     return `${formattedHours}:${formattedMinutes} ${period}`;
+    // }
 
     //----------------------------------------------------------------------------------------------
 
@@ -737,16 +741,30 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
     }
 
 
-    const updateAlarmsMetadata = (alarmId: number, alarmMetadata: IAlarmMetadata) => {
+    const updateAlarmsMetadata = (alarmId: number, alarmMetadata: IAlarmMetadata, remove: boolean = false) => {
         setAlarmsPageMetadata(prevState => {
             // //console.log('here in updatealarmspage metadata. prevState is:')
             // //console.log(prevState)
             if (prevState) {
                 // //console.log('made it into if prevState')
-                const prevAlarms = { ...prevState.alarms }
+                // let prevAlarms = { ...prevState.alarms }
                 // //console.log('prevAlarms is:')
                 // //console.log(prevAlarms)
-                const alarmsUpdated = { ...prevAlarms, [alarmId]: alarmMetadata }
+                let alarmsUpdated: {[key: string]: IAlarmMetadata} = {}
+                if (remove) {
+                    const prevAlarmKeys = Object.keys(prevState.alarms)
+                    prevAlarmKeys.forEach((prevAlarmKey) => {
+                        //Create a copy of the current alarms, but omit the alarm to be deleted
+                        if (prevState.alarms[prevAlarmKey].id != alarmId) {
+                            alarmsUpdated[prevAlarmKey] = prevState.alarms[prevAlarmKey]
+                        }
+                    })
+                } else {
+                    let prevAlarms = { ...prevState.alarms }
+                    prevAlarms = { ...prevState.alarms }
+                    alarmsUpdated = { ...prevAlarms, [alarmId]: alarmMetadata }
+                }
+                // alarmsUpdated = { ...prevAlarms, [alarmId]: alarmMetadata }
                 // //console.log('alarmsUpdated is: ')
                 // //console.log(alarmsUpdated)
                 const alarmsPageMetadataUpdated = { ...prevState, 'alarms': alarmsUpdated };
@@ -842,6 +860,17 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
             alarmMetadata.shown = true,
             alarmMetadata.enabled = alarmMetadata.enabled || true
             alarmMetadata.timing = alarmMetadata.timing || alarmMetadataDefault.timing
+            console.log('SETTING METADTA. ALRMTIME:')
+            console.log(alarmTime)
+            console.log([alarmsPageMetadata.timeFormat24Hr, timeFormat24Hr])
+
+            // //Always want to persist time in 24hr format; if timeFormat24Hr = true, the 
+            // // if (timeFormat24Hr) {
+            //     alarmMetadata.timing.time = alarmTime
+            // // } else {
+            //     // const convertedTime = fnTime24hrTo12hr(alarmTime)
+            //     // alarmMetadata.timing.time = convertedTime
+            // // }
             alarmMetadata.timing.time = alarmTime
             alarmMetadata.light = alarmMetadata.light || alarmMetadataDefault.light
             alarmMetadata.sound = alarmMetadata.sound || alarmMetadataDefault.sound
@@ -880,6 +909,8 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
 
     const handleAlarmTimeChanged = (value) => {
 
+        console.log('in alarmtimechanged')
+
         const hours = value.$H
         const minutes = value.$m
 
@@ -887,7 +918,17 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
         if (timeFormat24Hr) {
             timeString = String(hours).padStart(2, '0') + ':' + String(minutes).padStart(2, '0')
         } else {
-            timeString = time24hrTo12hr(hours + ':' + minutes)
+            timeString = fnTime12hrTo24hr(hours + ':' + minutes)
+        }
+
+        // console.log('TIMEPICKER CHANGE PRODUCED: ')
+        // console.log(timeString)
+        if (timeFormat24Hr) {
+            // console.log('Dont need to convert')
+        } else {
+            // console.log('converted to 24hr:')
+            const convertedTime = fnTime12hrTo24hr(timeString)
+            console.log(convertedTime)
         }
 
         setAlarmTime(timeString)
@@ -901,6 +942,7 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
     }
 
     const handleAlarmTimeOrNameClick = (event: React.MouseEvent<HTMLElement>) => {
+        console.log('handling the alarm time or name click event')
         setTimePickerOpen(true)
         event.stopPropagation()
     }
@@ -977,6 +1019,34 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
                         >
                             <Typography fontWeight={'normal'} fontSize={'1.25rem'}>New Alarm</Typography>
                         </Button>) : (
+                        <Box
+                            sx={{
+                                display: 'flex',
+                                flexDirection: 'column',
+                                alignItems: 'center',
+                                rowGap: '2.5rem',
+                                // border: '2px solid red'
+                            }}
+                        >
+                            <ToggleButtonGroup
+                            value={timeFormat24Hr}
+                            exclusive={true}
+                            onChange={handleTimeFormatToggle}
+                            sx={{
+                                height: '2rem',
+                                width: '100%',
+                                '&>.MuiButtonBase-root': {
+                                    flexGrow: '1'
+                                },
+                                '&>.MuiButtonBase-root.Mui-selected': {
+                                    background: appConfig.theme.palette.shades.tertiary[2],
+                                }
+                            }}
+                        >
+                            <ToggleButton className='btn-sort-option' value={false}
+                            >AM:PM</ToggleButton>
+                            <ToggleButton className='btn-sort-option' value={true}>24hr</ToggleButton>
+                        </ToggleButtonGroup>
                         <Button
                             id='btn-first-alarm'
                             startIcon={<AddAlarmIcon />}
@@ -997,6 +1067,7 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
                         >
                             <Typography fontWeight={'normal'} fontSize={'1.25rem'}>New Alarm</Typography>
                         </Button>
+                        </Box>
                     )}
                 </Box>
                 <Box
@@ -1137,6 +1208,7 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
                     appConfig={appConfig}
                     handlers={handlers}
                     setters={setters}
+                    timeFormat24Hr={timeFormat24Hr}
                 />
             </Box>
 
@@ -1194,7 +1266,7 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
                                         slotProps={{
                                             actionBar: {
                                                 sx: {
-                                                    display: 'none',
+                                                    // display: 'none',
                                                     flexDirection: 'column-reverse',
                                                     rowGap: '1rem',
                                                     '& .MuiButtonBase-root': {
@@ -1214,7 +1286,7 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
                                                 sx: {
                                                     gridRow: '2 !important',    //sue me
                                                     '&>.MuiTypography-root': {
-                                                        display: 'none'
+                                                        // display: 'none'
                                                     },
                                                     '& .MuiPickersToolbar-content': {
                                                         justifyContent: 'center'

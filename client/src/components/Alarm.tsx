@@ -2,13 +2,14 @@ import React from 'react'
 import { IAlarmMetadata } from './types/IAlarmMetadata'
 import { Accordion, AccordionDetails, AccordionSummary, Box, IconButton, Switch, ToggleButton, ToggleButtonGroup, Typography } from '@mui/material'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import { ExpandMore, SyncDisabled } from '@mui/icons-material'
+import { Delete, ExpandMore, SyncDisabled } from '@mui/icons-material'
 import ITrillliConfig from 'trillli/src/types/ITrillliConfig';
 import AlarmConfigCategoryOuter from './AlarmConfigCategoryOuter';
 import AlarmConfigGroups from './AlarmConfigGroups';
 import AlarmConfigGroupLight from './AlarmConfigGroupLight';
 import AlarmConfigGroupSound from './AlarmConfigGroupSound';
 import AlarmConfigGroupVibration from './AlarmConfigGroupVibration';
+import { fnTime12hrTo24hr, fnTime24hrTo12hr } from 'trillli/src/components/utils/TimeAndDateUtils'
 
 
 interface AlarmProps {
@@ -16,11 +17,11 @@ interface AlarmProps {
     appConfig: ITrillliConfig
     handlers: { [key: string]: Function }
     setters: { [key: string]: Function }
-    arg4?: any
+    timeFormat24Hr: boolean
 }
 
 
-const Alarm: React.FC<AlarmProps> = ({ alarm, appConfig, handlers, setters }) => {
+const Alarm: React.FC<AlarmProps> = ({ alarm, appConfig, handlers, setters, timeFormat24Hr }) => {
 
     const [alarmSerialized, setAlarmSerialized] = React.useState<string>(JSON.stringify(alarm))
     const [alarmExpanded, setAlarmExpanded] = React.useState<boolean>(false)
@@ -36,8 +37,6 @@ const Alarm: React.FC<AlarmProps> = ({ alarm, appConfig, handlers, setters }) =>
     // console.log(repeatDays)
 
     React.useEffect(() => {
-        console.log('setting repeatdays to ')
-        console.log(alarm.timing.days)
         setRepeatDays(new Set(alarm.timing.days))
     }, [])
 
@@ -83,10 +82,10 @@ const Alarm: React.FC<AlarmProps> = ({ alarm, appConfig, handlers, setters }) =>
         setAlarmExpanded(!alarmExpanded)
     }
 
-    const handleAlarmTimeOrNameClick = (event: React.MouseEvent<HTMLElement>) => {
-        setters.setTimePickerOpen(true)
-        event.stopPropagation()
-    }
+    // const handleAlarmTimeOrNameClick = (event: React.MouseEvent<HTMLElement>) => {
+    //     setters.setTimePickerOpen(true)
+    //     event.stopPropagation()
+    // }
 
     const handleSummaryDayChange = (event: React.MouseEvent<HTMLElement>) => {
 
@@ -120,6 +119,23 @@ const Alarm: React.FC<AlarmProps> = ({ alarm, appConfig, handlers, setters }) =>
         setAlarmEnabled(event.target.checked)
         event.stopPropagation()
     }
+
+    const handleAlarmDeleteBtnClick = (event: React.MouseEvent<HTMLElement>) => {
+        handlers.updateAlarmsMetadata(alarm.id, null, true)
+        event.stopPropagation()
+    }
+
+    // console.log('going to format time: ' + alarm.timing.time)
+    // const formattedTime = timeFormat24Hr ? alarm.timing.time : fnTime24hrTo12hr(alarm.timing.time)
+    let formattedTime
+    if (timeFormat24Hr) {
+        // console.log('in the imeformat24hr block')
+        formattedTime = alarm.timing.time
+    } else {
+        // console.log('--------------------converting to 12hr------------------------')
+        formattedTime = fnTime24hrTo12hr(alarm.timing.time)
+    }
+    // console.log('formatted time:' + formattedTime)
 
     if (alarm.shown) {
 
@@ -182,13 +198,15 @@ const Alarm: React.FC<AlarmProps> = ({ alarm, appConfig, handlers, setters }) =>
                         }}
                     >
                         <Typography
-                            onClick={handleAlarmTimeOrNameClick}
+                            onClick={handlers.handleAlarmTimeOrNameClick(alarm.id)}
                             sx={{
                                 fontSize: '1.25rem',
                                 fontWeight: 'bold'
                             }}
                         >
-                            {alarm.timing.time}
+                            {timeFormat24Hr ? alarm.timing.time : fnTime24hrTo12hr(alarm.timing.time)}
+                             - - - - 
+                            {formattedTime}
                         </Typography>
                     </Box>
                     <Box
@@ -204,7 +222,7 @@ const Alarm: React.FC<AlarmProps> = ({ alarm, appConfig, handlers, setters }) =>
                             padding: '0px .75rem'
                         }}
                     >
-                        <Typography onClick={handleAlarmTimeOrNameClick}>{alarm.name}</Typography>
+                        <Typography onClick={handlers.handleAlarmTimeOrNameClick(alarm.id)}>{alarm.name}</Typography>
                     </Box>
                     <Box
                         className='alarm-status-container'
@@ -214,6 +232,15 @@ const Alarm: React.FC<AlarmProps> = ({ alarm, appConfig, handlers, setters }) =>
                         }}
                     >
                         <Switch checked={alarm.enabled} onClick={handleToggleAlarmStatusClick} />
+                    </Box>
+                    <Box
+                        className='btn-delete-alarm-container'
+                    >
+                        <IconButton
+                            onClick={handleAlarmDeleteBtnClick(alarm.id)}
+                        >
+                            <Delete />
+                        </IconButton>
                     </Box>
                 </Box>
                 <Box
