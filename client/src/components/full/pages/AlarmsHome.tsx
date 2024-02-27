@@ -558,20 +558,20 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
         }
 
 
-        console.log('now going to try to filter alarm list. alarmlist currently is: ')
-        console.log(sortedAlarmsList)
+        // console.log('now going to try to filter alarm list. alarmlist currently is: ')
+        // console.log(sortedAlarmsList)
         sortedAlarmsList.forEach((alarm, index) => {
 
             const alarmNameLower = alarm.name.toLowerCase()
 
-            console.log('current comparison: [alarmsSearchValue, alarmNameLower]')
-            console.log([alarmsSearchValue, alarmNameLower])
+            // console.log('current comparison: [alarmsSearchValue, alarmNameLower]')
+            // console.log([alarmsSearchValue, alarmNameLower])
 
             if (alarmsSearchValue == '' || alarmNameLower.includes(alarmsSearchValue.toLowerCase())) {
-                console.log('setting shown to true')
+                // console.log('setting shown to true')
                 alarm.shown = true
             } else {
-                console.log('setting shown to false')
+                // console.log('setting shown to false')
                 alarm.shown = false
             }
             sortedAlarmsList[index] = alarm
@@ -647,7 +647,10 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
             alarmNames.push(name)
         })
 
-        alarmNames.sort()
+        alarmNames.sort((a, b) => a.toLowerCase().localeCompare(b.toLowerCase()));
+
+        console.log('going to sort based on these names:')
+        console.log(alarmNames)
 
         alarmNames.forEach((alarmName) => {
             //console.log('alarm name:')

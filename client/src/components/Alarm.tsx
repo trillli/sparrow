@@ -30,8 +30,8 @@ const Alarm: React.FC<AlarmProps> = ({ alarm, appConfig, handlers, setters }) =>
     const [repeatDays, setRepeatDays] = React.useState<Set<DayAbbrev>>(new Set(alarm.timing.days))
     const [lightColor, setLightColor] = React.useState<number>(alarm.light?.color.h)
 
-    console.log('Generating this alarm!')
-    console.log(alarm)
+    // console.log('Generating this alarm!')
+    // console.log(alarm)
     // console.log('but repeat days is:')
     // console.log(repeatDays)
 
@@ -138,7 +138,10 @@ const Alarm: React.FC<AlarmProps> = ({ alarm, appConfig, handlers, setters }) =>
                 background: 'linear-gradient(148deg, #ff9f4e, #fef751)',
                 '&>.MuiCollapse-root': {
                     background: '#FFFFFF57',
-                }
+                },
+                // transition: '4s',
+                // opacity: alarm.shown? '1' : '.2',
+                // maxHeight: alarm.shown ? '2500px' : '0px'
             }}
         >
             <AccordionSummary
