@@ -34,16 +34,23 @@ const AlarmConfigCategoryDetailBodySoundVolume: React.FC<AlarmConfigCategoryDeta
         const target: HTMLInputElement = event.target as HTMLInputElement
         const value: 'constant' | 'ramp' = target.value as 'constant' | 'ramp'
         setSoundVolumeProfile(value)
+        alarm.sound.volume.profile = value
+        handlers.updateAlarmsMetadata(alarm.id, alarm)
     }
 
     const handleSoundVolumeConstantChange = (event: Event, value: number | number[]) => {
         setSoundVolumeMax(value as number)
+        alarm.sound.volume.end = value as number
+        // handlers.updateAlarmsMetadata(alarm.id, alarm)
     }
 
     const handleSoundVolumeRampChange = (event: Event, value: number | number[]) => {
-        const valueTyped = value as number[]
-        setSoundVolumeRamp(valueTyped)
-        setSoundVolumeMax(valueTyped[1] as number)
+        const values = value as number[]
+        setSoundVolumeRamp(values as number[])
+        setSoundVolumeMax(values[1] as number)
+        alarm.sound.volume.end = values[1]
+        alarm.sound.volume.start = values[0]
+        // handlers.updateAlarmsMetadata(alarm.id, alarm)
     }
 
     const handleSoundVolumeConstantChangeCommitted = (event: Event, value: number | number[]) => {
@@ -64,7 +71,7 @@ const AlarmConfigCategoryDetailBodySoundVolume: React.FC<AlarmConfigCategoryDeta
                 <Box className='alarm-config-category-detail-field-contents-container'>
                     <ToggleButtonGroup
                         color="primary"
-                        value={soundVolumeProfile}
+                        value={alarm.sound.volume.profile}
                         exclusive
                         onChange={handleSoundVolumeProfileChange}
                         sx={{
@@ -94,7 +101,7 @@ const AlarmConfigCategoryDetailBodySoundVolume: React.FC<AlarmConfigCategoryDeta
             <AlarmConfigCategoryDetailHeader label='Volume' />
             {soundVolumeProfile == 'constant' ? (
                 <TrSlider
-                    value={soundVolumeConstant}
+                    value={alarm.sound.volume.end}
                     min={0}
                     max={100}
                     onChange={handleSoundVolumeConstantChange}
@@ -102,7 +109,7 @@ const AlarmConfigCategoryDetailBodySoundVolume: React.FC<AlarmConfigCategoryDeta
                 />
             ) : (
                 <TrSlider
-                    value={soundVolumeRamp}
+                    value={[alarm.sound.volume.start, alarm.sound.volume.end]}
                     min={0}
                     max={100}
                     onChange={handleSoundVolumeRampChange}

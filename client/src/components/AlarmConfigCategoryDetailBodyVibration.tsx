@@ -40,7 +40,7 @@ const AlarmConfigCategoryDetailBodyVibration: React.FC<AlarmConfigCategoryDetail
 
     const handleVibrationChangeConstant = (event: Event, value: number | number[]) => {
         // setVibrationMax(value as number)
-        alarm.vibration.intensity.end = value
+        alarm.vibration.intensity.end = value as number
         // alarm.vibration.intensity.start = values[0]
         handlers.updateAlarmsMetadata(alarm.id, alarm)
     }
