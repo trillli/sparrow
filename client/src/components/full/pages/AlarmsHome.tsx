@@ -1004,8 +1004,12 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
                     flexDirection: 'column',
                     rowGap: '1rem',
                     height: '100%',
+                    maxWidth: '600px',
+                    marginLeft: 'auto',
+                    marginRight: 'auto',
                     justifyContent: alarmsList.length > 0 ? 'initial' : 'center',
                     paddingBottom: alarmsList.length > 0 ? '0px' : '95px',
+                    
                 }}
             >
                 <Box
@@ -1072,9 +1076,10 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
                                 height: '75vw',
                                 maxHeight: '250px',
                                 padding: '.5rem',
+                                border: `1px solid ${appConfig.theme.palette.secondary.main}`,
                                 borderRadius: '4px',
-                                boxShadow: '0px 0px 10px 5px #00000047',
-                                background: appConfig.theme.palette.shades.primary[6],
+                                // boxShadow: '0px 0px 10px 5px #00000047',
+                                background: 'none',
                                 color: appConfig.theme.palette.primary.contrastText,
                             }}
                         >

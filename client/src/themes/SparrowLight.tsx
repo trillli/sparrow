@@ -94,6 +94,19 @@ let themeBase = createTheme({
         '#3d2c00',
         '#140f00',
       ],
+      supporting: {
+        1: [
+        '#c2ffff',
+        '#85ffff',
+        '#47ffff',
+        '#00ffff',
+        '#00cccc',
+        '#008f8f',
+        ],
+        2: [
+          
+        ]
+      }
     }
   }
 })
