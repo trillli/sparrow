@@ -996,7 +996,7 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
     //----------------------------------------------------------------------------------------------
 
     return (
-        <PageBuilder navSide={false}>
+        <PageBuilder navSide={true}>
             <Box
                 id='alarms-container-outer'
                 sx={{

@@ -17,13 +17,13 @@ class AppConfig extends TrillliConfig implements ITrillliConfig {
 
     readonly menuApp: TrillliMenu = {
         top: [           
-            {
-                text: 'Alarms',
-                link: '/alarms',
-                icon: 'alarm',
-                hideAuthed: false,
-                hideUnauthed: true
-            },
+            // {
+            //     text: 'Alarms',
+            //     link: '/alarms',
+            //     icon: 'alarm',
+            //     hideAuthed: false,
+            //     hideUnauthed: true
+            // },
             {
                 text: 'Home',
                 link: '/',
@@ -44,8 +44,8 @@ class AppConfig extends TrillliConfig implements ITrillliConfig {
     }
 
     readonly logos: { [key: string]: string; } = {
-        appMain: '/src/assets/logos/logo-zest.svg',
-        loading: '/src/assets/logos/logo-zest-square.svg',
+        appMain: '/src/assets/logos/v1_fullLight_padNo_bgNo.png',
+        loading: '/src/assets/logos/v1_iconLight_padNo_bgNo.svg',
     }
 
     readonly pages: { [key: string]: {[key: string]: any} } = {

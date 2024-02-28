@@ -17,7 +17,7 @@ const PageBuilder: React.FC<PageBuilderProps> = ({
     const styling: {[key: string]: any} = {
         mainContents: {
             // background: `linear-gradient(147deg, #f9e351, #d8684d)`
-            background: 'white'
+            // background: 'white'
         }
     }
 
