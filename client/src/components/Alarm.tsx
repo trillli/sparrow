@@ -2,7 +2,7 @@ import React from 'react'
 import { IAlarmMetadata } from './types/IAlarmMetadata'
 import { Accordion, AccordionDetails, AccordionSummary, Box, IconButton, Switch, ToggleButton, ToggleButtonGroup, Typography } from '@mui/material'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import { Delete, ExpandMore, SyncDisabled } from '@mui/icons-material'
+import { AlarmOff, AlarmOn, Delete, ExpandMore, SyncDisabled } from '@mui/icons-material'
 import ITrillliConfig from 'trillli/src/types/ITrillliConfig';
 import AlarmConfigCategoryOuter from './AlarmConfigCategoryOuter';
 import AlarmConfigGroups from './AlarmConfigGroups';
@@ -23,10 +23,14 @@ interface AlarmProps {
 
 const Alarm: React.FC<AlarmProps> = ({ alarm, appConfig, handlers, setters, timeFormat24Hr }) => {
 
+    console.log('alarm timing length')
+    console.log(alarm.timing.days)
+    console.log(alarm.timing.days.length)
+
     const [alarmSerialized, setAlarmSerialized] = React.useState<string>(JSON.stringify(alarm))
     const [alarmExpanded, setAlarmExpanded] = React.useState<boolean>(false)
     const [alarmEnabled, setAlarmEnabled] = React.useState<boolean>(alarm.enabled || false)
-    const [noRepeat, setNoRepeat] = React.useState<boolean>(alarm.timing.days.length == 0)
+    const [noRepeat, setNoRepeat] = React.useState<boolean>()
     type DayAbbrev = 'su' | 'm' | 'tu' | 'w' | 'th' | 'f' | 'sa'
     const [repeatDays, setRepeatDays] = React.useState<DayAbbrev[]>(alarm.timing.days)
     const [lightColor, setLightColor] = React.useState<number>(alarm.light?.color.h)  
@@ -56,9 +60,10 @@ const Alarm: React.FC<AlarmProps> = ({ alarm, appConfig, handlers, setters, time
 
     React.useEffect(() => {
         // console.log('in repeatdata useeffect')
-        if (repeatDays.size == 0) {
+        if (repeatDays.length == 0) {
             setNoRepeat(true)
         } else {
+
             setNoRepeat(false)
         }
 
@@ -118,7 +123,8 @@ const Alarm: React.FC<AlarmProps> = ({ alarm, appConfig, handlers, setters, time
     }
 
     const handleToggleAlarmStatusClick = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setAlarmEnabled(event.target.checked)
+        // setAlarmEnabled(event.target.checked)
+        setAlarmEnabled(!alarmEnabled)
         event.stopPropagation()
     }
 
@@ -142,7 +148,8 @@ const Alarm: React.FC<AlarmProps> = ({ alarm, appConfig, handlers, setters, time
     if (alarm.shown) {
 
     
-
+        console.log('norepeat is:')
+        console.log(noRepeat)
     return (
         <Accordion
             elevation={0}
@@ -162,7 +169,7 @@ const Alarm: React.FC<AlarmProps> = ({ alarm, appConfig, handlers, setters, time
                 // background: 'linear-gradient(148deg, #ff9f4e, #fef751)',
                 // background: appConfig.theme.palette.neutral.dark[6],
                 // background: appConfig.theme.palette.primary.dark[7],
-                background: 'linear-gradient(131deg, #fe7e7e, transparent)',
+                background: 'linear-gradient(131deg, #fe7e7e, #c2c2ff42)',
                 // background: 'none',
                 '&.MuiPaper-root': {
                     // borderRadius: '0px 4px 0px 0px',
@@ -179,6 +186,7 @@ const Alarm: React.FC<AlarmProps> = ({ alarm, appConfig, handlers, setters, time
                 className='alarm-header'
                 sx={{
                     padding: '0px',
+                    // paddingRight: '1rem',
                     color: appConfig.theme.palette.neutral.contrastText,
                     '& .MuiAccordionSummary-content': {
                         margin: '0px',
@@ -201,9 +209,9 @@ const Alarm: React.FC<AlarmProps> = ({ alarm, appConfig, handlers, setters, time
                         // background: 'linear-gradient(148deg, #ff9f4e, #fef751)',
                         // background: appConfig.theme.palette.primary.dark[4],
                         // background: 'linear-gradient(148deg, #ff9f4e, #fef751)',
-                        paddingTop: '.25rem',
-                        paddingBottom: '.25rem',
-                        background: 'linear-gradient(131deg, #fe7e7e, transparent)'
+                        // paddingTop: '.25rem',
+                        // paddingBottom: '.25rem',
+                        // background: 'linear-gradient(131deg, #fe7e7e, transparent)'
                     }}
                 >
                     <Box
@@ -215,13 +223,14 @@ const Alarm: React.FC<AlarmProps> = ({ alarm, appConfig, handlers, setters, time
                             height: '100%',
                             padding: '0px .75rem',
                             borderRadius: '4px',
-                            color: appConfig.theme.palette.neutral.contrastText,
+                            color: appConfig.theme.palette.neutral.dark[3],
+                            fontWeight: 'bold'
                         }}
                     >
                         <Typography
                             onClick={(event) => handlers.handleAlarmTimeOrNameClick(event, alarm.id)}
                             sx={{
-                                fontSize: '1.25rem',
+                                fontSize: '3rem',
                                 // fontWeight: 'bold'
                             }}
                         >
@@ -238,32 +247,105 @@ const Alarm: React.FC<AlarmProps> = ({ alarm, appConfig, handlers, setters, time
                             alignItems: 'center',
                             flexGrow: '1',
                             borderRadius: '4px',
-                            padding: '0px .75rem'
+                            padding: '0px .75rem',
+                            color: 'red',
+                            // fontWeight: 'bold'
                         }}
                     >
                         <Typography 
-                        onClick={(event) => handlers.handleAlarmTimeOrNameClick(event, alarm.id)}
+                            onClick={(event) => handlers.handleAlarmTimeOrNameClick(event, alarm.id)}
+                            sx={{
+                                color: appConfig.theme.palette.neutral.dark[3],
+                                fontSize: '1.25rem',
+                                // fontWeight: 'bold'
+                                lineHeight: '1.5'
+                            }}
                         >
                             {alarm.name}
                         </Typography>
                     </Box>
                     <Box
-                        className='alarm-status-container'
+                        className='alarm-controls-container'
                         sx={{
-                            marginRight: '-0px',
-                            height: 'fit-content',
+                            display: 'flex',
+                            flexDirection: 'column',
+                            height: '100%',
+                            // justifyContent: 'center',
+                            // alignItems: 'center',
+                            // rowGap: '.5rem'
                         }}
                     >
-                        <Switch checked={alarm.enabled} onClick={handleToggleAlarmStatusClick} />
-                    </Box>
                     <Box
+                        className='alarm-status-container'
+                        sx={{
+                            // background: alarm.enabled ? '#00000025' : '#ffffff25',
+                            height: '100%',
+                            width: '4.5rem',
+                            display: 'flex',
+                            alignItems: 'center',
+                            paddingBottom: '.125rem'
+                        }}
+                    >
+                        <Switch 
+                            checked={alarm.enabled} 
+                            onClick={handleToggleAlarmStatusClick} 
+                            sx={{
+                                // border: '3px solid blue',
+                                paddingTop: '10px',
+                                paddingBottom: '10px',
+                                paddingLeft: '9px',
+                                paddingRight: '5px',
+                                '& .MuiSwitch-switchBase': {
+                                    paddingTop: '6px'
+                                },
+                                '& .MuiSwitch-thumb': {
+                                    // border: '2px solid red',
+                                    // height: '4rem'
+                                    // background: appConfig.theme.palette.secondary.dark[4],
+                                    // border: '5px solid lime'
+                                    width: '26px',
+                                    height: '26px'
+                                },
+                                '& .Mui-checked+.MuiSwitch-track': {
+                                    opacity: '.75 !important',
+                                    background: 'lime'
+                                }
+                            }}
+                        />
+                        
+                        {/* <IconButton
+                            onClick={handleToggleAlarmStatusClick}
+                            sx={{
+                                color: alarm.enabled ? appConfig.theme.palette.tertiary.dark[4] : appConfig.theme.palette.neutral.dark[3],
+                                borderRadius: '4px',
+                                overflow: 'hidden',
+                                height: '100%',
+                                padding: '0px',
+                            }}
+                        >
+                            {alarm.enabled ? (<AlarmOn />):(<AlarmOff />)}
+                        </IconButton> */}
+                    </Box>
+                    {/* <Box
                         className='btn-delete-alarm-container'
+                        sx={{
+                            background: '#00000025'
+                        }}
                     >
                         <IconButton
                             onClick={handleAlarmDeleteBtnClick}
+                            sx={{
+                                // color: alarm.enabled ? 'lime' : 'grey',
+                                borderRadius: '4px',
+                                overflow: 'hidden',
+                                height: '2.5rem',
+                                width: '2.5rem',
+                                padding: '0px',
+                            }}
                         >
                             <Delete />
                         </IconButton>
+                    </Box> */}
                     </Box>
                 </Box>
                 <Box
@@ -272,6 +354,8 @@ const Alarm: React.FC<AlarmProps> = ({ alarm, appConfig, handlers, setters, time
                         transition: '.2s',
                         display: 'flex',
                         width: '100%',
+                        height: '2.5rem'
+                        // background: '#ffffff25',
                         // color: 'red',
                         // background: '#FFFFFF25'
                     }}
@@ -281,6 +365,7 @@ const Alarm: React.FC<AlarmProps> = ({ alarm, appConfig, handlers, setters, time
                         sx={{
                             display: 'flex',
                             flexWrap: 'wrap',
+                            height: '100%'
                         }}
                     >
                         <ToggleButtonGroup
@@ -292,17 +377,18 @@ const Alarm: React.FC<AlarmProps> = ({ alarm, appConfig, handlers, setters, time
                                 flexWrap: 'wrap',
                                 height: 'fit-content',
                                 borderRadius: '0px',
+                                height: '100%',
                                 '& .MuiButtonBase-root': {
                                     border: 'none',
                                     background: 'none',
                                     padding: '0px',
-                                    height: '2rem',
+                                    // height: '2rem',
                                     width: '2.5rem',
                                     borderRadius: '0px'
                                 },
                                 '&>.MuiButtonBase-root.Mui-selected': {
-                                    background: appConfig.theme.palette.primary.dark[1],
-                                    color: 'white',
+                                    background: '#ffffff25',
+                                    // color: 'white',
                                     fontWeight: 'bold',
                                 }
                             }}
@@ -316,28 +402,32 @@ const Alarm: React.FC<AlarmProps> = ({ alarm, appConfig, handlers, setters, time
                             <ToggleButton value='sa' className='alarm-day alarm-summary-day'>Sa</ToggleButton>
                             <ToggleButtonGroup
                                 className='alarm-summary-no-repeat'
-                                // value={noRepeat}
-                                value={alarm.timing.days.size > 0 ? false : true}
+                                value={noRepeat}
+                                // value={alarm.timing.days.size > 0 ? false : true}
                                 onClick={handleSummaryDayNoRepeatChange}
                                 sx={{
-                                    height: 'fit-content',
+                                    height: '100%',
                                     '& .MuiButtonBase-root': {
                                         borderLeft: 'none',
                                         background: 'none',
                                         padding: '0px',
-                                        height: '2rem',
+                                        height: '100%',
                                         width: '2.5rem',
-                                        fontWeight: 'bold',
-                                        color: 'black'
+                                        // fontWeight: 'bold',
+                                        color: '#00000090'
                                     },
                                     '&>.MuiButtonBase-root.Mui-selected': {
-                                        color: 'grey',
+                                        background: '#ffffff25',
+                                        color: appConfig.theme.palette.neutral.dark[3]
                                     }
                                 }}
                             >
                                 <ToggleButton
                                     className='alarm-day alarm-summary-day'
                                     value={true}
+                                    // sx={{
+                                    //     height: '100%'
+                                    // }}
                                 >
                                     <SyncDisabled />
                                 </ToggleButton>
@@ -348,18 +438,71 @@ const Alarm: React.FC<AlarmProps> = ({ alarm, appConfig, handlers, setters, time
                         className='alarm-action-btns-container'
                         sx={{
                             marginLeft: 'auto',
-                            marginRight: '6px',
-                            display: 'flex'
+                            // width: '4.5rem',
+                            display: 'flex',
+                            flexWrap: 'nowrap',
+                            columnGap: '.25rem',
+                            // border: '1px solid red'
+                        }}
+                    >
+                                            <Box
+                        className='btn-delete-alarm-container'
+                        sx={{
+                            // // background: '#00000025'
+                            // // border: '1px solid yellow',
+                            // // borderRadius: '4px'
+                            // paddingBottom
+                            // width: '50%'
+                            width: '2.5rem',
+                            display: 'flex',
+                            justifyContent: 'center'
                         }}
                     >
                         <IconButton
+                            onClick={handleAlarmDeleteBtnClick}
                             sx={{
-                                transition: 'rotate 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms',
-                                rotate: alarmExpanded ? '180deg' : '0deg',
-                                padding: '0px'
+                                // color: alarm.enabled ? 'lime' : 'grey',
+                                width: '2.5rem',
+                                display: 'flex',
+                                justifyContent: 'center',
+                                borderRadius: '4px',
+                                overflow: 'hidden',
+                                height: '100%',
+                                // width: '2.5rem',
+                                padding: '0px',
+                                color: appConfig.theme.palette.neutral.dark[3],
+                                '& .MuiSvgIcon-root': {
+                                    fontSize: '1.75rem'
+                                }
                             }}
                         >
-                            <ExpandMoreIcon />
+                            <Delete />
+                        </IconButton>
+                    </Box>
+                        <IconButton
+                            sx={{
+                                // transition: 'rotate 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms',
+                                // rotate: alarmExpanded ? '180deg' : '0deg',
+                                padding: '0px',
+                                color: appConfig.theme.palette.neutral.dark[3],
+                                background: '#ffffff55',
+                                borderRadius: '4px 0px 4px 0px',
+                                width: '2.5rem',
+                                display: 'flex',
+                                justifyContent: 'center',
+                                '&:hover': {
+                                    background: appConfig.theme.palette.secondary.dark[4]
+                                }
+                                // width: '50%',
+                                // marginLeft: '50px'
+                            }}
+                        >
+                            <ExpandMoreIcon
+                                sx={{
+                                    transition: 'rotate 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms',
+                                rotate: alarmExpanded ? '180deg' : '0deg',
+                                }}
+                            />
                         </IconButton>
                     </Box>
                 </Box>
