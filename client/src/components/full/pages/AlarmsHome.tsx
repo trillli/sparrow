@@ -21,12 +21,15 @@ import Fade from '@mui/material/Fade';
 import { useAuth0 } from '@auth0/auth0-react';
 import { TrFetchConfig, TrFetchResult, trFetch } from 'trillli/src/components/TrApiClient';
 import { green } from '@mui/material/colors';
+import { useTheme } from '@mui/material'
 
 interface AlarmsHomeProps {
     appConfig: ITrillliConfig
 }
 
 const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
+
+    const theme = useTheme()
 
     //PLACEHOLDERS ---------------------------------------------------------------------------------
 
@@ -1070,44 +1073,31 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
                             // size='small'
                             onChange={handleTimeFormatToggle}
                             sx={{
-                                // height: '2rem',
                                 width: '100%',
-                                // position: 'absolute',
                                 top: '0',
-                                // width: 'fit-content',
-                                // color: 'red',
-                                // border: '7px solid yellow',
                                 display: 'flex',
-                                // width: '100%',
                                 overflow: 'hidden',
                                 justifyContent: 'flex-end',
-                                // borderBottom: `1px solid ${appConfig.theme.palette.secondary.dark[6]}`,
                                 '&>.MuiButtonBase-root': {
                                     marginLeft: '0px',
                                     whiteSpace: 'nowrap',
-                                    // paddingTop: '.25rem',
-                                    // paddingBottom: '.25rem',
                                     padding: '.5rem 1rem',
                                     fontSize: '1rem',
                                     border: 'none',
                                     borderRadius: '0px',
-                                    // width: '50%',
-                                    color: 'white',
+                                    color: appConfig.theme.palette.neutral.light[2],
                                     background: appConfig.theme.palette.primary.dark[8],
-
-                                    // flexGrow: '1',
-                                    // flexBasis: 'auto',
-                                    // width: '50%',
-                                    // border: '4px solid red'
-                                    // boxSizing: 'border-box'
+                                    '&.Mui-selected': {
+                                        background: appConfig.theme.palette.primary.dark[7],
+                                        color: appConfig.theme.palette.neutral.contrastText,
+                                        boxShadow: `inset 0px -4px ${appConfig.theme.palette.secondary.dark[4]}`
+                                    }
                                 },
-                                '&>.MuiButtonBase-root.Mui-selected': {
-                                    background: appConfig.theme.palette.primary.dark[7],
-                                    // borderBottom: `3px solid ${appConfig.theme.palette.secondary.dark[4]}`,
-                                    // fontWeight: 'bold'
-                                    color: appConfig.theme.palette.neutral.contrastText,
-                                    boxShadow: `inset 0px -4px ${appConfig.theme.palette.secondary.dark[4]}`
-                                }
+                                // '&>.MuiButtonBase-root.Mui-selected': {
+                                //     background: appConfig.theme.palette.primary.dark[7],
+                                //     color: appConfig.theme.palette.neutral.contrastText,
+                                //     boxShadow: `inset 0px -4px ${appConfig.theme.palette.secondary.dark[4]}`
+                                // }
                             }}
                         >
                             <ToggleButton className='btn-sort-option' value={false}
@@ -1182,17 +1172,26 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
                         <TextField
                             variant='filled'
                             placeholder='Filter'
-                            type='search'
+                            // type='search'
                             size='small'
                             onChange={handleSearch}
                             InputProps={{
                                 endAdornment: <InputAdornment position="end">{<FilterListIcon />}</InputAdornment>,
                                 disableUnderline: true,
                                 sx: {
-                                    borderRadius: '4px',
-                                    background: 'white',
+                                    transition: '200ms',
+                                    height: '2.5rem',
+                                    background: appConfig.theme.palette.primary.dark[4],
+                                    boxShadow: `inset 0px -4px ${appConfig.theme.palette.secondary.dark[3]}`,
+                                    borderRadius: '4px 4px 0px 0px',
+                                    color: appConfig.theme.palette.neutral.dark[0],
+                                    // paddingBottom: '2px'
                                     '& .MuiInputBase-input': {
                                         paddingTop: '4px'
+                                    },
+                                    '&:hover, &:focus-within': {
+                                        background: appConfig.theme.palette.primary.dark[2],
+                                        boxShadow: `inset 0px -6px ${appConfig.theme.palette.secondary.dark[4]}`,
                                     }
                                 }
                             }}
@@ -1213,10 +1212,25 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
                             exclusive={true}
                             onChange={handleTimeFormatToggle}
                             sx={{
-                                height: '2rem',
-                                '&>.MuiButtonBase-root.Mui-selected': {
-                                    background: appConfig.theme.palette.primary.dark[1],
-                                }
+                                height: '2.5rem',
+                                color: 'white',
+                                overflow: 'hidden',
+                                background: appConfig.theme.palette.primary.dark[8],
+                                '&>.MuiButtonBase-root': {
+                                    marginLeft: '0px',
+                                    whiteSpace: 'nowrap',
+                                    padding: '.5rem 1rem',
+                                    fontSize: '1rem',
+                                    border: 'none',
+                                    borderRadius: '0px',
+                                    color: appConfig.theme.palette.neutral.light[2],
+                                    background: appConfig.theme.palette.primary.dark[8],
+                                    '&.Mui-selected': {
+                                        background: appConfig.theme.palette.primary.dark[7],
+                                        color: appConfig.theme.palette.neutral.contrastText,
+                                        boxShadow: `inset 0px -4px ${appConfig.theme.palette.secondary.dark[4]}`
+                                    }
+                                },
                             }}
                         >
                             <ToggleButton className='btn-sort-option' value={false}
@@ -1450,6 +1464,7 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
                                     }
                                 }}
                                 InputProps={{
+                                    disableUnderline: true,
                                     sx: {
                                         // border: '10px solid red',
                                         // paddingLeft: '1rem',
