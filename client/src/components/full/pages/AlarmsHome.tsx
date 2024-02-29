@@ -422,7 +422,9 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
             // //console.log('data is:')
             // //console.log(result.ok.data[0].alarms_page_metadata_json)
             // //console.log()
-            if (result.ok.data = []) {
+            console.log('get request result:')
+            console.log(result.ok.data)
+            if (result.ok.data == []) {
                 // alert('empty data')
                 // setAlarmsPageMetadata()
                 console.log('setting default metadta')
@@ -430,8 +432,8 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
                 setAlarmsPageMetadata(alarmsPageMetadataDefault)
             } else {
                 console.log('setting metadata from return call:')
-                console.log(result.ok.data[0].alarms_page_metadata_json)
-                setAlarmsPageMetadata(JSON.parse(result.ok.data[0].alarms_page_metadata_json))
+                console.log(result.ok.data[0].alarms_json)
+                setAlarmsPageMetadata(JSON.parse(result.ok.data[0].alarms_json))  
             }
             
         }
@@ -470,8 +472,8 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
 
             const persistAlarmConfig = async () => {
                 const testdata = {'serialization': 'mytestdata'}
-                //console.log('posting:')
-                //console.log(JSON.stringify(alarmsPageMetadata))
+                console.log('posting:')
+                console.log(JSON.stringify(alarmsPageMetadata))
                 const accessToken = await getAccessTokenSilently();
                 const requestConfig: TrFetchConfig = {
                     accessToken: accessToken,
@@ -493,8 +495,8 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
             }
 
             // console.log('WOULD BE CALLING PERSIST ALARM CONFIG HERE, PASSING ALARMSPAGEMETADATA OBJECT:')
-            // console.log(alarmsPageMetadata)
-            // persistAlarmConfig()
+            // console.log(alarmsPageMetadata) 
+            persistAlarmConfig()
 
         } else {
             //console.log('in else block?')
@@ -1003,7 +1005,7 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
     //----------------------------------------------------------------------------------------------
 
     return (
-        <PageBuilder navSide={true}>
+        <PageBuilder navSide={false}>
             <Box
                 id='alarms-container-outer'
                 sx={{

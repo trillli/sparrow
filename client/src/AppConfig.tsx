@@ -32,13 +32,13 @@ class AppConfig extends TrillliConfig implements ITrillliConfig {
             },
         ],
         side: [
-            {
-                text: 'Alarms',
-                link: '/alarms',
-                icon: 'alarm',
-                hideAuthed: false,
-                hideUnauthed: true
-            }
+            // {
+            //     text: 'Alarms',
+            //     link: '/alarms',
+            //     icon: 'alarm',
+            //     hideAuthed: false,
+            //     hideUnauthed: true
+            // }
         ],
         bottom: []
     }

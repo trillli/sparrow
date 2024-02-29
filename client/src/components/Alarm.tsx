@@ -28,8 +28,8 @@ const Alarm: React.FC<AlarmProps> = ({ alarm, appConfig, handlers, setters, time
     const [alarmEnabled, setAlarmEnabled] = React.useState<boolean>(alarm.enabled || false)
     const [noRepeat, setNoRepeat] = React.useState<boolean>(alarm.timing.days.length == 0)
     type DayAbbrev = 'su' | 'm' | 'tu' | 'w' | 'th' | 'f' | 'sa'
-    const [repeatDays, setRepeatDays] = React.useState<Set<DayAbbrev>>(new Set(alarm.timing.days))
-    const [lightColor, setLightColor] = React.useState<number>(alarm.light?.color.h)
+    const [repeatDays, setRepeatDays] = React.useState<DayAbbrev[]>(alarm.timing.days)
+    const [lightColor, setLightColor] = React.useState<number>(alarm.light?.color.h)  
 
     // console.log('Generating this alarm!')
     // console.log(alarm)
@@ -43,7 +43,8 @@ const Alarm: React.FC<AlarmProps> = ({ alarm, appConfig, handlers, setters, time
     React.useEffect(() => {
         // console.log('in norepeat useeffect')
         if (noRepeat) {
-            setRepeatDays(new Set<DayAbbrev>())
+            // setRepeatDays(new Set<DayAbbrev>())
+            setRepeatDays([])
         }
     }, [noRepeat])
 
@@ -93,15 +94,16 @@ const Alarm: React.FC<AlarmProps> = ({ alarm, appConfig, handlers, setters, time
         const target: HTMLInputElement = event.target as HTMLInputElement
         const value: DayAbbrev = target.value as DayAbbrev
 
-        let repeatDaysUpdated = new Set(repeatDays)
+        let repeatDaysSet = new Set(repeatDays)
+        let repeatDaysUpdatedSet = new Set(repeatDays)
 
-        if (repeatDays.has(value)) {
-            repeatDaysUpdated.delete(value)
+        if (repeatDaysSet.has(value)) {
+            repeatDaysUpdatedSet.delete(value)
         } else {
-            repeatDaysUpdated.add(value)
+            repeatDaysUpdatedSet.add(value)
         }
 
-        setRepeatDays(repeatDaysUpdated)
+        setRepeatDays(Array.from(repeatDaysUpdatedSet))
 
     }
 
