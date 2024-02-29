@@ -22,6 +22,7 @@ import { useAuth0 } from '@auth0/auth0-react';
 import { TrFetchConfig, TrFetchResult, trFetch } from 'trillli/src/components/TrApiClient';
 import { green } from '@mui/material/colors';
 import { useTheme } from '@mui/material'
+import TrToggleButtonGroup from 'trillli/src/components/TrToggleButtonGroup'
 
 interface AlarmsHomeProps {
     appConfig: ITrillliConfig
@@ -1025,6 +1026,27 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
                 }}
             >
                 <Box
+                        id='time-format-toggle-container'
+                    sx={{
+                        marginLeft: 'auto'
+                    }}
+                    >
+                                            <TrToggleButtonGroup 
+                        appConfig={appConfig}
+                        value={timeFormat24Hr}
+                        exclusive={true}
+                        onChange={handleTimeFormatToggle}
+                        sx={{
+                            display: alarmsList.length > 0 ? 'flex' : 'none',
+                            height: '2.5rem',
+                        }}
+                    >
+                        <ToggleButton className='btn-sort-option' value={false}>AM:PM</ToggleButton>
+                        <ToggleButton className='btn-sort-option' value={true}>24hr</ToggleButton>
+                    </TrToggleButtonGroup>
+                    </Box>
+                
+                <Box
                     id='btn-new-alarm-container'
                     sx={{
                         // background: `linear-gradient(148deg, #ff9f4e, #fef751)`,
@@ -1066,44 +1088,18 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
                                 position: 'relative'
                             }}
                         >
-                            <ToggleButtonGroup
+                            <TrToggleButtonGroup
+                            appConfig={appConfig}
                             value={timeFormat24Hr}
                             exclusive={true}
                             fullWidth={true}
                             // size='small'
                             onChange={handleTimeFormatToggle}
-                            sx={{
-                                width: '100%',
-                                top: '0',
-                                display: 'flex',
-                                overflow: 'hidden',
-                                justifyContent: 'flex-end',
-                                '&>.MuiButtonBase-root': {
-                                    marginLeft: '0px',
-                                    whiteSpace: 'nowrap',
-                                    padding: '.5rem 1rem',
-                                    fontSize: '1rem',
-                                    border: 'none',
-                                    borderRadius: '0px',
-                                    color: appConfig.theme.palette.neutral.light[2],
-                                    background: appConfig.theme.palette.primary.dark[8],
-                                    '&.Mui-selected': {
-                                        background: appConfig.theme.palette.primary.dark[7],
-                                        color: appConfig.theme.palette.neutral.contrastText,
-                                        boxShadow: `inset 0px -4px ${appConfig.theme.palette.secondary.dark[4]}`
-                                    }
-                                },
-                                // '&>.MuiButtonBase-root.Mui-selected': {
-                                //     background: appConfig.theme.palette.primary.dark[7],
-                                //     color: appConfig.theme.palette.neutral.contrastText,
-                                //     boxShadow: `inset 0px -4px ${appConfig.theme.palette.secondary.dark[4]}`
-                                // }
-                            }}
                         >
                             <ToggleButton className='btn-sort-option' value={false}
                             >am pm</ToggleButton>
                             <ToggleButton className='btn-sort-option' value={true}>24hr</ToggleButton>
-                        </ToggleButtonGroup>
+                        </TrToggleButtonGroup>
                         <Button
                             id='btn-first-alarm'
                             startIcon={<AddAlarmIcon />}
@@ -1155,15 +1151,15 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
                 <Box
                     id='alarms-list-organization-control-container'
                     sx={{
-                        marginTop: '2rem',
-                        marginBottom: '1rem',
+                        // marginTop: '2rem',
+                        // marginBottom: '1rem',
                         display: alarmsList.length > 0 ? 'flex' : 'none',
-                        rowGap: '.5rem',
+                        rowGap: '1rem',
                         columnGap: '.5rem',
                         flexWrap: 'wrap'
                     }}
                 >
-                    <Box
+                    {/* <Box
                         id='alarms-search-container'
                         sx={{
                             flexGrow: 1
@@ -1181,7 +1177,7 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
                                 sx: {
                                     transition: '200ms',
                                     height: '2.5rem',
-                                    background: appConfig.theme.palette.primary.dark[4],
+                                    background: appConfig.theme.palette.primary.dark[8],
                                     boxShadow: `inset 0px -4px ${appConfig.theme.palette.secondary.dark[3]}`,
                                     borderRadius: '4px 4px 0px 0px',
                                     color: appConfig.theme.palette.neutral.dark[0],
@@ -1203,82 +1199,146 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
                                 }
                             }}
                         />
-                    </Box>
-                    <Box
+                    </Box> */}
+                    {/* <Box
                         id='time-format-toggle-container'
                     >
-                        <ToggleButtonGroup
-                            value={timeFormat24Hr}
-                            exclusive={true}
-                            onChange={handleTimeFormatToggle}
-                            sx={{
-                                height: '2.5rem',
-                                color: 'white',
-                                overflow: 'hidden',
-                                background: appConfig.theme.palette.primary.dark[8],
-                                '&>.MuiButtonBase-root': {
-                                    marginLeft: '0px',
-                                    whiteSpace: 'nowrap',
-                                    padding: '.5rem 1rem',
-                                    fontSize: '1rem',
-                                    border: 'none',
-                                    borderRadius: '0px',
-                                    color: appConfig.theme.palette.neutral.light[2],
-                                    background: appConfig.theme.palette.primary.dark[8],
-                                    '&.Mui-selected': {
-                                        background: appConfig.theme.palette.primary.dark[7],
-                                        color: appConfig.theme.palette.neutral.contrastText,
-                                        boxShadow: `inset 0px -4px ${appConfig.theme.palette.secondary.dark[4]}`
-                                    }
-                                },
-                            }}
-                        >
-                            <ToggleButton className='btn-sort-option' value={false}
-                            >AM:PM</ToggleButton>
-                            <ToggleButton className='btn-sort-option' value={true}>24hr</ToggleButton>
-                        </ToggleButtonGroup>
-                    </Box>
+                                            <TrToggleButtonGroup 
+                        appConfig={appConfig}
+                        value={timeFormat24Hr}
+                        exclusive={true}
+                        onChange={handleTimeFormatToggle}
+                        sx={{
+                            height: '2.5rem'
+                        }}
+                    >
+                        <ToggleButton className='btn-sort-option' value={false}>AM:PM</ToggleButton>
+                        <ToggleButton className='btn-sort-option' value={true}>24hr</ToggleButton>
+                    </TrToggleButtonGroup>
+                    </Box> */}
+                    {/* <TrToggleButtonGroup 
+                        appConfig={appConfig}
+                        value={timeFormat24Hr}
+                        exclusive={true}
+                        onChange={handleTimeFormatToggle}
+                        sx={{
+                            height: '2.5rem'
+                        }}
+                    >
+                        <ToggleButton className='btn-sort-option' value={false}>AM:PM</ToggleButton>
+                        <ToggleButton className='btn-sort-option' value={true}>24hr</ToggleButton>
+                    </TrToggleButtonGroup> */}
+                    <Box 
+                        id='alarms-display-config-container'
+                        sx={{
+                            width: '100%',
+                            display: 'flex',
+                            flexDirection: 'column',
+                            rowGap: 'inherit',
+                            alignItems: 'flex-end'
+                            // flexWrap: 'wrap',
+                            // justifyContent: 'space-between'
+                        }}
+                    >
+
+                    {/* <Box
+                        id='time-format-toggle-container'
+                    >
+                                            <TrToggleButtonGroup 
+                        appConfig={appConfig}
+                        value={timeFormat24Hr}
+                        exclusive={true}
+                        onChange={handleTimeFormatToggle}
+                        sx={{
+                            height: '2.5rem',
+                        }}
+                    >
+                        <ToggleButton className='btn-sort-option' value={false}>AM:PM</ToggleButton>
+                        <ToggleButton className='btn-sort-option' value={true}>24hr</ToggleButton>
+                    </TrToggleButtonGroup>
+                    </Box> */}
+                    
                     <Box
                         id='alarms-sort-container'
                         sx={{
                             display: 'flex',
                             flexDirection: 'row',
-                            flexWrap: 'no-wrap',
+                            columnGap: '1rem',
+                            flexWrap: 'nowrap',
                             alignItems: 'center',
-                            marginLeft: 'auto'
                         }}
                     >
+                                            {/* <Box
+                        id='time-format-toggle-container'
+                    >
+                                            <TrToggleButtonGroup 
+                        appConfig={appConfig}
+                        value={timeFormat24Hr}
+                        exclusive={true}
+                        onChange={handleTimeFormatToggle}
+                        sx={{
+                            height: '2.5rem',
+                            marginRight: 'auto'
+                        }}
+                    >
+                        <ToggleButton className='btn-sort-option' value={false}>AM:PM</ToggleButton>
+                        <ToggleButton className='btn-sort-option' value={true}>24hr</ToggleButton>
+                    </TrToggleButtonGroup>
+                    </Box> */}
+                        
                         <Box
                             id='sort-direction-container'
                             sx={{
 
                                 display: 'flex',
                                 justifyContent: 'center',
-                                height: '2rem',
+                                alignItems: 'center',
+                                columnGap: '1rem',
+                                // columnGap: '.5rem',
+                                height: '2.5rem',
                                 borderRadius: '4px',
                                 borderTopRightRadius: '0px',
                                 borderBottomRightRadius: '0px',
                                 overflow: 'hidden',
-                                background: appConfig.theme.palette.primary.main,
+                                color: appConfig.theme.palette.secondary.dark[4],
+                                // background: appConfig.theme.palette.primary.main,
                             }}
                         >
+                            <SortIcon
+                                sx={{
+                                    height: '2rem',
+                                    fontSize: '1.75rem',
+                                    paddingBottom: '3px'
+                                }}
+                            />
                             <IconButton
                                 className='btn-sort-direction'
                                 onClick={handleAlarmListSortDirectionClick}
                                 sx={{
                                     height: '100%',
-                                    color: appConfig.theme.palette.tertiary.main,
-                                    background: appConfig.theme.palette.primary.dark[0],
-                                    borderRadius: '0px'
+                                    color: appConfig.theme.palette.secondary.dark[4],
+                                    display: 'flex',
+                                    flexWrap: 'nowrap',
+                                    columnGap: '1rem',
+                                    padding: '0px'
+                                    // background: appConfig.theme.palette.primary.dark[0],
+                                    // borderRadius: '4px',
+                                    // border: `1px solid ${appConfig.theme.palette.secondary.dark[4]}`
                                 }}
                             >
+                                {/* <SortIcon /> */}
                                 <SwapVertIcon
                                     sx={{
                                         transition: '200ms',
-                                        transform: alarmListSortAsc ? 'none' : 'rotate(180deg)'
+                                        transform: alarmListSortAsc ? 'none' : 'rotate(180deg)',
+                                        borderRadius: '4px',
+                                    // border: `1px solid ${appConfig.theme.palette.secondary.dark[4]}`,
+                                    background: appConfig.theme.palette.primary.dark[8],
+                                    width: '2.125rem',
+                                    height: '2rem',
+                                    padding: '4px'
                                     }}
                                 />
-                                <SortIcon />
                             </IconButton>
                         </Box>
                         <Box
@@ -1288,14 +1348,15 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
                                 flexWrap: 'wrap'
                             }}
                         >
-                            <ToggleButtonGroup
+                            <TrToggleButtonGroup
+                                appConfig={appConfig}
                                 value={alarmListSortType}
                                 onChange={handleAlarmListSortTypeChange}
                                 sx={{
-                                    height: '2rem',
-                                    '&>.MuiButtonBase-root.Mui-selected': {
-                                        background: appConfig.theme.palette.primary.dark[1],
-                                    }
+                                    height: '2.5rem',
+                                    // '&>.MuiButtonBase-root.Mui-selected': {
+                                    //     background: appConfig.theme.palette.primary.dark[1],
+                                    // }
                                 }}
                             >
                                 <ToggleButton className='btn-sort-option' value='time'
@@ -1305,8 +1366,68 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
                                     }}
                                 >Time</ToggleButton>
                                 <ToggleButton className='btn-sort-option' value='name'>Name</ToggleButton>
-                            </ToggleButtonGroup>
+                            </TrToggleButtonGroup>
                         </Box>
+                    </Box>
+                    <Box
+                        id='alarms-search-container'
+                        sx={{
+                            // flexGrow: 1,
+                            width: '100%'
+                        }}
+                    >
+                        <TextField
+                            variant='filled'
+                            placeholder='Filter'
+                            // type='search'
+                            size='small'
+                            onChange={handleSearch}
+                            InputProps={{
+                                endAdornment: <InputAdornment position="end">{<FilterListIcon />}</InputAdornment>,
+                                disableUnderline: true,
+                                sx: {
+                                    transition: '200ms',
+                                    height: '2.5rem',
+                                    background: appConfig.theme.palette.primary.dark[8],
+                                    boxShadow: `inset 0px -4px ${appConfig.theme.palette.secondary.dark[3]}`,
+                                    borderRadius: '4px 4px 0px 0px',
+                                    color: appConfig.theme.palette.primary.dark[1],
+                                    // paddingBottom: '2px'
+                                    '& .MuiInputBase-input': {
+                                        paddingTop: '4px'
+                                    },
+                                    '&:hover, &:focus-within': {
+                                        background: appConfig.theme.palette.primary.dark[8],
+                                        boxShadow: `inset 0px -6px ${appConfig.theme.palette.secondary.dark[4]}`,
+                                    }
+                                }
+                            }}
+                            sx={{
+                                width: '100%',
+                                // color: 'red',
+                                '& .MuiInputLabel-root': {
+                                    border: '2px solid blue',
+                                    transform: 'none'
+                                }
+                            }}
+                        />
+                    </Box>
+                    {/* <Box
+                        id='time-format-toggle-container'
+                    >
+                                            <TrToggleButtonGroup 
+                        appConfig={appConfig}
+                        value={timeFormat24Hr}
+                        exclusive={true}
+                        onChange={handleTimeFormatToggle}
+                        sx={{
+                            height: '2.5rem',
+                        }}
+                    >
+                        <ToggleButton className='btn-sort-option' value={false}>AM:PM</ToggleButton>
+                        <ToggleButton className='btn-sort-option' value={true}>24hr</ToggleButton>
+                    </TrToggleButtonGroup>
+                    </Box> */}
                     </Box>
                 </Box>
 
