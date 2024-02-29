@@ -37,7 +37,14 @@ const AlarmConfigCategoryDetailBodyLightStart: React.FC<AlarmConfigCategoryDetai
 }
 
     return (<>
-        <Box className='alarm-config-category-detail-field-container'>
+        <Box 
+        className='alarm-config-category-detail-field-container'
+        sx={{
+            borderLeft: `5px solid ${appConfig.theme.palette.primary.dark[4]}`,
+            paddingTop: '.375rem',
+            paddingBottom: '.25rem'
+        }}
+        >
         <AlarmConfigCategoryDetailHeader label={fieldLabel} />
         <Box className='alarm-config-category-detail-field-contents-container'>
             <TrSlider

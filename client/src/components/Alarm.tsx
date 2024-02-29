@@ -175,7 +175,7 @@ const Alarm: React.FC<AlarmProps> = ({ alarm, appConfig, handlers, setters, time
                     // borderRadius: '0px 4px 0px 0px',
                 },
                 '&>.MuiCollapse-root': {
-                    background: '#FFFFFF57',
+                    // background: '#FFFFFF57',
                 },
                 // transition: '4s',
                 // opacity: alarm.shown? '1' : '.2',
@@ -354,7 +354,9 @@ const Alarm: React.FC<AlarmProps> = ({ alarm, appConfig, handlers, setters, time
                         transition: '.2s',
                         display: 'flex',
                         width: '100%',
-                        height: '2.5rem'
+                        height: '2.5rem',
+                        // paddingLeft: alarmExpanded ? '.75rem' : '0px',
+                        // paddingRight: alarmExpanded ? '.75rem' : '0px'
                         // background: '#ffffff25',
                         // color: 'red',
                         // background: '#FFFFFF25'
@@ -483,10 +485,11 @@ const Alarm: React.FC<AlarmProps> = ({ alarm, appConfig, handlers, setters, time
                             sx={{
                                 // transition: 'rotate 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms',
                                 // rotate: alarmExpanded ? '180deg' : '0deg',
+                                transition: '200ms',
                                 padding: '0px',
                                 color: appConfig.theme.palette.neutral.dark[3],
                                 background: '#ffffff55',
-                                borderRadius: '4px 0px 4px 0px',
+                                borderRadius: alarmExpanded ? '4px' : '4px 0px 4px 0px',
                                 width: '2.5rem',
                                 display: 'flex',
                                 justifyContent: 'center',
@@ -514,6 +517,11 @@ const Alarm: React.FC<AlarmProps> = ({ alarm, appConfig, handlers, setters, time
                     padding: '0px',
                     display: 'flex',
                     flexDirection: 'column',
+                    rowGap: '.5rem',
+                    marginTop: '.75rem',
+                    marginBottom: '.75rem',
+                    // paddingLeft: '.5rem'
+                    // background: 'red'
                 }}
             >
                 <AlarmConfigGroupSound alarm={alarm} appConfig={appConfig} handlers={handlers} setters={setters} />

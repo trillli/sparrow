@@ -13,7 +13,7 @@ interface AlarmConfigCategoryHeaderProps {
     toggleHandler: Function
 }
 
-const AlarmConfigCategoryHeader: React.FC<AlarmConfigSunriseProps> = ({ groupLabel, icon, groupEnabled, toggleHandler }) => {
+const AlarmConfigCategoryHeader: React.FC<AlarmConfigCategoryHeaderProps> = ({ groupLabel, icon, groupEnabled, toggleHandler }) => {
 
 
     return (
@@ -24,7 +24,8 @@ const AlarmConfigCategoryHeader: React.FC<AlarmConfigSunriseProps> = ({ groupLab
             sx={{
                 transition: '100ms',
                 paddingBottom: '1px',
-                background: '#FFFFFF57',
+                paddingRight: '.5rem',
+                // background: '#FFFFFF57',
                 borderRadius: '0px',
                 minHeight: '0px',
                 '&.Mui-expanded': {
@@ -34,7 +35,7 @@ const AlarmConfigCategoryHeader: React.FC<AlarmConfigSunriseProps> = ({ groupLab
                     paddingTop: '1rem',
                     '& .category-header-primary': {
                         '&>.MuiIcon-root': {
-                            fontSize: '2rem'
+                            fontSize: '1.5rem'
                         },
                         '&>.MuiTypography-root': {
                             fontSize: '1.25rem',
@@ -55,7 +56,7 @@ const AlarmConfigCategoryHeader: React.FC<AlarmConfigSunriseProps> = ({ groupLab
                     transition: '200s',
                     display: 'flex',
                     alignItems: 'center',
-                    columnGap: '1rem'
+                    columnGap: '.25rem'
                 }}
                 className='category-header-primary'>
                 <Icon
@@ -63,6 +64,7 @@ const AlarmConfigCategoryHeader: React.FC<AlarmConfigSunriseProps> = ({ groupLab
                         transition: '165ms',
                         display: 'flex',
                         alignItems: 'center',
+                        marginRight: '.5rem'
                     }}
                 >{icon}</Icon>
                 <Typography

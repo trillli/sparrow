@@ -41,12 +41,18 @@ const AlarmConfigGroupSound: React.FC<AlarmConfigGroupSoundProps> = ({ alarm, ap
             elevation={0}
             square={true}
             sx={{
+                transition: '200ms',
                 display: 'flex',
                 flexDirection: 'column',
                 borderRadius: '0px',
                 background: 'none',
                 '& .MuiAccordionSummary-content': {
-                    margin: '0px'
+                    margin: '0px',
+                    marginRight: '.25rem'
+                },
+                '&.Mui-expanded': {
+                    background: '#ffffff2e',
+                    // border: '5px solid red'
                 },
                 '&::before': {
                     display: 'none'
@@ -62,7 +68,7 @@ const AlarmConfigGroupSound: React.FC<AlarmConfigGroupSoundProps> = ({ alarm, ap
 
             <AccordionDetails className='alarm-config-container'
                 sx={{
-                    background: '#FFFFFF57',
+                    // background: '#FFFFFF57',
                     padding: '1.25rem 1rem',
                 }}
             >
@@ -70,7 +76,7 @@ const AlarmConfigGroupSound: React.FC<AlarmConfigGroupSoundProps> = ({ alarm, ap
                     sx={{
                         display: 'flex',
                         flexDirection: 'column',
-                        rowGap: '2rem'
+                        rowGap: '1rem'
                     }}
                 >
                     <AlarmConfigCategoryDetailBodySoundSearch alarm={alarm} appConfig={appConfig} handlers={handlers} />

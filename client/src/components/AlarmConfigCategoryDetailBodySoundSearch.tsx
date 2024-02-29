@@ -205,7 +205,7 @@ const AlarmConfigCategoryDetailBodySoundSearch: React.FC<AlarmConfigCategoryDeta
                 <Box
                     className='music-selection'
                 >
-                    <AlarmConfigCategoryDetailHeader label='Music Selection' />
+                    <AlarmConfigCategoryDetailHeader label='Music Selection' appConfig={appConfig} />
                     <Box
                         className='current-music-selection'
                     >

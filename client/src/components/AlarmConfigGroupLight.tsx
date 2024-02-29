@@ -45,7 +45,8 @@ const AlarmConfigGroupLight: React.FC<AlarmConfigGroupLightProps> = ({alarm, app
                 borderRadius: '0px',
                 background: 'none',
                 '& .MuiAccordionSummary-content': {
-                    margin: '0px'
+                    margin: '0px',
+                    marginRight: '.25rem'
                 },
                 '&::before': {
                     display: 'none'
