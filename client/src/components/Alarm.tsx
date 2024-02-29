@@ -148,12 +148,25 @@ const Alarm: React.FC<AlarmProps> = ({ alarm, appConfig, handlers, setters, time
             elevation={0}
             key={alarm.id}
             id={`alarm_${alarm.id}`}
+            // square={true}
             className='alarm-outer'
             onChange={handleAlarmExpand}
             sx={{
                 overflow: 'hidden',
                 borderTop: 'none',
-                background: 'linear-gradient(148deg, #ff9f4e, #fef751)',
+                // border: `1px solid ${appConfig.theme.palette.secondary.light[4]}`,
+                // borderLeft: `6px solid ${appConfig.theme.palette.secondary.dark[4]}`,
+                // borderBottom: `0px solid ${appConfig.theme.palette.secondary.dark[4]}`,
+                // boxShadow: `inset 6px 0px ${appConfig.theme.palette.secondary.dark[4]}, inset 0px -2px ${appConfig.theme.palette.primary.dark[6]}`,
+                // borderRadius: '0px 10px 14px 0px',
+                // background: 'linear-gradient(148deg, #ff9f4e, #fef751)',
+                // background: appConfig.theme.palette.neutral.dark[6],
+                // background: appConfig.theme.palette.primary.dark[7],
+                background: 'linear-gradient(131deg, #fe7e7e, transparent)',
+                // background: 'none',
+                '&.MuiPaper-root': {
+                    // borderRadius: '0px 4px 0px 0px',
+                },
                 '&>.MuiCollapse-root': {
                     background: '#FFFFFF57',
                 },
@@ -166,6 +179,7 @@ const Alarm: React.FC<AlarmProps> = ({ alarm, appConfig, handlers, setters, time
                 className='alarm-header'
                 sx={{
                     padding: '0px',
+                    color: appConfig.theme.palette.neutral.contrastText,
                     '& .MuiAccordionSummary-content': {
                         margin: '0px',
                         display: 'flex',
@@ -184,7 +198,12 @@ const Alarm: React.FC<AlarmProps> = ({ alarm, appConfig, handlers, setters, time
                         width: '100%',
                         display: 'flex',
                         alignItems: 'center',
-                        background: 'linear-gradient(148deg, #ff9f4e, #fef751)'
+                        // background: 'linear-gradient(148deg, #ff9f4e, #fef751)',
+                        // background: appConfig.theme.palette.primary.dark[4],
+                        // background: 'linear-gradient(148deg, #ff9f4e, #fef751)',
+                        paddingTop: '.25rem',
+                        paddingBottom: '.25rem',
+                        background: 'linear-gradient(131deg, #fe7e7e, transparent)'
                     }}
                 >
                     <Box
@@ -196,14 +215,14 @@ const Alarm: React.FC<AlarmProps> = ({ alarm, appConfig, handlers, setters, time
                             height: '100%',
                             padding: '0px .75rem',
                             borderRadius: '4px',
-                            color: appConfig.theme.palette.secondary.contrastText,
+                            color: appConfig.theme.palette.neutral.contrastText,
                         }}
                     >
                         <Typography
                             onClick={(event) => handlers.handleAlarmTimeOrNameClick(event, alarm.id)}
                             sx={{
                                 fontSize: '1.25rem',
-                                fontWeight: 'bold'
+                                // fontWeight: 'bold'
                             }}
                         >
                             {formattedTime}
@@ -253,7 +272,8 @@ const Alarm: React.FC<AlarmProps> = ({ alarm, appConfig, handlers, setters, time
                         transition: '.2s',
                         display: 'flex',
                         width: '100%',
-                        background: '#FFFFFF57',
+                        // color: 'red',
+                        // background: '#FFFFFF25'
                     }}
                 >
                     <Box

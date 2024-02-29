@@ -23,7 +23,8 @@ const AlarmsList: React.FC<AlarmsListProps> = ({alarms, appConfig, handlers, set
             sx={{
                 display: 'flex',
                 flexDirection: 'column',
-                rowGap: '2rem'
+                // rowGap: '2em',
+                marginTop: '2rem'
             }}
         >
             <Box
@@ -31,7 +32,7 @@ const AlarmsList: React.FC<AlarmsListProps> = ({alarms, appConfig, handlers, set
                 sx={{
                     display: 'flex',
                     flexDirection: 'column',
-                    rowGap: '1rem',
+                    rowGap: '2rem',
                     '&>.MuiPaper-root': {
                         borderRadius: '4px',
                     },

@@ -1009,7 +1009,7 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
     //----------------------------------------------------------------------------------------------
 
     return (
-        <PageBuilder navSide={false}>
+        <PageBuilder navSide={false} appConfig={appConfig}>
             <Box
                 id='alarms-container-outer'
                 sx={{
@@ -1437,6 +1437,9 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
                     handlers={handlers}
                     setters={setters}
                     timeFormat24Hr={timeFormat24Hr}
+                    // sx={{
+                    //     marginTop: '5rem'
+                    // }}
                 />
             </Box>
 
