@@ -30,6 +30,8 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
 
     //PLACEHOLDERS ---------------------------------------------------------------------------------
 
+    const gradientLight1 = `linear-gradient(153deg, ${appConfig.theme.palette.secondary.dark[4]}, ${appConfig.theme.palette.tertiary.dark[4]})`
+
     const defaultAlarmNames = [
         "Golfing",
         "Swimming",
@@ -423,8 +425,12 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
             if (result.ok.data = []) {
                 // alert('empty data')
                 // setAlarmsPageMetadata()
+                console.log('setting default metadta')
+                console.log(alarmsPageMetadataDefault)
                 setAlarmsPageMetadata(alarmsPageMetadataDefault)
             } else {
+                console.log('setting metadata from return call:')
+                console.log(result.ok.data[0].alarms_page_metadata_json)
                 setAlarmsPageMetadata(JSON.parse(result.ok.data[0].alarms_page_metadata_json))
             }
             
@@ -809,6 +815,7 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
     }
 
     const handleTimePickerChangeDoneClick = (event) => {
+        console.log('here')
         //console.log('time to save details of alarm')
         //console.log(alarmTimePickerFormatted)
         //console.log(alarmName)
@@ -1018,7 +1025,8 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
                         // background: `linear-gradient(148deg, #ff9f4e, #fef751)`,
                         width: '100%',
                         display: 'flex',
-                        justifyContent: 'center'
+                        justifyContent: 'center',
+                        height: alarmsList.length > 0 ? 'fit-content' : '100%'
                     }}
                 >
                     {alarmsList.length > 0 ? (
@@ -1030,38 +1038,78 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
                                 width: '100%',
                                 padding: '.5rem',
                                 borderRadius: '4px',
-                                background: appConfig.theme.palette.shades.primary[6],
+                                background: gradientLight1,
                                 color: appConfig.theme.palette.primary.contrastText,
+                                '& .MuiButton-startIcon>.MuiSvgIcon-root': {
+                                    fontSize: '1.5rem',
+                                    color: appConfig.theme.palette.neutral.dark[8]
+                                }
                             }}
                         >
-                            <Typography fontWeight={'normal'} fontSize={'1.25rem'}>New Alarm</Typography>
+                            <Typography fontWeight={'bold'} fontSize={'1.25rem'}>New Alarm</Typography>
                         </Button>) : (
                         <Box
                             sx={{
                                 display: 'flex',
                                 flexDirection: 'column',
+                                paddingTop: '3rem',
+                                // justifyContent: 'center',
                                 alignItems: 'center',
-                                rowGap: '2.5rem',
+                                // rowGap: '4.5rem'
+                                rowGap: '3.5rem',
                                 // border: '2px solid red'
+                                position: 'relative'
                             }}
                         >
                             <ToggleButtonGroup
                             value={timeFormat24Hr}
                             exclusive={true}
+                            fullWidth={true}
+                            // size='small'
                             onChange={handleTimeFormatToggle}
                             sx={{
-                                height: '2rem',
+                                // height: '2rem',
                                 width: '100%',
+                                // position: 'absolute',
+                                top: '0',
+                                // width: 'fit-content',
+                                // color: 'red',
+                                // border: '7px solid yellow',
+                                display: 'flex',
+                                // width: '100%',
+                                overflow: 'hidden',
+                                justifyContent: 'flex-end',
+                                // borderBottom: `1px solid ${appConfig.theme.palette.secondary.dark[6]}`,
                                 '&>.MuiButtonBase-root': {
-                                    flexGrow: '1'
+                                    marginLeft: '0px',
+                                    whiteSpace: 'nowrap',
+                                    // paddingTop: '.25rem',
+                                    // paddingBottom: '.25rem',
+                                    padding: '.5rem 1rem',
+                                    fontSize: '1rem',
+                                    border: 'none',
+                                    borderRadius: '0px',
+                                    // width: '50%',
+                                    color: 'white',
+                                    background: appConfig.theme.palette.primary.dark[8],
+
+                                    // flexGrow: '1',
+                                    // flexBasis: 'auto',
+                                    // width: '50%',
+                                    // border: '4px solid red'
+                                    // boxSizing: 'border-box'
                                 },
                                 '&>.MuiButtonBase-root.Mui-selected': {
-                                    background: appConfig.theme.palette.shades.tertiary[2],
+                                    background: appConfig.theme.palette.primary.dark[7],
+                                    // borderBottom: `3px solid ${appConfig.theme.palette.secondary.dark[4]}`,
+                                    // fontWeight: 'bold'
+                                    color: appConfig.theme.palette.neutral.contrastText,
+                                    boxShadow: `inset 0px -4px ${appConfig.theme.palette.secondary.dark[4]}`
                                 }
                             }}
                         >
                             <ToggleButton className='btn-sort-option' value={false}
-                            >AM:PM</ToggleButton>
+                            >am pm</ToggleButton>
                             <ToggleButton className='btn-sort-option' value={true}>24hr</ToggleButton>
                         </ToggleButtonGroup>
                         <Button
@@ -1071,19 +1119,43 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
                             sx={{
                                 // width: '100%',
                                 // marginLeft: 'auto',
-                                width: '75vw',
-                                maxWidth: '250px',
-                                height: '75vw',
-                                maxHeight: '250px',
-                                padding: '.5rem',
-                                border: `1px solid ${appConfig.theme.palette.secondary.main}`,
+                                width: '85vw',
+                                maxWidth: '300px',
+                                // height: '85vw',
+                                // maxHeight: '250px',
+                                // padding: '0px 3rem 2rem 3rem',
+                                padding: '1rem 2rem',
+                                // width:
+                                // paddingBottom: '1.5rem',
+                                // padding: '1.5rem',
+                                // border: `2px solid ${appConfig.theme.palette.secondary.dark[4]}`,
+                                // borderBottom: `6px solid ${appConfig.theme.palette.secondary.dark[4]}`,
                                 borderRadius: '4px',
                                 // boxShadow: '0px 0px 10px 5px #00000047',
-                                background: 'none',
-                                color: appConfig.theme.palette.primary.contrastText,
+                                // background: 'none',
+                                background: gradientLight1,
+                                // background: appConfig.theme.palette.primary.dark[8],
+                                // marginTop: '2rem',
+                                color: appConfig.theme.palette.neutral.dark[8],
+                                display: 'flex',
+                                // flexDirection: 'column',
+                                flexDirection: 'row',
+                                columnGap: '1rem',
+                                rowGap: '1rem',
+                                flexWrap: 'wrap',
+                                '& .MuiButton-startIcon>.MuiSvgIcon-root': {
+                                    fontSize: '1.75rem',
+                                    color: appConfig.theme.palette.neutral.dark[8]
+                                }
                             }}
                         >
-                            <Typography fontWeight={'normal'} fontSize={'1.25rem'}>New Alarm</Typography>
+                            <Typography 
+                                fontWeight={'bold'} 
+                                fontSize={'1.25rem'}
+
+                            >
+                                New Alarm
+                            </Typography>
                         </Button>
                         </Box>
                     )}
@@ -1116,6 +1188,7 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
                                 disableUnderline: true,
                                 sx: {
                                     borderRadius: '4px',
+                                    background: 'white',
                                     '& .MuiInputBase-input': {
                                         paddingTop: '4px'
                                     }
@@ -1140,7 +1213,7 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
                             sx={{
                                 height: '2rem',
                                 '&>.MuiButtonBase-root.Mui-selected': {
-                                    background: appConfig.theme.palette.shades.tertiary[2],
+                                    background: appConfig.theme.palette.primary.dark[1],
                                 }
                             }}
                         >
@@ -1179,7 +1252,7 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
                                 sx={{
                                     height: '100%',
                                     color: appConfig.theme.palette.tertiary.main,
-                                    background: appConfig.theme.palette.shades.primary[8],
+                                    background: appConfig.theme.palette.primary.dark[0],
                                     borderRadius: '0px'
                                 }}
                             >
@@ -1205,7 +1278,7 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
                                 sx={{
                                     height: '2rem',
                                     '&>.MuiButtonBase-root.Mui-selected': {
-                                        background: appConfig.theme.palette.shades.tertiary[2],
+                                        background: appConfig.theme.palette.primary.dark[1],
                                     }
                                 }}
                             >
@@ -1236,7 +1309,7 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
                 open={timePickerOpen}
                 onClose={handleTimePickerChangeDoneClick}
                 sx={{
-                    background: '#000000cc'
+                    background: '#000000a8'
                 }}
             >
                 <Fade
@@ -1252,7 +1325,8 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
                             top: '50%',
                             left: '50%',
                             transform: 'translate(-50%, -50%)',
-                            background: appConfig.theme.palette.shades.primary[10],
+                            background: appConfig.theme.palette.primary.dark[8],
+                            // border: `2px solid ${appConfig.theme.palette.secondary.dark[5]}`,
                             padding: '1rem 2rem 2rem 2rem',
                             borderRadius: '4px'
                         }}
@@ -1269,38 +1343,45 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
                                         ampm={!timeFormat24Hr}
                                         value={alarmTimePickerFormatted || dayjs('12:00', 'HH:mm')}
                                         onChange={handleAlarmTimeChanged}
-
                                         sx={{
                                             background: 'none',
                                             width: 'fit-content',
-                                            color: 'yellow',
+                                            // border: '3px solid red',
                                             '& span': {
-                                                color: appConfig.theme.palette.shades.tertiary[3],
+                                                color: appConfig.theme.palette.secondary.dark[4],
                                                 '&.Mui-selected': {
-                                                    color: appConfig.theme.palette.shades.tertiary[1],
+                                                    color: appConfig.theme.palette.primary.dark[2],
                                                 }
                                             },
+                                            '& .MuiClock-clock': {
+                                                // border: '2px solid pink',
+                                                // background: appConfig.theme.palette.neutral.dark[5]
+                                                background: '#1c1e24',
+                                            },
+                                            '& .MuiPickersArrowSwitcher-button': {
+                                                color: appConfig.theme.palette.secondary.dark[4],
+                                                '&:disabled': {
+                                                    color: appConfig.theme.palette.primary.dark[7]
+                                                }
+                                            },
+                                            '& .MuiClock-pin': {
+                                                background: appConfig.theme.palette.neutral.dark[6]
+                                            },
+                                            '& .MuiClockPointer-root': {
+                                                background: appConfig.theme.palette.neutral.dark[6]
+                                            },
+                                            '& .MuiClockPointer-root .MuiClockPointer-thumb': {
+                                                background: appConfig.theme.palette.neutral.light[6],
+                                                border: `16px solid ${appConfig.theme.palette.neutral.dark[6]}`
+                                            }
                                         }}
                                         slotProps={{
                                             actionBar: {
                                                 sx: {
                                                     display: 'none',
-                                                    flexDirection: 'column-reverse',
-                                                    rowGap: '1rem',
-                                                    '& .MuiButtonBase-root': {
-                                                        width: '100%',
-                                                        border: `1px solid ${appConfig.theme.palette.shades.tertiary[1]}`,
-                                                        margin: '0px',
-                                                        padding: '.5rem',
-                                                        fontSize: '1rem',
-                                                        '&:last-child': {
-                                                            background: `${appConfig.theme.palette.shades.tertiary[3]}`
-                                                        }
-                                                    }
                                                 }
                                             },
                                             toolbar: {
-
                                                 sx: {
                                                     gridRow: '2 !important',    //sue me
                                                     '&>.MuiTypography-root': {
@@ -1309,8 +1390,25 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
                                                     '& .MuiPickersToolbar-content': {
                                                         justifyContent: 'center'
                                                     },
+                                                    '& .MuiTimePickerToolbar-hourMinuteLabel .MuiTypography-root': {
+                                                        color: appConfig.theme.palette.primary.dark[6],
+                                                        '&.Mui-selected': {
+                                                            color: appConfig.theme.palette.secondary.dark[4],
+                                                        }
+                                                    },
                                                     '& .MuiTimePickerToolbar-ampmSelection': {
-                                                        marginRight: '0px'
+                                                        marginRight: '0px',
+                                                        '& .MuiTimePickerToolbar-ampmLabel': {
+                                                            // border: '2px solid blue'
+                                                            color: appConfig.theme.palette.primary.dark[6],
+                                                            '&.Mui-selected': {
+                                                            color: appConfig.theme.palette.secondary.dark[4]
+                                                        }
+                                                        },
+                                                        // color: appConfig.theme.palette.neutral.dark[6],
+                                                        // '& .Mui-selected': {
+                                                        //     color: appConfig.theme.palette.secondary.dark[4]
+                                                        // }
                                                     }
                                                 }
                                             },
@@ -1327,32 +1425,135 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
                                 </DemoContainer>
                             </LocalizationProvider>
                         </Box>
-                        <Box id='name-input-container'>
+                        <Box id='name-input-container' fontSize={18}>
                             <TextField
                                 variant='filled'
+                                // color='secondary'
                                 label='Alarm Name'
                                 placeholder={alarmNamePlaceholder}
                                 value={alarmNamePending || ''}
                                 onChange={handleAlarmNameTyping}
                                 InputLabelProps={{
-                                    shrink: true
+                                    shrink: true,
+                                    sx: {
+                                        // paddingLeft: '1rem',
+                                        fontSize: '1.35rem',
+                                        fontWeight: 'bold',
+                                        // color: appConfig.theme.palette.neutral.light[0]
+                                        color: appConfig.theme.palette.secondary.dark[3],
+                                        top: '2px',
+                                        '&.Mui-focused': {
+                                            color: appConfig.theme.palette.secondary.dark[3],
+                                        }
+                                    }
+                                }}
+                                InputProps={{
+                                    sx: {
+                                        // border: '10px solid red',
+                                        // paddingLeft: '1rem',
+                                        // color: appConfig.theme.palette.neutral.contrastText
+                                        // borderBottom: '2px solid red',
+                                        // boxShadow: `inset 0px -3px ${gradientLight1}`,
+                                        // background: '#00000047',
+                                        height: '4.5rem',
+                                        transition: '.2s',
+                                        alignItems: 'flex-end',
+                                        color: appConfig.theme.palette.primary.dark[0],
+                                        paddingBottom: '2px',
+                                        // boxShadow: `inset 0px -4px ${appConfig.theme.palette.secondary.dark[5]}`,
+                                        '&>input': {
+                                            // border: '1px solid red',
+                                            // paddingBottom: '1rem'
+                                        },
+                                        '&::before': {
+                                            display: 'none'
+                                            // borderBottom: `3px solid ${appConfig.theme.palette.secondary.dark[6]}`,
+                                            // borderRadius: '4px'
+                                        },
+                                        '&:hover': {
+                                            // borderBottom: `3px solid ${appConfig.theme.palette.secondary.dark[4]}`
+                                            // boxShadow: `inset 0px -90px ${appConfig.theme.palette.secondary.dark[5]}`,
+                                        }
+                                    }
                                 }}
                                 sx={{
                                     width: '100%',
-                                    color: 'white',
-                                    background: 'white'
+                                    // height: '3rem',
+                                    // color: 'white',
+                                    // background: appConfig.theme.palette.primary.dark[4],
+                                    background: '#00000047',
+                                    transition: '.2s',
+                                    boxShadow: `inset 0px -4px ${appConfig.theme.palette.secondary.dark[3]}`,
+                                    borderRadius: '4px 4px 0px 0px',
+                                    // background: 'red',
+                                    overflow: 'hidden',
+                                    // borderRadius: '4px',
+                                    '&>.MuiInputBase-root': {
+                                        // boxShadow: `inset 0px -4px ${appConfig.theme.palette.secondary.dark[6]}`,
+                                        // border: '4px solid red'
+                                        // '&::before': {
+                                        //     borderBottom: `3px solid ${appConfig.theme.palette.secondary.dark[6]}`
+                                        // },
+                                        // border:'2px solid yellow'
+                                        // '&:hover': {
+                                        //     '&::before': {
+                                                // borderBottom: `3px solid ${appConfig.theme.palette.secondary.dark[6]}`
+                                        //     }
+                                        // }
+                                        background: 'none',
+                                        '&:hover': {
+                                            // backgroundColor: 'red'
+                                        }
+                                    },
+                                    '&:hover, &:focus, &:active': {
+                                        // border: '4px solid pink',
+                                        // '&>.MuiInputBase-root::before': {
+                                        //     borderBottom: `5px solid ${appConfig.theme.palette.secondary.dark[4]}`
+                                        // }
+                                    },
+                                    '&:focus-within': {
+                                        // '&>.MuiInputBase-root::before': {
+                                        //     borderBottom: `5px solid ${appConfig.theme.palette.secondary.dark[4]}`,
+                                        //     // borderBottom: '5px solid red'
+                                        // }
+                                    },
+                                    '& ::before': {
+                                        display: 'none'
+                                    },
+                                    '& ::after': {
+                                        display: 'none'
+                                    },
+                                    '&:hover, :active, :focus, :focus-within': {
+                                        // transition: '.2s',
+                                        boxShadow: `inset 0px -6px ${appConfig.theme.palette.secondary.dark[4]}`,
+                                        background: '#00000063',
+                                        // '& ::before': {
+                                        //     borderBottom: `3px solid ${appConfig.theme.palette.secondary.dark[6]}`
+                                        // }
+                                }    
                                 }}
+                                
                             />
                         </Box>
                         <Box
-                            className='accept-alarm-time-and-name'
+                            className='btn-accept-alarm-time-and-name-container'
+                            // width={}
                         >
                             <Button
                                 variant='contained'
-                                className='accept-alarm-time-and-name'
+                                className='btn-accept-alarm-time-and-name'
+                                size='large'
                                 onClick={handleTimePickerChangeDoneClick}
                                 sx={{
-                                    width: '100%'
+                                    // width: '100%',
+                                    display: 'block',
+                                    marginLeft: 'auto',
+                                    paddingLeft: '2rem',
+                                    paddingRight: '2rem',
+                                    background: gradientLight1,
+                                    color: appConfig.theme.palette.neutral.dark[6],
+                                    // fontWeight: 'bold',
+                                    // fontSize: '1.25rem'
                                 }}
                             >Done</Button>
                         </Box>

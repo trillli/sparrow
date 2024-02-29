@@ -279,7 +279,7 @@ const Alarm: React.FC<AlarmProps> = ({ alarm, appConfig, handlers, setters, time
                                     borderRadius: '0px'
                                 },
                                 '&>.MuiButtonBase-root.Mui-selected': {
-                                    background: appConfig.theme.palette.shades.tertiary[8],
+                                    background: appConfig.theme.palette.primary.dark[1],
                                     color: 'white',
                                     fontWeight: 'bold',
                                 }

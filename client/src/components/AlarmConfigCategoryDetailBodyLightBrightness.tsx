@@ -90,7 +90,7 @@ const AlarmConfigCategoryDetailBodyBrightness: React.FC<AlarmConfigCategoryDetai
                                         height: '2.75rem',
                                     },
                                     '&>.MuiButtonBase-root.Mui-selected': {
-                                        background: appConfig.theme.palette.shades.tertiary[4],
+                                        background: appConfig.theme.palette.primary.dark[1],
                                         fontWeight: 'bold',
                                         borderLeft: '1px solid rgba(0, 0, 0, 0.12)'
                                     }
