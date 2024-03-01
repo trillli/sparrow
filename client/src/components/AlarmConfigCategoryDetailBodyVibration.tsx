@@ -1,12 +1,14 @@
 import React from 'react'
 import { HexColorPicker } from 'react-colorful'
 import IAlarmConfigCategoryDetailStateControl from './types/IAlarmConfigCategoryDetailStateControl'
-import { ToggleButtonGroup, ToggleButton, Slider, Box } from '@mui/material'
+import { ToggleButtonGroup, ToggleButton, Slider, Box, Typography } from '@mui/material'
 import TrSlider from 'trillli/src/components/TrSlider'
 import AlarmConfigCategoryDetailHeader from './AlarmConfigCategoryDetailHeader'
 import ITrillliConfig from 'trillli/src/types/ITrillliConfig'
 import { IAlarmMetadata } from './types/IAlarmMetadata'
 import AlarmConfigCategoryDetailContainer from './AlarmConfigCategoryDetailContainer'
+import AlarmConfigCategoryDetailContents from './AlarmConfigCategoryDetailContents'
+import TrToggleButtonGroup from 'trillli/src/components/TrToggleButtonGroup'
 
 interface AlarmConfigCategoryDetailBodyVibrationProps {
     alarm: IAlarmMetadata
@@ -40,19 +42,19 @@ const AlarmConfigCategoryDetailBodyVibration: React.FC<AlarmConfigCategoryDetail
     }
 
     const handleVibrationChangeConstant = (event: Event, value: number | number[]) => {
-        // setVibrationMax(value as number)
+        setVibrationMax(value as number)
         alarm.vibration.intensity.end = value as number
         // alarm.vibration.intensity.start = values[0]
-        handlers.updateAlarmsMetadata(alarm.id, alarm)
+        // handlers.updateAlarmsMetadata(alarm.id, alarm)
     }
 
     const handleVibrationChangeRamp = (event: Event, value: number | number[]) => {
         const values = value as number[]
-        // setVibrationRamp(values as number[])
-        // setVibrationMax(values[1] as number)
+        setVibrationRamp(values as number[])
+        setVibrationMax(values[1] as number)
         alarm.vibration.intensity.end = values[1]
         alarm.vibration.intensity.start = values[0]
-        handlers.updateAlarmsMetadata(alarm.id, alarm)
+        // handlers.updateAlarmsMetadata(alarm.id, alarm)
     }
 
     const handleVibrationConstantChangeCommitted = (event: Event, value: number | number[]) => {
@@ -71,37 +73,106 @@ const AlarmConfigCategoryDetailBodyVibration: React.FC<AlarmConfigCategoryDetail
         <>
             <AlarmConfigCategoryDetailContainer appConfig={appConfig}>
                 <AlarmConfigCategoryDetailHeader label='Vibration Profile' />
-                <Box className='alarm-config-category-detail-field-contents-container'>
-                    <ToggleButtonGroup
-                        color="primary"
+                <AlarmConfigCategoryDetailContents appConfig={appConfig} sx={{paddingLeft: '0px'}}>
+                <TrToggleButtonGroup 
+                    appConfig={appConfig}
+                        // color="primary"
                         value={alarm.vibration.intensity.profile}
                         exclusive
                         onChange={handleVibrationProfileChange}
                         sx={{
-                            marginTop: '.5rem',
-                            display: 'flex',
-                            flexWrap: 'wrap',
-                            height: 'fit-content',
-                            '& .MuiButtonBase-root': {
-                                borderLeft: '1px solid rgba(0, 0, 0, 0.12)',
-                                background: 'none',
-                                padding: '.125rem .75rem',
-                                height: '2.75rem',
-                            },
-                            '&>.MuiButtonBase-root.Mui-selected': {
-                                background: appConfig.theme.palette.primary.dark[1],
-                                fontWeight: 'bold',
-                                borderLeft: '1px solid rgba(0, 0, 0, 0.12)'
-                            }
+                            marginTop: '1rem',
+                            borderRadius: '4px'
                         }}
+                        // sx={{
+                        //     marginTop: '1rem',
+                        //     display: 'flex',
+                        //     flexWrap: 'wrap',
+                        //     height: 'fit-content',
+                        //     '& .MuiButtonBase-root': {
+                        //         borderLeft: '1px solid rgba(0, 0, 0, 0.12)',
+                        //         background: 'none',
+                        //         padding: '.125rem .75rem',
+                        //         height: '2.75rem',
+                        //     },
+                        //     '&>.MuiButtonBase-root.Mui-selected': {
+                        //         background: appConfig.theme.palette.primary.dark[1],
+                        //         fontWeight: 'bold',
+                        //         borderLeft: '1px solid rgba(0, 0, 0, 0.12)'
+                        //     }
+                        // }}
                     >
                         <ToggleButton value="constant">Constant</ToggleButton>
                         <ToggleButton value="ramp">Ramp</ToggleButton>
-                    </ToggleButtonGroup>
-                </Box>
+                    </TrToggleButtonGroup>
+                </AlarmConfigCategoryDetailContents>
             </AlarmConfigCategoryDetailContainer>
             <AlarmConfigCategoryDetailContainer appConfig={appConfig}>
                 <AlarmConfigCategoryDetailHeader label='Intensity' />
+                <AlarmConfigCategoryDetailContents appConfig={appConfig}>
+                    <Box
+                        sx={{
+                            // marginTop: '1rem'
+                        }}
+                    >
+                                            <Box 
+                        className='current-config-value-container-outer'
+                        sx={{
+
+                        }}
+                    >
+                            
+                        <Box 
+                            className='current-config-value-container'
+                            sx={{
+                                display: 'flex',
+                                flexDirection: 'row',
+                                columnGap: '.5rem',
+                                alignItems: 'baseline'
+                            }}
+                        >
+                            {vibrationProfile == 'constant' ? (                            
+                            <>
+                            <Typography
+                                sx={{
+                                    fontSize: '2.5rem',
+                                }}
+                            >
+                                {vibrationConstant}
+                            </Typography>
+                            <Typography
+                                sx={{
+                                    fontSize:'1.25rem'
+                                }}
+                            >
+                                %
+                            </Typography>
+                            </>):(<>                            
+                            <Typography
+                                sx={{
+                                    fontSize: '2.5rem',
+                                }}
+                            >
+                                {vibrationRamp[0]}%
+                            </Typography>
+                            <Typography
+                                sx={{
+                                    fontSize:'1.25rem'
+                                }}
+                            >
+                                ramping to 
+                            </Typography>
+                            <Typography
+                                sx={{
+                                    fontSize: '2.5rem',
+                                }}
+                            >
+                                {vibrationRamp[1]}%
+                            </Typography>
+                            </>)}
+
+                        </Box>
+                    </Box>
                 {vibrationProfile == 'constant' ? (
                     <TrSlider
                         value={alarm.vibration.intensity.end}
@@ -121,6 +192,8 @@ const AlarmConfigCategoryDetailBodyVibration: React.FC<AlarmConfigCategoryDetail
                         disableSwap
                     />
                 )}
+                </Box>
+                </AlarmConfigCategoryDetailContents>
             </AlarmConfigCategoryDetailContainer>
         </>
     )

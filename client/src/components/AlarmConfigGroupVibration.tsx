@@ -62,11 +62,14 @@ const AlarmConfigGroupVibration: React.FC<AlarmConfigGroupVibrationProps> = ({al
             <AccordionDetails className='alarm-config-container'
                 sx={{
                     // background: '#FFFFFF57',
-                    padding: '1.25rem 1rem',
+                    // padding: '1.25rem 1rem',
+                    padding: '0px'
                 }}
             >
                 <Box className='configuration-details-container'
                     sx={{
+                        padding: '1.5rem 1rem',
+                        // paddingTop: '1rem',
                         display: 'flex',
                         flexDirection: 'column',
                         rowGap: '2rem'

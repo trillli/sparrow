@@ -23,6 +23,10 @@ const AlarmConfigCategoryDetailContainer: React.FC<AlarmConfigCategoryDetailCont
             // paddingBottom: '.25rem',
             // background: appConfig.theme.palette.secondary.dark[4],
             // borderRadius: '4px'
+            paddingLeft: '1rem',
+            paddingTop: '.5rem',
+            paddingBottom: '.5rem',
+            borderLeft: `3px solid ${appConfig.theme.palette.secondary.dark[4]}`
         }}
         >
 

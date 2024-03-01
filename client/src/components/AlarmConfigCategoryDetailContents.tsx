@@ -17,8 +17,9 @@ const AlarmConfigCategoryDetailContents: React.FC<AlarmConfigCategoryDetailConte
         <Box 
         className='alarm-config-category-detail-field-contents-container'
         sx={{
-            paddingLeft: '.5rem',
-            // border: '1px solid red'
+            // paddingLeft: '.5rem',
+            // // paddingLeft: '0px'
+            // borderLeft: `3px solid ${appConfig.theme.palette.secondary.dark[4]}`
         }}
         >
         {children}

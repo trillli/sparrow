@@ -512,12 +512,12 @@ const Alarm: React.FC<AlarmProps> = ({ alarm, appConfig, handlers, setters, time
                 className='alarm-config-categories-container'
                 // disableGutters={true}
                 sx={{
-                    padding: '0px',
+                    padding: '1.25rem 0rem',
                     display: 'flex',
                     flexDirection: 'column',
-                    rowGap: '.5rem',
-                    marginTop: '.75rem',
-                    marginBottom: '.75rem',
+                    rowGap: '1rem',
+                    // marginTop: '.75rem',
+                    // marginBottom: '.75rem',
                     // paddingLeft: '.5rem'
                     // background: 'red'
                 }}
