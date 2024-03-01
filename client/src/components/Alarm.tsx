@@ -156,6 +156,7 @@ const Alarm: React.FC<AlarmProps> = ({ alarm, appConfig, handlers, setters, time
             key={alarm.id}
             id={`alarm_${alarm.id}`}
             // square={true}
+            disableGutters={true}
             className='alarm-outer'
             onChange={handleAlarmExpand}
             sx={{
@@ -290,21 +291,16 @@ const Alarm: React.FC<AlarmProps> = ({ alarm, appConfig, handlers, setters, time
                             checked={alarm.enabled} 
                             onClick={handleToggleAlarmStatusClick} 
                             sx={{
-                                // border: '3px solid blue',
-                                paddingTop: '10px',
-                                paddingBottom: '10px',
-                                paddingLeft: '9px',
-                                paddingRight: '5px',
+                                // paddingTop: '10px',
+                                // paddingBottom: '10px',
+                                // paddingLeft: '9px',
+                                // paddingRight: '5px',
                                 '& .MuiSwitch-switchBase': {
-                                    paddingTop: '6px'
+                                    // paddingTop: '6px'
                                 },
                                 '& .MuiSwitch-thumb': {
-                                    // border: '2px solid red',
-                                    // height: '4rem'
-                                    // background: appConfig.theme.palette.secondary.dark[4],
-                                    // border: '5px solid lime'
-                                    width: '26px',
-                                    height: '26px'
+                                    // width: '26px',
+                                    // height: '26px'
                                 },
                                 '& .Mui-checked+.MuiSwitch-track': {
                                     opacity: '.75 !important',
@@ -487,14 +483,15 @@ const Alarm: React.FC<AlarmProps> = ({ alarm, appConfig, handlers, setters, time
                                 // rotate: alarmExpanded ? '180deg' : '0deg',
                                 transition: '200ms',
                                 padding: '0px',
+                                background: appConfig.theme.palette.secondary.dark[4],
                                 color: appConfig.theme.palette.neutral.dark[3],
-                                background: '#ffffff55',
-                                borderRadius: alarmExpanded ? '4px' : '4px 0px 4px 0px',
+                                // background: '#ffffff55',
+                                borderRadius: alarmExpanded ? '4px 0px 0px 4px' : '4px 0px 4px 0px',
                                 width: '2.5rem',
                                 display: 'flex',
                                 justifyContent: 'center',
                                 '&:hover': {
-                                    background: appConfig.theme.palette.secondary.dark[4]
+                                    background: appConfig.theme.palette.secondary.dark[3]
                                 }
                                 // width: '50%',
                                 // marginLeft: '50px'
@@ -513,6 +510,7 @@ const Alarm: React.FC<AlarmProps> = ({ alarm, appConfig, handlers, setters, time
             </AccordionSummary>
             <AccordionDetails
                 className='alarm-config-categories-container'
+                // disableGutters={true}
                 sx={{
                     padding: '0px',
                     display: 'flex',

@@ -7,11 +7,11 @@ import ITrillliConfig from 'trillli/src/types/ITrillliConfig'
 
 interface AlarmConfigCategoryDetailHeaderProps {
     label: string,
-    appConfig: ITrillliConfig
+    // appConfig: ITrillliConfig
     stateControl?: IAlarmConfigStateControl
 }
 
-const AlarmConfigCategoryDetailHeader: React.FC<AlarmConfigCategoryDetailHeaderProps> = ({ label, appConfig, stateControl }) => {
+const AlarmConfigCategoryDetailHeader: React.FC<AlarmConfigCategoryDetailHeaderProps> = ({ label, stateControl }) => {
 
     return (
         <Box 
@@ -24,12 +24,20 @@ const AlarmConfigCategoryDetailHeader: React.FC<AlarmConfigCategoryDetailHeaderP
             <Typography 
                 className='alarm-config-category-detail-field-title'
                 sx={{
-                    fontWeight: 'bold',
+                    // fontWeight: 'bold',
                     // background: 'linear-gradient(129deg, #df844e87, transparent 85%)',
                     // marginBottom: '.75rem',
-                    padding: '0rem 1rem',
-                    borderRadius: '4px',
-                    marginBottom: '.5rem'
+                    textTransform: 'uppercase',
+                    // fontSize: '1.25rem',
+                    // padding: '0rem 1rem',
+                    borderRadius: '0px 4px 4px 0px',
+                    // marginBottom: '.5rem',
+                    borderLeft: '4px solid #000033',
+                    width: 'fit-content',
+                    // borderRadius: '0px'
+                    padding: '.25rem .5rem',
+                    // paddingLeft: '0px',
+                    background: '#ea8480'
                 }}
             >
                 {label}

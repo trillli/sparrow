@@ -10,6 +10,7 @@ import { useAuth0 } from '@auth0/auth0-react';
 import { TrFetchConfig, TrFetchResult, trFetch } from 'trillli/src/components/TrApiClient';
 import AlarmConfigCategoryDetailHeader from './AlarmConfigCategoryDetailHeader';
 import { Shuffle, ShuffleOn } from '@mui/icons-material';
+import AlarmConfigCategoryDetailContainer from './AlarmConfigCategoryDetailContainer';
 
 interface AlarmConfigCategoryDetailBodySoundSearchProps {
     alarm: IAlarmMetadata
@@ -101,25 +102,29 @@ const AlarmConfigCategoryDetailBodySoundSearch: React.FC<AlarmConfigCategoryDeta
 
             songs.forEach((song) => {
                 const songName: string = song.name
-                const songAlbum: string = song.album.name
+                const songAlbum: string = song.album ? song.album.name : ''
                 const songArtists: any[] = song.artists
+                const images: any[] = song.album ? (song.album.images.length > 0 ? song.album.images[0] : undefined) : undefined
                 let songArtistNames: string[] = []
                 songArtists.forEach((songArtist) => {
                     songArtistNames.push(songArtist.name)
                 })
+                
                 const songPreviewUrl: string = song.preview_url
                 soundSearchResultsFormatted.tracks.push({
                     type: 'track',
                     title: songName,
                     album: songAlbum,
                     artist: songArtistNames,
-                    previewUrl: songPreviewUrl
+                    previewUrl: songPreviewUrl,
+                    image: images.length > 0 ? images[0].url : undefined
                 })
             })
 
             albums.forEach((album) => {
                 const albumName: string = album.name
                 const albumArtists: any[] = album.artists
+                const images: any[] = album.images
                 let albumArtistNames: string[] = []
                 albumArtists.forEach((albumArtist) => {
                     albumArtistNames.push(albumArtist.name)
@@ -127,26 +132,31 @@ const AlarmConfigCategoryDetailBodySoundSearch: React.FC<AlarmConfigCategoryDeta
                 soundSearchResultsFormatted.albums.push({
                     type: 'album',
                     title: albumName,
-                    artist: albumArtistNames
+                    artist: albumArtistNames,
+                    image: images.length > 0 ? images[0].url : undefined
                 })
             })
 
             artists.forEach((artist) => {
                 const artistName: string = artist.name
+                const images: any[] = artist.images ? artist.images : []
                 soundSearchResultsFormatted.artists.push({
                     type: 'artist',
                     title: '',
-                    artist: artistName
+                    artist: artistName,
+                    image: images.length > 0 ? images[0].url : undefined
                 })
             })
 
             playlists.forEach((playlist) => {
                 const playlistName: string = playlist.name
                 const playlistAuthor: string = playlist.owner.display_name
+                const images = playlist.images ? playlist.images : []
                 soundSearchResultsFormatted.playlists.push({
                     type: 'playlist',
                     title: playlistName,
-                    artist: playlistAuthor
+                    artist: playlistAuthor,
+                    image: images.length > 0 ? images[0].url : undefined
                 })
             })
 
@@ -201,7 +211,7 @@ const AlarmConfigCategoryDetailBodySoundSearch: React.FC<AlarmConfigCategoryDeta
 
     return (
         <>
-            <Box className='alarm-config-category-detail-field-container'>
+            <AlarmConfigCategoryDetailContainer appConfig={appConfig}>
                 <Box
                     className='music-selection'
                 >
@@ -319,51 +329,51 @@ const AlarmConfigCategoryDetailBodySoundSearch: React.FC<AlarmConfigCategoryDeta
                                 </Box>
                             </Box>
                         ) : currentSoundType == 'playlist' ? (
-                            <Box
-                                sx={{
-                                    display: 'flex',
-                                    flexWrap: 'wrap',
-                                    columnGap: '1rem',
-                                    rowGap: '.5rem',
-                                    alignItems: 'flex-end'
-                                }}
-                            >
-                                <Typography
-                                    sx={{
-                                        fontWeight: 'bold',
-                                        lineHeight: '1.0'
-                                    }}
-                                >
-                                    {currentSoundTitle}
-                                </Typography>
-                                <Typography
-                                    sx={{
-                                        fontSize: '1rem',
-                                        lineHeight: '1.0'
-                                    }}
-                                >
-                                    {currentSoundArtist}
-                                </Typography>
-                                <Box>
-                                    <IconButton onClick={handleShuffleToggle}>
-                                        {currentSoundShuffle ? (
-                                            <ShuffleOn />
-                                        ) : (
-                                            <Shuffle />
-                                        )}
-                                    </IconButton>
+                            // <Box
+                            //     sx={{
+                            //         display: 'flex',
+                            //         flexWrap: 'wrap',
+                            //         columnGap: '1rem',
+                            //         rowGap: '.5rem',
+                            //         alignItems: 'flex-end'
+                            //     }}
+                            // >
+                            //     <Typography
+                            //         sx={{
+                            //             fontWeight: 'bold',
+                            //             lineHeight: '1.0'
+                            //         }}
+                            //     >
+                            //         {currentSoundTitle}
+                            //     </Typography>
+                            //     <Typography
+                            //         sx={{
+                            //             fontSize: '1rem',
+                            //             lineHeight: '1.0'
+                            //         }}
+                            //     >
+                            //         {currentSoundArtist}
+                            //     </Typography>
+                            //     <Box>
+                            //         <IconButton onClick={handleShuffleToggle}>
+                            //             {currentSoundShuffle ? (
+                            //                 <ShuffleOn />
+                            //             ) : (
+                            //                 <Shuffle />
+                            //             )}
+                            //         </IconButton>
 
-                                    {currentSoundShuffle ? (
-                                        <Typography
-                                            sx={{
-                                                fontStyle: 'italic'
-                                            }}
-                                        >Shuffle on</Typography>
-                                    ) : <></>}
+                            //         {currentSoundShuffle ? (
+                            //             <Typography
+                            //                 sx={{
+                            //                     fontStyle: 'italic'
+                            //                 }}
+                            //             >Shuffle on</Typography>
+                            //         ) : <></>}
 
-                                </Box>
-                            </Box>
-
+                            //     </Box>
+                            // </Box>
+                            <></>
                         ) : <></>}
                     </Box>
                 </Box>
@@ -426,7 +436,7 @@ const AlarmConfigCategoryDetailBodySoundSearch: React.FC<AlarmConfigCategoryDeta
                         <ToggleButton value='track' className='alarm-day alarm-summary-day'>Song</ToggleButton>
                         <ToggleButton value='artist' className='alarm-day alarm-summary-day'>Artist</ToggleButton>
                         <ToggleButton value='album' className='alarm-day alarm-summary-day'>Album</ToggleButton>
-                        <ToggleButton value='playlist' className='alarm-day alarm-summary-day'>Playlist</ToggleButton>
+                        {/* <ToggleButton value='playlist' className='alarm-day alarm-summary-day'>Playlist</ToggleButton> */}
                         <ToggleButtonGroup
                             className='soundCategoryNofilter'
                             value={soundTypeNoFilter}
@@ -452,7 +462,7 @@ const AlarmConfigCategoryDetailBodySoundSearch: React.FC<AlarmConfigCategoryDeta
                         </ToggleButtonGroup>
                     </ToggleButtonGroup>
                 </Box>
-            </Box>
+            </AlarmConfigCategoryDetailContainer>
 
             <Box className='sound-search-results-outer'>
                 <Accordion >
@@ -614,7 +624,7 @@ const AlarmConfigCategoryDetailBodySoundSearch: React.FC<AlarmConfigCategoryDeta
                                     </AccordionDetails>
                                 </Accordion>
                             ) : (<></>)}
-                            {soundType.includes('playlist') || soundTypeNoFilter ? (
+                            {/* {soundType.includes('playlist') || soundTypeNoFilter ? (
                                 <Accordion >
                                     <AccordionSummary >
                                         Playlists
@@ -666,7 +676,7 @@ const AlarmConfigCategoryDetailBodySoundSearch: React.FC<AlarmConfigCategoryDeta
                                         </TableContainer>
                                     </AccordionDetails>
                                 </Accordion>
-                            ) : (<></>)}
+                            ) : (<></>)} */}
                         </Box>
                     </AccordionDetails>
                 </Accordion>

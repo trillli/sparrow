@@ -1,39 +1,42 @@
+import { Box } from '@mui/material'
+import React from 'react'
+import ITrillliConfig from 'trillli/src/types/ITrillliConfig'
+import { IAlarmMetadata } from './types/IAlarmMetadata'
+
+interface AlarmConfigCategoryDetailContainer {
+    appConfig: ITrillliConfig
+    children: React.ReactNode
+    // handlers: { [key: string]: Function }
+}
+
+const AlarmConfigCategoryDetailContainer: React.FC<AlarmConfigCategoryDetailContainer> = ({appConfig, children}) => {
 
 
+    return (
 
-<Box 
+        <Box 
         className='alarm-config-category-detail-field-container'
         sx={{
-            borderLeft: `5px solid ${appConfig.theme.palette.primary.dark[4]}`,
-            paddingTop: '.375rem',
-            paddingBottom: '.25rem'
+            // borderLeft: `5px solid ${appConfig.theme.palette.neutral.dark[3]}`,
+            // paddingLeft: '1rem',
+            // paddingTop: '.375rem',
+            // paddingBottom: '.25rem',
+            // background: appConfig.theme.palette.secondary.dark[4],
+            // borderRadius: '4px'
         }}
         >
-        <AlarmConfigCategoryDetailHeader label={fieldLabel} />
-        <Box className='alarm-config-category-detail-field-contents-container'>
-            <TrSlider
-                value={lightAdvanceMinutes}
-                min={-30}
-                max={30}
-                marks={[{value: 0, label: 'Alarm Time'}]}
-                onChange={handleLightAdvanceMinutesSliderChange}
-                onChangeCommitted={handleLightAdvanceMinutesSliderChangeCommitted}
-                sx={{
-                    '& .MuiSlider-mark': {
-                        transform: 'translate(-50%, -50%)',
-                        height: '20px',
-                        width: '20px',
-                        borderRadius: '999px',
-                        opacity: 1,
-                        background: `hsl(${alarm.light.color.h}, 100%, 50%)`,
-                        boxShadow: `0px 0px 0px 6px hsl(${alarm.light.color.h}, 100%, 50%, 58%)`,
-                        color: 'blue'
-                    },
-                    '& .MuiSlider-markLabel': {
-                        color: theme.palette.primary.main,
-                        fontSize: '1.125rem'
-                    }
-                }}
-            />
+
+        {children}
         </Box>
-        </Box>
+
+
+
+    )
+
+
+
+}
+
+export default AlarmConfigCategoryDetailContainer
+
+

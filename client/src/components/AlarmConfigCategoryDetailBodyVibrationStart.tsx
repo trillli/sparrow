@@ -6,6 +6,8 @@ import TrSlider from 'trillli/src/components/TrSlider'
 import AlarmConfigCategoryDetailHeader from './AlarmConfigCategoryDetailHeader'
 import ITrillliConfig from 'trillli/src/types/ITrillliConfig'
 import { IAlarmMetadata } from './types/IAlarmMetadata'
+import AlarmConfigCategoryDetailContainer from './AlarmConfigCategoryDetailContainer'
+import AlarmConfigCategoryDetailContents from './AlarmConfigCategoryDetailContents'
 
 interface AlarmConfigCategoryDetailBodyVibrationStartProps {
     alarm: IAlarmMetadata
@@ -37,11 +39,49 @@ const AlarmConfigCategoryDetailBodyVibrationStart: React.FC<AlarmConfigCategoryD
         fieldLabel = 'Begin vibration ' + (Math.abs(vibrationAdvanceMinutes)) + ' ' + (Math.abs(vibrationAdvanceMinutes) == 1 ? 'minute' : 'minutes') + ' ' + (vibrationAdvanceMinutes > 0 ? 'after' : 'before') + ' alarm time'
     }
 
+    // const
+    fieldLabel = 'Vibration Start Time'  
+
     return (
         <>
-            <Box className='alarm-config-category-detail-field-container'>
+            <AlarmConfigCategoryDetailContainer appConfig={appConfig}>
                 <AlarmConfigCategoryDetailHeader label={fieldLabel} />
-                <Box className='alarm-config-category-detail-field-contents-container'>
+                {/* <Box className='alarm-config-category-detail-field-contents-container'> */}
+                <AlarmConfigCategoryDetailContents appConfig={appConfig}>
+                    <Box 
+                        className='current-config-value-container-outer'
+                        sx={{
+
+                        }}
+                    >
+                            
+                        <Box 
+                            className='current-config-value-container'
+                            sx={{
+                                display: 'flex',
+                                flexDirection: 'row',
+                                columnGap: vibrationAdvanceMinutes == 0 ? '0rem' : '.5rem',
+                                alignItems: 'baseline'
+                            }}
+                        >
+                            <Typography
+                                sx={{
+                                    fontSize: '2.5rem',
+                                    width: vibrationAdvanceMinutes == 0 ? '0px' : 'initial',
+                                    opacity: vibrationAdvanceMinutes == 0 ? '0' : 'initial'
+                                }}
+                            >
+                                {Math.abs(vibrationAdvanceMinutes)}
+                            </Typography>
+                            <Typography
+                                sx={{
+                                    fontSize: vibrationAdvanceMinutes == 0 ? '1.5rem' : '1.25rem'
+                                }}
+                            >
+                                {(vibrationAdvanceMinutes == 0) ? 'When alarm starts' : (Math.abs(vibrationAdvanceMinutes) == 1 ? 'minute' : 'minutes') + ' ' + (vibrationAdvanceMinutes > 0 ? 'after' : 'before') + ' alarm'}
+                            </Typography>
+                        </Box>
+                    </Box>
                     <TrSlider
                         value={vibrationAdvanceMinutes}
                         min={-30}
@@ -66,8 +106,9 @@ const AlarmConfigCategoryDetailBodyVibrationStart: React.FC<AlarmConfigCategoryD
                             }
                         }}
                     />
-                </Box>
-            </Box>
+                </AlarmConfigCategoryDetailContents>
+                {/* </Box> */}
+            </AlarmConfigCategoryDetailContainer>
         </>
     )
 

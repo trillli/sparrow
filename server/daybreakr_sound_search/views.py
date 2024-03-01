@@ -75,6 +75,11 @@ class SearchView(APIView):
 
             payload = {}
 
+            # print(spotifyAccessToken)
+
+            # requestTarget = 'https://api.spotify.com/v1/search?q=ultra+coding+marathon&type=playlist&market=US&limit=50'
+            # requestTarget = 'https://api.spotify.com/v1/me'
+
             searchResponse = requests.request('GET', requestTarget, headers=headers, data=payload)
 
             print('requestTarget is: ')

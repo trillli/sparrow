@@ -35,6 +35,7 @@ const AlarmConfigGroupVibration: React.FC<AlarmConfigGroupVibrationProps> = ({al
             id={`alarm_config_group_vibration_${alarm.id}`}
             className='alarm-config-category-container'
             elevation={0}
+            disableGutters={true}
             square={true}
             sx={{
                 display: 'flex',
@@ -51,6 +52,7 @@ const AlarmConfigGroupVibration: React.FC<AlarmConfigGroupVibrationProps> = ({al
             }}
         >
             <AlarmConfigCategoryHeader
+                appConfig={appConfig}
                 groupLabel='Vibration'
                 icon='vibration'
                 groupEnabled={groupEnabled}
@@ -59,7 +61,7 @@ const AlarmConfigGroupVibration: React.FC<AlarmConfigGroupVibrationProps> = ({al
 
             <AccordionDetails className='alarm-config-container'
                 sx={{
-                    background: '#FFFFFF57',
+                    // background: '#FFFFFF57',
                     padding: '1.25rem 1rem',
                 }}
             >

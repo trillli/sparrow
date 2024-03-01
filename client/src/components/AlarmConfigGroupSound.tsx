@@ -39,6 +39,7 @@ const AlarmConfigGroupSound: React.FC<AlarmConfigGroupSoundProps> = ({ alarm, ap
             id={`alarm_config_group_sound_${alarm.id}`}
             className='alarm-config-category-container'
             elevation={0}
+            disableGutters={true}
             square={true}
             sx={{
                 transition: '200ms',
@@ -51,8 +52,9 @@ const AlarmConfigGroupSound: React.FC<AlarmConfigGroupSoundProps> = ({ alarm, ap
                     marginRight: '.25rem'
                 },
                 '&.Mui-expanded': {
-                    background: '#ffffff2e',
-                    // border: '5px solid red'
+                    '& .MuiAccordionSummary-root.Mui-expanded': {
+                        // paddingTop: '.5rem'
+                    },
                 },
                 '&::before': {
                     display: 'none'
@@ -60,6 +62,7 @@ const AlarmConfigGroupSound: React.FC<AlarmConfigGroupSoundProps> = ({ alarm, ap
             }}
         >
             <AlarmConfigCategoryHeader
+                appConfig={appConfig}
                 groupLabel='Music'
                 icon='music_note'
                 groupEnabled={groupEnabled}

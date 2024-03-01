@@ -6,6 +6,7 @@ import TrSlider from 'trillli/src/components/TrSlider'
 import AlarmConfigCategoryDetailHeader from './AlarmConfigCategoryDetailHeader'
 import ITrillliConfig from 'trillli/src/types/ITrillliConfig'
 import { IAlarmMetadata } from './types/IAlarmMetadata'
+import AlarmConfigCategoryDetailContainer from './AlarmConfigCategoryDetailContainer'
 
 interface AlarmConfigCategoryDetailBodyVibrationProps {
     alarm: IAlarmMetadata
@@ -68,7 +69,7 @@ const AlarmConfigCategoryDetailBodyVibration: React.FC<AlarmConfigCategoryDetail
 
     return (
         <>
-            <Box className='alarm-config-category-detail-field-container'>
+            <AlarmConfigCategoryDetailContainer appConfig={appConfig}>
                 <AlarmConfigCategoryDetailHeader label='Vibration Profile' />
                 <Box className='alarm-config-category-detail-field-contents-container'>
                     <ToggleButtonGroup
@@ -98,8 +99,8 @@ const AlarmConfigCategoryDetailBodyVibration: React.FC<AlarmConfigCategoryDetail
                         <ToggleButton value="ramp">Ramp</ToggleButton>
                     </ToggleButtonGroup>
                 </Box>
-            </Box>
-            <Box className='alarm-config-category-detail-field-container'>
+            </AlarmConfigCategoryDetailContainer>
+            <AlarmConfigCategoryDetailContainer appConfig={appConfig}>
                 <AlarmConfigCategoryDetailHeader label='Intensity' />
                 {vibrationProfile == 'constant' ? (
                     <TrSlider
@@ -120,7 +121,7 @@ const AlarmConfigCategoryDetailBodyVibration: React.FC<AlarmConfigCategoryDetail
                         disableSwap
                     />
                 )}
-            </Box>
+            </AlarmConfigCategoryDetailContainer>
         </>
     )
 

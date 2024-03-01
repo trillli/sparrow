@@ -51,8 +51,8 @@ const AlarmConfigCategoryBody: React.FC<AlarmConfigCategoryBodyProps> = ({ appCo
     return (
         <AccordionDetails className='alarm-config-container'
             sx={{
-                background: '#FFFFFF57',
-                padding: '1.25rem 1rem',
+                // background: '#FFFFFF57',
+                // padding: '1.25rem 1rem',
             }}
         >    
             <Box className='configuration-details-container'

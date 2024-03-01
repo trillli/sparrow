@@ -37,6 +37,7 @@ const AlarmConfigGroupLight: React.FC<AlarmConfigGroupLightProps> = ({alarm, app
             key={alarm.id}
             id={`alarm_config_group_light_${alarm.id}`}
             className='alarm-config-category-container'
+            disableGutters={true}
             elevation={0}
             square={true}
             sx={{
@@ -54,6 +55,7 @@ const AlarmConfigGroupLight: React.FC<AlarmConfigGroupLightProps> = ({alarm, app
             }}
         >
             <AlarmConfigCategoryHeader
+                appConfig={appConfig}
                 groupLabel='Sunlight'
                 icon='wb_twilight'
                 groupEnabled={groupEnabled}
@@ -62,8 +64,9 @@ const AlarmConfigGroupLight: React.FC<AlarmConfigGroupLightProps> = ({alarm, app
 
             <AccordionDetails className='alarm-config-container'
                 sx={{
-                    background: '#FFFFFF57',
-                    padding: '1.25rem 1rem',
+                    // background: '#FFFFFF57',
+                    // padding: '1.25rem 1rem',
+                    padding: '0rem 1rem'
                 }}
             >
                 <Box className='configuration-details-container'

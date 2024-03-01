@@ -6,6 +6,7 @@ import TrSlider from 'trillli/src/components/TrSlider'
 import AlarmConfigCategoryDetailHeader from './AlarmConfigCategoryDetailHeader'
 import ITrillliConfig from 'trillli/src/types/ITrillliConfig'
 import { IAlarmMetadata } from './types/IAlarmMetadata'
+import AlarmConfigCategoryDetailContainer from './AlarmConfigCategoryDetailContainer'
 
 interface AlarmConfigCategoryDetailBodySoundVolumeProps {
     alarm: IAlarmMetadata
@@ -66,7 +67,7 @@ const AlarmConfigCategoryDetailBodySoundVolume: React.FC<AlarmConfigCategoryDeta
 
     return (
         <>
-            <Box className='alarm-config-category-detail-field-container'>
+            <AlarmConfigCategoryDetailContainer appConfig={appConfig}>
                 <AlarmConfigCategoryDetailHeader label='Volume Profile' />
                 <Box className='alarm-config-category-detail-field-contents-container'>
                     <ToggleButtonGroup
@@ -96,8 +97,8 @@ const AlarmConfigCategoryDetailBodySoundVolume: React.FC<AlarmConfigCategoryDeta
                         <ToggleButton value="ramp">Ramp</ToggleButton>
                     </ToggleButtonGroup>
                 </Box>
-            </Box>
-            <Box className='alarm-config-category-detail-field-container'>
+            </AlarmConfigCategoryDetailContainer>
+            <AlarmConfigCategoryDetailContainer appConfig={appConfig}>
             <AlarmConfigCategoryDetailHeader label='Volume' />
             {soundVolumeProfile == 'constant' ? (
                 <TrSlider
@@ -117,7 +118,7 @@ const AlarmConfigCategoryDetailBodySoundVolume: React.FC<AlarmConfigCategoryDeta
                     disableSwap
                 />
             )}
-            </Box>
+            </AlarmConfigCategoryDetailContainer>
         </>
     )
 

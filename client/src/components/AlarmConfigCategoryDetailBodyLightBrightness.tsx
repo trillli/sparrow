@@ -4,6 +4,7 @@ import IAlarmConfigCategoryDetailStateControl from './types/IAlarmConfigCategory
 import { ToggleButtonGroup, ToggleButton, Box } from '@mui/material'
 import TrSlider from 'trillli/src/components/TrSlider'
 import AlarmConfigCategoryDetailHeader from './AlarmConfigCategoryDetailHeader'
+import AlarmConfigCategoryDetailContainer from './AlarmConfigCategoryDetailContainer'
 import ITrillliConfig from 'trillli/src/types/ITrillliConfig'
 import { IAlarmMetadata } from './types/IAlarmMetadata'
 
@@ -67,7 +68,7 @@ const AlarmConfigCategoryDetailBodyBrightness: React.FC<AlarmConfigCategoryDetai
 
     return (
         <>
-        <Box className='alarm-config-category-detail-field-container'>
+        <AlarmConfigCategoryDetailContainer appConfig={appConfig}>
         <AlarmConfigCategoryDetailHeader label={'Brightness Profile'} />
         <Box className='alarm-config-category-detail-field-contents-container'></Box>
 
@@ -99,8 +100,8 @@ const AlarmConfigCategoryDetailBodyBrightness: React.FC<AlarmConfigCategoryDetai
                                 <ToggleButton value="constant">Constant</ToggleButton>
                                 <ToggleButton value="ramp">Ramp</ToggleButton>
                             </ToggleButtonGroup>
-        </Box>
-        <Box className='alarm-config-category-detail-field-container'>
+        </AlarmConfigCategoryDetailContainer>
+        <AlarmConfigCategoryDetailContainer appConfig={appConfig}>
         <AlarmConfigCategoryDetailHeader label={'Brightness'} />
         <Box className='alarm-config-category-detail-field-contents-container'>
         {lightBrightnessProfile == 'constant' ? (
@@ -124,7 +125,7 @@ const AlarmConfigCategoryDetailBodyBrightness: React.FC<AlarmConfigCategoryDetai
                             )}
 
         </Box>
-        </Box>
+        </AlarmConfigCategoryDetailContainer>
         </>
         
     )
