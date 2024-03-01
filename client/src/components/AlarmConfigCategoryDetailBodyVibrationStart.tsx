@@ -32,21 +32,20 @@ const AlarmConfigCategoryDetailBodyVibrationStart: React.FC<AlarmConfigCategoryD
         handlers.updateAlarmsMetadata(alarm.id, alarm)
     }
 
-    let fieldLabel: string
-    if (vibrationAdvanceMinutes == 0) {
-        fieldLabel = 'Begin vibration at alarm time'
-    } else {
-        fieldLabel = 'Begin vibration ' + (Math.abs(vibrationAdvanceMinutes)) + ' ' + (Math.abs(vibrationAdvanceMinutes) == 1 ? 'minute' : 'minutes') + ' ' + (vibrationAdvanceMinutes > 0 ? 'after' : 'before') + ' alarm time'
-    }
+    // let fieldLabel: string
+    // if (vibrationAdvanceMinutes == 0) {
+    //     fieldLabel = 'Begin vibration at alarm time'
+    // } else {
+    //     fieldLabel = 'Begin vibration ' + (Math.abs(vibrationAdvanceMinutes)) + ' ' + (Math.abs(vibrationAdvanceMinutes) == 1 ? 'minute' : 'minutes') + ' ' + (vibrationAdvanceMinutes > 0 ? 'after' : 'before') + ' alarm time'
+    // }
 
     // const
-    fieldLabel = 'Vibration Start Time'  
+    let fieldLabel: string = 'Vibration Start Time'  
 
     return (
         <>
             <AlarmConfigCategoryDetailContainer appConfig={appConfig}>
                 <AlarmConfigCategoryDetailHeader label={fieldLabel} />
-                {/* <Box className='alarm-config-category-detail-field-contents-container'> */}
                 <AlarmConfigCategoryDetailContents appConfig={appConfig}>
                     <Box 
                         className='current-config-value-container-outer'
@@ -90,6 +89,7 @@ const AlarmConfigCategoryDetailBodyVibrationStart: React.FC<AlarmConfigCategoryD
                         onChange={handleVibrationAdvanceMinutesChange}
                         onChangeCommitted={handleVibrationAdvanceMinutesChangeCommitted}
                         sx={{
+                            marginTop: '.5rem',
                             '& .MuiSlider-mark': {
                                 transform: 'translate(-50%, -50%)',
                                 height: '20px',

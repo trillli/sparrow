@@ -72,7 +72,7 @@ const AlarmConfigGroupLight: React.FC<AlarmConfigGroupLightProps> = ({alarm, app
             >
                 <Box className='configuration-details-container'
                     sx={{
-                        padding: '0rem 1rem',
+                        padding: '1.5rem 1rem',
                         display: 'flex',
                         flexDirection: 'column',
                         rowGap: '2rem'

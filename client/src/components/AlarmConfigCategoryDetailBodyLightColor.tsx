@@ -7,6 +7,7 @@ import AlarmConfigCategoryDetailHeader from './AlarmConfigCategoryDetailHeader'
 import AlarmConfigCategoryDetailContainer from './AlarmConfigCategoryDetailContainer'
 import ITrillliConfig from 'trillli/src/types/ITrillliConfig'
 import { IAlarmMetadata } from './types/IAlarmMetadata'
+import AlarmConfigCategoryDetailContents from './AlarmConfigCategoryDetailContents'
 
 interface AlarmConfigCategoryDetailBodyLightColorProps {
     alarm: IAlarmMetadata
@@ -34,9 +35,16 @@ const AlarmConfigCategoryDetailBodyLightColor: React.FC<AlarmConfigCategoryDetai
     return (
         <AlarmConfigCategoryDetailContainer appConfig={appConfig}>
             <AlarmConfigCategoryDetailHeader label={'Sunrise Light Color'} />
-            <Box className='alarm-config-category-detail-field-contents-container'>
-                <TrSliderColorPicker lightHue={alarm.light.color.h} onChange={onColorSliderChange} onChangeCommitted={onColorSliderChangeCommitted} />
-            </Box>
+            <AlarmConfigCategoryDetailContents appConfig={appConfig}>
+                <Box
+                    sx={{
+                        paddingTop: '.5rem'
+                    }}
+                >
+
+                    <TrSliderColorPicker lightHue={alarm.light.color.h} onChange={onColorSliderChange} onChangeCommitted={onColorSliderChangeCommitted} />
+                </Box>
+            </AlarmConfigCategoryDetailContents>
         </AlarmConfigCategoryDetailContainer>
     )
 

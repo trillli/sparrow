@@ -1,12 +1,14 @@
 import React from 'react'
 import { HexColorPicker } from 'react-colorful'
 import IAlarmConfigCategoryDetailStateControl from './types/IAlarmConfigCategoryDetailStateControl'
-import { ToggleButtonGroup, ToggleButton, Box } from '@mui/material'
+import { ToggleButtonGroup, ToggleButton, Box, Typography } from '@mui/material'
 import TrSlider from 'trillli/src/components/TrSlider'
 import AlarmConfigCategoryDetailHeader from './AlarmConfigCategoryDetailHeader'
 import AlarmConfigCategoryDetailContainer from './AlarmConfigCategoryDetailContainer'
 import ITrillliConfig from 'trillli/src/types/ITrillliConfig'
 import { IAlarmMetadata } from './types/IAlarmMetadata'
+import TrToggleButtonGroup from 'trillli/src/components/TrToggleButtonGroup'
+import AlarmConfigCategoryDetailContents from './AlarmConfigCategoryDetailContents'
 
 interface AlarmConfigCategoryDetailBodyLightBrightnessProps {
     alarm: IAlarmMetadata
@@ -48,11 +50,11 @@ const AlarmConfigCategoryDetailBodyBrightness: React.FC<AlarmConfigCategoryDetai
 
     const handleLightBrightnessRampChange = (event: Event, value: number | number[]) => {
         const values = value as number[]
-        // setLightBrightnessRamp(values as number[])
-        // setLightBrightnessMax(values[1] as number)
+        setLightBrightnessRamp(values as number[])
+        setLightBrightnessMax(values[1] as number)
         alarm.light.luminosity.end = values[1]
         alarm.light.luminosity.start = values[0]
-        handlers.updateAlarmsMetadata(alarm.id, alarm)
+        // handlers.updateAlarmsMetadata(alarm.id, alarm)
     }
 
     const handleLightBrightnessConstantChangeCommitted = (event: Event, value: number | number[]) => {
@@ -70,41 +72,112 @@ const AlarmConfigCategoryDetailBodyBrightness: React.FC<AlarmConfigCategoryDetai
         <>
         <AlarmConfigCategoryDetailContainer appConfig={appConfig}>
         <AlarmConfigCategoryDetailHeader label={'Brightness Profile'} />
-        <Box className='alarm-config-category-detail-field-contents-container'></Box>
+        <AlarmConfigCategoryDetailContents appConfig={appConfig}>
 
 
         {/* <Box sx={containerStyling} > */}
-        <ToggleButtonGroup
-                                color="primary"
+        <TrToggleButtonGroup
+        appConfig={appConfig}
                                 value={alarm.light.luminosity.profile}
                                 exclusive
                                 onChange={handleLightBrightnessProfileChange}
                                 sx={{
                                     marginTop: '.5rem',
-                                    display: 'flex',
-                                    flexWrap: 'wrap',
-                                    height: 'fit-content',
-                                    '& .MuiButtonBase-root': {
-                                        borderLeft: '1px solid rgba(0, 0, 0, 0.12)',
-                                        background: 'none',
-                                        padding: '.125rem .75rem',
-                                        height: '2.75rem',
-                                    },
-                                    '&>.MuiButtonBase-root.Mui-selected': {
-                                        background: appConfig.theme.palette.primary.dark[1],
-                                        fontWeight: 'bold',
-                                        borderLeft: '1px solid rgba(0, 0, 0, 0.12)'
-                                    }
+                                    borderRadius: '4px',
                                 }}
                             >
                                 <ToggleButton value="constant">Constant</ToggleButton>
                                 <ToggleButton value="ramp">Ramp</ToggleButton>
-                            </ToggleButtonGroup>
+                            </TrToggleButtonGroup>
+                            </AlarmConfigCategoryDetailContents>
         </AlarmConfigCategoryDetailContainer>
         <AlarmConfigCategoryDetailContainer appConfig={appConfig}>
         <AlarmConfigCategoryDetailHeader label={'Brightness'} />
-        <Box className='alarm-config-category-detail-field-contents-container'>
-        {lightBrightnessProfile == 'constant' ? (
+        <AlarmConfigCategoryDetailContents appConfig={appConfig}>
+        <Box
+                        sx={{
+                            // marginTop: '1rem'
+                        }}
+                    >
+                                            <Box 
+                        className='current-config-value-container-outer'
+                        sx={{
+
+                        }}
+                    >
+                            
+                        <Box 
+                            className='current-config-value-container'
+                            sx={{
+                                display: 'flex',
+                                flexDirection: 'row',
+                                columnGap: '.5rem',
+                                alignItems: 'baseline'
+                            }}
+                        >
+                            {lightBrightnessProfile == 'constant' ? (                            
+                            <>
+                            <Typography
+                                sx={{
+                                    fontSize: '2.5rem',
+                                }}
+                            >
+                                {lightBrightnessConstant}
+                            </Typography>
+                            <Typography
+                                sx={{
+                                    fontSize:'1.25rem'
+                                }}
+                            >
+                                %
+                            </Typography>
+                            </>):(<>                            
+                            <Typography
+                                sx={{
+                                    fontSize: '2.5rem',
+                                }}
+                            >
+                                {lightBrightnessRamp[0]}%
+                            </Typography>
+                            <Typography
+                                sx={{
+                                    fontSize:'1.25rem'
+                                }}
+                            >
+                                ramping to 
+                            </Typography>
+                            <Typography
+                                sx={{
+                                    fontSize: '2.5rem',
+                                }}
+                            >
+                                {lightBrightnessRamp[1]}%
+                            </Typography>
+                            </>)}
+
+                        </Box>
+                    </Box>
+                {lightBrightnessProfile == 'constant' ? (
+                    <TrSlider
+                        value={alarm.light.luminosity.end}
+                        min={0}
+                        max={100}
+                        onChange={handleLightBrightnessConstantChange}
+                        onChangeCommitted={handleLightBrightnessConstantChangeCommitted}
+                    />
+                ) : (
+                    <TrSlider
+                        value={[alarm.light.luminosity.start, alarm.light.luminosity.end]}
+                        min={0}
+                        max={100}
+                        onChange={handleLightBrightnessRampChange}
+                        onChangeCommitted={handleLightBrightnessRampChangeCommitted}
+                        valueLabelDisplay="auto"
+                        disableSwap
+                    />
+                )}
+                </Box>
+        {/* {lightBrightnessProfile == 'constant' ? (
                                 <TrSlider
                                     value={alarm.light.luminosity.end}
                                     min={0}
@@ -122,9 +195,9 @@ const AlarmConfigCategoryDetailBodyBrightness: React.FC<AlarmConfigCategoryDetai
                                     valueLabelDisplay="auto"
                                     disableSwap
                                 />
-                            )}
+                            )} */}
 
-        </Box>
+        </AlarmConfigCategoryDetailContents>
         </AlarmConfigCategoryDetailContainer>
         </>
         

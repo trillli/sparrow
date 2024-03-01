@@ -58,13 +58,13 @@ const AlarmConfigCategoryDetailBodyVibration: React.FC<AlarmConfigCategoryDetail
     }
 
     const handleVibrationConstantChangeCommitted = (event: Event, value: number | number[]) => {
-        alarm.light.luminosity.end = vibrationConstant
+        alarm.vibration.intensity.end = vibrationConstant
         handlers.updateAlarmsMetadata(alarm.id, alarm)
     }
 
     const handleVibrationRampChangeCommitted = (event: Event, value: number | number[]) => {
-        alarm.light.luminosity.start = vibrationRamp[0]
-        alarm.light.luminosity.end = vibrationRamp[1]
+        alarm.vibration.intensity.start = vibrationRamp[0]
+        alarm.vibration.intensity.end = vibrationRamp[1]
         handlers.updateAlarmsMetadata(alarm.id, alarm)
     }
 
@@ -73,34 +73,16 @@ const AlarmConfigCategoryDetailBodyVibration: React.FC<AlarmConfigCategoryDetail
         <>
             <AlarmConfigCategoryDetailContainer appConfig={appConfig}>
                 <AlarmConfigCategoryDetailHeader label='Vibration Profile' />
-                <AlarmConfigCategoryDetailContents appConfig={appConfig} sx={{paddingLeft: '0px'}}>
+                <AlarmConfigCategoryDetailContents appConfig={appConfig}>
                 <TrToggleButtonGroup 
                     appConfig={appConfig}
-                        // color="primary"
                         value={alarm.vibration.intensity.profile}
                         exclusive
                         onChange={handleVibrationProfileChange}
                         sx={{
-                            marginTop: '1rem',
+                            marginTop: '.5rem',
                             borderRadius: '4px'
                         }}
-                        // sx={{
-                        //     marginTop: '1rem',
-                        //     display: 'flex',
-                        //     flexWrap: 'wrap',
-                        //     height: 'fit-content',
-                        //     '& .MuiButtonBase-root': {
-                        //         borderLeft: '1px solid rgba(0, 0, 0, 0.12)',
-                        //         background: 'none',
-                        //         padding: '.125rem .75rem',
-                        //         height: '2.75rem',
-                        //     },
-                        //     '&>.MuiButtonBase-root.Mui-selected': {
-                        //         background: appConfig.theme.palette.primary.dark[1],
-                        //         fontWeight: 'bold',
-                        //         borderLeft: '1px solid rgba(0, 0, 0, 0.12)'
-                        //     }
-                        // }}
                     >
                         <ToggleButton value="constant">Constant</ToggleButton>
                         <ToggleButton value="ramp">Ramp</ToggleButton>

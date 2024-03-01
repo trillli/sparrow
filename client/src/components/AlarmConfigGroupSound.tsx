@@ -78,7 +78,7 @@ const AlarmConfigGroupSound: React.FC<AlarmConfigGroupSoundProps> = ({ alarm, ap
             >
                 <Box className='configuration-details-container'
                     sx={{
-                        padding: '0rem 1rem',
+                        padding: '1.5rem 1rem',
                         display: 'flex',
                         flexDirection: 'column',
                         rowGap: '1rem'

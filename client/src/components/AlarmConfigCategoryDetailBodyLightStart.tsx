@@ -7,6 +7,7 @@ import AlarmConfigCategoryDetailHeader from './AlarmConfigCategoryDetailHeader'
 import AlarmConfigCategoryDetailContainer from './AlarmConfigCategoryDetailContainer'
 import ITrillliConfig from 'trillli/src/types/ITrillliConfig'
 import { IAlarmMetadata } from './types/IAlarmMetadata'
+import AlarmConfigCategoryDetailContents from './AlarmConfigCategoryDetailContents'
 
 interface AlarmConfigCategoryDetailBodyLightStartProps {
     alarm: IAlarmMetadata
@@ -31,16 +32,57 @@ const AlarmConfigCategoryDetailBodyLightStart: React.FC<AlarmConfigCategoryDetai
         handlers.updateAlarmsMetadata(alarm.id, alarm)
     }
 
-    let fieldLabel: string
-    if (lightAdvanceMinutes == 0) {
-        fieldLabel = 'Begin sunrise at alarm time'
-    } else {fieldLabel = 'Begin sunrise on ' + (Math.abs(lightAdvanceMinutes)) + ' ' + (Math.abs(lightAdvanceMinutes) == 1 ? 'minute' : 'minutes') + ' ' + (lightAdvanceMinutes > 0 ? 'after' : 'before') + ' alarm time'
-}
+    // let fieldLabel: string
+    // if (lightAdvanceMinutes == 0) {
+    //     fieldLabel = 'Begin sunrise at alarm time'
+    // } else {
+    //     fieldLabel = 'Begin sunrise on ' + (Math.abs(lightAdvanceMinutes)) + ' ' + (Math.abs(lightAdvanceMinutes) == 1 ? 'minute' : 'minutes') + ' ' + (lightAdvanceMinutes > 0 ? 'after' : 'before') + ' alarm time'
+    // }
+    
+
+    let fieldLabel: string = 'Sunlight Start Time'  
+
+
+
 
     return (<>
         <AlarmConfigCategoryDetailContainer appConfig={appConfig}>
             <AlarmConfigCategoryDetailHeader label={fieldLabel} />
-            <Box className='alarm-config-category-detail-field-contents-container'>
+            <AlarmConfigCategoryDetailContents appConfig={appConfig}>
+            <Box 
+                        className='current-config-value-container-outer'
+                        sx={{
+
+                        }}
+                    >
+                            
+                        <Box 
+                            className='current-config-value-container'
+                            sx={{
+                                display: 'flex',
+                                flexDirection: 'row',
+                                columnGap: lightAdvanceMinutes == 0 ? '0rem' : '.5rem',
+                                alignItems: 'baseline'
+                            }}
+                        >
+                            <Typography
+                                sx={{
+                                    fontSize: '2.5rem',
+                                    width: lightAdvanceMinutes == 0 ? '0px' : 'initial',
+                                    opacity: lightAdvanceMinutes == 0 ? '0' : 'initial'
+                                }}
+                            >
+                                {Math.abs(lightAdvanceMinutes)}
+                            </Typography>
+                            <Typography
+                                sx={{
+                                    fontSize: lightAdvanceMinutes == 0 ? '1.5rem' : '1.25rem'
+                                }}
+                            >
+                                {(lightAdvanceMinutes == 0) ? 'When alarm starts' : (Math.abs(lightAdvanceMinutes) == 1 ? 'minute' : 'minutes') + ' ' + (lightAdvanceMinutes > 0 ? 'after' : 'before') + ' alarm'}
+                            </Typography>
+                        </Box>
+                    </Box>
                 <TrSlider
                     value={lightAdvanceMinutes}
                     min={-30}
@@ -49,6 +91,7 @@ const AlarmConfigCategoryDetailBodyLightStart: React.FC<AlarmConfigCategoryDetai
                     onChange={handleLightAdvanceMinutesSliderChange}
                     onChangeCommitted={handleLightAdvanceMinutesSliderChangeCommitted}
                     sx={{
+                        marginTop: '.5rem',
                         '& .MuiSlider-mark': {
                             transform: 'translate(-50%, -50%)',
                             height: '20px',
@@ -65,7 +108,7 @@ const AlarmConfigCategoryDetailBodyLightStart: React.FC<AlarmConfigCategoryDetai
                         }
                     }}
                 />
-            </Box>
+            </AlarmConfigCategoryDetailContents>
         </AlarmConfigCategoryDetailContainer>
     </>
     )
