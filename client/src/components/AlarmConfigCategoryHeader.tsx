@@ -38,6 +38,7 @@ const AlarmConfigCategoryHeader: React.FC<AlarmConfigCategoryHeaderProps> = ({ a
                     // border: '8px solid black',
                     // background: `linear-gradient(148deg, #ff9f4e, #fef751)`
                     minHeight: '0px',
+                    // width: '100%',
                     // paddingTop: '1rem',
                     '& .category-header-primary': {
                         '&>.MuiIcon-root': {
@@ -47,6 +48,9 @@ const AlarmConfigCategoryHeader: React.FC<AlarmConfigCategoryHeaderProps> = ({ a
                             // fontSize: '1.25rem',
                             // fontWeight: 'bold'
                         },
+                    },
+                    '& .config-category-header-button': {
+                        width: '100%',
                     }
                 },
                 '& .MuiAccordionSummary-content': {
@@ -58,7 +62,8 @@ const AlarmConfigCategoryHeader: React.FC<AlarmConfigCategoryHeaderProps> = ({ a
             }}
         >
             <Button 
-                variant='contained' 
+                variant='contained'
+                className='config-category-header-button' 
                 color='secondary'
                 startIcon={<Icon
                         sx={{
@@ -71,9 +76,11 @@ const AlarmConfigCategoryHeader: React.FC<AlarmConfigCategoryHeaderProps> = ({ a
                         {icon}
                     </Icon>}
                 sx={{
+                    transition: '200ms',
                     background: gradientLight1,
                     width: '175px',
-                    justifyContent: 'flex-start'
+                    justifyContent: 'flex-start',
+                    marginRight: '1rem',
                 }}
             >
                 <Typography

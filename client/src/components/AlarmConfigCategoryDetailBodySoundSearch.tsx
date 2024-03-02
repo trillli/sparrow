@@ -41,6 +41,7 @@ const AlarmConfigCategoryDetailBodySoundSearch: React.FC<AlarmConfigCategoryDeta
     const [currentSoundTitle, setCurrentSoundTitle] = React.useState<string>(alarm.sound.title)
     const [currentSoundArtist, setCurrentSoundArtist] = React.useState<string>(alarm.sound.artist)
     const [currentSoundUri, setCurrentSoundUri] = React.useState<string>(alarm.sound.uri)
+    const [currentSoundImage, setCurrentSoundImage] = React.useState<string>(alarm.sound.image)
     const [currentSoundType, setCurrentSoundType] = React.useState<SoundType>(alarm.sound.type)
     const [currentSoundShuffle, setCurrentSoundShuffle] = React.useState<boolean>(alarm.sound.shuffle)
 
@@ -62,6 +63,7 @@ const AlarmConfigCategoryDetailBodySoundSearch: React.FC<AlarmConfigCategoryDeta
         alarm.sound.title = currentSoundTitle
         alarm.sound.artist = currentSoundArtist
         alarm.sound.type = currentSoundType
+        alarm.sound.image = currentSoundImage
         alarm.sound.uri = currentSoundUri
         alarm.sound.shuffle = currentSoundShuffle
         handlers.updateAlarmsMetadata(alarm.id, alarm)
@@ -228,6 +230,7 @@ const AlarmConfigCategoryDetailBodySoundSearch: React.FC<AlarmConfigCategoryDeta
         setCurrentSoundTitle(selectionData.title)
         setCurrentSoundArtist(selectionData.artist)
         setCurrentSoundType(selectionData.type)
+        setCurrentSoundImage(selectionData.image)
     }
 
     const handleSearchResultsChange = (event: React.SyntheticEvent, expanded: boolean) => {
@@ -247,6 +250,26 @@ const AlarmConfigCategoryDetailBodySoundSearch: React.FC<AlarmConfigCategoryDeta
             <AlarmConfigCategoryDetailContainer appConfig={appConfig}>
                     <AlarmConfigCategoryDetailHeader label='Current Selection' />
                     <AlarmConfigCategoryDetailContents appConfig={appConfig}>
+                        <Box
+                            sx={{
+                                marginTop: '.5rem',
+                                display: 'flex',
+                                flexWrap: 'nowrap',
+                                alignItems: 'flex-end',
+                                justifyContent: 'flex-start',
+                                columnGap: '1rem'
+                            }}
+                        >
+                            
+                        
+                        <img
+                            src={currentSoundImage}
+                            style={{
+                                // border: '2px solid red',
+                                height: '5rem',
+                                width: '5rem'
+                            }}
+                        />
                         {currentSoundType == 'track' ? (
                             <Box
                                 sx={{
@@ -278,49 +301,86 @@ const AlarmConfigCategoryDetailBodySoundSearch: React.FC<AlarmConfigCategoryDeta
                             <Box
                                 sx={{
                                     display: 'flex',
-                                    flexWrap: 'wrap',
+                                    flexWrap: 'nowrap',
                                     columnGap: '1rem',
                                     rowGap: '.5rem',
-                                    alignItems: 'flex-end'
+                                    alignItems: 'flex-end',
+                                    width: '100%'
                                 }}
                             >
+                                <Box
+                                    sx={{
+                                        display: 'flex',
+                                        flexDirection: 'column',
+                                        rowGap: '.5rem',
+                                        justifyContent: 'flex-end'
+                                    }}
+                                >
                                 <Typography
                                     sx={{
+                                        lineHeight: '1.0',
                                         fontWeight: 'bold',
-                                        lineHeight: '1.0'
                                     }}
                                 >
                                     {currentSoundArtist}
                                 </Typography>
-                                <Box>
-                                    <IconButton onClick={handleShuffleToggle}>
+                                </Box>
+                                <Box
+                                    sx={{
+                                        alignSelf: 'center',
+                                        marginLeft: 'auto'
+                                    }}
+                                >
+                                    <IconButton 
+                                        onClick={handleShuffleToggle}
+                                        sx={{
+                                            background: currentSoundShuffle ? appConfig.theme.palette.neutral.dark[0] : appConfig.theme.palette.neutral.light[7],
+                                            borderRadius: '4px',
+                                            padding: '.125rem',
+                                            '&:hover': {
+                                                background: appConfig.theme.palette.neutral.dark[0],
+                                            }
+                                        }}
+                                    >
                                         {currentSoundShuffle ? (
-                                            <ShuffleOn />
+                                            <Shuffle 
+                                                sx={{
+                                                    fontSize: '1.625rem',
+                                                    color: '#82d655',
+                                                    borderRadius: '4px'
+                                                }} 
+                                            />
                                         ) : (
-                                            <Shuffle />
+                                            <Shuffle 
+                                                sx={{
+                                                    fontSize: '1.625rem',
+                                                    color: appConfig.theme.palette.primary.dark[5],
+                                                    borderRadius: '4px'
+                                                }} 
+                                            />
                                         )}
                                     </IconButton>
-
-                                    {currentSoundShuffle ? (
-                                        <Typography
-                                            sx={{
-                                                fontStyle: 'italic'
-                                            }}
-                                        >Shuffle on</Typography>
-                                    ) : <></>}
-
                                 </Box>
                             </Box>
                         ) : currentSoundType == 'album' ? (
                             <Box
                                 sx={{
                                     display: 'flex',
-                                    flexWrap: 'wrap',
+                                    flexWrap: 'nowrap',
                                     columnGap: '1rem',
                                     rowGap: '.5rem',
-                                    alignItems: 'flex-end'
+                                    alignItems: 'flex-end',
+                                    width: '100%'
                                 }}
                             >
+                                <Box
+                                    sx={{
+                                        display: 'flex',
+                                        flexDirection: 'column',
+                                        rowGap: '.5rem',
+                                        justifyContent: 'flex-end'
+                                    }}
+                                >
                                 <Typography
                                     sx={{
                                         fontWeight: 'bold',
@@ -337,23 +397,42 @@ const AlarmConfigCategoryDetailBodySoundSearch: React.FC<AlarmConfigCategoryDeta
                                 >
                                     {currentSoundArtist}
                                 </Typography>
-                                <Box>
-                                    <IconButton onClick={handleShuffleToggle}>
+                                </Box>
+                                <Box
+                                    sx={{
+                                        alignSelf: 'center',
+                                        marginLeft: 'auto'
+                                    }}
+                                >
+                                    <IconButton 
+                                        onClick={handleShuffleToggle}
+                                        sx={{
+                                            background: currentSoundShuffle ? appConfig.theme.palette.neutral.dark[0] : appConfig.theme.palette.neutral.light[7],
+                                            borderRadius: '4px',
+                                            padding: '.125rem',
+                                            '&:hover': {
+                                                background: appConfig.theme.palette.neutral.dark[0],
+                                            }
+                                        }}
+                                    >
                                         {currentSoundShuffle ? (
-                                            <ShuffleOn />
+                                            <Shuffle 
+                                                sx={{
+                                                    fontSize: '1.625rem',
+                                                    color: '#82d655',
+                                                    borderRadius: '4px'
+                                                }} 
+                                            />
                                         ) : (
-                                            <Shuffle />
+                                            <Shuffle 
+                                                sx={{
+                                                    fontSize: '1.625rem',
+                                                    color: appConfig.theme.palette.primary.dark[5],
+                                                    borderRadius: '4px'
+                                                }} 
+                                            />
                                         )}
                                     </IconButton>
-
-                                    {currentSoundShuffle ? (
-                                        <Typography
-                                            sx={{
-                                                fontStyle: 'italic'
-                                            }}
-                                        >Shuffle on</Typography>
-                                    ) : <></>}
-
                                 </Box>
                             </Box>
                         ) : currentSoundType == 'playlist' ? (
@@ -403,6 +482,8 @@ const AlarmConfigCategoryDetailBodySoundSearch: React.FC<AlarmConfigCategoryDeta
                             // </Box>
                             <></>
                         ) : <></>}
+
+                        </Box>
                     </AlarmConfigCategoryDetailContents>
                     </AlarmConfigCategoryDetailContainer>
                 {/* </Box> */}

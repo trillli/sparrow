@@ -30,7 +30,7 @@ const SearchResultAccordion: React.FC<SearchResultAccordionProps> = ({ appConfig
             <AccordionSummary
                 expandIcon={<ExpandMoreIcon />}
                 sx={{
-                    padding: '.5rem 1rem',
+                    padding: '.5rem 0rem',
                     paddingRight: '0rem',
                     minHeight: '0px'
                     // borderBottom: '1px solid #00000015'

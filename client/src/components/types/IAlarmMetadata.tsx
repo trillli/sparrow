@@ -22,6 +22,7 @@ export type IAlarmMetadata = {
         type: 'track' | 'album' | 'artist' | 'playlist'
         title: string
         artist: string
+        image: string
         uri: string
         shuffle: boolean
         volume: {
