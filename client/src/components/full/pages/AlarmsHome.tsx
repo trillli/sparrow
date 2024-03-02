@@ -428,7 +428,7 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
             // //console.log()
             console.log('get request result:')
             console.log(result.ok.data)
-            if (result.ok.data == []) {
+            if (result.ok.data.length == 0) {
                 // alert('empty data')
                 // setAlarmsPageMetadata()
                 console.log('setting default metadta')
