@@ -32,7 +32,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'corsheaders',
-    'trillli',
+    'tr_admin',
+    'tr_common',
     'daybreakr_data'
 ]
 
@@ -80,7 +81,7 @@ DATABASES = {
         'NAME': get_env_var('DB_NAME'),             
         'USER': get_env_var('DB_USER'),            
         'PASSWORD': get_env_var('DB_PASSWORD'),  
-        'HOST': get_env_var('DB_HOST'),               
+        'HOST': 'db',              
         'PORT': get_env_var('DB_PORT'),                 
     }
 }
