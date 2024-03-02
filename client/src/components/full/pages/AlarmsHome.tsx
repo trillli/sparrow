@@ -498,8 +498,8 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
 
             }
 
-            // console.log('WOULD BE CALLING PERSIST ALARM CONFIG HERE, PASSING ALARMSPAGEMETADATA OBJECT:')
-            // console.log(alarmsPageMetadata) 
+            console.log('WOULD BE CALLING PERSIST ALARM CONFIG HERE, PASSING ALARMSPAGEMETADATA OBJECT:')
+            console.log(alarmsPageMetadata) 
             persistAlarmConfig()
 
         } else {
@@ -892,6 +892,7 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
 
 
             //console.log('now time to update alarmpagemetadata and send to db. going to call updateAlarmsMetadata')
+            
             setAlarmName()
             setAlarmId()
             setAlarmTime('12:00')

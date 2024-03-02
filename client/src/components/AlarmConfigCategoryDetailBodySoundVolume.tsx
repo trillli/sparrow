@@ -7,6 +7,8 @@ import AlarmConfigCategoryDetailHeader from './AlarmConfigCategoryDetailHeader'
 import ITrillliConfig from 'trillli/src/types/ITrillliConfig'
 import { IAlarmMetadata } from './types/IAlarmMetadata'
 import AlarmConfigCategoryDetailContainer from './AlarmConfigCategoryDetailContainer'
+import AlarmConfigCategoryDetailContents from './AlarmConfigCategoryDetailContents'
+import TrToggleButtonGroup from 'trillli/src/components/TrToggleButtonGroup'
 
 interface AlarmConfigCategoryDetailBodySoundVolumeProps {
     alarm: IAlarmMetadata
@@ -69,37 +71,88 @@ const AlarmConfigCategoryDetailBodySoundVolume: React.FC<AlarmConfigCategoryDeta
         <>
             <AlarmConfigCategoryDetailContainer appConfig={appConfig}>
                 <AlarmConfigCategoryDetailHeader label='Volume Profile' />
-                <Box className='alarm-config-category-detail-field-contents-container'>
-                    <ToggleButtonGroup
-                        color="primary"
+                <AlarmConfigCategoryDetailContents appConfig={appConfig}>
+                <TrToggleButtonGroup 
+                        appConfig={appConfig}
                         value={alarm.sound.volume.profile}
                         exclusive
                         onChange={handleSoundVolumeProfileChange}
                         sx={{
                             marginTop: '.5rem',
-                            display: 'flex',
-                            flexWrap: 'wrap',
-                            height: 'fit-content',
-                            '& .MuiButtonBase-root': {
-                                borderLeft: '1px solid rgba(0, 0, 0, 0.12)',
-                                background: 'none',
-                                padding: '.125rem .75rem',
-                                height: '2.75rem',
-                            },
-                            '&>.MuiButtonBase-root.Mui-selected': {
-                                background: appConfig.theme.palette.primary.dark[1],
-                                fontWeight: 'bold',
-                                borderLeft: '1px solid rgba(0, 0, 0, 0.12)'
-                            }
+                            borderRadius: '4px'
                         }}
                     >
                         <ToggleButton value="constant">Constant</ToggleButton>
                         <ToggleButton value="ramp">Ramp</ToggleButton>
-                    </ToggleButtonGroup>
-                </Box>
+                    </TrToggleButtonGroup>
+                </AlarmConfigCategoryDetailContents>
             </AlarmConfigCategoryDetailContainer>
             <AlarmConfigCategoryDetailContainer appConfig={appConfig}>
             <AlarmConfigCategoryDetailHeader label='Volume' />
+            <AlarmConfigCategoryDetailContents appConfig={appConfig}>
+            <Box
+                        sx={{
+                            // marginTop: '1rem'
+                        }}
+                    >
+                                            <Box 
+                        className='current-config-value-container-outer'
+                        sx={{
+
+                        }}
+                    >
+                            
+                        <Box 
+                            className='current-config-value-container'
+                            sx={{
+                                display: 'flex',
+                                flexDirection: 'row',
+                                columnGap: '.5rem',
+                                alignItems: 'baseline'
+                            }}
+                        >
+                            {soundVolumeProfile == 'constant' ? (                            
+                            <>
+                            <Typography
+                                sx={{
+                                    fontSize: '2.5rem',
+                                }}
+                            >
+                                {soundVolumeConstant}
+                            </Typography>
+                            <Typography
+                                sx={{
+                                    fontSize:'1.25rem'
+                                }}
+                            >
+                                %
+                            </Typography>
+                            </>):(<>                            
+                            <Typography
+                                sx={{
+                                    fontSize: '2.5rem',
+                                }}
+                            >
+                                {soundVolumeRamp[0]}%
+                            </Typography>
+                            <Typography
+                                sx={{
+                                    fontSize:'1.25rem'
+                                }}
+                            >
+                                ramping to 
+                            </Typography>
+                            <Typography
+                                sx={{
+                                    fontSize: '2.5rem',
+                                }}
+                            >
+                                {soundVolumeRamp[1]}%
+                            </Typography>
+                            </>)}
+
+                        </Box>
+                    </Box>
             {soundVolumeProfile == 'constant' ? (
                 <TrSlider
                     value={alarm.sound.volume.end}
@@ -118,6 +171,8 @@ const AlarmConfigCategoryDetailBodySoundVolume: React.FC<AlarmConfigCategoryDeta
                     disableSwap
                 />
             )}
+            </Box>
+            </AlarmConfigCategoryDetailContents>
             </AlarmConfigCategoryDetailContainer>
         </>
     )

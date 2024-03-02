@@ -81,7 +81,7 @@ const AlarmConfigGroupSound: React.FC<AlarmConfigGroupSoundProps> = ({ alarm, ap
                         padding: '1.5rem 1rem',
                         display: 'flex',
                         flexDirection: 'column',
-                        rowGap: '1rem'
+                        rowGap: '2rem'
                     }}
                 >
                     <AlarmConfigCategoryDetailBodySoundSearch alarm={alarm} appConfig={appConfig} handlers={handlers} />
