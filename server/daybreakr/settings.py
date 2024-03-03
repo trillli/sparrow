@@ -81,7 +81,7 @@ DATABASES = {
         'NAME': get_env_var('DB_NAME'),             
         'USER': get_env_var('DB_USER'),            
         'PASSWORD': get_env_var('DB_PASSWORD'),  
-        'HOST': 'db',              
+        'HOST': get_env_var('DB_HOST'),                
         'PORT': get_env_var('DB_PORT'),                 
     }
 }

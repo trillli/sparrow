@@ -136,12 +136,20 @@ const Alarm: React.FC<AlarmProps> = ({ alarm, appConfig, handlers, setters, time
     // console.log('going to format time: ' + alarm.timing.time)
     // const formattedTime = timeFormat24Hr ? alarm.timing.time : fnTime24hrTo12hr(alarm.timing.time)
     let formattedTime
+    let formattedTimeAm: boolean = false
     if (timeFormat24Hr) {
         // console.log('in the imeformat24hr block')
         formattedTime = alarm.timing.time
     } else {
         // console.log('--------------------converting to 12hr------------------------')
         formattedTime = fnTime24hrTo12hr(alarm.timing.time)
+        if (formattedTime.includes('AM')) {
+            formattedTimeAm = true
+        }
+        formattedTime = formattedTime.split(' ')[0]
+        if (formattedTime[0] == '0') {
+            formattedTime = formattedTime.slice(1)
+        }
     }
     // console.log('formatted time:' + formattedTime)
 
@@ -220,7 +228,8 @@ const Alarm: React.FC<AlarmProps> = ({ alarm, appConfig, handlers, setters, time
                         alignItems='center'
                         sx={{
                             display: 'flex',
-                            alignItems: 'center',
+                            alignItems: 'baseline',
+                            columnGap: '.25rem',
                             height: '100%',
                             padding: '0px .75rem',
                             borderRadius: '4px',
@@ -237,6 +246,16 @@ const Alarm: React.FC<AlarmProps> = ({ alarm, appConfig, handlers, setters, time
                         >
                             {formattedTime}
                         </Typography>
+                        {timeFormat24Hr ? (<></>) : (
+                            <Typography
+                                sx={{
+                                    textTransform: 'uppercase'
+                                }}
+                            >
+                                {formattedTimeAm ? 'am' : 'pm'}
+                            </Typography>
+                        )}
+                        
                     </Box>
                     <Box
                         className='alarm-name-container'

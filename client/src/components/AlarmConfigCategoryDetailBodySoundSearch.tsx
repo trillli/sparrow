@@ -255,7 +255,7 @@ const AlarmConfigCategoryDetailBodySoundSearch: React.FC<AlarmConfigCategoryDeta
                                 marginTop: '.5rem',
                                 display: 'flex',
                                 flexWrap: 'nowrap',
-                                alignItems: 'flex-end',
+                                // alignItems: 'flex-end',
                                 justifyContent: 'flex-start',
                                 columnGap: '1rem'
                             }}
@@ -274,10 +274,11 @@ const AlarmConfigCategoryDetailBodySoundSearch: React.FC<AlarmConfigCategoryDeta
                             <Box
                                 sx={{
                                     display: 'flex',
-                                    flexWrap: 'wrap',
+                                    // flexWrap: 'wrap',
+                                    flexDirection: 'column',
                                     columnGap: '1rem',
                                     rowGap: '.5rem',
-                                    alignItems: 'flex-end'
+                                    alignItems: 'flex-start'
                                 }}
                             >
                                 <Typography
@@ -301,11 +302,11 @@ const AlarmConfigCategoryDetailBodySoundSearch: React.FC<AlarmConfigCategoryDeta
                             <Box
                                 sx={{
                                     display: 'flex',
-                                    flexWrap: 'nowrap',
                                     columnGap: '1rem',
                                     rowGap: '.5rem',
-                                    alignItems: 'flex-end',
-                                    width: '100%'
+                                    width: '100%',
+                                    height: '100%',
+                                    border: '1px solid red'
                                 }}
                             >
                                 <Box
@@ -316,18 +317,19 @@ const AlarmConfigCategoryDetailBodySoundSearch: React.FC<AlarmConfigCategoryDeta
                                         justifyContent: 'flex-end'
                                     }}
                                 >
-                                <Typography
-                                    sx={{
-                                        lineHeight: '1.0',
-                                        fontWeight: 'bold',
-                                    }}
-                                >
-                                    {currentSoundArtist}
-                                </Typography>
+                                    <Typography
+                                        sx={{
+                                            lineHeight: '1.0',
+                                            fontWeight: 'bold',
+                                        }}
+                                    >
+                                        {currentSoundArtist}
+                                    </Typography>
                                 </Box>
                                 <Box
                                     sx={{
-                                        alignSelf: 'center',
+                                        display: 'flex',
+                                        alignItems: 'flex-end',
                                         marginLeft: 'auto'
                                     }}
                                 >
@@ -366,11 +368,11 @@ const AlarmConfigCategoryDetailBodySoundSearch: React.FC<AlarmConfigCategoryDeta
                             <Box
                                 sx={{
                                     display: 'flex',
-                                    flexWrap: 'nowrap',
                                     columnGap: '1rem',
                                     rowGap: '.5rem',
-                                    alignItems: 'flex-end',
-                                    width: '100%'
+                                    width: '100%',
+                                    height: '100%',
+                                    border: '1px solid red'
                                 }}
                             >
                                 <Box
@@ -381,26 +383,19 @@ const AlarmConfigCategoryDetailBodySoundSearch: React.FC<AlarmConfigCategoryDeta
                                         justifyContent: 'flex-end'
                                     }}
                                 >
-                                <Typography
-                                    sx={{
-                                        fontWeight: 'bold',
-                                        lineHeight: '1.0'
-                                    }}
-                                >
-                                    {currentSoundTitle}
-                                </Typography>
-                                <Typography
-                                    sx={{
-                                        fontSize: '1rem',
-                                        lineHeight: '1.0'
-                                    }}
-                                >
-                                    {currentSoundArtist}
-                                </Typography>
+                                    <Typography
+                                        sx={{
+                                            lineHeight: '1.0',
+                                            fontWeight: 'bold',
+                                        }}
+                                    >
+                                        {currentSoundArtist}
+                                    </Typography>
                                 </Box>
                                 <Box
                                     sx={{
-                                        alignSelf: 'center',
+                                        display: 'flex',
+                                        alignItems: 'flex-end',
                                         marginLeft: 'auto'
                                     }}
                                 >
