@@ -7,6 +7,7 @@ interface PageBuilderProps {
     navTop?: boolean,
     navSide?: boolean,
     appConfig: ITrillliConfig
+    styling?: {[key: string]: any}
     children?: React.ReactNode
 }
 
@@ -14,17 +15,19 @@ const PageBuilder: React.FC<PageBuilderProps> = ({
     navTop = false,
     navSide = false,
     appConfig,
+    styling,
     children
 }) => {
 
-    const styling: {[key: string]: any} = {
+    if (!styling) {
+        styling = {}
+    }
+
+    const stylingDefault: {[key: string]: any} = {
         mainContents: {
-            // background: `linear-gradient(147deg, #f9e351, #d8684d)`
             background: `linear-gradient(180deg, ${appConfig.theme.palette.neutral.dark[6]}, ${appConfig.theme.palette.neutral.dark[2]})`,
-            // background: 'white'
-            // background: 'orange'
-            // background: appConfig.theme.palette.neutral.dark[2],
-            // background: '#000d3d'
+            // padding: '0px',
+            ...(styling.mainContents || {}),
         }
     }
 
@@ -33,7 +36,7 @@ const PageBuilder: React.FC<PageBuilderProps> = ({
             navTop 
             navSide={navSide} 
             appConfig={new AppConfig()}
-            styling={styling}
+            styling={stylingDefault}
             children={children} />
     )
 }

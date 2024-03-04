@@ -50,7 +50,7 @@ class AppConfig extends TrillliConfig implements ITrillliConfig {
 
     readonly pages: { [key: string]: {[key: string]: any} } = {
         landing: {
-            trBasic: true,
+            trBasic: false,
             contents: <AppSplash />,
             authPrompt: true
         },
