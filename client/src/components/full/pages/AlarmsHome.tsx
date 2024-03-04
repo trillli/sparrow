@@ -428,7 +428,7 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
             // //console.log('data is:')
             // //console.log(result.ok.data[0].alarms_page_metadata_json)
             //console.log()
-            alert('hello')
+            // alert('hello')
             console.log('get request result:')
             console.log(result.ok.data)
             if (result.ok.data.length == 0) {
@@ -1097,11 +1097,7 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
                             value={timeFormat24Hr}
                             exclusive={true}
                             fullWidth={true}
-                            // size='small'
                             onChange={handleTimeFormatToggle}
-                            sx={{
-                                border: 'none',
-                            }}
                         >
                             <ToggleButton className='btn-sort-option' value={false}
                             >am:pm</ToggleButton>
@@ -1163,7 +1159,8 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
                         display: alarmsList.length > 0 ? 'flex' : 'none',
                         rowGap: '1rem',
                         columnGap: '.5rem',
-                        flexWrap: 'wrap'
+                        flexWrap: 'wrap',
+                        marginTop: '3rem'
                     }}
                 >
                     <Box 
