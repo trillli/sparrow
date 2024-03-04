@@ -6,6 +6,7 @@ class Auth0Middleware:
         self.get_response = get_response
 
     def __call__(self, request):
+        print('here i am in middleware')
         response = self.get_response(request)
         response['Expires'] = 0
         add_never_cache_headers(response)

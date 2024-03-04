@@ -414,6 +414,7 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
     React.useEffect(() => {
         const getAlarmConfig = async () => {
             const accessToken = await getAccessTokenSilently();
+            console.log(accessToken)
             const requestConfig: TrFetchConfig = {
                 accessToken: accessToken,
                 method: 'GET',
@@ -426,7 +427,8 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
             // //console.log(result.ok)
             // //console.log('data is:')
             // //console.log(result.ok.data[0].alarms_page_metadata_json)
-            // //console.log()
+            //console.log()
+            alert('hello')
             console.log('get request result:')
             console.log(result.ok.data)
             if (result.ok.data.length == 0) {

@@ -19,6 +19,7 @@ SECRET_KEY = get_env_var('DJANGO_SECRET_KEY')
 # DEBUG = os.environ.get("DEBUG_ENABLED") == 'true'
 DEBUG = 'true'
 
+# ALLOWED_HOSTS = ['*']
 ALLOWED_HOSTS = ['*']
 
 
@@ -81,7 +82,7 @@ DATABASES = {
         'NAME': get_env_var('DB_NAME'),             
         'USER': get_env_var('DB_USER'),            
         'PASSWORD': get_env_var('DB_PASSWORD'),  
-        'HOST': get_env_var('DB_HOST'),                
+        'HOST': 'db',                
         'PORT': get_env_var('DB_PORT'),                 
     }
 }
@@ -134,13 +135,20 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 CLIENT_ORIGIN_URL = get_env_var('CLIENT_ORIGIN_URL')
 
-CORS_ALLOWED_ORIGINS = [CLIENT_ORIGIN_URL]
+# CORS_ALLOWED_ORIGINS = ['http://localhost:4040', 'http://host.docker.internal:4040']
+CORS_ALLOWED_ORIGINS = ['http://localhost:4040']
+# CORS_ALLOWED_ORIGINS = ['*']
 
 CORS_ALLOW_METHODS = [
     "GET",
+    "PATCH",
     "PUT"
 ]
 
+CORS_ALLOW_HEADERS = [
+    "authorization",
+    "content-type",
+]
 CORS_ALLOW_HEADERS = [
     "authorization",
     "content-type",

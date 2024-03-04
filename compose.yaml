@@ -10,8 +10,8 @@
 services:
   server:
     build:
-      context: .
-    command: 'python manage.py runserver 0.0.0.0:6060'
+      context: ./server
+    command: 'python ./server/manage.py runserver 0.0.0.0:6060'
     ports:
       - 6060:6060
 
@@ -41,7 +41,7 @@ services:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
     expose:
-      - 127.0.0.1:5432
+      - 5432
     healthcheck:
       test: [ "CMD", "pg_isready" ]
       interval: 10s
