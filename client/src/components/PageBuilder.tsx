@@ -33,7 +33,7 @@ const PageBuilder: React.FC<PageBuilderProps> = ({
 
     return (
         <TrillliPageBuilder 
-            navTop 
+            navTop={navTop}
             navSide={navSide} 
             appConfig={new AppConfig()}
             styling={stylingDefault}
