@@ -36,6 +36,7 @@ RUN adduser \
 # into this layer.
 RUN apt-get update \
     && apt-get -y install libpq-dev gcc \
+    && apt-get -y install libffi-dev \
     && pip install psycopg2
 
 RUN --mount=type=cache,target=/root/.cache/pip \
