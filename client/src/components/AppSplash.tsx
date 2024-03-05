@@ -5,11 +5,12 @@ import { Accordion, AccordionDetails, AccordionSummary, Box, Button, IconButton,
 import GitHubIcon from '@mui/icons-material/GitHub';
 import LoginIcon from '@mui/icons-material/Login';
 import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
-import NewReleasesIcon from '@mui/icons-material/NewReleases';
+import AlarmIcon from '@mui/icons-material/Alarm';
 import ITrillliConfig from 'trillli/src/types/ITrillliConfig';
 import { useAuth0 } from '@auth0/auth0-react';
 import LandingPageStep from './LandingPageStep';
 import { ExpandMore, QuestionMarkOutlined } from '@mui/icons-material';
+import { Link } from 'react-router-dom'
 
 interface AppSplashProps {
     appConfig: ITrillliConfig
@@ -31,12 +32,20 @@ const AppSplash: React.FC<AppSplashProps> = ({ appConfig }) => {
     const gradientLight1 = `linear-gradient(153deg, ${appConfig.theme.palette.secondary.dark[4]}, ${appConfig.theme.palette.tertiary.dark[4]})`
 
     const { user, isAuthenticated, getAccessTokenSilently } = useAuth0();
+    // const [loginBtnCopy, setLoginBtnCopy] = React.useState<string>('Log In / Sign Up to Get Started')
+    // const [loginBtnIcon, setLoginBtnIcon] = React.useState<React.ReactNode>(<LoginIcon />)
+    
     const refHowItWorks = React.useRef(null)
+    let loginBtnCopy: string
+    let loginBtnIcon: React.ReactNode
 
     if (isAuthenticated) {
         console.log('authenticated!')
+        loginBtnCopy = 'My Alarms'
+        loginBtnIcon = (<AlarmIcon />)
     } else {
-        console.log('need to authenticate')
+        loginBtnCopy = 'Log In / Sign Up to Get Started'
+        loginBtnIcon = (<LoginIcon />)
     }
 
     const scrollToHowItWorks = () => {
@@ -46,38 +55,7 @@ const AppSplash: React.FC<AppSplashProps> = ({ appConfig }) => {
     }
 
     return (
-        <PageBuilder navTop={isAuthenticated} navSide={isAuthenticated} appConfig={appConfig} styling={customStyling}>
-
-            {/* <Button
-                                id='get-started-prompt'
-                                startIcon={<HelpOutlineIcon />}
-                                sx={{
-                                    // marginLeft: 'auto',
-                                    position: 'absolute',
-                                    bottom: '4rem',
-                                    zIndex: '999',
-                                    padding: '.5rem .25rem',
-                                    background: 'linear-gradient(153deg, #fe7e7ee8, #ffd054d9)',
-                                    borderRadius: '4px',
-                                    widows: '100%',
-                                    // position: 'absolute',
-                                    // bottom: '5rem',
-                                    width: '85vw',
-                                    maxWidth: '475px',
-                                    '&>.MuiButton-startIcon': {
-                                        padding: '.5rem',
-                                        borderRadius: '4px',
-                                        margin: '0px',
-                                        '&>.MuiSvgIcon-root': {
-                                            fontSize: '2.25rem'
-                                        }
-                                    },
-                                }}
-                            >
-                                <Typography>
-                                    So, how does it work?
-                                </Typography>
-                            </Button> */}
+        <PageBuilder navTop={isAuthenticated} navSide={false} appConfig={appConfig} styling={customStyling}>
             <Box id='landing-page-container'
                 sx={{
                     color: appConfig.theme.palette.neutral.dark[4],
@@ -101,7 +79,6 @@ const AppSplash: React.FC<AppSplashProps> = ({ appConfig }) => {
                         sx={{
                             position: 'fixed',
                             top: '0px',
-                            // paddingTop: '5vh',
                             display: 'flex',
                             justifyContent: 'center',
                             alignItems: 'center',
@@ -113,14 +90,12 @@ const AppSplash: React.FC<AppSplashProps> = ({ appConfig }) => {
                         <Box
                             id='landing-page-header-container'
                             sx={{
-                                // border: '5px solid red',
                                 width: '100%',
                                 height: '100%',
                                 maxWidth: '475px',
                                 display: 'flex',
                                 flexDirection: 'column',
                                 alignItems: 'center',
-                                // rowGap: '5rem',
                                 justifyContent: 'space-evenly',
 
                             }}
@@ -135,7 +110,6 @@ const AppSplash: React.FC<AppSplashProps> = ({ appConfig }) => {
                             >
                                 <img src='/src/assets/logos/v1_fullLight_padNo_bgNo.png'
                                     style={{
-                                        // width: '75%',
                                         width: '100%',
                                         padding: '2rem',
                                         background: '#000000b5',
@@ -153,27 +127,34 @@ const AppSplash: React.FC<AppSplashProps> = ({ appConfig }) => {
                                     >
                                         <Button
                                             id='get-started-prompt'
-                                            startIcon={<LoginIcon />}
+                                            startIcon={loginBtnIcon}
+                                            component={Link}
+                                            to={'/alarms'}
                                             sx={{
+                                                transition: '200ms',
                                                 marginLeft: 'auto',
                                                 width: '100%',
                                                 padding: '.5rem .25rem',
                                                 background: gradientLight1,
-                                                boxShadow: appConfig.theme.shadows[3],
+                                                boxShadow: appConfig.theme.shadows[2],
                                                 borderBottom: `3px solid ${appConfig.theme.palette.neutral.dark[3]}`,
                                                 borderRadius: '4px',
                                                 '&>.MuiButton-startIcon': {
                                                     padding: '.5rem',
                                                     borderRadius: '4px',
                                                     margin: '0px',
+                                                    marginRight: '.5rem',
                                                     '&>.MuiSvgIcon-root': {
-                                                        fontSize: '2.25rem'
+                                                        fontSize: '2rem'
                                                     }
                                                 },
+                                                '&:hover': {
+                                                    transform: 'scale(1.02)'
+                                                }
                                             }}
                                         >
                                             <Typography>
-                                                Log In / Sign Up to get started
+                                                {loginBtnCopy}
                                             </Typography>
                                         </Button>
                                     </Box>
@@ -193,14 +174,12 @@ const AppSplash: React.FC<AppSplashProps> = ({ appConfig }) => {
                                         padding: '1.5rem 2rem',
                                         textAlign: 'center',
                                         borderRadius: '4px',
-                                        // textTransform: 'uppercase',
                                         fontWeight: 'bold',
                                         color: appConfig.theme.palette.primary.dark[3]
                                     }}
                                 >
                                     <Typography
                                         sx={{
-                                            // textAlign: 'left'
                                             fontWeight: 'bold',
                                             fontSize: '1.2rem'
                                         }}
@@ -209,7 +188,6 @@ const AppSplash: React.FC<AppSplashProps> = ({ appConfig }) => {
                                     </Typography>
                                     <Typography
                                         sx={{
-                                            // textAlign: 'right'
                                             fontWeight: 'bold',
                                             fontSize: '1.2rem'
                                         }}
@@ -218,7 +196,6 @@ const AppSplash: React.FC<AppSplashProps> = ({ appConfig }) => {
                                     </Typography>
                                     <Box
                                 sx={{
-                                    // padding: '1rem 1rem',
                                     width: '100%',
                                     maxWidth: '475px'
                                 }}
@@ -228,11 +205,12 @@ const AppSplash: React.FC<AppSplashProps> = ({ appConfig }) => {
                                     startIcon={<HelpOutlineIcon />}
                                     onClick={scrollToHowItWorks}
                                     sx={{
+                                        transition: '200ms',
                                         padding: '1rem 1rem',
                                         background: gradientLight1,
                                         color: appConfig.theme.palette.neutral.dark[3],
                                         borderBottom: `3px solid ${appConfig.theme.palette.neutral.dark[3]}`,
-                                        boxShadow: appConfig.theme.shadows[3],
+                                        boxShadow: appConfig.theme.shadows[2],
                                         borderRadius: '4px',
                                         width: '100%',
                                         '&>.MuiButton-startIcon': {
@@ -240,9 +218,12 @@ const AppSplash: React.FC<AppSplashProps> = ({ appConfig }) => {
                                             margin: '0px',
                                             marginRight: '.5rem',
                                             '&>.MuiSvgIcon-root': {
-                                                fontSize: '2.25rem'
+                                                fontSize: '2rem'
                                             }
                                         },
+                                        '&:hover': {
+                                            transform: 'scale(1.02)'
+                                        }
                                     }}
                                 >
                                     <Typography>
@@ -250,82 +231,21 @@ const AppSplash: React.FC<AppSplashProps> = ({ appConfig }) => {
                                     </Typography>
                                 </Button>
                             </Box>
-                                    {/* <Box
-                                        id='get-started-prompt-container'
-                                        sx={{
-                                            display: 'flex'
-                                        }}
-                                    >
-                                        <Button
-                                            id='get-started-prompt'
-                                            startIcon={<LoginIcon />}
-                                            sx={{
-                                                marginLeft: 'auto',
-                                                padding: '.5rem .25rem',
-                                                background: 'linear-gradient(153deg, #fe7e7ee8, #ffd054d9)',
-                                                boxShadow: appConfig.theme.shadows[8],
-                                                borderRadius: '4px',
-                                                width: '100%',
-                                                '&>.MuiButton-startIcon': {
-                                                    padding: '.5rem',
-                                                    borderRadius: '4px',
-                                                    margin: '0px',
-                                                    '&>.MuiSvgIcon-root': {
-                                                        fontSize: '2.25rem'
-                                                    }
-                                                },
-                                            }}
-                                        >
-                                            <Typography>
-                                                Log In / Sign Up to get started
-                                            </Typography>
-                                        </Button>
-                                    </Box> */}
                                 </Box>
                             </Box>
-                            {/* <Box
-                                sx={{
-                                    padding: '1rem 1rem',
-                                    width: '100%',
-                                    maxWidth: '475px'
-                                }}
-                            >
-                                <Button
-                                    id='get-started-prompt'
-                                    startIcon={<HelpOutlineIcon />}
-                                    onClick={scrollToHowItWorks}
-                                    sx={{
-                                        padding: '1rem 1rem',
-                                        background: gradientLight1,
-                                        color: appConfig.theme.palette.neutral.dark[3],
-                                        boxShadow: appConfig.theme.shadows[8],
-                                        borderRadius: '4px',
-                                        width: '100%',
-                                        '&>.MuiButton-startIcon': {
-                                            borderRadius: '4px',
-                                            margin: '0px',
-                                            marginRight: '.5rem',
-                                            '&>.MuiSvgIcon-root': {
-                                                fontSize: '2.25rem'
-                                            }
-                                        },
-                                    }}
-                                >
-                                    <Typography>
-                                        So, how does it work?
-                                    </Typography>
-                                </Button>
-                            </Box> */}
                         </Box>
                     </Box>
                 </Box>
                 <Box
                     id='landing-page-body-container'
+                    ref={refHowItWorks}
                     sx={{
                         position: 'relative',
                         marginTop: '100vh',
                         padding: '5rem 6%',
-                        background: appConfig.theme.palette.primary.dark[4],
+                        // background: appConfig.theme.palette.primary.dark[4],
+                        // background: `linear-gradient(151deg, #c2c2ff, #fe7e7e)`,
+                        background: `linear-gradient(151deg, ${appConfig.theme.palette.primary.dark[4]} 15%, ${appConfig.theme.palette.secondary.dark[2]})`,
                         display: 'flex',
                         flexDirection: 'column',
                         alignItems: 'center',
@@ -349,11 +269,9 @@ const AppSplash: React.FC<AppSplashProps> = ({ appConfig }) => {
                                 sx={{
                                     marginBottom: '3rem',
                                     color: appConfig.theme.palette.neutral.dark[3],
-                                    // border: `1px solid ${appConfig.theme.palette.primary.dark[2]}`,
                                     background: appConfig.theme.palette.primary.dark[2],
                                     padding: '1rem 2rem',
                                     borderRadius: '4px',
-                                    // fontWeight: 'bold',
                                     textTransform: 'uppercase'
                                 }}
                             >
@@ -361,12 +279,10 @@ const AppSplash: React.FC<AppSplashProps> = ({ appConfig }) => {
                             </Typography>
                             <Box
                                 className='how-it-works-steps-container'
-                                ref={refHowItWorks}
                                 sx={{
                                     display: 'flex',
                                     flexDirection: 'column',
                                     rowGap: '4rem',
-                                    // background: appConfig.theme.palette.primary.dark[8]
                                 }}
                             >
                                 <LandingPageStep
@@ -390,8 +306,6 @@ const AppSplash: React.FC<AppSplashProps> = ({ appConfig }) => {
                                     <Accordion
                                         sx={{
                                             background: appConfig.theme.palette.primary.dark[0],
-                                            // paddingLeft: '1rem',
-                                            // paddingRight: '1rem',
                                             color: appConfig.theme.palette.neutral.dark[3]
                                         }}
                                     >
@@ -409,7 +323,6 @@ const AppSplash: React.FC<AppSplashProps> = ({ appConfig }) => {
                                                     '& svg': {
                                                         color: appConfig.theme.palette.secondary.dark[5],
                                                         fontSize: '1.75rem',
-                                                        // marginRight: '1rem'
                                                     }
                                                 }
                                             }}
@@ -488,9 +401,6 @@ const AppSplash: React.FC<AppSplashProps> = ({ appConfig }) => {
                                             >
                                                 A full tutorial and a downloadable Python script is coming soon - check back here for updates!
                                             </Typography>
-                                            {/* <Typography>
-                                                A tutorial and a downloadable Python script is coming soon - check back here for updates!
-                                            </Typography> */}
                                         </AccordionDetails>
                                     </Accordion>
                                 </LandingPageStep>
@@ -506,40 +416,6 @@ const AppSplash: React.FC<AppSplashProps> = ({ appConfig }) => {
                             </Box>
                         </Box>
                     </Box>
-                    {/* <Box
-                        id='landing-page-footer'
-                        sx={{
-                            border: '5px solid red',
-                            width: '100%'
-                        }}
-                    >
-                        <Box id='daybreakr-footer-info-container'>
-                            <Box
-                                className='daybreakr-footer-info'
-                            >
-                                <Typography>
-                                    DayBreakr is a passion project by Tim Johnston under the brand moniker Trillli
-                                </Typography>
-                                <Typography>
-                                    DayBreakr is built with React, Django, and Postgres and is deployed using Docker, Docker Compose, and AWS Lightsail
-                                </Typography>
-                                <Button
-                                    startIcon={<GitHubIcon />}
-                                >
-                                    <Typography>Source code</Typography>
-                                </Button>
-                                <Typography>
-                                    Learn a bit more about me here!
-                                </Typography>
-                            </Box>
-                        </Box>
-                        <Box>
-                            Landing page background photo by <a href="https://unsplash.com/@8moments?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash">Simon Berger</a> on <a href="https://unsplash.com/photos/landscape-photography-of-mountains-twukN12EN7c?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash">Unsplash</a>
-                        </Box>
-                        <Box id='daybreakr-footer-copyright-container'>
-                            Copyright Trillli 2024
-                        </Box>
-                    </Box> */}
                 </Box>
                 <Box
                     id='landing-page-footer'
@@ -563,19 +439,14 @@ const AppSplash: React.FC<AppSplashProps> = ({ appConfig }) => {
                             flexDirection: 'column',
                             rowGap: '3rem',
                             alignItems: 'center'
-                            // justifyContent: 'center'
                         }}
                     >
                         <Box
                             className='daybreakr-footer-info'
                             sx={{
-                                // textAlign: 'center',
                                 display: 'flex',
                                 flexDirection: 'column',
                                 rowGap: '3rem',
-                                '& p': {
-                                    // fontSize: '1.375rem'
-                                }
                             }}
                         >
                             <Box
@@ -662,7 +533,6 @@ const AppSplash: React.FC<AppSplashProps> = ({ appConfig }) => {
                         <Typography
                         sx={{
                             color: appConfig.theme.palette.secondary.dark[0],
-                            // width: '100%'
                         }}
                     >
                         Background photo by 
@@ -676,7 +546,6 @@ const AppSplash: React.FC<AppSplashProps> = ({ appConfig }) => {
                                     borderRadius: '4px',
                                     textDecoration: 'none',
                                     color: 'white',
-                                    // background: 'linear-gradient(153deg, #fe7e7e38, #ffd0545c)',
                                 }}
                             >
                             Simon Berger
@@ -686,20 +555,8 @@ const AppSplash: React.FC<AppSplashProps> = ({ appConfig }) => {
                         Copyright Trillli 2024
                     </Box>
                     </Box>
-                    {/* <Typography
-                        sx={{
-                            color: appConfig.theme.palette.secondary.dark[0],
-                            width: '100%'
-                        }}
-                    >
-                        Landing page background photo by <a href="https://unsplash.com/@8moments?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash">Simon Berger</a> on <a href="https://unsplash.com/photos/landscape-photography-of-mountains-twukN12EN7c?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash">Unsplash</a>
-                    </Typography>
-                    <Box id='daybreakr-footer-copyright-container'>
-                        Copyright Trillli 2024
-                    </Box> */}
                 </Box>
             </Box>
-            {/* </Box> */}
         </PageBuilder>
     )
 }
