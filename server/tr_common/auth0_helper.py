@@ -104,8 +104,8 @@ class Auth0Helper:
     def _get_management_api_access_token(self):
         url = "https://dev-m0zbh7x7q4v4tlo6.us.auth0.com/oauth/token"
         payload = {
-            "client_id": "o4dUkX0czIZHnYcjmJIjvRCbnAISFyL5",
-            "client_secret": "2bZlaXSGVCJmw24bZ3XDCqKDfielLCVNYl8siqs0YKjqQGaML2pWVlPezyO1S25X",
+            "client_id": settings.AUTH0_MANAGEMENT_API_CLIENT_ID,
+            "client_secret": settings.AUTH0_MANAGEMENT_API_CLIENT_SECRET,
             "audience": "https://dev-m0zbh7x7q4v4tlo6.us.auth0.com/api/v2/",
             "grant_type": "client_credentials"
         }
