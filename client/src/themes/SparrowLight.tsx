@@ -194,15 +194,15 @@ const SparrowLight = createTheme({
           style: {
             fontSize: '2.2839rem',
             fontWeight: 'bold',
-            borderLeft: '5px solid ' + themeBase.palette.secondary.main,
-            paddingLeft: '10px'
+            borderLeft: '5px solid ' + themeBase.palette.secondary.dark[4],
+            paddingLeft: '1.5rem'
           }
         },
         {
           props: { variant: 'pageSubtitle' },
           style: {
-            borderLeft: '5px solid ' + themeBase.palette.tertiary.main,
-            paddingLeft: '10px',
+            borderLeft: '5px solid ' + themeBase.palette.secondary.dark[2],
+            paddingLeft: '1.5rem',
             paddingTop: '5px',
             paddingBottom: '5px',
             fontSize: '1.25rem',

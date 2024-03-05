@@ -37,7 +37,7 @@ const DetailTextComponent: React.FC<DetailTextComponentProps> = ({
   } else {
     contents = (
       <TextField sx={{
-        width: '100%'
+        // width: '100%'
       }}
         variant='outlined'
         className = {(readOnly || editOnProvider) ? '' : 'profile-input-watched'}
@@ -51,8 +51,15 @@ const DetailTextComponent: React.FC<DetailTextComponentProps> = ({
         }}
         InputLabelProps={{
           sx: {
-            fontSize: '18px'
+            // fontSize: '1.375rem',
+            // color: 'red'
+            // background: 'white'
           }
+        }}
+        sx={{
+          // border: '1px solid red',
+          width: '100%',
+          // background: 'red'
         }}
         {...filledTextFieldProps}
       />
@@ -66,7 +73,8 @@ const DetailTextComponent: React.FC<DetailTextComponentProps> = ({
     <Box className='detailContainer detailTextContainer' sx={{
       // width: '45%'
       // minWidth: '50px',
-      width: {xs: '100%', lg: '45%'}
+      // width: {xs: '100%', lg: '45%'},
+      width: '100%'
     }}>
       {contents}
     </Box>

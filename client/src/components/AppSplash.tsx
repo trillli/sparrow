@@ -55,7 +55,7 @@ const AppSplash: React.FC<AppSplashProps> = ({ appConfig }) => {
     }
 
     return (
-        <PageBuilder navTop={isAuthenticated} navSide={false} appConfig={appConfig} styling={customStyling}>
+        <PageBuilder navTop={false} navSide={false} appConfig={appConfig} styling={customStyling}>
             <Box id='landing-page-container'
                 sx={{
                     color: appConfig.theme.palette.neutral.dark[4],
