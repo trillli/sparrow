@@ -11,7 +11,7 @@ services:
   server:
     build:
       context: .
-    command: 'python manage.py runserver 0.0.0.0:6060'
+    command: sh -c "python manage.py makemigrations daybreakr_data && python manage.py migrate && python manage.py runserver 0.0.0.0:6060"
     ports:
       - 6060:6060
 

@@ -136,7 +136,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 CLIENT_ORIGIN_URL = get_env_var('CLIENT_ORIGIN_URL')
 
 # CORS_ALLOWED_ORIGINS = ['http://localhost:4040', 'http://host.docker.internal:4040']
-CORS_ALLOWED_ORIGINS = ['http://localhost:4040']
+CORS_ALLOWED_ORIGINS = ['http://localhost:4040','https://daybreakr.trillli.com']
 # CORS_ALLOWED_ORIGINS = ['*']
 
 CORS_ALLOW_METHODS = [
