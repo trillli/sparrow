@@ -1,6 +1,9 @@
 # Build & dev utils
 lightsail.deploy.local.sh
 lightsail.ssh.sh
+.env
+.env.production
+.env.development
 
 # Logs
 logs
