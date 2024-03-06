@@ -16,7 +16,7 @@ interface DetailTextCustomProps {
 type DetailTextComponentProps = Omit<FilledTextFieldProps, 'variant'> & DetailTextCustomProps
 
 // const handleFocus = () => {
-//   console.log('focused!')
+//   //console.log('focused!')
 // } 
 
 const DetailTextComponent: React.FC<DetailTextComponentProps> = ({
@@ -28,9 +28,9 @@ const DetailTextComponent: React.FC<DetailTextComponentProps> = ({
 }) => {
 
 
-  // console.log('readonly and editoonprovider should both be false. however, they are:')
-  // console.log([readOnly, editOnProvider])
-  // console.log((readOnly || editOnProvider))
+  // //console.log('readonly and editoonprovider should both be false. however, they are:')
+  // //console.log([readOnly, editOnProvider])
+  // //console.log((readOnly || editOnProvider))
   let contents: React.ReactNode
   if (skeleton) {
     contents = <Skeleton variant='rounded' width={'100%'} height={60} sx={{ paddingTop: '0px' }}></Skeleton>

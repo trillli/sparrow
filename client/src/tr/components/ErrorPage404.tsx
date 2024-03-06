@@ -17,8 +17,8 @@ interface ErrorPage404Props {
 const ErrorPage404: React.FC<ErrorPage404Props> = ({appConfig}) => {
 
 
-  console.log("in errorpage404. appConfig is:")
-  console.log(appConfig)
+  //console.log("in errorpage404. appConfig is:")
+  //console.log(appConfig)
 
   const handleBtnHomeClick = (event: React.MouseEvent<HTMLElement>) => {
     alert('redirect back to home')

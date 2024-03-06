@@ -20,7 +20,7 @@ const AlarmConfigGroupSound: React.FC<AlarmConfigGroupSoundProps> = ({ alarm, ap
 
     const [groupEnabled, setGroupEnabled] = React.useState<boolean>(alarm.sound.enabled)
 
-    // console.log('in alarm')
+    // //console.log('in alarm')
 
     React.useEffect(() => {
         alarm.sound.enabled = groupEnabled

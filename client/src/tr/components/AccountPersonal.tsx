@@ -28,7 +28,7 @@ interface AccountPersonalProps {
 
 const AccountPersonal: React.FC<AccountPersonalProps> = ({ appConfig }) => {
 
-  // console.log('hi')
+  // //console.log('hi')
 
   const userProfileInitializer: IAuth0ApiNormalizedUser = {
     identities: undefined,
@@ -210,9 +210,9 @@ const AccountPersonal: React.FC<AccountPersonalProps> = ({ appConfig }) => {
   )
 
   const handlePasswordChangeClick = async () => {
-    console.log('handling password change click')
+    //console.log('handling password change click')
     const accessToken = await getAccessTokenSilently();
-    console.log('sending password reset request')
+    //console.log('sending password reset request')
     
       const requestConfig: TrFetchConfig = {
         accessToken: accessToken,
@@ -220,7 +220,7 @@ const AccountPersonal: React.FC<AccountPersonalProps> = ({ appConfig }) => {
         path: "/tr/api/profile-password",
       }
       const result: TrFetchResult = await trFetch(requestConfig);
-    console.log('past password reset request')
+    //console.log('past password reset request')
   }
 
   //Change password button (or placeholder skeleton)
@@ -269,8 +269,8 @@ const AccountPersonal: React.FC<AccountPersonalProps> = ({ appConfig }) => {
   )
 
   const updateUserProfile = async () => {
-    console.log('time to upate the user profile')
-    console.log(formData)
+    //console.log('time to upate the user profile')
+    //console.log(formData)
 
     const accessToken = await getAccessTokenSilently();
       const requestConfig: TrFetchConfig = {

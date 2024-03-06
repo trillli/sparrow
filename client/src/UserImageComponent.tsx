@@ -26,14 +26,14 @@ const UserImageComponent: React.FC<UserImageComponentProps> = ({ editOnProvider 
   React.useEffect(() => {
 
     if (imgToUpload == null) {
-      console.log('imgtoupload is null!')
+      //console.log('imgtoupload is null!')
       return
     }
 
     let formData = new FormData();
     formData.append('file', imgToUpload)
     // let formData = {'hi': 'okay'}
-    // console.log(imgToUpload)
+    // //console.log(imgToUpload)
     formData.append('myKey', 'myVal')
 
 
@@ -50,18 +50,18 @@ const UserImageComponent: React.FC<UserImageComponentProps> = ({ editOnProvider 
         payload: formData
       }
 
-      console.log('going to submit. config is:')
-      console.log(requestConfig)
+      //console.log('going to submit. config is:')
+      //console.log(requestConfig)
       setProfilePatching(true)
 
       const result: TrFetchResult = await trFetch(requestConfig);
       if (result.ok) {
-        console.log('result is okay!')
-        console.log(result.ok.data)
+        //console.log('result is okay!')
+        //console.log(result.ok.data)
         setProfilePatching(false)
       } else {
-        console.log('result failed')
-        console.log(result)
+        //console.log('result failed')
+        //console.log(result)
       }
     }
 
@@ -103,8 +103,8 @@ const UserImageComponent: React.FC<UserImageComponentProps> = ({ editOnProvider 
 
 
   const handleImgClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-    // console.log('clicked! event: ')
-    // console.log(event.target.src)
+    // //console.log('clicked! event: ')
+    // //console.log(event.target.src)
     setOpen(true)
   }
 

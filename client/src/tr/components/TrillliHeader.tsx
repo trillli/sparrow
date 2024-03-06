@@ -28,12 +28,12 @@ interface TrillliHeaderProps {
 }
 
 const TrillliHeader: React.FC<TrillliHeaderProps> =({header, sidebar, content}) => {
-    console.log("in sidebar")
+    //console.log("in sidebar")
     const [mobileOpen, setMobileOpen] = React.useState(false);
     const [isClosing, setIsClosing] = React.useState(false);
 
     const handleDrawerClose = () => {
-        console.log("closing!")
+        //console.log("closing!")
         setIsClosing(true);
         setMobileOpen(false);
     };
@@ -43,9 +43,9 @@ const TrillliHeader: React.FC<TrillliHeaderProps> =({header, sidebar, content}) 
     };
 
     const handleDrawerToggle = () => {
-        console.log("handling drawer toggle")
+        //console.log("handling drawer toggle")
         if (!isClosing) {
-            console.log("not is closing. mobileOpen currently is: " + mobileOpen)
+            //console.log("not is closing. mobileOpen currently is: " + mobileOpen)
             setMobileOpen(!mobileOpen);
         }
     };

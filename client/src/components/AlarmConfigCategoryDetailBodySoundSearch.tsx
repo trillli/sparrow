@@ -71,8 +71,8 @@ const AlarmConfigCategoryDetailBodySoundSearch: React.FC<AlarmConfigCategoryDeta
 
     function executeSearchRequest() {
 
-        // console.log('requesting:')
-        // console.log()
+        // //console.log('requesting:')
+        // //console.log()
 
         if (soundSearchValue == undefined || soundSearchValue == '') {
             setSoundSearchResults({
@@ -118,8 +118,8 @@ const AlarmConfigCategoryDetailBodySoundSearch: React.FC<AlarmConfigCategoryDeta
             const noImgPlaylist = '/media/img/noImgArtist.svg'
 
             songs.forEach((song) => {
-                console.log(song)
-                console.log(song.images)
+                //console.log(song)
+                //console.log(song.images)
                 const songName: string = song.name
                 const songAlbum: string = song.album ? song.album.name : ''
                 const songArtists: any[] = song.artists
@@ -159,7 +159,7 @@ const AlarmConfigCategoryDetailBodySoundSearch: React.FC<AlarmConfigCategoryDeta
             artists.forEach((artist) => {
                 const artistName: string = artist.name
                 const artistImage: string = (artist.images) ? (artist.images.length > 0 ? artist.images[0].url : noImgArtist) : noImgArtist
-                // console.log(artist.images)
+                // //console.log(artist.images)
                 soundSearchResultsFormatted.artists.push({
                     type: 'artist',
                     title: '',
@@ -206,7 +206,7 @@ const AlarmConfigCategoryDetailBodySoundSearch: React.FC<AlarmConfigCategoryDeta
     }
 
     const handleSoundTypeChange = (event: React.MouseEvent<HTMLElement>, value) => {
-        console.log(value)
+        //console.log(value)
         setSoundType(value)
     }
 
@@ -221,9 +221,9 @@ const AlarmConfigCategoryDetailBodySoundSearch: React.FC<AlarmConfigCategoryDeta
         const target = event.currentTarget
         const selectionData = (JSON.parse(target.getAttribute('selection')))
         const selectedRows: any[] = document.querySelectorAll('.MuiTableRow-root.Mui-selected')
-        console.log(selectedRows)
+        //console.log(selectedRows)
         selectedRows.forEach((selectedRow) => {
-            console.log('a row was selected')
+            //console.log('a row was selected')
             selectedRow.classList.remove('Mui-selected')
         })
         target.classList.add('Mui-selected')
@@ -234,8 +234,8 @@ const AlarmConfigCategoryDetailBodySoundSearch: React.FC<AlarmConfigCategoryDeta
     }
 
     const handleSearchResultsChange = (event: React.SyntheticEvent, expanded: boolean) => {
-        console.log('expanded:')
-        console.log(expanded)
+        //console.log('expanded:')
+        //console.log(expanded)
         setSearchResultsExpanded(expanded)
     }
 
@@ -243,7 +243,7 @@ const AlarmConfigCategoryDetailBodySoundSearch: React.FC<AlarmConfigCategoryDeta
 
     // }
 
-    console.log(soundSearchResults)
+    //console.log(soundSearchResults)
 
     return (
         <>

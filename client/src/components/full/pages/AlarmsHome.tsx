@@ -414,51 +414,51 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
     React.useEffect(() => {
         const getAlarmConfig = async () => {
             const accessToken = await getAccessTokenSilently();
-            console.log(accessToken)
+            //console.log(accessToken)
             const requestConfig: TrFetchConfig = {
                 accessToken: accessToken,
                 method: 'GET',
                 path: "/data/lazyalarm",
             }
             const result: TrFetchResult = await trFetch(requestConfig)
-            // //console.log('made it back from request')
-            // //console.log(result)
-            // //console.log(result.error)
-            // //console.log(result.ok)
-            // //console.log('data is:')
-            // //console.log(result.ok.data[0].alarms_page_metadata_json)
-            //console.log()
+            // ////console.log('made it back from request')
+            // ////console.log(result)
+            // ////console.log(result.error)
+            // ////console.log(result.ok)
+            // ////console.log('data is:')
+            // ////console.log(result.ok.data[0].alarms_page_metadata_json)
+            ////console.log()
             // alert('hello')
-            console.log('get request result:')
-            console.log(result.ok.data)
+            //console.log('get request result:')
+            //console.log(result.ok.data)
             if (result.ok.data.length == 0) {
                 // alert('empty data')
                 // setAlarmsPageMetadata()
-                console.log('setting default metadta')
-                console.log(alarmsPageMetadataDefault)
+                //console.log('setting default metadta')
+                //console.log(alarmsPageMetadataDefault)
                 setAlarmsPageMetadata(alarmsPageMetadataDefault)
             } else {
-                console.log('setting metadata from return call:')
-                console.log(result.ok.data[0].alarms_json)
+                //console.log('setting metadata from return call:')
+                //console.log(result.ok.data[0].alarms_json)
                 setAlarmsPageMetadata(JSON.parse(result.ok.data[0].alarms_json))  
             }
             
         }
 
-        // //console.log('making request')
+        // ////console.log('making request')
         getAlarmConfig()
         // setAlarmsPageMetadata(alarmsPageMetadataTemp)
     }, [])
 
     React.useEffect(() => {
-        //console.log('in use effect for alarmspagemetadata')
+        ////console.log('in use effect for alarmspagemetadata')
         if (alarmsPageMetadata) {
 
-            //console.log('alarmspagemetadata now is:')
-            //console.log(alarmsPageMetadata)
-            // //console.log('and the alarmspagemetadatajson is:')
-            // //console.log(JSON.parse(alarmsPageMetadata.alarms_json))
-            // //console.log('and the serialized metadata field is')
+            ////console.log('alarmspagemetadata now is:')
+            ////console.log(alarmsPageMetadata)
+            // ////console.log('and the alarmspagemetadatajson is:')
+            // ////console.log(JSON.parse(alarmsPageMetadata.alarms_json))
+            // ////console.log('and the serialized metadata field is')
 
             // if (alarmsPageMetadata.alarms) {
             //     let alarmsListArrayUnsorted: IAlarmMetadata[] = []
@@ -472,15 +472,15 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
 
 
 
-            // console.log('Updated alarms page metadata and ready to post/patch to api: ')
-            // console.log(alarmsPageMetadata)
+            // //console.log('Updated alarms page metadata and ready to post/patch to api: ')
+            // //console.log(alarmsPageMetadata)
 
             
 
             const persistAlarmConfig = async () => {
                 const testdata = {'serialization': 'mytestdata'}
-                console.log('posting:')
-                console.log(JSON.stringify(alarmsPageMetadata))
+                //console.log('posting:')
+                //console.log(JSON.stringify(alarmsPageMetadata))
                 const accessToken = await getAccessTokenSilently();
                 const requestConfig: TrFetchConfig = {
                     accessToken: accessToken,
@@ -491,28 +491,28 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
                     })
                 }
                 const result: TrFetchResult = await trFetch(requestConfig);
-                //console.log('Made post request. result:')
-                //console.log(result)
-                //console.log(result.error)
-                //console.log(result.request?.body?.getReader().read())
+                ////console.log('Made post request. result:')
+                ////console.log(result)
+                ////console.log(result.error)
+                ////console.log(result.request?.body?.getReader().read())
 
 
 
 
             }
 
-            console.log('WOULD BE CALLING PERSIST ALARM CONFIG HERE, PASSING ALARMSPAGEMETADATA OBJECT:')
-            console.log(alarmsPageMetadata) 
+            //console.log('WOULD BE CALLING PERSIST ALARM CONFIG HERE, PASSING ALARMSPAGEMETADATA OBJECT:')
+            //console.log(alarmsPageMetadata) 
             persistAlarmConfig()
 
         } else {
-            //console.log('in else block?')
+            ////console.log('in else block?')
         }
 
     }, [alarmsPageMetadata])
 
     // React.useEffect(() => {
-    //     // //console.log('ALARMS SERIALIZED CHANGED; NEED TO PERSIST UPDATE TO DATABASE')
+    //     // ////console.log('ALARMS SERIALIZED CHANGED; NEED TO PERSIST UPDATE TO DATABASE')
     // }, [alarmsSerialized])
 
 
@@ -521,7 +521,7 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
     }, [alarmTime])
 
     React.useEffect(() => {
-        console.log('in useeffect or alamrlistsorttype, alarmlistsortasc, timeformat25hr')
+        //console.log('in useeffect or alamrlistsorttype, alarmlistsortasc, timeformat25hr')
         updateAlarmsPageMetadata()
     }, [alarmListSortType, alarmListSortAsc, timeFormat24Hr])
 
@@ -532,7 +532,7 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
     //     if (alarmsListPendingSortOrFilter) {
     //         // sortAndFilterAlarmList()
     //     } else {
-    //         // //console.log('no longer using setalarmcomponents - instead need to implement & update an alarm state variable')
+    //         // ////console.log('no longer using setalarmcomponents - instead need to implement & update an alarm state variable')
     //         // setAlarmComponents(generateAlarmComponents()) 
     //     }
 
@@ -558,10 +558,10 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
         }
 
 
-        // console.log('filter')
+        // //console.log('filter')
 
-        //console.log('top of sortandfilteralarmlist. alarmlist unsorted array currently is:')
-        //console.log(unsortedAlarmsList)
+        ////console.log('top of sortandfilteralarmlist. alarmlist unsorted array currently is:')
+        ////console.log(unsortedAlarmsList)
 
         let sortedAlarmsList = []
 
@@ -571,36 +571,36 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
             sortedAlarmsList = sortAndFilterAlarmListByName(unsortedAlarmsList)
         }
 
-        //console.log('sorted the alarmslist. it now is:')
-        //console.log(sortedAlarmsList)
+        ////console.log('sorted the alarmslist. it now is:')
+        ////console.log(sortedAlarmsList)
 
         if (!alarmListSortAsc) {
             sortedAlarmsList.reverse()
         }
 
 
-        // console.log('now going to try to filter alarm list. alarmlist currently is: ')
-        // console.log(sortedAlarmsList)
+        // //console.log('now going to try to filter alarm list. alarmlist currently is: ')
+        // //console.log(sortedAlarmsList)
         sortedAlarmsList.forEach((alarm, index) => {
 
             const alarmNameLower = alarm.name.toLowerCase()
 
-            // console.log('current comparison: [alarmsSearchValue, alarmNameLower]')
-            // console.log([alarmsSearchValue, alarmNameLower])
+            // //console.log('current comparison: [alarmsSearchValue, alarmNameLower]')
+            // //console.log([alarmsSearchValue, alarmNameLower])
 
             if (alarmsSearchValue == '' || alarmNameLower.includes(alarmsSearchValue.toLowerCase())) {
-                // console.log('setting shown to true')
+                // //console.log('setting shown to true')
                 alarm.shown = true
             } else {
-                // console.log('setting shown to false')
+                // //console.log('setting shown to false')
                 alarm.shown = false
             }
             sortedAlarmsList[index] = alarm
         })
 
 
-        //console.log('filtered alarms list. about to do setalarmslist. it is:')
-        //console.log(sortedAlarmsList)
+        ////console.log('filtered alarms list. about to do setalarmslist. it is:')
+        ////console.log(sortedAlarmsList)
 
         setAlarmsListPendingSortOrFilter(false)
         setAlarmsList(sortedAlarmsList)
@@ -623,29 +623,29 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
 
         alarmTimes.sort()
 
-        //console.log('going to do the sort by time. starting values:')
-        //console.log(alarmTimes)
-        //console.log(unsortedAlarmsList)
+        ////console.log('going to do the sort by time. starting values:')
+        ////console.log(alarmTimes)
+        ////console.log(unsortedAlarmsList)
 
 
         alarmTimes.forEach((alarmTime) => {
 
-            //console.log('============= alarmTime loop: ' + alarmTime)
+            ////console.log('============= alarmTime loop: ' + alarmTime)
 
             unsortedAlarmsList.forEach((alarm) => {
 
-                //console.log('alarm loop: ' + alarm.id)
+                ////console.log('alarm loop: ' + alarm.id)
 
                 const id = alarm.id
                 if (!sortedAlarmsIds.has(id)) {
                     let currentAlarmTime = alarm.timing.time
-                    //console.log('going to be comparing these two times [alarmTime, currentAlarmTime]')
-                    //console.log([alarmTime, currentAlarmTime])
+                    ////console.log('going to be comparing these two times [alarmTime, currentAlarmTime]')
+                    ////console.log([alarmTime, currentAlarmTime])
                     if (alarm.timing.format == 12) {
                         currentAlarmTime = fnTime12hrTo24hr(currentAlarmTime)
                     }
                     if (currentAlarmTime == alarmTime) {
-                        //console.log('match found; pushing to array !!!')
+                        ////console.log('match found; pushing to array !!!')
                         alarmsSorted.push(alarm)
                         sortedAlarmsIds.add(id) //to avoid duplicate additions, since we're allowing alarms to share names/times
                     }
@@ -672,11 +672,11 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
         //Custom sorting to ignore priority of capital letters
         alarmNames.sort((a, b) => a.toLowerCase().localeCompare(b.toLowerCase()));
 
-        // console.log('going to sort based on these names:')
-        // console.log(alarmNames)
+        // //console.log('going to sort based on these names:')
+        // //console.log(alarmNames)
 
         alarmNames.forEach((alarmName) => {
-            //console.log('alarm name:')
+            ////console.log('alarm name:')
             unsortedAlarmsList.forEach((alarm) => {
                 const id = alarm.id
                 if (!sortedAlarmsIds.has(id)) {
@@ -740,10 +740,10 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
     //EVENT HANDLERS
 
     const updateAlarmsPageMetadata = (field: string, value: any) => {
-        // //console.log('in updatealarmspagemetadata')
+        // ////console.log('in updatealarmspagemetadata')
         setAlarmsPageMetadata(prevState => {
-            //console.log('here in updatealarmspage metadata. prevState is:')
-            //console.log(prevState)
+            ////console.log('here in updatealarmspage metadata. prevState is:')
+            ////console.log(prevState)
             if (prevState) {
                 let alarmsPageMetadataUpdated = { ...prevState }
                 if (field) {
@@ -753,8 +753,8 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
                 alarmsPageMetadataUpdated.sorting.type = alarmListSortType
                 alarmsPageMetadataUpdated.timeFormat24Hr = timeFormat24Hr
                 //also handle add / delete of alarm here, or in updateAlarmsMetadata
-                // //console.log('alarmspagemetadataupdated is: ')
-                // //console.log(alarmsPageMetadataUpdated)
+                // ////console.log('alarmspagemetadataupdated is: ')
+                // ////console.log(alarmsPageMetadataUpdated)
                 return alarmsPageMetadataUpdated
             }
         })
@@ -763,13 +763,13 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
 
     const updateAlarmsMetadata = (alarmId: number, alarmMetadata: IAlarmMetadata, remove: boolean = false) => {
         setAlarmsPageMetadata(prevState => {
-            // //console.log('here in updatealarmspage metadata. prevState is:')
-            // //console.log(prevState)
+            // ////console.log('here in updatealarmspage metadata. prevState is:')
+            // ////console.log(prevState)
             if (prevState) {
-                // //console.log('made it into if prevState')
+                // ////console.log('made it into if prevState')
                 // let prevAlarms = { ...prevState.alarms }
-                // //console.log('prevAlarms is:')
-                // //console.log(prevAlarms)
+                // ////console.log('prevAlarms is:')
+                // ////console.log(prevAlarms)
                 let alarmsUpdated: {[key: string]: IAlarmMetadata} = {}
                 if (remove) {
                     const prevAlarmKeys = Object.keys(prevState.alarms)
@@ -785,11 +785,11 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
                     alarmsUpdated = { ...prevAlarms, [alarmId]: alarmMetadata }
                 }
                 // alarmsUpdated = { ...prevAlarms, [alarmId]: alarmMetadata }
-                // //console.log('alarmsUpdated is: ')
-                // //console.log(alarmsUpdated)
+                // ////console.log('alarmsUpdated is: ')
+                // ////console.log(alarmsUpdated)
                 const alarmsPageMetadataUpdated = { ...prevState, 'alarms': alarmsUpdated };
-                // //console.log('alarmsPageMetadataUpdated is: ')
-                // //console.log(alarmsPageMetadataUpdated)
+                // ////console.log('alarmsPageMetadataUpdated is: ')
+                // ////console.log(alarmsPageMetadataUpdated)
                 return alarmsPageMetadataUpdated
             }
         });
@@ -797,7 +797,7 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
 
     const handleDeleteAlarm = (event: React.MouseEvent<HTMLElement>) => {
         event.stopPropagation()
-        //console.log('Handling delete alarm: Need to stop propagation and send delete request to server & rerender alarms list')
+        ////console.log('Handling delete alarm: Need to stop propagation and send delete request to server & rerender alarms list')
     }
 
     //alarm level
@@ -806,7 +806,7 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
     }
 
     const handleAlarmNameTyping = (event: React.ChangeEvent<HTMLInputElement>) => {
-        console.log('test')
+        //console.log('test')
         const value: string = event.target.value
         const alarmNamePending = value
         if (!alarmNamePending) {
@@ -824,12 +824,12 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
     }
 
     const handleTimePickerChangeDoneClick = (event) => {
-        console.log('here')
-        //console.log('time to save details of alarm')
-        //console.log(alarmTimePickerFormatted)
-        //console.log(alarmName)
-        //console.log(alarmNamePending)
-        //console.log(event.target.classList)
+        //console.log('here')
+        ////console.log('time to save details of alarm')
+        ////console.log(alarmTimePickerFormatted)
+        ////console.log(alarmName)
+        ////console.log(alarmNamePending)
+        ////console.log(event.target.classList)
 
         //If editing an existing alarm, we want to keep the changes whether the time picker was closed
         //via a click on the Done button or on the modal backdrop
@@ -849,7 +849,7 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
         setTimePickerOpen(false)
 
         // if (keepChange) {
-            //console.log('keeping change')
+            ////console.log('keeping change')
             // const currentAlarms = alarmsPageMetadata.alarms
 
                 //check to see if this alarm exists
@@ -857,10 +857,10 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
                 // let alarmId;
                 let alarmMetadata: IAlarmMetadata
                 // if (timePickerMode == 'add') {
-                    //console.log('add mode')
+                    ////console.log('add mode')
                     // alarmMetadata = {}
                 // } else {
-                //     //console.log('edit mode')
+                //     ////console.log('edit mode')
                 //     //need to get alarm id (alarm.id)
                 //     alarmId = timePickerAlarmId
                 //     alarmMetadata = alarmsPageMetadata.alarms.alarmId
@@ -894,7 +894,7 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
             alarmMetadata.vibration = alarmMetadata.vibration || alarmMetadataDefault.vibration
 
 
-            //console.log('now time to update alarmpagemetadata and send to db. going to call updateAlarmsMetadata')
+            ////console.log('now time to update alarmpagemetadata and send to db. going to call updateAlarmsMetadata')
             
             setAlarmName()
             setAlarmId()
@@ -906,7 +906,7 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
 
 
         // } else {
-            //console.log('discarding change')
+            ////console.log('discarding change')
             // return
         // }
         
@@ -932,7 +932,7 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
 
     const handleAlarmTimeChanged = (value) => {
 
-        console.log('in alarmtimechanged')
+        //console.log('in alarmtimechanged')
 
         const hours = value.$H
         const minutes = value.$m
@@ -944,14 +944,14 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
             timeString = fnTime12hrTo24hr(hours + ':' + minutes)
         }
 
-        // console.log('TIMEPICKER CHANGE PRODUCED: ')
-        // console.log(timeString)
+        // //console.log('TIMEPICKER CHANGE PRODUCED: ')
+        // //console.log(timeString)
         if (timeFormat24Hr) {
-            // console.log('Dont need to convert')
+            // //console.log('Dont need to convert')
         } else {
-            // console.log('converted to 24hr:')
+            // //console.log('converted to 24hr:')
             const convertedTime = fnTime12hrTo24hr(timeString)
-            console.log(convertedTime)
+            //console.log(convertedTime)
         }
 
         setAlarmTime(timeString)
@@ -965,9 +965,9 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
     }
 
     const handleAlarmTimeOrNameClick = (event: React.MouseEvent<HTMLElement>, alarmId: number) => {
-        console.log('handling the alarm time or name click event')
-        console.log(event)
-        console.log(alarmId)
+        //console.log('handling the alarm time or name click event')
+        //console.log(event)
+        //console.log(alarmId)
         const editingAlarm = alarmsPageMetadata.alarms[alarmId]
         setAlarmName(editingAlarm.name)
         setAlarmNamePending(editingAlarm.name)
@@ -993,7 +993,7 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
     }
 
     const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
-        console.log('typing now')
+        //console.log('typing now')
         setAlarmsListPendingSortOrFilter(true)
         setAlarmsSearchValue(event.target.value)
     }

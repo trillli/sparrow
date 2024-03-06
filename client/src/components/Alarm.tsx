@@ -23,9 +23,9 @@ interface AlarmProps {
 
 const Alarm: React.FC<AlarmProps> = ({ alarm, appConfig, handlers, setters, timeFormat24Hr }) => {
 
-    console.log('alarm timing length')
-    console.log(alarm.timing.days)
-    console.log(alarm.timing.days.length)
+    //console.log('alarm timing length')
+    //console.log(alarm.timing.days)
+    //console.log(alarm.timing.days.length)
 
     const [alarmSerialized, setAlarmSerialized] = React.useState<string>(JSON.stringify(alarm))
     const [alarmExpanded, setAlarmExpanded] = React.useState<boolean>(false)
@@ -35,17 +35,17 @@ const Alarm: React.FC<AlarmProps> = ({ alarm, appConfig, handlers, setters, time
     const [repeatDays, setRepeatDays] = React.useState<DayAbbrev[]>(alarm.timing.days)
     const [lightColor, setLightColor] = React.useState<number>(alarm.light?.color.h)  
 
-    // console.log('Generating this alarm!')
-    // console.log(alarm)
-    // console.log('but repeat days is:')
-    // console.log(repeatDays)
+    // //console.log('Generating this alarm!')
+    // //console.log(alarm)
+    // //console.log('but repeat days is:')
+    // //console.log(repeatDays)
 
     React.useEffect(() => {
         // setRepeatDays(new Set(alarm.timing.days))
     }, [])
 
     React.useEffect(() => {
-        // console.log('in norepeat useeffect')
+        // //console.log('in norepeat useeffect')
         if (noRepeat) {
             // setRepeatDays(new Set<DayAbbrev>())
             setRepeatDays([])
@@ -53,13 +53,13 @@ const Alarm: React.FC<AlarmProps> = ({ alarm, appConfig, handlers, setters, time
     }, [noRepeat])
 
     React.useEffect(() => {
-        // console.log('in alarmenabled useeffect')
+        // //console.log('in alarmenabled useeffect')
         alarm.enabled = alarmEnabled
         handlers.updateAlarmsMetadata(alarm.id, alarm)
     }, [alarmEnabled])
 
     React.useEffect(() => {
-        // console.log('in repeatdata useeffect')
+        // //console.log('in repeatdata useeffect')
         if (repeatDays.length == 0) {
             setNoRepeat(true)
         } else {
@@ -113,11 +113,11 @@ const Alarm: React.FC<AlarmProps> = ({ alarm, appConfig, handlers, setters, time
     }
 
     const handleSummaryDayNoRepeatChange = (event: React.MouseEvent<HTMLElement>) => {
-        //console.log('in handlesummarydaynorepeatchange. norepeat is:')
-        //console.log(noRepeat)
+        ////console.log('in handlesummarydaynorepeatchange. norepeat is:')
+        ////console.log(noRepeat)
         event.stopPropagation()
         if (!noRepeat) {
-            //console.log('going to set norepeat to true')
+            ////console.log('going to set norepeat to true')
             setNoRepeat(true)
         }
     }
@@ -133,15 +133,15 @@ const Alarm: React.FC<AlarmProps> = ({ alarm, appConfig, handlers, setters, time
         event.stopPropagation()
     }
 
-    // console.log('going to format time: ' + alarm.timing.time)
+    // //console.log('going to format time: ' + alarm.timing.time)
     // const formattedTime = timeFormat24Hr ? alarm.timing.time : fnTime24hrTo12hr(alarm.timing.time)
     let formattedTime
     let formattedTimeAm: boolean = false
     if (timeFormat24Hr) {
-        // console.log('in the imeformat24hr block')
+        // //console.log('in the imeformat24hr block')
         formattedTime = alarm.timing.time
     } else {
-        // console.log('--------------------converting to 12hr------------------------')
+        // //console.log('--------------------converting to 12hr------------------------')
         formattedTime = fnTime24hrTo12hr(alarm.timing.time)
         if (formattedTime.includes('AM')) {
             formattedTimeAm = true
@@ -151,13 +151,13 @@ const Alarm: React.FC<AlarmProps> = ({ alarm, appConfig, handlers, setters, time
             formattedTime = formattedTime.slice(1)
         }
     }
-    // console.log('formatted time:' + formattedTime)
+    // //console.log('formatted time:' + formattedTime)
 
     if (alarm.shown) {
 
     
-        console.log('norepeat is:')
-        console.log(noRepeat)
+        //console.log('norepeat is:')
+        //console.log(noRepeat)
     return (
         <Accordion
             elevation={0}

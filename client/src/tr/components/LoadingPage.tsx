@@ -11,9 +11,9 @@ interface LoadingPageProps {
 const LoadingPage: React.FC<LoadingPageProps> = ({ appConfig }) => {
 
   React.useEffect(() => {
-    // console.log('breakpoint here to pause for debugging on mount')
+    // //console.log('breakpoint here to pause for debugging on mount')
     return () => {
-      // console.log('breakpoint here to pause for debugging on unmount')
+      // //console.log('breakpoint here to pause for debugging on unmount')
     };
   }, []);
 

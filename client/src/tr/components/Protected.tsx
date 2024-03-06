@@ -42,14 +42,14 @@ export const Protected: React.FC<ProtectedProps> = ({appConfig}) => {
     };
   }, [getAccessTokenSilently]);
 
-  console.log('message is: ')
-  console.log(message)
+  //console.log('message is: ')
+  //console.log(message)
   let deserializedMsg = message
   try {
-    console.log(JSON.parse(message))
+    //console.log(JSON.parse(message))
     deserializedMsg = JSON.parse(message)
   } catch {
-    console.log('not ready')
+    //console.log('not ready')
   }
   
 

@@ -40,7 +40,7 @@ const AppSplash: React.FC<AppSplashProps> = ({ appConfig }) => {
     let loginBtnIcon: React.ReactNode
 
     if (isAuthenticated) {
-        console.log('authenticated!')
+        //console.log('authenticated!')
         loginBtnCopy = 'My Alarms'
         loginBtnIcon = (<AlarmIcon />)
     } else {
@@ -84,6 +84,8 @@ const AppSplash: React.FC<AppSplashProps> = ({ appConfig }) => {
                             alignItems: 'center',
                             height: '100%',
                             width: '100%',
+                            paddingLeft: '4%',
+                            paddingRight: '4%',
                             background: '#ffffff45',
                         }}
                     >
@@ -111,7 +113,7 @@ const AppSplash: React.FC<AppSplashProps> = ({ appConfig }) => {
                                 <img src='/logos/v1_fullLight_padNo_bgNo.png'
                                     style={{
                                         width: '100%',
-                                        padding: '2rem',
+                                        padding: '1rem 1rem',
                                         background: '#000000b5',
                                         borderRadius: '4px',
                                         borderBottom: `5px solid ${appConfig.theme.palette.secondary.dark[4]}`,
@@ -171,16 +173,14 @@ const AppSplash: React.FC<AppSplashProps> = ({ appConfig }) => {
                                         flexDirection: 'column',
                                         rowGap: '1.5rem',
                                         background: '#00000055',
-                                        padding: '1.5rem 2rem',
+                                        padding: '1rem 1rem',
                                         textAlign: 'center',
                                         borderRadius: '4px',
-                                        fontWeight: 'bold',
                                         color: appConfig.theme.palette.primary.dark[3]
                                     }}
                                 >
                                     <Typography
                                         sx={{
-                                            fontWeight: 'bold',
                                             fontSize: '1.2rem'
                                         }}
                                     >
@@ -188,7 +188,6 @@ const AppSplash: React.FC<AppSplashProps> = ({ appConfig }) => {
                                     </Typography>
                                     <Typography
                                         sx={{
-                                            fontWeight: 'bold',
                                             fontSize: '1.2rem'
                                         }}
                                     >
@@ -202,7 +201,7 @@ const AppSplash: React.FC<AppSplashProps> = ({ appConfig }) => {
                             >
                                 <Button
                                     id='get-started-prompt'
-                                    startIcon={<HelpOutlineIcon />}
+                                    // startIcon={<HelpOutlineIcon />}
                                     onClick={scrollToHowItWorks}
                                     sx={{
                                         transition: '200ms',
@@ -270,7 +269,7 @@ const AppSplash: React.FC<AppSplashProps> = ({ appConfig }) => {
                                     marginBottom: '3rem',
                                     color: appConfig.theme.palette.neutral.dark[3],
                                     background: appConfig.theme.palette.primary.dark[2],
-                                    padding: '1rem 2rem',
+                                    padding: '1.25rem 1.25rem',
                                     borderRadius: '4px',
                                     textTransform: 'uppercase'
                                 }}
@@ -310,8 +309,10 @@ const AppSplash: React.FC<AppSplashProps> = ({ appConfig }) => {
                                         }}
                                     >
                                         <AccordionSummary
+                                            className='build-alarm-info'
                                             expandIcon={<ExpandMore />}
                                             sx={{
+                                                padding: '0rem .75rem',
                                                 '& .MuiAccordionSummary-content': {
                                                     justifyContent: 'center',
                                                 },
@@ -328,7 +329,7 @@ const AppSplash: React.FC<AppSplashProps> = ({ appConfig }) => {
                                             }}
                                         >
                                             <Button
-                                                startIcon={<HelpOutlineIcon />}
+                                                // startIcon={<HelpOutlineIcon />}
                                             >
                                                 <Typography>
                                                     Wait a second. I have to build my own alarm?
@@ -425,7 +426,7 @@ const AppSplash: React.FC<AppSplashProps> = ({ appConfig }) => {
                         paddingBottom: '.75rem',
                         position: 'relative',
                         background: appConfig.theme.palette.neutral.dark[6],
-                        borderTop: `3px solid ${appConfig.theme.palette.secondary.dark[4]}`,
+                        // borderTop: `3px solid ${appConfig.theme.palette.secondary.dark[4]}`,
                         display: 'flex',
                         flexDirection: 'column',
                         alignItems: 'center'
@@ -468,10 +469,14 @@ const AppSplash: React.FC<AppSplashProps> = ({ appConfig }) => {
                                 </Typography>
                                 <Button
                                     startIcon={<GitHubIcon />}
+                                    component={Link}
+                                    to='https://github.com/trillli/sparrow'
+                                    target="_blank"
                                     sx={{
                                         transition: '200ms',
                                         padding: '.5rem 2rem',
-                                        width: 'fit-content',
+                                        width: '100%',
+                                        maxWidth: '300px',
                                         color: appConfig.theme.palette.neutral.dark[3],
                                         background: gradientLight1,
                                         '&:hover': {
@@ -505,11 +510,15 @@ const AppSplash: React.FC<AppSplashProps> = ({ appConfig }) => {
                                     You can learn a bit more about me and my other projects by visiting my website
                                 </Typography>
                                 <Button
-                                    startIcon={<GitHubIcon />}
+                                    // startIcon={<GitHubIcon />}
+                                    component={Link}
+                                    to='https://timothy-johnston.github.io'
+                                    target="_blank"
                                     sx={{
                                         transition: '200ms',
                                         padding: '.5rem 2rem',
-                                        width: 'fit-content',
+                                        width: '100%',
+                                        maxWidth: '300px',
                                         color: appConfig.theme.palette.neutral.dark[3],
                                         background: gradientLight1,
                                         '&:hover': {
@@ -533,11 +542,15 @@ const AppSplash: React.FC<AppSplashProps> = ({ appConfig }) => {
                         <Typography
                         sx={{
                             color: appConfig.theme.palette.secondary.dark[0],
+                            lineHeight: '2.125',
+                            fontSize: '1rem',
+                            textAlign: 'center'
                         }}
                     >
                         Background photo by 
                             <a 
                                 href="https://unsplash.com/@8moments?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash"
+                                target='_blank'
                                 style={{
                                     border: `1px solid ${appConfig.theme.palette.primary.dark[5]}`,
                                     padding: '.5rem .5rem',
@@ -546,13 +559,19 @@ const AppSplash: React.FC<AppSplashProps> = ({ appConfig }) => {
                                     borderRadius: '4px',
                                     textDecoration: 'none',
                                     color: 'white',
+                                    textWrap: 'nowrap'
                                 }}
                             >
                             Simon Berger
                             </a>on Unsplash
                     </Typography>
-                    <Box id='daybreakr-footer-copyright-container' sx={{marginTop: '1rem'}}>
-                        Copyright Trillli 2024
+                    <Box id='daybreakr-footer-copyright-container'>
+                        <Typography 
+                            sx={{
+                                fontSize: '1rem',
+                                textAlign: 'center'
+                            }}>&copy; 2024 Trillli. All rights reserved. | Created by Tim Johnston
+                        </Typography>
                     </Box>
                     </Box>
                 </Box>

@@ -17,8 +17,8 @@ export const Auth0Router = ({
   // if (isProd) {}
   // const mode = import.meta.env.MODE
 
-  console.log('AAA')
-  // console.log(redirectUri)
+  //console.log('AAA')
+  // //console.log(redirectUri)
 
   const domain = import.meta.env.VITE_REACT_APP_AUTH0_DOMAIN
   const clientId = import.meta.env.VITE_REACT_APP_AUTH0_CLIENT_ID
@@ -26,11 +26,11 @@ export const Auth0Router = ({
   const audience = import.meta.env.VITE_REACT_APP_AUTH0_AUDIENCE
 
 
-  console.log('b')
-  console.log(redirectUri)
-  // console.log(import.meta.env.MODE)
-  // console.log(import.meta.env.TESTVAR)
-  // console.log(import.meta.env)
+  //console.log('b')
+  //console.log(redirectUri)
+  // //console.log(import.meta.env.MODE)
+  // //console.log(import.meta.env.TESTVAR)
+  // //console.log(import.meta.env)
 
   const onRedirectCallback = (appState?: AppState) => {
     navigate(appState?.returnTo || window.location.pathname);

@@ -25,10 +25,10 @@ const TestLogIn: React.FC = () => {
       }
 
     useEffect(() => {
-        console.log('TRYING TO LOG IN')
+        //console.log('TRYING TO LOG IN')
         fnLogIn()
         return () => {
-            console.log('UNMOUNTED')
+            //console.log('UNMOUNTED')
         }
     }, [loginWithRedirect])
     

@@ -23,12 +23,12 @@ const topNavHeight = 64;
 const footerHeight = 56;
 
 function TrillliSidebar() {
-    console.log("in sidebar")
+    //console.log("in sidebar")
     const [mobileOpen, setMobileOpen] = React.useState(false);
     const [isClosing, setIsClosing] = React.useState(false);
 
     const handleDrawerClose = () => {
-        console.log("closing!")
+        //console.log("closing!")
         setIsClosing(true);
         setMobileOpen(false);
     };
@@ -38,9 +38,9 @@ function TrillliSidebar() {
     };
 
     const handleDrawerToggle = () => {
-        console.log("handling drawer toggle")
+        //console.log("handling drawer toggle")
         if (!isClosing) {
-            console.log("not is closing. mobileOpen currently is: " + mobileOpen)
+            //console.log("not is closing. mobileOpen currently is: " + mobileOpen)
             setMobileOpen(!mobileOpen);
         }
     };

@@ -23,7 +23,7 @@ const LandingPageStep: React.FC<LandingPageStepProps> = ({ appConfig, align, img
                 alignItems: align == 'left' ? 'flex-start' : 'flex-end',
                 color: appConfig.theme.palette.neutral.contrastText,
                 background: appConfig.theme.palette.primary.dark[2],
-                padding: '1.5rem 2rem',
+                padding: '1.5rem 1.25rem',
                 borderLeft: align == 'left' ? `5px solid ${appConfig.theme.palette.neutral.dark[3]}` : 'none',
                     borderRight: align == 'right' ? `5px solid ${appConfig.theme.palette.neutral.dark[3]}` : 'none',
                 borderRadius: '4px'
