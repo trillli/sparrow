@@ -421,25 +421,20 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
                 path: "/data/lazyalarm",
             }
             const result: TrFetchResult = await trFetch(requestConfig)
-            // ////console.log('made it back from request')
-            // ////console.log(result)
-            // ////console.log(result.error)
-            // ////console.log(result.ok)
-            // ////console.log('data is:')
-            // ////console.log(result.ok.data[0].alarms_page_metadata_json)
-            ////console.log()
-            // alert('hello')
-            //console.log('get request result:')
-            //console.log(result.ok.data)
+
+            // console.log('a')
+            // console.log(result)
+            // console.log('b')
+            // console.log(result.ok)
+            if (result == undefined) {
+                console.log('here')
+                alert('Error contacting the DayBreakr server! If this issue persists, please contact DayBreakr/Trillli support at trillli.dev@gmail.com')
+            }
+
+
             if (result.ok.data.length == 0) {
-                // alert('empty data')
-                // setAlarmsPageMetadata()
-                //console.log('setting default metadta')
-                //console.log(alarmsPageMetadataDefault)
                 setAlarmsPageMetadata(alarmsPageMetadataDefault)
             } else {
-                //console.log('setting metadata from return call:')
-                //console.log(result.ok.data[0].alarms_json)
                 setAlarmsPageMetadata(JSON.parse(result.ok.data[0].alarms_json))  
             }
             

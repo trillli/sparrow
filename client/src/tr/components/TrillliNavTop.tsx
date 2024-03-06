@@ -1,5 +1,5 @@
 import React from 'react'
-import { AppBar, Tab, Tabs, createTheme } from '@mui/material'
+import { AppBar, Box, Tab, Tabs, createTheme } from '@mui/material'
 import { Icon} from '@mui/material'
 import ITrillliConfig from '../types/ITrillliConfig'
 import { Link } from 'react-router-dom'
@@ -108,7 +108,25 @@ const TrillliNavTop: React.FC<TrillliNavTopProps> = ({appConfig, styling}) => {
     return (
         <AppBar component='nav' sx={styling['toolbarContainer']} position='fixed'>
             <Toolbar sx={styling['toolbar']}>
-                <img src={appConfig.logos.appMain} style={{maxHeight: '75%'}} />
+                <Box
+                    sx={{
+                        padding: '.25rem',
+                        paddingLeft: '0rem',
+                        width: '100%',
+                        height: '100%',
+                        display: 'flex',
+                        alignItems: 'center'
+                    }}
+                >
+                    <img src={appConfig.logos.appMain} 
+                        style={{
+                            height: 'auto',
+                            width: 'auto',
+                            maxHeight: '100%',
+                            maxWidth: '100%'
+                        }} 
+                    />
+                </Box>
                 {/* <p style={{color: 'black'}}>{appConfig.teststr}</p> */}
                 <Tabs onChange={handleChange} value={activeValue} indicatorColor='null' variant='scrollable' scrollButtons='auto' aria-label='top navigation bar menu items' sx={styling['itemList']}>
                     {menuItemComponents}

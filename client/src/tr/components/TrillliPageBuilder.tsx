@@ -136,7 +136,8 @@ const TrillliPageBuilder: React.FC<TrillliPageBuilderProps> = ({ appConfig, navT
         toolbar: {
             justifyContent: 'space-between',
             height: '100%',
-            paddingRight: {xs: '6%', sm: '6%', md: '6%', lg: '6%', xl: '6%'}
+            paddingRight: {xs: '10%', sm: '6%', md: '6%', lg: '6%', xl: '6%'},
+            paddingLeft: {xs: '4%', sm: '6%'}
         },
         itemList: {
             height: '100%',
@@ -215,7 +216,7 @@ const TrillliPageBuilder: React.FC<TrillliPageBuilderProps> = ({ appConfig, navT
                 '& .MuiListItem-root': {
                     borderTop: '1px solid #ffffff14'
                 },
-                '& .MuiListItem-root:first-child': {
+                '& .MuiListItem-root:first-of-type': {
                     borderTop: 'none'
                 }
             },
@@ -271,8 +272,8 @@ const TrillliPageBuilder: React.FC<TrillliPageBuilderProps> = ({ appConfig, navT
             transition: sideNavTransitionMs + 'ms',
             display: 'flex',
             justifyContent: 'center',
-            paddingLeft: isDisplayWidthXs ? '3rem' : '0px',
-            paddingRight: isDisplayWidthXs ? '3rem' : '0px',
+            paddingLeft: isDisplayWidthXs ? '2rem' : '0px',
+            paddingRight: isDisplayWidthXs ? '2rem' : '0px',
             paddingTop: collapsed ? '16px' : (isDisplayWidthXs ? '1rem' : '8px'),
             paddingBottom: collapsed ? '16px' : (isDisplayWidthXs ? '1rem' : '8px'),
         },
