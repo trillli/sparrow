@@ -33,7 +33,7 @@ const Alarm: React.FC<AlarmProps> = ({ alarm, appConfig, handlers, setters, time
     const [noRepeat, setNoRepeat] = React.useState<boolean>()
     type DayAbbrev = 'su' | 'm' | 'tu' | 'w' | 'th' | 'f' | 'sa'
     const [repeatDays, setRepeatDays] = React.useState<DayAbbrev[]>(alarm.timing.days)
-    const [lightColor, setLightColor] = React.useState<number>(alarm.light?.color.h)  
+    const [lightColor, setLightColor] = React.useState<number>(alarm.light?.color.h)
 
     // //console.log('Generating this alarm!')
     // //console.log(alarm)
@@ -155,401 +155,354 @@ const Alarm: React.FC<AlarmProps> = ({ alarm, appConfig, handlers, setters, time
 
     if (alarm.shown) {
 
-    
+
         //console.log('norepeat is:')
         //console.log(noRepeat)
-    return (
-        <Accordion
-            elevation={0}
-            key={alarm.id}
-            id={`alarm_${alarm.id}`}
-            // square={true}
-            disableGutters={true}
-            className='alarm-outer'
-            onChange={handleAlarmExpand}
-            sx={{
-                overflow: 'hidden',
-                borderTop: 'none',
-                // border: `1px solid ${appConfig.theme.palette.secondary.light[4]}`,
-                // borderLeft: `6px solid ${appConfig.theme.palette.secondary.dark[4]}`,
-                // borderBottom: `0px solid ${appConfig.theme.palette.secondary.dark[4]}`,
-                // boxShadow: `inset 6px 0px ${appConfig.theme.palette.secondary.dark[4]}, inset 0px -2px ${appConfig.theme.palette.primary.dark[6]}`,
-                // borderRadius: '0px 10px 14px 0px',
-                // background: 'linear-gradient(148deg, #ff9f4e, #fef751)',
-                // background: appConfig.theme.palette.neutral.dark[6],
-                // background: appConfig.theme.palette.primary.dark[7],
-                background: 'linear-gradient(131deg, #fe7e7e, #c2c2ff42)',
-                // background: 'none',
-                '&.MuiPaper-root': {
-                    // borderRadius: '0px 4px 0px 0px',
-                },
-                '&>.MuiCollapse-root': {
-                    // background: '#FFFFFF57',
-                },
-                // transition: '4s',
-                // opacity: alarm.shown? '1' : '.2',
-                // maxHeight: alarm.shown ? '2500px' : '0px'
-            }}
-        >
-            <AccordionSummary
-                className='alarm-header'
+        return (
+            <Accordion
+                elevation={0}
+                key={alarm.id}
+                id={`alarm_${alarm.id}`}
+                // square={true}
+                disableGutters={true}
+                className='alarm-outer'
+                onChange={handleAlarmExpand}
                 sx={{
-                    padding: '0px',
-                    // paddingRight: '1rem',
-                    color: appConfig.theme.palette.neutral.contrastText,
-                    '& .MuiAccordionSummary-content': {
-                        margin: '0px',
-                        display: 'flex',
-                        flexDirection: 'row',
-                        flexWrap: 'wrap',
-                        '&.Mui-expanded': {
-                            marginTop: '0px',
-                            marginBottom: '0px'
-                        }
-                    }
+                    overflow: 'hidden',
+                    borderTop: 'none',
+                    // border: `1px solid ${appConfig.theme.palette.secondary.light[4]}`,
+                    // borderLeft: `6px solid ${appConfig.theme.palette.secondary.dark[4]}`,
+                    // borderBottom: `0px solid ${appConfig.theme.palette.secondary.dark[4]}`,
+                    // boxShadow: `inset 6px 0px ${appConfig.theme.palette.secondary.dark[4]}, inset 0px -2px ${appConfig.theme.palette.primary.dark[6]}`,
+                    // borderRadius: '0px 10px 14px 0px',
+                    // background: 'linear-gradient(148deg, #ff9f4e, #fef751)',
+                    // background: appConfig.theme.palette.neutral.dark[6],
+                    // background: appConfig.theme.palette.primary.dark[7],
+                    background: 'linear-gradient(131deg, #fe7e7e, #c2c2ff42)',
+                    // background: 'none',
+                    '&.MuiPaper-root': {
+                        // borderRadius: '0px 4px 0px 0px',
+                    },
+                    '&>.MuiCollapse-root': {
+                        // background: '#FFFFFF57',
+                    },
+                    // transition: '4s',
+                    // opacity: alarm.shown? '1' : '.2',
+                    // maxHeight: alarm.shown ? '2500px' : '0px'
                 }}
             >
-                <Box
-                    className='alarm-essentials'
+                <AccordionSummary
+                    className='alarm-header'
                     sx={{
-                        width: '100%',
-                        display: 'flex',
-                        alignItems: 'center',
-                        // background: 'linear-gradient(148deg, #ff9f4e, #fef751)',
-                        // background: appConfig.theme.palette.primary.dark[4],
-                        // background: 'linear-gradient(148deg, #ff9f4e, #fef751)',
-                        // paddingTop: '.25rem',
-                        // paddingBottom: '.25rem',
-                        // background: 'linear-gradient(131deg, #fe7e7e, transparent)'
+                        padding: '0px',
+                        // paddingRight: '1rem',
+                        color: appConfig.theme.palette.neutral.contrastText,
+                        '& .MuiAccordionSummary-content': {
+                            margin: '0px',
+                            display: 'flex',
+                            flexDirection: 'row',
+                            flexWrap: 'wrap',
+                            '&.Mui-expanded': {
+                                marginTop: '0px',
+                                marginBottom: '0px'
+                            }
+                        }
                     }}
                 >
                     <Box
-                        className='alarm-time-container'
-                        alignItems='center'
+                        className='alarm-essentials'
                         sx={{
+                            width: '100%',
                             display: 'flex',
-                            alignItems: 'baseline',
-                            columnGap: '.25rem',
-                            height: '100%',
-                            padding: '0px .75rem',
-                            borderRadius: '4px',
-                            color: appConfig.theme.palette.neutral.dark[3],
-                            fontWeight: 'bold'
+                            alignItems: 'center',
                         }}
                     >
-                        <Typography
-                            onClick={(event) => handlers.handleAlarmTimeOrNameClick(event, alarm.id)}
+                        <Box
                             sx={{
-                                fontSize: '3rem',
-                                // fontWeight: 'bold'
+                                // border: '2px solid red',
+                                display: 'flex',
+                                alignItems: 'baseline',
+                                flexWrap: 'wrap'
                             }}
                         >
-                            {formattedTime}
-                        </Typography>
-                        {timeFormat24Hr ? (<></>) : (
-                            <Typography
+                            <Box
+                                className='alarm-time-container'
+                                alignItems='center'
                                 sx={{
-                                    textTransform: 'uppercase'
+                                    display: 'flex',
+                                    alignItems: 'baseline',
+                                    columnGap: '.25rem',
+                                    // height: '100%',
+                                    padding: '0px .75rem',
+                                    borderRadius: '4px',
+                                    color: appConfig.theme.palette.neutral.dark[3],
                                 }}
                             >
-                                {formattedTimeAm ? 'am' : 'pm'}
-                            </Typography>
-                        )}
-                        
-                    </Box>
-                    <Box
-                        className='alarm-name-container'
-                        sx={{
-                            whiteSpace: 'pre-wrap',
-                            wordBreak: 'break-word',
-                            height: '100%',
-                            display: 'flex',
-                            alignItems: 'center',
-                            flexGrow: '1',
-                            borderRadius: '4px',
-                            padding: '0px .75rem',
-                            color: 'red',
-                            // fontWeight: 'bold'
-                        }}
-                    >
-                        <Typography 
-                            onClick={(event) => handlers.handleAlarmTimeOrNameClick(event, alarm.id)}
+                                <Typography
+                                    onClick={(event) => handlers.handleAlarmTimeOrNameClick(event, alarm.id)}
+                                    sx={{
+                                        fontSize: '3rem',
+                                        lineHeight: '1.125'
+                                    }}
+                                >
+                                    {formattedTime}
+                                </Typography>
+                                {timeFormat24Hr ? (<></>) : (
+                                    <Typography
+                                        sx={{
+                                            textTransform: 'uppercase',
+                                            lineHeight: '1.125'
+                                        }}
+                                    >
+                                        {formattedTimeAm ? 'am' : 'pm'}
+                                    </Typography>
+                                )}
+                            </Box>
+                            <Box
+                                className='alarm-name-container'
+                                sx={{
+                                    whiteSpace: 'pre-wrap',
+                                    wordBreak: 'break-word',
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    flexGrow: '1',
+                                    borderRadius: '4px',
+                                    padding: '0px .75rem',
+                                    paddingBottom: '.375rem',
+                                }}
+                            >
+                                <Typography
+                                    onClick={(event) => handlers.handleAlarmTimeOrNameClick(event, alarm.id)}
+                                    sx={{
+                                        color: appConfig.theme.palette.neutral.dark[3],
+                                        fontSize: '1.25rem',
+                                        // fontWeight: 'bold'
+                                        lineHeight: '1.5'
+                                    }}
+                                >
+                                    {alarm.name}
+                                </Typography>
+                            </Box>
+                        </Box>
+                        <Box
+                            className='alarm-controls-container'
                             sx={{
-                                color: appConfig.theme.palette.neutral.dark[3],
-                                fontSize: '1.25rem',
-                                // fontWeight: 'bold'
-                                lineHeight: '1.5'
+                                display: 'flex',
+                                flexDirection: 'column',
+                                transform: 'rotate(-90deg)',
+                                marginLeft: 'auto',
+                                marginRight: '-9px'
                             }}
                         >
-                            {alarm.name}
-                        </Typography>
+                            <Box
+                                className='alarm-status-container'
+                                sx={{
+                                    // height: '100%',
+                                    // width: '4.5rem',
+                                    // display: 'flex',
+                                    // alignItems: 'center',
+                                    // paddingBottom: '.125rem'
+                                }}
+                            >
+                                <Switch
+                                    checked={alarm.enabled}
+                                    onClick={handleToggleAlarmStatusClick}
+                                    sx={{
+                                        '& .MuiSwitch-switchBase': {
+                                        },
+                                        '& .MuiSwitch-thumb': {
+                                        },
+                                        '& .Mui-checked+.MuiSwitch-track': {
+                                            opacity: '.75 !important',
+                                            background: 'lime'
+                                        }
+                                    }}
+                                />
+                            </Box>
+                        </Box>
                     </Box>
                     <Box
-                        className='alarm-controls-container'
+                        className='alarm-summary'
                         sx={{
+                            transition: '.2s',
                             display: 'flex',
-                            flexDirection: 'column',
-                            height: '100%',
-                            // justifyContent: 'center',
-                            // alignItems: 'center',
-                            // rowGap: '.5rem'
+                            width: '100%',
+                            padding: '.375rem'
                         }}
                     >
-                    <Box
-                        className='alarm-status-container'
-                        sx={{
-                            // background: alarm.enabled ? '#00000025' : '#ffffff25',
-                            height: '100%',
-                            width: '4.5rem',
-                            display: 'flex',
-                            alignItems: 'center',
-                            paddingBottom: '.125rem'
-                        }}
-                    >
-                        <Switch 
-                            checked={alarm.enabled} 
-                            onClick={handleToggleAlarmStatusClick} 
-                            sx={{
-                                // paddingTop: '10px',
-                                // paddingBottom: '10px',
-                                // paddingLeft: '9px',
-                                // paddingRight: '5px',
-                                '& .MuiSwitch-switchBase': {
-                                    // paddingTop: '6px'
-                                },
-                                '& .MuiSwitch-thumb': {
-                                    // width: '26px',
-                                    // height: '26px'
-                                },
-                                '& .Mui-checked+.MuiSwitch-track': {
-                                    opacity: '.75 !important',
-                                    background: 'lime'
-                                }
-                            }}
-                        />
-                        
-                        {/* <IconButton
-                            onClick={handleToggleAlarmStatusClick}
-                            sx={{
-                                color: alarm.enabled ? appConfig.theme.palette.tertiary.dark[4] : appConfig.theme.palette.neutral.dark[3],
-                                borderRadius: '4px',
-                                overflow: 'hidden',
-                                height: '100%',
-                                padding: '0px',
-                            }}
-                        >
-                            {alarm.enabled ? (<AlarmOn />):(<AlarmOff />)}
-                        </IconButton> */}
-                    </Box>
-                    {/* <Box
-                        className='btn-delete-alarm-container'
-                        sx={{
-                            background: '#00000025'
-                        }}
-                    >
-                        <IconButton
-                            onClick={handleAlarmDeleteBtnClick}
-                            sx={{
-                                // color: alarm.enabled ? 'lime' : 'grey',
-                                borderRadius: '4px',
-                                overflow: 'hidden',
-                                height: '2.5rem',
-                                width: '2.5rem',
-                                padding: '0px',
-                            }}
-                        >
-                            <Delete />
-                        </IconButton>
-                    </Box> */}
-                    </Box>
-                </Box>
-                <Box
-                    className='alarm-summary'
-                    sx={{
-                        transition: '.2s',
-                        display: 'flex',
-                        width: '100%',
-                        height: '2.5rem',
-                        // paddingLeft: alarmExpanded ? '.75rem' : '0px',
-                        // paddingRight: alarmExpanded ? '.75rem' : '0px'
-                        // background: '#ffffff25',
-                        // color: 'red',
-                        // background: '#FFFFFF25'
-                    }}
-                >
-                    <Box
-                        className='alarm-summary-timing'
-                        sx={{
-                            display: 'flex',
-                            flexWrap: 'wrap',
-                            height: '100%'
-                        }}
-                    >
-                        <ToggleButtonGroup
-                            className='alarm-summary-days'
-                            value={Array.from(alarm.timing.days)}
-                            onChange={handleSummaryDayChange}
+                        <Box
+                            className='alarm-summary-timing'
                             sx={{
                                 display: 'flex',
                                 flexWrap: 'wrap',
-                                height: 'fit-content',
-                                borderRadius: '0px',
-                                height: '100%',
-                                '& .MuiButtonBase-root': {
-                                    border: 'none',
-                                    background: 'none',
-                                    padding: '0px',
-                                    // height: '2rem',
-                                    width: '2.5rem',
-                                    borderRadius: '0px'
-                                },
-                                '&>.MuiButtonBase-root.Mui-selected': {
-                                    background: '#ffffff25',
-                                    // color: 'white',
-                                    fontWeight: 'bold',
-                                }
+                                // height: '100%'
                             }}
                         >
-                            <ToggleButton value='su' className='alarm-day alarm-summary-day'>Su</ToggleButton>
-                            <ToggleButton value='m' className='alarm-day alarm-summary-day'>M</ToggleButton>
-                            <ToggleButton value='tu' className='alarm-day alarm-summary-day'>Tu</ToggleButton>
-                            <ToggleButton value='w' className='alarm-day alarm-summary-day'>W</ToggleButton>
-                            <ToggleButton value='th' className='alarm-day alarm-summary-day'>Th</ToggleButton>
-                            <ToggleButton value='f' className='alarm-day alarm-summary-day'>F</ToggleButton>
-                            <ToggleButton value='sa' className='alarm-day alarm-summary-day'>Sa</ToggleButton>
                             <ToggleButtonGroup
-                                className='alarm-summary-no-repeat'
-                                value={noRepeat}
-                                // value={alarm.timing.days.size > 0 ? false : true}
-                                onClick={handleSummaryDayNoRepeatChange}
+                                className='alarm-summary-days'
+                                value={Array.from(alarm.timing.days)}
+                                onChange={handleSummaryDayChange}
                                 sx={{
-                                    height: '100%',
+                                    display: 'flex',
+                                    flexWrap: 'wrap',
+                                    height: 'fit-content',
+                                    borderRadius: '0px',
+                                    rowGap: '.375rem',
+                                    // height: '100%',
                                     '& .MuiButtonBase-root': {
-                                        borderLeft: 'none',
+                                        border: 'none',
                                         background: 'none',
                                         padding: '0px',
-                                        height: '100%',
+                                        // height: '2rem',
                                         width: '2.5rem',
-                                        // fontWeight: 'bold',
-                                        color: '#00000090'
+                                        borderRadius: '0px'
                                     },
                                     '&>.MuiButtonBase-root.Mui-selected': {
                                         background: '#ffffff25',
-                                        color: appConfig.theme.palette.neutral.dark[3]
+                                        // color: 'white',
+                                        fontWeight: 'bold',
                                     }
                                 }}
                             >
-                                <ToggleButton
-                                    className='alarm-day alarm-summary-day'
-                                    value={true}
+                                <ToggleButton value='su' className='alarm-day alarm-summary-day'>Su</ToggleButton>
+                                <ToggleButton value='m' className='alarm-day alarm-summary-day'>M</ToggleButton>
+                                <ToggleButton value='tu' className='alarm-day alarm-summary-day'>Tu</ToggleButton>
+                                <ToggleButton value='w' className='alarm-day alarm-summary-day'>W</ToggleButton>
+                                <ToggleButton value='th' className='alarm-day alarm-summary-day'>Th</ToggleButton>
+                                <ToggleButton value='f' className='alarm-day alarm-summary-day'>F</ToggleButton>
+                                <ToggleButton value='sa' className='alarm-day alarm-summary-day'>Sa</ToggleButton>
+                                <ToggleButtonGroup
+                                    className='alarm-summary-no-repeat'
+                                    value={noRepeat}
+                                    // value={alarm.timing.days.size > 0 ? false : true}
+                                    onClick={handleSummaryDayNoRepeatChange}
+                                    sx={{
+                                        height: '100%',
+                                        '& .MuiButtonBase-root': {
+                                            borderLeft: 'none',
+                                            background: 'none',
+                                            padding: '0px',
+                                            height: '100%',
+                                            width: '2.5rem',
+                                            // fontWeight: 'bold',
+                                            color: '#00000090'
+                                        },
+                                        '&>.MuiButtonBase-root.Mui-selected': {
+                                            background: '#ffffff25',
+                                            color: appConfig.theme.palette.neutral.dark[3]
+                                        }
+                                    }}
+                                >
+                                    <ToggleButton
+                                        className='alarm-day alarm-summary-day'
+                                        value={true}
                                     // sx={{
                                     //     height: '100%'
                                     // }}
-                                >
-                                    <SyncDisabled />
-                                </ToggleButton>
+                                    >
+                                        <SyncDisabled />
+                                    </ToggleButton>
+                                </ToggleButtonGroup>
                             </ToggleButtonGroup>
-                        </ToggleButtonGroup>
-                    </Box>
-                    <Box
-                        className='alarm-action-btns-container'
-                        sx={{
-                            marginLeft: 'auto',
-                            // width: '4.5rem',
-                            display: 'flex',
-                            flexWrap: 'nowrap',
-                            columnGap: '.25rem',
-                            // border: '1px solid red'
-                        }}
-                    >
-                                            <Box
-                        className='btn-delete-alarm-container'
-                        sx={{
-                            // // background: '#00000025'
-                            // // border: '1px solid yellow',
-                            // // borderRadius: '4px'
-                            // paddingBottom
-                            // width: '50%'
-                            width: '2.5rem',
-                            display: 'flex',
-                            justifyContent: 'center'
-                        }}
-                    >
-                        <IconButton
-                            onClick={handleAlarmDeleteBtnClick}
+                        </Box>
+                        <Box
+                            className='alarm-action-btns-container'
                             sx={{
-                                // color: alarm.enabled ? 'lime' : 'grey',
-                                width: '2.5rem',
+                                marginLeft: 'auto',
+                                // width: '4.5rem',
                                 display: 'flex',
-                                justifyContent: 'center',
-                                borderRadius: '4px',
-                                overflow: 'hidden',
-                                height: '100%',
-                                // width: '2.5rem',
-                                padding: '0px',
-                                color: appConfig.theme.palette.neutral.dark[3],
-                                '& .MuiSvgIcon-root': {
-                                    fontSize: '1.75rem'
-                                }
+                                flexWrap: 'nowrap',
+                                columnGap: '.25rem',
+                                alignItems: 'flex-start'
+                                // border: '1px solid red'
                             }}
                         >
-                            <Delete />
-                        </IconButton>
-                    </Box>
-                        <IconButton
-                            sx={{
-                                // transition: 'rotate 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms',
-                                // rotate: alarmExpanded ? '180deg' : '0deg',
-                                transition: '200ms',
-                                padding: '0px',
-                                background: appConfig.theme.palette.secondary.dark[4],
-                                color: appConfig.theme.palette.neutral.dark[3],
-                                // background: '#ffffff55',
-                                borderRadius: alarmExpanded ? '4px 0px 0px 4px' : '4px 0px 4px 0px',
-                                width: '2.5rem',
-                                display: 'flex',
-                                justifyContent: 'center',
-                                '&:hover': {
-                                    background: appConfig.theme.palette.secondary.dark[3]
-                                }
-                                // width: '50%',
-                                // marginLeft: '50px'
-                            }}
-                        >
-                            <ExpandMoreIcon
+                            <Box
+                                className='btn-delete-alarm-container'
                                 sx={{
-                                    transition: 'rotate 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms',
-                                rotate: alarmExpanded ? '180deg' : '0deg',
+                                    // // background: '#00000025'
+                                    // // border: '1px solid yellow',
+                                    // // borderRadius: '4px'
+                                    // paddingBottom
+                                    // width: '50%'
+                                    // width: '2.5rem',
+                                    display: 'flex',
+                                    justifyContent: 'center'
                                 }}
-                            />
-                        </IconButton>
+                            >
+                                <IconButton
+                                    onClick={handleAlarmDeleteBtnClick}
+                                    sx={{
+                                        // color: alarm.enabled ? 'lime' : 'grey',
+                                        width: '2.5rem',
+                                        display: 'flex',
+                                        justifyContent: 'center',
+                                        borderRadius: '4px',
+                                        overflow: 'hidden',
+                                        // height: '100%',
+                                        // width: '2.5rem',
+                                        padding: '0px',
+                                        color: appConfig.theme.palette.neutral.dark[3],
+                                        '& .MuiSvgIcon-root': {
+                                            fontSize: '1.75rem'
+                                        }
+                                    }}
+                                >
+                                    <Delete />
+                                </IconButton>
+                            </Box>
+                            <IconButton
+                                sx={{
+                                    // transition: 'rotate 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms',
+                                    // rotate: alarmExpanded ? '180deg' : '0deg',
+                                    transition: '200ms',
+                                    padding: '0px',
+                                    background: appConfig.theme.palette.secondary.dark[4],
+                                    color: appConfig.theme.palette.neutral.dark[3],
+                                    // background: '#ffffff55',
+                                    // borderRadius: alarmExpanded ? '4px 0px 0px 4px' : '4px 0px 4px 0px',
+                                    borderRadius: '4px',
+                                    // width: '2.5rem',
+                                    // height: '2.5rem',
+                                    display: 'flex',
+                                    justifyContent: 'center',
+                                    '&:hover': {
+                                        background: appConfig.theme.palette.secondary.dark[3]
+                                    }
+                                    // width: '50%',
+                                    // marginLeft: '50px'
+                                }}
+                            >
+                                <ExpandMoreIcon
+                                    sx={{
+                                        transition: 'rotate 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms',
+                                        rotate: alarmExpanded ? '180deg' : '0deg',
+                                    }}
+                                />
+                            </IconButton>
+                        </Box>
                     </Box>
-                </Box>
 
-            </AccordionSummary>
-            <AccordionDetails
-                className='alarm-config-categories-container'
-                // disableGutters={true}
-                sx={{
-                    padding: '1.25rem 0rem',
-                    display: 'flex',
-                    flexDirection: 'column',
-                    rowGap: '1rem',
-                    // marginTop: '.75rem',
-                    // marginBottom: '.75rem',
-                    // paddingLeft: '.5rem'
-                    // background: 'red'
-                }}
-            >
-                <AlarmConfigGroupSound alarm={alarm} appConfig={appConfig} handlers={handlers} setters={setters} />
-                <AlarmConfigGroupLight alarm={alarm} appConfig={appConfig} handlers={handlers} setters={setters} lightColor={lightColor} onColorSliderChange={onColorSliderChange} onColorSliderChangeCommitted={onColorSliderChangeCommitted} />
-                <AlarmConfigGroupVibration alarm={alarm} appConfig={appConfig} handlers={handlers} setters={setters} lightColor={lightColor} />
-            </AccordionDetails>
-        </Accordion>
-    )
-            } else {
-                return
-            }
+                </AccordionSummary>
+                <AccordionDetails
+                    className='alarm-config-categories-container'
+                    // disableGutters={true}
+                    sx={{
+                        padding: '1rem 0rem',
+                        display: 'flex',
+                        flexDirection: 'column',
+                        rowGap: '1rem',
+                    }}
+                >
+                    <AlarmConfigGroupSound alarm={alarm} appConfig={appConfig} handlers={handlers} setters={setters} />
+                    <AlarmConfigGroupLight alarm={alarm} appConfig={appConfig} handlers={handlers} setters={setters} lightColor={lightColor} onColorSliderChange={onColorSliderChange} onColorSliderChangeCommitted={onColorSliderChangeCommitted} />
+                    <AlarmConfigGroupVibration alarm={alarm} appConfig={appConfig} handlers={handlers} setters={setters} lightColor={lightColor} />
+                </AccordionDetails>
+            </Accordion>
+        )
+    } else {
+        return
+    }
 
 }
 

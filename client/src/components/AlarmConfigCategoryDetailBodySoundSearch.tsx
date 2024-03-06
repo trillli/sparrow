@@ -408,11 +408,15 @@ const AlarmConfigCategoryDetailBodySoundSearch: React.FC<AlarmConfigCategoryDeta
                             //     fontWeight: 'bold',
                             //     borderLeft: '1px solid rgba(0, 0, 0, 0.12)'
                             // }
+                            // border: '2px solid red',
+                            // padding: '0px'
+                            flexWrap: 'wrap',
+                            rowGap: '.375rem'
                         }}
                     >
-                        <ToggleButton value='track' className='alarm-day alarm-summary-day'>Song</ToggleButton>
-                        <ToggleButton value='artist' className='alarm-day alarm-summary-day'>Artist</ToggleButton>
-                        <ToggleButton value='album' className='alarm-day alarm-summary-day'>Album</ToggleButton>
+                        <ToggleButton size='small' value='track' className='alarm-day alarm-summary-day'>Song</ToggleButton>
+                        <ToggleButton size='small' value='artist' className='alarm-day alarm-summary-day'>Artist</ToggleButton>
+                        <ToggleButton size='small' value='album' className='alarm-day alarm-summary-day'>Album</ToggleButton>
                         {/* <ToggleButton value='playlist' className='alarm-day alarm-summary-day'>Playlist</ToggleButton> */}
                         <TrToggleButtonGroup
                         appConfig={appConfig}
@@ -426,6 +430,7 @@ const AlarmConfigCategoryDetailBodySoundSearch: React.FC<AlarmConfigCategoryDeta
                             <ToggleButton
                                 className='alarm-day alarm-summary-day'
                                 value={true}
+                                size='small'
                             >
                                 <FilterListOffIcon />
                             </ToggleButton>

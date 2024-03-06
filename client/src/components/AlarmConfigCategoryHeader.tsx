@@ -27,17 +27,20 @@ const AlarmConfigCategoryHeader: React.FC<AlarmConfigCategoryHeaderProps> = ({ a
             sx={{
                 transition: '200ms',
                 // paddingBottom: '1px',
-                paddingRight: '.5rem',
+                // paddingRight: '.5rem',
                 // paddingLeft: '1rem',
                 // paddingTop: '.5rem',
                 // paddingBottom: '.5rem',
                 // background: '#FFFFFF57',
                 borderRadius: '0px',
                 minHeight: '0px',
+                paddingRight: '.375rem',
+                paddingLeft: '.375rem',
                 '&.Mui-expanded': {
                     // border: '8px solid black',
                     // background: `linear-gradient(148deg, #ff9f4e, #fef751)`
                     minHeight: '0px',
+
                     // width: '100%',
                     // paddingTop: '1rem',
                     '& .category-header-primary': {
@@ -53,7 +56,9 @@ const AlarmConfigCategoryHeader: React.FC<AlarmConfigCategoryHeaderProps> = ({ a
                         width: '100%',
                     }
                 },
-                '& .MuiAccordionSummary-content': {
+                '&.MuiButtonBase-root.MuiAccordionSummary-root>.MuiAccordionSummary-content': {
+                    marginRight: '0px',
+                    marginLeft: '0px',
                     '&.Mui-expanded': {
                         // marginTop: '0px',
                         // marginBottom: '0px',
@@ -78,9 +83,10 @@ const AlarmConfigCategoryHeader: React.FC<AlarmConfigCategoryHeaderProps> = ({ a
                 sx={{
                     transition: '200ms',
                     background: gradientLight1,
-                    width: '175px',
+                    // width: '175px',
+                    width: '150px',
                     justifyContent: 'flex-start',
-                    marginRight: '1rem',
+                    // marginRight: '1rem',
                 }}
             >
                 <Typography
@@ -120,8 +126,8 @@ const AlarmConfigCategoryHeader: React.FC<AlarmConfigCategoryHeaderProps> = ({ a
                 sx={{
                     display: 'flex',
                     alignItems: 'center',
-                    marginLeft: 'auto'
-                    
+                    marginLeft: 'auto',
+                    transform: 'rotate(-90deg)'
                 }}
             >
                 <Switch 

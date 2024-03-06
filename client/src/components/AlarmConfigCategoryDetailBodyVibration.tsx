@@ -21,7 +21,7 @@ const AlarmConfigCategoryDetailBodyVibration: React.FC<AlarmConfigCategoryDetail
     const [vibrationProfile, setVibrationProfile] = React.useState<'constant' | 'ramp'>(alarm.vibration.intensity.profile)
     const [vibrationMax, setVibrationMax] = React.useState<number>(alarm.vibration.intensity.end)
     const [vibrationConstant, setVibrationConstant] = React.useState<number>(alarm.vibration.intensity.end)
-    const [vibrationRamp, setVibrationRamp] = React.useState<number[]>([0, alarm.vibration.intensity.end])
+    const [vibrationRamp, setVibrationRamp] = React.useState<number[]>([alarm.vibration.intensity.start, alarm.vibration.intensity.end])
 
     React.useEffect(() => {
         setVibrationConstant(vibrationMax)
@@ -108,7 +108,7 @@ const AlarmConfigCategoryDetailBodyVibration: React.FC<AlarmConfigCategoryDetail
                             className='current-config-value-container'
                             sx={{
                                 display: 'flex',
-                                flexDirection: 'row',
+                                flexWrap: 'wrap',
                                 columnGap: '.5rem',
                                 alignItems: 'baseline'
                             }}

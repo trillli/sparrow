@@ -60,7 +60,7 @@ const AlarmConfigCategoryDetailBodyLightStart: React.FC<AlarmConfigCategoryDetai
                             className='current-config-value-container'
                             sx={{
                                 display: 'flex',
-                                flexDirection: 'row',
+                                flexWrap: 'wrap',
                                 columnGap: lightAdvanceMinutes == 0 ? '0rem' : '.5rem',
                                 alignItems: 'baseline'
                             }}
@@ -69,6 +69,7 @@ const AlarmConfigCategoryDetailBodyLightStart: React.FC<AlarmConfigCategoryDetai
                                 sx={{
                                     fontSize: '2.5rem',
                                     width: lightAdvanceMinutes == 0 ? '0px' : 'initial',
+                                    height: lightAdvanceMinutes == 0 ? '0px' : 'initial',
                                     opacity: lightAdvanceMinutes == 0 ? '0' : 'initial'
                                 }}
                             >

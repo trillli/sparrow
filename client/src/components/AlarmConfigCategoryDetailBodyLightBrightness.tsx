@@ -21,7 +21,7 @@ const AlarmConfigCategoryDetailBodyBrightness: React.FC<AlarmConfigCategoryDetai
     const [lightBrightnessProfile, setLightBrightnessProfile] = React.useState<'constant' | 'ramp'>(alarm.light.luminosity.profile)
     const [lightBrightnessMax, setLightBrightnessMax] = React.useState<number>(alarm.light.luminosity.end)
     const [lightBrightnessConstant, setLightBrightnessConstant] = React.useState<number>(alarm.light.luminosity.end)
-    const [lightBrightnessRamp, setLightBrightnessRamp] = React.useState<number[]>([25, alarm.light.luminosity.end])
+    const [lightBrightnessRamp, setLightBrightnessRamp] = React.useState<number[]>([alarm.light.luminosity.start, alarm.light.luminosity.end])
 
     React.useEffect(() => {
         setLightBrightnessConstant(lightBrightnessMax)
@@ -110,7 +110,7 @@ const AlarmConfigCategoryDetailBodyBrightness: React.FC<AlarmConfigCategoryDetai
                             className='current-config-value-container'
                             sx={{
                                 display: 'flex',
-                                flexDirection: 'row',
+                                flexWrap: 'wrap',
                                 columnGap: '.5rem',
                                 alignItems: 'baseline'
                             }}

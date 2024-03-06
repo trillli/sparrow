@@ -21,7 +21,7 @@ const AlarmConfigCategoryDetailBodySoundVolume: React.FC<AlarmConfigCategoryDeta
     const [soundVolumeProfile, setSoundVolumeProfile] = React.useState<'constant' | 'ramp'>(alarm.sound.volume.profile)
     const [soundVolumeMax, setSoundVolumeMax] = React.useState<number>(alarm.sound.volume.end)
     const [soundVolumeConstant, setSoundVolumeConstant] = React.useState<number>(alarm.sound.volume.end) //sound group level
-    const [soundVolumeRamp, setSoundVolumeRamp] = React.useState<number[]>([0, alarm.sound.volume.end]) //sound group level
+    const [soundVolumeRamp, setSoundVolumeRamp] = React.useState<number[]>([alarm.sound.volume.start, alarm.sound.volume.end]) //sound group level
 
     React.useEffect(() => {
         setSoundVolumeConstant(soundVolumeMax)

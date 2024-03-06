@@ -58,7 +58,7 @@ const AlarmConfigCategoryDetailBodyVibrationStart: React.FC<AlarmConfigCategoryD
                             className='current-config-value-container'
                             sx={{
                                 display: 'flex',
-                                flexDirection: 'row',
+                                flexWrap: 'wrap',
                                 columnGap: vibrationAdvanceMinutes == 0 ? '0rem' : '.5rem',
                                 alignItems: 'baseline'
                             }}
@@ -67,6 +67,7 @@ const AlarmConfigCategoryDetailBodyVibrationStart: React.FC<AlarmConfigCategoryD
                                 sx={{
                                     fontSize: '2.5rem',
                                     width: vibrationAdvanceMinutes == 0 ? '0px' : 'initial',
+                                    height: vibrationAdvanceMinutes == 0 ? '0px' : 'initial',
                                     opacity: vibrationAdvanceMinutes == 0 ? '0' : 'initial'
                                 }}
                             >
