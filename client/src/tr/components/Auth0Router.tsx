@@ -11,10 +11,26 @@ export const Auth0Router = ({
 }: PropsWithChildren<Auth0RouterProps>): JSX.Element | null => {
   const navigate = useNavigate();
 
-  const domain = 'dev-m0zbh7x7q4v4tlo6.us.auth0.com'
-  const clientId = 'vYABLvf58qGhCj2kARAv3HnFsJ4vpeep'
-  const redirectUri = 'http://localhost:4040/callback'
-  const audience = 'https://sparrow.trillli.com'
+
+  // const isProd = import.meta.env.PROD
+
+  // if (isProd) {}
+  // const mode = import.meta.env.MODE
+
+  console.log('AAA')
+  // console.log(redirectUri)
+
+  const domain = import.meta.env.VITE_REACT_APP_AUTH0_DOMAIN
+  const clientId = import.meta.env.VITE_REACT_APP_AUTH0_CLIENT_ID
+  const redirectUri = import.meta.env.VITE_REACT_APP_AUTH0_CALLBACK_URL
+  const audience = import.meta.env.VITE_REACT_APP_AUTH0_AUDIENCE
+
+
+  console.log('b')
+  console.log(redirectUri)
+  // console.log(import.meta.env.MODE)
+  // console.log(import.meta.env.TESTVAR)
+  // console.log(import.meta.env)
 
   const onRedirectCallback = (appState?: AppState) => {
     navigate(appState?.returnTo || window.location.pathname);
