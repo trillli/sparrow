@@ -110,7 +110,7 @@ const TrillliNavTop: React.FC<TrillliNavTopProps> = ({appConfig, styling}) => {
             <Toolbar sx={styling['toolbar']}>
                 <Box
                     sx={{
-                        padding: '.25rem',
+                        padding: '.375rem',
                         paddingLeft: '0rem',
                         width: '100%',
                         height: '100%',
