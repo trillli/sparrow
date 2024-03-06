@@ -44,8 +44,8 @@ class AppConfig extends TrillliConfig implements ITrillliConfig {
     }
 
     readonly logos: { [key: string]: string; } = {
-        appMain: '/src/assets/logos/v1_fullLight_padNo_bgNo.png',
-        loading: '/src/assets/logos/v1_iconLight_padNo_bgNo.png',
+        appMain: '/logos/v1_fullLight_padNo_bgNo.png',
+        loading: '/logos/v1_iconLight_padNo_bgNo.png',
     }
 
     readonly pages: { [key: string]: {[key: string]: any} } = {

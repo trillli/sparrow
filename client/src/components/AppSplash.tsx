@@ -67,7 +67,7 @@ const AppSplash: React.FC<AppSplashProps> = ({ appConfig }) => {
                     sx={{
                         height: '100vh',
                         width: '100vw',
-                        background: "url('/src/assets/media/img/landingImg2.simon-berger.unsplash.jpg')",
+                        background: "url('/media/img/landingImg2.simon-berger.unsplash.jpg')",
                         backgroundSize: 'cover',
                         backgroundPosition: 'center',
                         position: 'fixed',
@@ -108,7 +108,7 @@ const AppSplash: React.FC<AppSplashProps> = ({ appConfig }) => {
                                     justifyContent: 'center'
                                 }}
                             >
-                                <img src='/src/assets/logos/v1_fullLight_padNo_bgNo.png'
+                                <img src='/logos/v1_fullLight_padNo_bgNo.png'
                                     style={{
                                         width: '100%',
                                         padding: '2rem',

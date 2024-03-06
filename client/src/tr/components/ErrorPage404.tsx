@@ -44,7 +44,7 @@ const ErrorPage404: React.FC<ErrorPage404Props> = ({appConfig}) => {
         >
           <Box>
             <img 
-              src='/src/assets/media/img/icon404.svg' 
+              src='/media/img/icon404.svg' 
               style={{
                 width: '100%',
                 maxWidth: '150px'

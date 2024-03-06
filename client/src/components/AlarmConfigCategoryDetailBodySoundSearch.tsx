@@ -112,10 +112,10 @@ const AlarmConfigCategoryDetailBodySoundSearch: React.FC<AlarmConfigCategoryDeta
                 playlists: [] as any[]
             }
 
-            const noImgArtist = '/src/assets/media/img/noImgArtist.svg'
-            const noImgTrack = '/src/assets/media/img/noImgAlbum.svg'
-            const noImgAlbum = '/src/assets/media/img/noImgAlbum.svg'
-            const noImgPlaylist = '/src/assets/media/img/noImgArtist.svg'
+            const noImgArtist = '/media/img/noImgArtist.svg'
+            const noImgTrack = '/media/img/noImgAlbum.svg'
+            const noImgAlbum = '/media/img/noImgAlbum.svg'
+            const noImgPlaylist = '/media/img/noImgArtist.svg'
 
             songs.forEach((song) => {
                 console.log(song)

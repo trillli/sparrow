@@ -118,7 +118,7 @@ const TrillliHeader: React.FC<TrillliHeaderProps> =({header, sidebar, content}) 
                             <Typography component="p">Item 1</Typography>
                         </Box>
                         <img
-                            src="http://localhost:4040/src/assets/logos/logo-sparrow.png"
+                            src="http://localhost:4040/logos/logo-sparrow.png"
                             alt="App Logo"
                             height="45px"
                         />

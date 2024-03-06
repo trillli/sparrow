@@ -70,11 +70,11 @@ class TrilllilConfig implements ITrillliConfig {
 
     //Define logos
     //key: unique nickname for this logo; value: file name with extension
-    //all logos should be in /src/assets/logos of app
+    //all logos should be in /logos of app
     //Recommend to override in app config: yes
     readonly logos: { [key: string]: string; } = {
-        appMain: '/src/assets/logos/trillli-light-frameless.png',      //Locations used: Nav
-        loading: '/src/assets/logos/trillli-light-frameless.png',
+        appMain: '/logos/trillli-light-frameless.png',      //Locations used: Nav
+        loading: '/logos/trillli-light-frameless.png',
     }
     
 }
