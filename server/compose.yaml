@@ -28,12 +28,6 @@ services:
     image: postgres
     restart: always
     user: postgres
-    # environment:
-    #   - POSTGRES_DB=db_daybreakr
-    #   - POSTGRES_USER=postgres
-    #   - POSTGRES_PASSWORD=postgres
-    # secrets:
-    #   - db-password
     volumes:
       - db-data:/var/lib/postgresql/data
     environment:
