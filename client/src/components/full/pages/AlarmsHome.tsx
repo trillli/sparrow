@@ -1354,8 +1354,10 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
                             transform: 'translate(-50%, -50%)',
                             background: appConfig.theme.palette.primary.dark[8],
                             // border: `2px solid ${appConfig.theme.palette.secondary.dark[5]}`,
-                            padding: '1rem 2rem 2rem 2rem',
-                            borderRadius: '4px'
+                            padding: '1rem 0rem 2rem 0rem',
+                            borderRadius: '4px',
+                            // width: '90vw',
+                            // maxWidth: '395px'
                         }}
                         className='name-and-time-modal-contents'
                     >
@@ -1452,7 +1454,12 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
                                 </DemoContainer>
                             </LocalizationProvider>
                         </Box>
-                        <Box id='name-input-container' fontSize={18}>
+                        <Box id='name-input-container' fontSize={18}
+                            sx={{
+                                paddingLeft: '2rem',
+                                paddingRight: '2rem',
+                            }}
+                        >
                             <TextField
                                 variant='filled'
                                 // color='secondary'
@@ -1463,7 +1470,6 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
                                 InputLabelProps={{
                                     shrink: true,
                                     sx: {
-                                        // paddingLeft: '1rem',
                                         fontSize: '1.35rem',
                                         fontWeight: 'bold',
                                         // color: appConfig.theme.palette.neutral.light[0]
@@ -1513,6 +1519,8 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
                                     transition: '.2s',
                                     boxShadow: `inset 0px -4px ${appConfig.theme.palette.secondary.dark[3]}`,
                                     borderRadius: '4px 4px 0px 0px',
+                                    // paddingLeft: '1rem',
+                                    // paddingRight: '1rem',
                                     // background: 'red',
                                     overflow: 'hidden',
                                     // borderRadius: '4px',
@@ -1565,7 +1573,10 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
                         </Box>
                         <Box
                             className='btn-accept-alarm-time-and-name-container'
-                            // width={}
+                            sx={{
+                                paddingLeft: '2rem',
+                                paddingRight: '2rem',
+                            }}
                         >
                             <Button
                                 variant='contained'
@@ -1580,6 +1591,7 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
                                     paddingRight: '2rem',
                                     background: gradientLight1,
                                     color: appConfig.theme.palette.neutral.dark[6],
+                                    boxShadow: appConfig.theme.shadows[8]
                                     // fontWeight: 'bold',
                                     // fontSize: '1.25rem'
                                 }}
