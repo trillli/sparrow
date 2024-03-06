@@ -1,5 +1,5 @@
 import React from 'react'
-import ITrillliConfig from 'trillli/src/types/ITrillliConfig'
+import ITrillliConfig from 'src/tr/types/ITrillliConfig'
 import PageBuilder from './PageBuilder'
 import { Box, LinearProgress } from '@mui/material'
 

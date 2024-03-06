@@ -4,15 +4,15 @@ import IAlarmConfigCategoryDetailStateControl from './types/IAlarmConfigCategory
 import { ToggleButtonGroup, ToggleButton, Slider, TextField, Box, Typography, Button, InputAdornment, Accordion, AccordionSummary, AccordionDetails, TableContainer, Table, TableHead, TableRow, TableCell, TableBody, IconButton } from '@mui/material'
 import SearchIcon from '@mui/icons-material/Search';
 import FilterListOffIcon from '@mui/icons-material/FilterListOff';
-import ITrillliConfig from 'trillli/src/types/ITrillliConfig';
+import ITrillliConfig from 'src/tr/types/ITrillliConfig';
 import { IAlarmMetadata } from './types/IAlarmMetadata';
 import { useAuth0 } from '@auth0/auth0-react';
-import { TrFetchConfig, TrFetchResult, trFetch } from 'trillli/src/components/TrApiClient';
+import { TrFetchConfig, TrFetchResult, trFetch } from 'src/tr/components/TrApiClient';
 import AlarmConfigCategoryDetailHeader from './AlarmConfigCategoryDetailHeader';
 import { Shuffle, ShuffleOn } from '@mui/icons-material';
 import AlarmConfigCategoryDetailContainer from './AlarmConfigCategoryDetailContainer';
 import AlarmConfigCategoryDetailContents from './AlarmConfigCategoryDetailContents';
-import TrToggleButtonGroup from 'trillli/src/components/TrToggleButtonGroup';
+import TrToggleButtonGroup from 'src/tr/components/TrToggleButtonGroup';
 import SearchResultAccordion from './SearchResultAccordion';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
@@ -112,10 +112,10 @@ const AlarmConfigCategoryDetailBodySoundSearch: React.FC<AlarmConfigCategoryDeta
                 playlists: [] as any[]
             }
 
-            const noImgArtist = '/src/assets/media/img/noImgArtist.svg'
-            const noImgTrack = '/src/assets/media/img/noImgAlbum.svg'
-            const noImgAlbum = '/src/assets/media/img/noImgAlbum.svg'
-            const noImgPlaylist = '/src/assets/media/img/noImgArtist.svg'
+            const noImgArtist = '/media/img/noImgArtist.svg'
+            const noImgTrack = '/media/img/noImgAlbum.svg'
+            const noImgAlbum = '/media/img/noImgAlbum.svg'
+            const noImgPlaylist = '/media/img/noImgArtist.svg'
 
             songs.forEach((song) => {
                 console.log(song)

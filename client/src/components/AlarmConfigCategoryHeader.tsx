@@ -4,7 +4,7 @@ import MusicNoteIcon from '@mui/icons-material/MusicNote';
 import WbTwilightIcon from '@mui/icons-material/WbTwilight';
 import VibrationIcon from '@mui/icons-material/Vibration';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
-import ITrillliConfig from 'trillli/src/types/ITrillliConfig';
+import ITrillliConfig from 'src/tr/types/ITrillliConfig';
 
 interface AlarmConfigCategoryHeaderProps {
     appConfig: ITrillliConfig

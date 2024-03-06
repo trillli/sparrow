@@ -1,0 +1,1 @@
+sudo cp -r /home/bitnami/built/sparrow/client/* /var/www/trillli.com/

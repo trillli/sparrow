@@ -1,7 +1,7 @@
 import React from 'react'
-import TrillliPageBuilder from 'trillli/src/components/TrillliPageBuilder'
+import TrillliPageBuilder from 'src/tr/components/TrillliPageBuilder'
 import AppConfig from 'src/AppConfig'
-import ITrillliConfig from 'trillli/src/types/ITrillliConfig'
+import ITrillliConfig from 'src/tr/types/ITrillliConfig'
 
 interface PageBuilderProps {
     navTop?: boolean,

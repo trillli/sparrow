@@ -1,3 +1,7 @@
+# Build & dev utils
+lightsail.deploy.local.sh
+lightsail.ssh.sh
+
 # Logs
 logs
 *.log

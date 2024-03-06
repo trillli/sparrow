@@ -1,12 +1,12 @@
 import * as React from 'react';
 import PageBuilder from './PageBuilder';
-import TrillliPageBuilder from 'trillli/src/components/TrillliPageBuilder';
+import TrillliPageBuilder from 'src/tr/components/TrillliPageBuilder';
 import { Accordion, AccordionDetails, AccordionSummary, Box, Button, IconButton, Typography } from '@mui/material';
 import GitHubIcon from '@mui/icons-material/GitHub';
 import LoginIcon from '@mui/icons-material/Login';
 import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
 import AlarmIcon from '@mui/icons-material/Alarm';
-import ITrillliConfig from 'trillli/src/types/ITrillliConfig';
+import ITrillliConfig from 'src/tr/types/ITrillliConfig';
 import { useAuth0 } from '@auth0/auth0-react';
 import LandingPageStep from './LandingPageStep';
 import { ExpandMore, QuestionMarkOutlined } from '@mui/icons-material';
@@ -67,7 +67,7 @@ const AppSplash: React.FC<AppSplashProps> = ({ appConfig }) => {
                     sx={{
                         height: '100vh',
                         width: '100vw',
-                        background: "url('/src/assets/media/img/landingImg2.simon-berger.unsplash.jpg')",
+                        background: "url('/media/img/landingImg2.simon-berger.unsplash.jpg')",
                         backgroundSize: 'cover',
                         backgroundPosition: 'center',
                         position: 'fixed',
@@ -108,7 +108,7 @@ const AppSplash: React.FC<AppSplashProps> = ({ appConfig }) => {
                                     justifyContent: 'center'
                                 }}
                             >
-                                <img src='/src/assets/logos/v1_fullLight_padNo_bgNo.png'
+                                <img src='/logos/v1_fullLight_padNo_bgNo.png'
                                     style={{
                                         width: '100%',
                                         padding: '2rem',

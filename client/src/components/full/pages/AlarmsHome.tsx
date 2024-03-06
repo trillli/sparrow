@@ -10,19 +10,19 @@ import AddAlarmIcon from '@mui/icons-material/AddAlarm';
 import FilterListIcon from '@mui/icons-material/FilterList';
 import SortIcon from '@mui/icons-material/Sort';
 import { IAlarmMetadata } from '../../types/IAlarmMetadata'
-import { fnTime12hrTo24hr, fnTime24hrTo12hr } from 'trillli/src/components/utils/TimeAndDateUtils'
+import { fnTime12hrTo24hr, fnTime24hrTo12hr } from 'src/tr/components/utils/TimeAndDateUtils'
 import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import dayjs, { Dayjs } from 'dayjs'
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import ITrillliConfig from 'trillli/src/types/ITrillliConfig';
+import ITrillliConfig from 'src/tr/types/ITrillliConfig';
 import { StaticTimePicker } from '@mui/x-date-pickers/StaticTimePicker';
 import Fade from '@mui/material/Fade';
 import { useAuth0 } from '@auth0/auth0-react';
-import { TrFetchConfig, TrFetchResult, trFetch } from 'trillli/src/components/TrApiClient';
+import { TrFetchConfig, TrFetchResult, trFetch } from 'src/tr/components/TrApiClient';
 import { green } from '@mui/material/colors';
 import { useTheme } from '@mui/material'
-import TrToggleButtonGroup from 'trillli/src/components/TrToggleButtonGroup'
+import TrToggleButtonGroup from 'src/tr/components/TrToggleButtonGroup'
 
 interface AlarmsHomeProps {
     appConfig: ITrillliConfig

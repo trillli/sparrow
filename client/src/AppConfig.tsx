@@ -1,8 +1,8 @@
 import React from 'react'
-import ITrillliConfig from "trillli/src/types/ITrillliConfig"
-import TrillliConfig from "trillli/src/components/TrillliConfig"
-import TrillliMenu from "trillli/src/types/TrillliMenu"
-import TrillliMenuItem from "trillli/src/types/TrillliMenuItem"
+import ITrillliConfig from "src/tr/types/ITrillliConfig"
+import TrillliConfig from "src/tr/components/TrillliConfig"
+import TrillliMenu from "src/tr/types/TrillliMenu"
+import TrillliMenuItem from "src/tr/types/TrillliMenuItem"
 import SparrowLight from "./themes/SparrowLight"
 import NotFoundPageContents from './components/404NotFound'
 import AppSplash from './components/AppSplash'
@@ -44,8 +44,8 @@ class AppConfig extends TrillliConfig implements ITrillliConfig {
     }
 
     readonly logos: { [key: string]: string; } = {
-        appMain: '/src/assets/logos/v1_fullLight_padNo_bgNo.png',
-        loading: '/src/assets/logos/v1_iconLight_padNo_bgNo.png',
+        appMain: '/logos/v1_fullLight_padNo_bgNo.png',
+        loading: '/logos/v1_iconLight_padNo_bgNo.png',
     }
 
     readonly pages: { [key: string]: {[key: string]: any} } = {

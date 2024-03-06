@@ -7,7 +7,7 @@ import AlarmConfigCategoryDetailHeader from './AlarmConfigCategoryDetailHeader'
 import AlarmConfigCategoryDetailBody from './AlarmConfigCategoryDetailBody'
 import AlarmConfigCategoryDetailBodyLightColor from './AlarmConfigCategoryDetailBodyLightColor'
 import { IAlarmConfigCategoryMetadata, IAlarmGroupMetadata } from './types/AlarmConfigComponentSkeletons'
-import ITrillliConfig from 'trillli/src/types/ITrillliConfig'
+import ITrillliConfig from 'src/tr/types/ITrillliConfig'
 
 
 interface AlarmConfigCategoryBodyProps {

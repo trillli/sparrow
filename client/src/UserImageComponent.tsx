@@ -4,7 +4,7 @@ import SwapHorizIcon from '@mui/icons-material/SwapHoriz';
 import FullscreenIcon from '@mui/icons-material/Fullscreen';
 import { styled } from '@mui/material/styles';
 import { useAuth0 } from '@auth0/auth0-react';
-import { TrFetchConfig, TrFetchResult, trFetch } from 'trillli/src/components/TrApiClient';
+import { TrFetchConfig, TrFetchResult, trFetch } from 'src/tr/components/TrApiClient';
 
 interface UserImageComponentProps {
     editOnProvider?: boolean,
