@@ -3,13 +3,13 @@ import { IAlarmMetadata } from './types/IAlarmMetadata'
 import { Accordion, AccordionDetails, AccordionSummary, Box, IconButton, Switch, ToggleButton, ToggleButtonGroup, Typography } from '@mui/material'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { AlarmOff, AlarmOn, Delete, ExpandMore, SyncDisabled } from '@mui/icons-material'
-import ITrillliConfig from 'trillli/src/types/ITrillliConfig';
+import ITrillliConfig from 'src/tr/types/ITrillliConfig';
 import AlarmConfigCategoryOuter from './AlarmConfigCategoryOuter';
 import AlarmConfigGroups from './AlarmConfigGroups';
 import AlarmConfigGroupLight from './AlarmConfigGroupLight';
 import AlarmConfigGroupSound from './AlarmConfigGroupSound';
 import AlarmConfigGroupVibration from './AlarmConfigGroupVibration';
-import { fnTime12hrTo24hr, fnTime24hrTo12hr } from 'trillli/src/components/utils/TimeAndDateUtils'
+import { fnTime12hrTo24hr, fnTime24hrTo12hr } from 'src/tr/components/utils/TimeAndDateUtils'
 
 
 interface AlarmProps {

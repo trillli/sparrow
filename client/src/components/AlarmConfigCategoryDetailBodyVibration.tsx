@@ -2,13 +2,13 @@ import React from 'react'
 import { HexColorPicker } from 'react-colorful'
 import IAlarmConfigCategoryDetailStateControl from './types/IAlarmConfigCategoryDetailStateControl'
 import { ToggleButtonGroup, ToggleButton, Slider, Box, Typography } from '@mui/material'
-import TrSlider from 'trillli/src/components/TrSlider'
+import TrSlider from 'src/tr/components/TrSlider'
 import AlarmConfigCategoryDetailHeader from './AlarmConfigCategoryDetailHeader'
-import ITrillliConfig from 'trillli/src/types/ITrillliConfig'
+import ITrillliConfig from 'src/tr/types/ITrillliConfig'
 import { IAlarmMetadata } from './types/IAlarmMetadata'
 import AlarmConfigCategoryDetailContainer from './AlarmConfigCategoryDetailContainer'
 import AlarmConfigCategoryDetailContents from './AlarmConfigCategoryDetailContents'
-import TrToggleButtonGroup from 'trillli/src/components/TrToggleButtonGroup'
+import TrToggleButtonGroup from 'src/tr/components/TrToggleButtonGroup'
 
 interface AlarmConfigCategoryDetailBodyVibrationProps {
     alarm: IAlarmMetadata

@@ -5,7 +5,7 @@ import IAlarmConfigCategoryDetailStateControl, { AlarmConfigSunriseProps } from 
 import AlarmConfigCategoryDetailHeader from './AlarmConfigCategoryDetailHeader'
 import AlarmConfigCategoryDetailBody from './AlarmConfigCategoryDetailBody'
 import AlarmConfigCategoryDetailBodyLightColor from './AlarmConfigCategoryDetailBodyLightColor'
-import ITrillliConfig from 'trillli/src/types/ITrillliConfig'
+import ITrillliConfig from 'src/tr/types/ITrillliConfig'
 
 interface ConfigCategoryDetailOuterProps {
     appConfig: ITrillliConfig

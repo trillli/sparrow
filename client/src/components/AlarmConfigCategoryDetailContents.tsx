@@ -1,6 +1,6 @@
 import { Box } from '@mui/material'
 import React from 'react'
-import ITrillliConfig from 'trillli/src/types/ITrillliConfig'
+import ITrillliConfig from 'src/tr/types/ITrillliConfig'
 import { IAlarmMetadata } from './types/IAlarmMetadata'
 
 interface AlarmConfigCategoryDetailContentsProps {

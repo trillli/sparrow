@@ -1,6 +1,6 @@
 import React from 'react'
 import { IAlarmMetadata } from './types/IAlarmMetadata'
-import ITrillliConfig from 'trillli/src/types/ITrillliConfig'
+import ITrillliConfig from 'src/tr/types/ITrillliConfig'
 import { Accordion, AccordionDetails, Box } from '@mui/material'
 import AlarmConfigCategoryDetailBodyLightBrightness from './AlarmConfigCategoryDetailBodyLightBrightness'
 import AlarmConfigCategoryDetailBodyLightColor from './AlarmConfigCategoryDetailBodyLightColor'

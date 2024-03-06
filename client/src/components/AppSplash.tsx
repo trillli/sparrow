@@ -1,12 +1,12 @@
 import * as React from 'react';
 import PageBuilder from './PageBuilder';
-import TrillliPageBuilder from 'trillli/src/components/TrillliPageBuilder';
+import TrillliPageBuilder from 'src/tr/components/TrillliPageBuilder';
 import { Accordion, AccordionDetails, AccordionSummary, Box, Button, IconButton, Typography } from '@mui/material';
 import GitHubIcon from '@mui/icons-material/GitHub';
 import LoginIcon from '@mui/icons-material/Login';
 import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
 import AlarmIcon from '@mui/icons-material/Alarm';
-import ITrillliConfig from 'trillli/src/types/ITrillliConfig';
+import ITrillliConfig from 'src/tr/types/ITrillliConfig';
 import { useAuth0 } from '@auth0/auth0-react';
 import LandingPageStep from './LandingPageStep';
 import { ExpandMore, QuestionMarkOutlined } from '@mui/icons-material';
