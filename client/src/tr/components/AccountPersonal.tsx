@@ -245,9 +245,12 @@ const AccountPersonal: React.FC<AccountPersonalProps> = ({ appConfig }) => {
         // paddingRight: '25px',
         // paddingTop: { xs: '10px', md: '6px' },
         // paddingBottom: { xs: '10px', md: '6px' },
-        padding: '.75rem 1.5rem'
+        padding: '.75rem 1.5rem',
         // borderColor: appConfig.theme.palette.primary.dark[5]
-        // background: appConfig.theme.palette.primary.dark[4]
+        // background: appConfig.theme.palette.primary.dark[4],
+        '&:disabled': {
+          border: 'none'
+        }
       }}>
       Change Password
     </Button>

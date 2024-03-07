@@ -49,6 +49,7 @@ const TrPageNote: React.FC<TrBasicNoteProps> = ({appConfig, text, icon = 'announ
             alignItems: 'center',
             columnGap: '15px',
             padding: '15px 25px',
+            marginBottom: '2.75rem',
             borderBottom: '5px solid ' + appConfig.theme.palette.primary.main
         }}>
             <Box sx={{
