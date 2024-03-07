@@ -390,7 +390,7 @@ const AppSplash: React.FC<AppSplashProps> = ({ appConfig }) => {
                                                 Okay, so how do I build it?
                                             </Typography>
                                             <Typography>
-                                                This step requires a RaspberyPi, three peripherals (controllable lights, a vibration motor, and speakers) and a python script.
+                                                This step requires a RaspberryPi, three peripherals (controllable lights, a vibration motor, and speakers) and a python script.
                                             </Typography>
                                             <Typography>
                                                 The RaspberryPi serves as the alarm device, using the peripherals to produce the sound, sunlight, and vibration for your alarm.
@@ -398,9 +398,9 @@ const AppSplash: React.FC<AppSplashProps> = ({ appConfig }) => {
                                             <Typography>
                                                 The Python script controls the RaspberryPi. It reaches out to the DayBreaker API to retrieve your alarm configurations, and triggers the RaspberryPi to play music, engage the lights, and power the vibration motor according to those configurations.
                                             </Typography>
-                                            <Typography>
+                                            {/* <Typography>
                                                 The script reaches out to the Daybreakr API on the web, grabs your alarm configurations, and it triggers your RaspberryPi to play music, engage the lights, and power the vibration motor according to your alarm settings.
-                                            </Typography>
+                                            </Typography> */}
                                             <Typography
                                                 sx={{
                                                     fontWeight: 'bold'
