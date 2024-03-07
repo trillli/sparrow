@@ -79,6 +79,7 @@ class Auth0Helper:
     
     def management_api_password_change(self, request):
         print('test')
+        clientId = settings.AUTH0_CLIENT_ID
         user = self.management_api_user_get(request)
         email = user.json()['email']
         print('email is:')
@@ -86,7 +87,8 @@ class Auth0Helper:
 
         url = 'https://dev-m0zbh7x7q4v4tlo6.us.auth0.com/dbconnections/change_password'
         headers = headers = { 'content-type': "application/json" }
-        payload = "{\"client_id\": \"vYABLvf58qGhCj2kARAv3HnFsJ4vpeep\",\"email\": \"" + email + "\",\"connection\": \"Username-Password-Authentication\"}"
+        # payload = "{\"client_id\": \"vYABLvf58qGhCj2kARAv3HnFsJ4vpeep\",\"email\": \"" + email + "\",\"connection\": \"Username-Password-Authentication\"}"
+        payload = "{\"client_id\": \"" + clientId + "\",\"email\": \"" + email + "\",\"connection\": \"Username-Password-Authentication\"}"
 
         print(payload)
 
