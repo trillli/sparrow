@@ -26,13 +26,19 @@ const Alarm: React.FC<AlarmProps> = ({ alarm, appConfig, handlers, setters, time
     //console.log('alarm timing length')
     //console.log(alarm.timing.days)
     //console.log(alarm.timing.days.length)
-
+    // console.log('---------------------------------------------------------------------------------')
+    // console.log('mounting:')
+    // console.log(alarm)
+    // console.log(alarm.timing)
+    // console.log('---------------------------------------------------------------------------------')
+    // console.log([alarm.name, JSON.stringify(alarm.timing.days)])
+    // console.log('hi22222')
     const [alarmSerialized, setAlarmSerialized] = React.useState<string>(JSON.stringify(alarm))
     const [alarmExpanded, setAlarmExpanded] = React.useState<boolean>(false)
     const [alarmEnabled, setAlarmEnabled] = React.useState<boolean>(alarm.enabled || false)
     const [noRepeat, setNoRepeat] = React.useState<boolean>()
     type DayAbbrev = 'su' | 'm' | 'tu' | 'w' | 'th' | 'f' | 'sa'
-    const [repeatDays, setRepeatDays] = React.useState<DayAbbrev[]>(alarm.timing.days)
+    const [repeatDays, setRepeatDays] = React.useState<DayAbbrev[]>([])
     const [lightColor, setLightColor] = React.useState<number>(alarm.light?.color.h)
 
     // //console.log('Generating this alarm!')
@@ -41,16 +47,22 @@ const Alarm: React.FC<AlarmProps> = ({ alarm, appConfig, handlers, setters, time
     // //console.log(repeatDays)
 
     React.useEffect(() => {
-        // setRepeatDays(new Set(alarm.timing.days))
+        // console.log('mounted: ' alarm.name)
+        // console.log('mounted')
+        // setRepeatDays(['w', 'th', 'f'])
+        // console.log('hiiiiiiiiiii')
     }, [])
 
-    React.useEffect(() => {
-        // //console.log('in norepeat useeffect')
-        if (noRepeat) {
-            // setRepeatDays(new Set<DayAbbrev>())
-            setRepeatDays([])
-        }
-    }, [noRepeat])
+    // React.useEffect(() => {
+    //     // //console.log('in norepeat useeffect')
+    //     if (noRepeat) {
+    //         // setRepeatDays(new Set<DayAbbrev>())
+    //         // setRepeatDays([])
+    //         // alarm.timing.days = []
+    //         alarm.timing.days = []
+    //         handlers.updateAlarmsMetadata(alarm.id, alarm)
+    //     }
+    // }, [noRepeat])
 
     React.useEffect(() => {
         // //console.log('in alarmenabled useeffect')
@@ -58,19 +70,26 @@ const Alarm: React.FC<AlarmProps> = ({ alarm, appConfig, handlers, setters, time
         handlers.updateAlarmsMetadata(alarm.id, alarm)
     }, [alarmEnabled])
 
-    React.useEffect(() => {
-        // //console.log('in repeatdata useeffect')
-        if (repeatDays.length == 0) {
-            setNoRepeat(true)
-        } else {
+    // React.useEffect(() => {
+    //     return;
+    //     // //console.log('in repeatdata useeffect')
+    //     if (typeof(repeatDays) == 'undefined') {
+    //         console.log('undefined')
+    //         return;
+    //     }
+    //     if (repeatDays.length == 0) {
+    //         setNoRepeat(true)
+    //     } else {
 
-            setNoRepeat(false)
-        }
+    //         setNoRepeat(false)
+    //     }
 
-        alarm.timing.days = repeatDays
-        handlers.updateAlarmsMetadata(alarm.id, alarm)
+    //     alarm.timing.days = repeatDays
+    //     console.log('SENDING THIS TO UPDATE ALARM ID: ' + alarm.id)
+    //     console.log(alarm)
+    //     handlers.updateAlarmsMetadata(alarm.id, alarm)
 
-    }, [repeatDays])
+    // }, [repeatDays])
 
     const onColorSliderChange = (event: React.MouseEvent<HTMLElement>) => {
         const target: HTMLInputElement = event.target as HTMLInputElement
@@ -95,12 +114,15 @@ const Alarm: React.FC<AlarmProps> = ({ alarm, appConfig, handlers, setters, time
 
     const handleSummaryDayChange = (event: React.MouseEvent<HTMLElement>) => {
 
+        console.log('in handle summary day change. alarm.timing.days is:')
+        console.log(alarm.timing.days)
+
         event.stopPropagation()
         const target: HTMLInputElement = event.target as HTMLInputElement
         const value: DayAbbrev = target.value as DayAbbrev
 
-        let repeatDaysSet = new Set(repeatDays)
-        let repeatDaysUpdatedSet = new Set(repeatDays)
+        let repeatDaysSet = new Set(alarm.timing.days)
+        let repeatDaysUpdatedSet = new Set(alarm.timing.days)
 
         if (repeatDaysSet.has(value)) {
             repeatDaysUpdatedSet.delete(value)
@@ -108,18 +130,36 @@ const Alarm: React.FC<AlarmProps> = ({ alarm, appConfig, handlers, setters, time
             repeatDaysUpdatedSet.add(value)
         }
 
-        setRepeatDays(Array.from(repeatDaysUpdatedSet))
+        console.log('going to change it to:')
+        console.log(Array.from(repeatDaysUpdatedSet))
+
+        // setRepeatDays(Array.from(repeatDaysUpdatedSet))
+
+        alarm.timing.days = Array.from(repeatDaysUpdatedSet)
+
+        if (alarm.timing.days.length == 0) {
+            // setNoRepeat(true)
+        } else {
+
+            // setNoRepeat(false)
+        }
+
+        handlers.updateAlarmsMetadata(alarm.id, alarm)
 
     }
 
-    const handleSummaryDayNoRepeatChange = (event: React.MouseEvent<HTMLElement>) => {
-        ////console.log('in handlesummarydaynorepeatchange. norepeat is:')
+    const handleSummaryDayNoRepeatClick = (event: React.MouseEvent<HTMLElement>) => {
+        ////console.log('in handleSummaryDayNoRepeatClick. norepeat is:')
         ////console.log(noRepeat)
         event.stopPropagation()
-        if (!noRepeat) {
-            ////console.log('going to set norepeat to true')
-            setNoRepeat(true)
-        }
+        // if (!noRepeat) {
+        //     ////console.log('going to set norepeat to true')
+        //     setNoRepeat(true)
+        // }
+
+        alarm.timing.days = []
+        handlers.updateAlarmsMetadata(alarm.id, alarm)
+
     }
 
     const handleToggleAlarmStatusClick = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -340,7 +380,7 @@ const Alarm: React.FC<AlarmProps> = ({ alarm, appConfig, handlers, setters, time
                         >
                             <ToggleButtonGroup
                                 className='alarm-summary-days'
-                                value={Array.from(alarm.timing.days)}
+                                value={alarm.timing.days}
                                 onChange={handleSummaryDayChange}
                                 sx={{
                                     display: 'flex',
@@ -373,9 +413,9 @@ const Alarm: React.FC<AlarmProps> = ({ alarm, appConfig, handlers, setters, time
                                 <ToggleButton value='sa' className='alarm-day alarm-summary-day'>Sa</ToggleButton>
                                 <ToggleButtonGroup
                                     className='alarm-summary-no-repeat'
-                                    value={noRepeat}
+                                    value={alarm.timing.days.length == 0}
                                     // value={alarm.timing.days.size > 0 ? false : true}
-                                    onClick={handleSummaryDayNoRepeatChange}
+                                    onClick={handleSummaryDayNoRepeatClick}
                                     sx={{
                                         height: '100%',
                                         '& .MuiButtonBase-root': {

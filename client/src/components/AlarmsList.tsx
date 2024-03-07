@@ -15,7 +15,8 @@ interface AlarmsListProps {
 
 const AlarmsList: React.FC<AlarmsListProps> = ({alarms, appConfig, handlers, setters, timeFormat24Hr}) => {
 
-    
+    // console.log('alarms list is')
+    // console.log(alarms)
 
     return (
         <Box

@@ -105,9 +105,12 @@ const AppSplash: React.FC<AppSplashProps> = ({ appConfig }) => {
                             <Box
                                 id='landing-page-logo-container'
                                 sx={{
-                                    width: '100%',
+                                    width: '75vw',
+                                    maxWidth: '475px',
+                                    // minWidth: '275px',
                                     display: 'flex',
                                     justifyContent: 'center'
+
                                 }}
                             >
                                 <img src='/logos/v1_fullLight_padNo_bgNo.png'
@@ -124,7 +127,9 @@ const AppSplash: React.FC<AppSplashProps> = ({ appConfig }) => {
                                         id='get-started-prompt-container'
                                         sx={{
                                             display: 'flex',
-                                            width: '100%'
+                                            width: '75vw',
+                                            maxWidth: '475px',
+                                            // minWidth: '275px',
                                         }}
                                     >
                                         <Button
@@ -181,14 +186,14 @@ const AppSplash: React.FC<AppSplashProps> = ({ appConfig }) => {
                                 >
                                     <Typography
                                         sx={{
-                                            fontSize: '1.2rem'
+                                            fontSize: '1.125rem'
                                         }}
                                     >
                                         DayBreakr is an ultra-customizable sunrise alarm clock.
                                     </Typography>
                                     <Typography
                                         sx={{
-                                            fontSize: '1.2rem'
+                                            fontSize: '1.125rem'
                                         }}
                                     >
                                         Choose your favorite wake-up music, adjust your sunrise & vibration settings, and break in the day your way!
@@ -211,7 +216,8 @@ const AppSplash: React.FC<AppSplashProps> = ({ appConfig }) => {
                                         borderBottom: `3px solid ${appConfig.theme.palette.neutral.dark[3]}`,
                                         boxShadow: appConfig.theme.shadows[2],
                                         borderRadius: '4px',
-                                        width: '100%',
+                                        width: '75vw',
+                                            maxWidth: '100%',
                                         '&>.MuiButton-startIcon': {
                                             borderRadius: '4px',
                                             margin: '0px',
