@@ -109,6 +109,8 @@ const TrillliNavTop: React.FC<TrillliNavTopProps> = ({appConfig, styling}) => {
         <AppBar component='nav' sx={styling['toolbarContainer']} position='fixed'>
             <Toolbar sx={styling['toolbar']}>
                 <Box
+                    component={Link}
+                    to='/'
                     sx={{
                         padding: '.375rem',
                         paddingLeft: '0rem',
