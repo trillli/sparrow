@@ -261,7 +261,7 @@ const Alarm: React.FC<AlarmProps> = ({ alarm, appConfig, handlers, setters, time
                             sx={{
                                 // border: '2px solid red',
                                 display: 'flex',
-                                alignItems: 'baseline',
+                                alignItems: 'center',
                                 flexWrap: 'wrap'
                             }}
                         >
@@ -308,7 +308,7 @@ const Alarm: React.FC<AlarmProps> = ({ alarm, appConfig, handlers, setters, time
                                     flexGrow: '1',
                                     borderRadius: '4px',
                                     padding: '0px .75rem',
-                                    paddingBottom: '.375rem',
+                                    paddingTop: '.125rem',
                                 }}
                             >
                                 <Typography

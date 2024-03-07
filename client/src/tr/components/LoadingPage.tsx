@@ -25,8 +25,11 @@ const LoadingPage: React.FC<LoadingPageProps> = ({ appConfig }) => {
             display: 'flex',
             justifyContent: 'center',
             alignItems: 'center',
-            width: '100vw',
-            height: '100vh',
+            width: '85vw',
+            height: '95vh',
+            // border: '2px solid red',
+            marginLeft: 'auto',
+            marginRight: 'auto',
             background: appConfig.theme.palette.background,
           }}
         >

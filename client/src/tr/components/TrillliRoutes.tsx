@@ -12,6 +12,7 @@ import testlogout from './testlogout'
 import TestLogIn from './testlogout';
 import AccountPersonal from './AccountPersonal';
 import LandingPage from './LandingPage'
+import LoadingPage from './LoadingPage';
 
 interface TrillliRoutesProps {
   appConfig: ITrillliConfig
@@ -23,11 +24,7 @@ const TrillliRoutes: React.FC<TrillliRoutesProps> = ({appConfig}) => {
       <Routes>
           <Route path="/" element={<LandingPage appConfig={appConfig} />} />
           <Route path="/profile" element={<Auth0Authenticator appConfig={appConfig} component={AccountPersonal} />} />
-          <Route path="/admin" element={<Auth0Authenticator appConfig={appConfig} component={Admin} />} />
-          <Route path="/protected" element={<Auth0Authenticator appConfig={appConfig} component={Protected} />} />
-          <Route path="/abc/ghi" element={<TestLogIn />} />
-          <Route path="/public" element={<Public />} />
-          <Route path="/callback" element={<Callback />} />
+          <Route path="/callback" element={<LoadingPage appConfig={appConfig} />} />
           <Route path="*" element={<ErrorPage404 appConfig={appConfig} />} />
       </Routes>
   );

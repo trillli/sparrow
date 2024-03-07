@@ -31,11 +31,11 @@ const AppLoading: React.FC<AppLoadingProps> = ({ appConfig }) => {
             <Box
                 className='loading-img-container'
             >
-                <img src={appConfig.logos.loading} />
+                <img src={appConfig.logos.loading} style={{width: '25%'}} />
             </Box>
             <Box 
                 className='loading-indicator-container'
-                sx={{ width: '100%' }}>
+                sx={{ width: '75%' }}>
                 <LinearProgress />
             </Box>
         </PageBuilder>
