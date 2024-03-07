@@ -112,7 +112,7 @@ const TrillliNavTop: React.FC<TrillliNavTopProps> = ({appConfig, styling}) => {
                     sx={{
                         padding: '.375rem',
                         paddingLeft: '0rem',
-                        width: '100%',
+                        // width: '100%',
                         height: '100%',
                         display: 'flex',
                         alignItems: 'center'

@@ -212,33 +212,40 @@ const AccountPersonal: React.FC<AccountPersonalProps> = ({ appConfig }) => {
   const handlePasswordChangeClick = async () => {
     //console.log('handling password change click')
     const accessToken = await getAccessTokenSilently();
-    //console.log('sending password reset request')
+    console.log('sending password reset request')
     
       const requestConfig: TrFetchConfig = {
         accessToken: accessToken,
         method: 'GET',
-        path: "/tr/api/profile-password",
+        path: "/tr/admin/profile-password",
       }
       const result: TrFetchResult = await trFetch(requestConfig);
+      alert('A password reset link has been sent to your email. If you do not see it within several minutes, please check your spam folder or try again.')
     //console.log('past password reset request')
   }
 
   //Change password button (or placeholder skeleton)
   let componentBtnPassword =
     <Button
-      variant='outlined'
+      variant='contained'
       color='primary'
-      size='medium'
-      disableElevation={true}
+      size='large'
+      // disableElevation={true}
       disabled={isSocialLogin}
       startIcon={<LockIcon />}
       onClick={handlePasswordChangeClick}
       sx={{
-        width: { xs: '100%', md: 'fit-content' },
-        paddingLeft: '25px',
-        paddingRight: '25px',
-        paddingTop: { xs: '10px', md: '6px' },
-        paddingBottom: { xs: '10px', md: '6px' },
+        width: '100%',
+        // background: appConfig.theme.palett
+        border: `1px solid ${appConfig.theme.palette.neutral.dark[2]}`,
+        boxShadow: appConfig.theme.shadows[0],
+        // borderBottom: `3px solid ${appConfig.theme.palette.secondary.dark[4]}`,
+        // height: '3.5rem',
+        // paddingLeft: '25px',
+        // paddingRight: '25px',
+        // paddingTop: { xs: '10px', md: '6px' },
+        // paddingBottom: { xs: '10px', md: '6px' },
+        padding: '.75rem 1.5rem'
         // borderColor: appConfig.theme.palette.primary.dark[5]
         // background: appConfig.theme.palette.primary.dark[4]
       }}>
@@ -246,7 +253,7 @@ const AccountPersonal: React.FC<AccountPersonalProps> = ({ appConfig }) => {
     </Button>
 
   let componentBtnPasswordSkeleton =
-    <Skeleton variant='rounded' width={'225px'} height={45} sx={{ paddingTop: '0px' }}></Skeleton>
+    <Skeleton variant='rounded' width={'100%'} height={45} sx={{ paddingTop: '0px' }}></Skeleton>
 
 
 
@@ -276,7 +283,7 @@ const AccountPersonal: React.FC<AccountPersonalProps> = ({ appConfig }) => {
       const requestConfig: TrFetchConfig = {
         accessToken: accessToken,
         method: 'PATCH',
-        path: "/tr/api/profile",
+        path: "/tr/admin/profile",
         payload: JSON.stringify(formData)
       }
       setProfilePatching(true)
@@ -306,7 +313,7 @@ const AccountPersonal: React.FC<AccountPersonalProps> = ({ appConfig }) => {
           background: appConfig.theme.palette.primary.dark[0],
           borderRadius: '4px',
           overflow: 'hidden',
-          padding: '1rem 2rem',
+          padding: '3rem 6%',
           marginLeft: 'auto',
           marginRight: 'auto'
         }}
@@ -321,8 +328,8 @@ const AccountPersonal: React.FC<AccountPersonalProps> = ({ appConfig }) => {
           display: 'flex',
           flexDirection: 'column',
           rowGap: '2.5rem',
-          padding: '35px 45px',
-          marginTop: '50px',
+          padding: '0rem 0rem',
+          marginTop: '1.5rem',
           color: appConfig.theme.palette.primary.dark[1],
       }}
       >
@@ -336,7 +343,7 @@ const AccountPersonal: React.FC<AccountPersonalProps> = ({ appConfig }) => {
           // border: '3px solid white'
           color: appConfig.theme.palette.neutral.dark[3]
         }}>
-          {componentPicture}
+          {/* {componentPicture} */}
           {userProfileLoaded ? (
             componentBtnPassword
           ): (
@@ -371,9 +378,12 @@ const AccountPersonal: React.FC<AccountPersonalProps> = ({ appConfig }) => {
             disabled={!formDataUpdated} 
             startIcon={<NewReleasesIcon />} 
             sx={{
-              width: { 
-                xs: '100%', 
-                sm: 'fit-content' 
+              width: '100%',
+              padding: '.75rem 1.5rem',
+              border: `1px solid ${appConfig.theme.palette.neutral.dark[2]}`,
+              boxShadow: appConfig.theme.shadows[0],
+              '&:disabled': {
+                border: 'none'
               }
             }}
           >

@@ -427,7 +427,6 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
             // console.log('b')
             // console.log(result.ok)
             if (result == undefined) {
-                console.log('here')
                 alert('Error contacting the DayBreakr server! If this issue persists, please contact DayBreakr/Trillli support at trillli.dev@gmail.com')
             }
 

@@ -136,7 +136,7 @@ const TrillliPageBuilder: React.FC<TrillliPageBuilderProps> = ({ appConfig, navT
         toolbar: {
             justifyContent: 'space-between',
             height: '100%',
-            paddingRight: {xs: '10%', sm: '6%', md: '6%', lg: '6%', xl: '6%'},
+            paddingRight: {xs: '10%', sm: '2%', md: '6%', lg: '6%', xl: '6%'},
             paddingLeft: {xs: '4%', sm: '6%'}
         },
         itemList: {
