@@ -84,6 +84,7 @@ class Auth0Helper:
         email = user.json()['email']
         print('email is:')
         print(email)
+        print('AND HERE I AM IN THE SPARROW ONE, THATS GOOD')
 
         url = 'https://dev-m0zbh7x7q4v4tlo6.us.auth0.com/dbconnections/change_password'
         headers = headers = { 'content-type': "application/json" }
