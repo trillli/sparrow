@@ -30,3 +30,6 @@ deps
 *.njsproj
 *.sln
 *.sw?
+
+#Other
+profiles
