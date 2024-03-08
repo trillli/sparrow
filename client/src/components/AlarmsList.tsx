@@ -7,15 +7,20 @@ import { IAlarmMetadata } from './types/IAlarmMetadata'
 interface AlarmsListProps {
     alarms: IAlarmMetadata[]
     appConfig: ITrillliConfig
-    handlers: {[key: string]: Function}
-    setters: {[key: string]: Function}
+    handlers: { [key: string]: Function }
+    setters: { [key: string]: Function }
     timeFormat24Hr: boolean
 }
 
-const AlarmsList: React.FC<AlarmsListProps> = ({alarms, appConfig, handlers, setters, timeFormat24Hr}) => {
+const AlarmsList: React.FC<AlarmsListProps> = ({ alarms, appConfig, handlers, setters, timeFormat24Hr }) => {
 
-    // console.log('alarms list is')
-    // console.log(alarms)
+    //sv
+
+    //ef
+
+    //ha
+
+    //other
 
     return (
         <Box
@@ -23,7 +28,6 @@ const AlarmsList: React.FC<AlarmsListProps> = ({alarms, appConfig, handlers, set
             sx={{
                 display: 'flex',
                 flexDirection: 'column',
-                // rowGap: '2em',
                 marginTop: '.5rem'
             }}
         >
@@ -42,15 +46,15 @@ const AlarmsList: React.FC<AlarmsListProps> = ({alarms, appConfig, handlers, set
                 }}
             >
                 {Object.keys(alarms).length > 0 ? alarms.map((alarm, index) => (
-                    <Alarm 
-                        key={index} 
-                        alarm={alarm} 
+                    <Alarm
+                        key={index}
+                        alarm={alarm}
                         appConfig={appConfig}
                         handlers={handlers}
                         setters={setters}
                         timeFormat24Hr={timeFormat24Hr}
                     />
-                )):(<></>)}
+                )) : (<></>)}
             </Box>
         </Box>
     )

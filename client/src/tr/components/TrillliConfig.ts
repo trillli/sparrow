@@ -6,8 +6,6 @@ import TrillliMenuItem from "../types/TrillliMenuItem";
 
 class TrilllilConfig implements ITrillliConfig {
 
-    readonly teststr: string = 'this is a teststr'
-
     //Define the app theme
     //Recommend to override in app config: yes
     readonly theme: Theme = TrillliLight
@@ -42,12 +40,6 @@ class TrilllilConfig implements ITrillliConfig {
 
 
     readonly menuBase: TrillliMenu = {
-        // primary: [
-        //     this._itemAccount,
-        //     this._itemLogOut
-        // ],
-        // secondary: [],
-        // tertiary: [],
         top: [
             this._itemAccount,
             this._itemLogIn,
@@ -60,9 +52,6 @@ class TrilllilConfig implements ITrillliConfig {
     //Define menu items
     //Recommend to override: yes
     readonly menuApp : TrillliMenu = {
-        // primary: [],
-        // secondary: [],
-        // tertiary: [],
         top: [],
         side: [],
         bottom: []

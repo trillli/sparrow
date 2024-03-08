@@ -5,8 +5,16 @@ import React from 'react';
 
 
 
-const BtnDrawerToggler = ({handlerDrawerToggle, drawerOpen = false}) => {
-    
+const BtnDrawerToggler = ({ handlerDrawerToggle, drawerOpen = false }) => {
+
+    //sv
+
+    //ef
+
+    //ha
+
+    //other
+
     let ariaLabel = 'open sidebar navigation menu'
     let sxIcon = {
         mr: 2,
@@ -22,21 +30,19 @@ const BtnDrawerToggler = ({handlerDrawerToggle, drawerOpen = false}) => {
     if (!drawerOpen) {
         ariaLabel = 'close sidebar navigation menu'
         sxIcon['position'] = 'absolute',
-        icon = <MenuIcon />
+            icon = <MenuIcon />
     }
 
     return (
         <IconButton
-                        color="inherit"
-                        aria-label="open drawer"
-                        edge="start"
-                        onClick={handlerDrawerToggle}
-                        sx={{...sxIcon}}
-                    >
-                        {/* <MenuIcon />
-                        <ClearIcon /> */}
-                        {icon}
-                    </IconButton>
+            color="inherit"
+            aria-label="open drawer"
+            edge="start"
+            onClick={handlerDrawerToggle}
+            sx={{ ...sxIcon }}
+        >
+            {icon}
+        </IconButton>
     )
 }
 

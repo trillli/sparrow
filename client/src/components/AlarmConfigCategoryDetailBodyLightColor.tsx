@@ -17,18 +17,13 @@ interface AlarmConfigCategoryDetailBodyLightColorProps {
 
 const AlarmConfigCategoryDetailBodyLightColor: React.FC<AlarmConfigCategoryDetailBodyLightColorProps> = ({ alarm, appConfig, lightColor, onColorSliderChange, onColorSliderChangeCommitted }) => {
 
-    // const [lightBrightnessType, setLightBrightnessType] = React.useState<'constant' | 'ramp'>('constant')
-    // const [lightBrightnessMax, setLightBrightnessMax] = React.useState<number>(75)
-    // const [lightBrightnessConstant, setLightBrightnessConstant] = React.useState<number>(lightBrightnessMax)
-    // const [lightBrightnessRamp, setLightBrightnessRamp] = React.useState<number[]>([25, lightBrightnessMax])
+    //sv
 
-    // React.useEffect(() => {
-    //     setLightBrightnessConstant(lightBrightnessMax)
-    //     setLightBrightnessRamp([lightBrightnessRamp[0], lightBrightnessMax])
-    // }, [lightBrightnessMax])
+    //ef
 
+    //ha
 
-
+    //ohter
 
     return (
         <AlarmConfigCategoryDetailContainer appConfig={appConfig}>

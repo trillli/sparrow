@@ -7,22 +7,29 @@ interface AlarmConfigCategoryDetailContainer {
     children: React.ReactNode
 }
 
-const AlarmConfigCategoryDetailContainer: React.FC<AlarmConfigCategoryDetailContainer> = ({appConfig, children}) => {
+const AlarmConfigCategoryDetailContainer: React.FC<AlarmConfigCategoryDetailContainer> = ({ appConfig, children }) => {
 
+    //sv
+
+    //ef
+
+    //ha
+
+    //other
 
     return (
 
-        <Box 
-        className='alarm-config-category-detail-field-container'
-        sx={{
-            paddingLeft: '1rem',
-            paddingTop: '.5rem',
-            paddingBottom: '.5rem',
-            borderLeft: `3px solid ${appConfig.theme.palette.secondary.dark[4]}`
-        }}
+        <Box
+            className='alarm-config-category-detail-field-container'
+            sx={{
+                paddingLeft: '1rem',
+                paddingTop: '.5rem',
+                paddingBottom: '.5rem',
+                borderLeft: `3px solid ${appConfig.theme.palette.secondary.dark[4]}`
+            }}
         >
 
-        {children}
+            {children}
         </Box>
 
 

@@ -13,6 +13,13 @@ interface LandingPageStepProps {
 
 const LandingPageStep: React.FC<LandingPageStepProps> = ({ appConfig, align, imgSrc, number, title, children }) => {
 
+    //sv
+
+    //ef
+
+    //ha
+
+    //other
 
     return (
         <Box
@@ -25,31 +32,23 @@ const LandingPageStep: React.FC<LandingPageStepProps> = ({ appConfig, align, img
                 background: appConfig.theme.palette.primary.dark[2],
                 padding: '1.5rem 1.25rem',
                 borderLeft: align == 'left' ? `5px solid ${appConfig.theme.palette.neutral.dark[3]}` : 'none',
-                    borderRight: align == 'right' ? `5px solid ${appConfig.theme.palette.neutral.dark[3]}` : 'none',
+                borderRight: align == 'right' ? `5px solid ${appConfig.theme.palette.neutral.dark[3]}` : 'none',
                 borderRadius: '4px'
-                // padding: '.1rem',
-                // borderLeft: align == 'left' ? `4px solid ${appConfig.theme.palette.secondary.dark[4]}` : 'none',
-                // borderRight: align == 'right' ? `4px solid ${appConfig.theme.palette.secondary.dark[4]}` : 'none',
+
             }}
         >
             <Box
-                sx={{
-                    // borderLeft: align == 'left' ? `5px solid ${appConfig.theme.palette.secondary.dark[4]}` : 'none',
-                    // borderRight: align == 'right' ? `5px solid ${appConfig.theme.palette.secondary.dark[4]}` : 'none',
-                    // padding: '.25rem 1rem'
-                }}
             >
-                <Typography 
+                <Typography
                     className='step-title'
                     sx={{
                         textAlign: align,
                         fontSize: '1.875rem',
                         textTransform: 'uppercase',
                         color: appConfig.theme.palette.neutral.dark[6],
-                        // fontWeight: 'bold'
                     }}
                 >{
-                    title}
+                        title}
                 </Typography>
             </Box>
             <img src=''></img>

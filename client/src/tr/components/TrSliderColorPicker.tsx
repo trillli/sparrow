@@ -9,6 +9,14 @@ interface TrSliderColorPickerProps {
 
 const TrSliderColorPicker: React.FC<TrSliderColorPickerProps> = ({lightHue, onChange, onChangeCommitted}) => {
 
+  //sv
+
+  //ef
+
+  //ha
+
+  //other
+
   const styles = {
     track: {
       background: 'white',

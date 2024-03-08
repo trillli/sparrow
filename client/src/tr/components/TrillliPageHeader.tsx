@@ -8,13 +8,21 @@ interface TrillliPageHeaderProps {
     subtitles?: string[]
 }
 
-const TrillliPageHeader: React.FC<TrillliPageHeaderProps> = ({appConfig, title, subtitles = []}) => {
+const TrillliPageHeader: React.FC<TrillliPageHeaderProps> = ({ appConfig, title, subtitles = [] }) => {
+
+    //sv
+
+    //ef
+
+    //ha
+
+    //other
 
     //Define styling
     let styles: {
-        [pageHeader:string]: any
+        [pageHeader: string]: any
     } = {}
-    
+
     //Box that contains the title and subtitles
     styles.pageHeader = {
         marginBottom: '50px',
@@ -22,13 +30,9 @@ const TrillliPageHeader: React.FC<TrillliPageHeaderProps> = ({appConfig, title, 
         flexDirection: 'column',
         rowGap: '10px',
         color: appConfig.theme.palette.neutral.dark[3],
-        // padding: '1rem 2rem',
-        // borderRadius: '4px',
-        // overflow: 'hidden',
-        // background: appConfig.theme.palette.primary.dark[0],
     }
 
-    let components: {[key: string]: React.ReactNode} = {}
+    let components: { [key: string]: React.ReactNode } = {}
     components.title = <Typography className='page-title' variant='pageTitle'>{title}</Typography>
     components.subtitles = <></>
 
@@ -45,11 +49,6 @@ const TrillliPageHeader: React.FC<TrillliPageHeaderProps> = ({appConfig, title, 
 
 
     }
-
-
-    
-    
-
 
     return (
         <Box className='page-header' sx={styles.pageHeader}>

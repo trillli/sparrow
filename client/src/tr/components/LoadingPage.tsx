@@ -9,12 +9,19 @@ interface LoadingPageProps {
 
 const LoadingPage: React.FC<LoadingPageProps> = ({ appConfig }) => {
 
+  //sv
+
+  //ef
   React.useEffect(() => {
-    // //console.log('breakpoint here to pause for debugging on mount')
+    //console.log('breakpoint here to pause for debugging')
     return () => {
-      // //console.log('breakpoint here to pause for debugging on unmount')
+      //console.log('breakpoint here to pause for debugging')
     };
   }, []);
+
+  //ha
+
+  //other
 
   return (
     <>
@@ -26,7 +33,6 @@ const LoadingPage: React.FC<LoadingPageProps> = ({ appConfig }) => {
             alignItems: 'center',
             width: '85vw',
             height: '95vh',
-            // border: '2px solid red',
             marginLeft: 'auto',
             marginRight: 'auto',
             background: appConfig.theme.palette.background,
@@ -50,7 +56,7 @@ const LoadingPage: React.FC<LoadingPageProps> = ({ appConfig }) => {
                 display: 'flex',
                 flexDirection: 'column',
                 justifyContent: 'center',
-                alignItems:'center'
+                alignItems: 'center'
               }}
             >
               <img
@@ -62,10 +68,10 @@ const LoadingPage: React.FC<LoadingPageProps> = ({ appConfig }) => {
             </Box>
             <Box
               className='loading-indicator-container'
-              sx={{ 
-                width: '100%' 
+              sx={{
+                width: '100%'
               }}>
-              <LinearProgress 
+              <LinearProgress
                 sx={{
                   height: '.75rem',
                   borderRadius: '4px',

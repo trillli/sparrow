@@ -14,51 +14,47 @@ interface TrillliPageBuilderProps {
     appConfig: ITrillliConfig,
     navTop?: boolean
     navSide?: boolean
-    styling?: {[key: string]: any}
+    styling?: { [key: string]: any }
     children: React.ReactNode
 }
 
 const TrillliPageBuilder: React.FC<TrillliPageBuilderProps> = ({ appConfig, navTop = false, navSide = false, children, styling }) => {
 
-    // const loadingPage = React.cloneElement(appConfig.pages.loading.contents, {appConfig: appConfig})
-    
-    if (!styling) {
-        styling = {}
-    }
 
-    /*
-
-        Define stateful variables, and other variables to be used in nav configuration
-
-    */
-
-    //For all config properties that may be specific to the application, use appConfig
-    //For all config properties where we know we want to use the default trillli config values (for
-    //example, display width breakpoints) use trillliConfig
-    let trillliConfig = new TrillliConfig();
-
-    //Non stateful
-    const widthSmBp = trillliConfig.theme.breakpoints.values['sm']
-    const widthMdBp = trillliConfig.theme.breakpoints.values['md']
-    const topNavHeightPx = navTop ? 100 : 0
-    const sideNavWidthPx = 240
-    const sideNavCollapsedWidthPx = navSide ? 100 : 0
-
-
-    //Stateful
+    //sv
     const [sideNavOpen, setSideNavOpen] = React.useState(false)
     const { isLoading } = useAuth0();
+    let trillliConfig = new TrillliConfig();
+    const widthSmBp = trillliConfig.theme.breakpoints.values['sm']
+    const widthMdBp = trillliConfig.theme.breakpoints.values['md']
     const [sideNavMini, setSideNavMini] = React.useState(window.innerWidth < widthMdBp)
     const [isDisplayWidthXs, setIsDisplayWidthXs] = React.useState(window.innerWidth < widthSmBp)
     const [isDisplayWidthSm, setIsDisplayWidthSm] = React.useState(window.innerWidth >= widthSmBp && window.innerWidth < widthMdBp)
 
+    //ef
 
 
-    /*
+    React.useEffect(() => {
 
-        Define hooks & functions used to handle events & update stateful variables
+        //Listen for window resize event; on window resize, track the display width classification and
+        //the side nav full/mini state
+        const handleWindowResize = () => {
+            setIsDisplayWidthXs(window.innerWidth < widthSmBp)
+            setIsDisplayWidthSm(window.innerWidth >= widthSmBp && window.innerWidth < widthMdBp)
+            setSideNavMini(window.innerWidth < widthMdBp)
+        }
 
-    */
+        window.addEventListener('resize', handleWindowResize)
+
+        return () => {
+            window.removeEventListener('resize', handleWindowResize)
+        }
+
+    }, [])
+
+
+
+    //ha
 
     //'SideNavShift' used here to refer to the transition between full-width and mini side nav menu
     const handleSideNavShift = () => {
@@ -76,36 +72,27 @@ const TrillliPageBuilder: React.FC<TrillliPageBuilderProps> = ({ appConfig, navT
             return !sideNavState
         })
     }
+    if (!styling) {
+        styling = {}
+    }
 
-    //Listen for window resize event; on window resize, track the display width classification and
-    //the side nav full/mini state
-    React.useEffect(() => {
+    //other
 
-        const handleWindowResize = () => {
-            setIsDisplayWidthXs(window.innerWidth < widthSmBp)
-            setIsDisplayWidthSm(window.innerWidth >= widthSmBp && window.innerWidth < widthMdBp)
-            setSideNavMini(window.innerWidth < widthMdBp)
-        }
-
-        window.addEventListener('resize', handleWindowResize)
-
-        return () => {
-            window.removeEventListener('resize', handleWindowResize)
-        }
-
-    }, [])
+    const topNavHeightPx = navTop ? 100 : 0
+    const sideNavWidthPx = 240
+    const sideNavCollapsedWidthPx = navSide ? 100 : 0
 
     //Define toggler if it is to be shown
     const showToggler = isDisplayWidthXs
     const togglerWidthPx = 50
     let sxToggler = {
-        container:{
-        position: 'fixed',
-        right: 0,
-        display: (navSide || navTop) ? 'flex' : 'none',
-        height: topNavHeightPx,
-        paddingRight: '6%',
-        zIndex: trillliConfig.theme.zIndex.drawer + 2,
+        container: {
+            position: 'fixed',
+            right: 0,
+            display: (navSide || navTop) ? 'flex' : 'none',
+            height: topNavHeightPx,
+            paddingRight: '6%',
+            zIndex: trillliConfig.theme.zIndex.drawer + 2,
         },
         icon: {
             color: appConfig.theme.palette.primary.dark[4],
@@ -113,7 +100,7 @@ const TrillliPageBuilder: React.FC<TrillliPageBuilderProps> = ({ appConfig, navT
                 fontSize: '2.5rem'
             }
         }
-        
+
     }
     let toggler = showToggler ? <TrillliNavToggler
         fnToggleHandler={handleSideNavToggle}
@@ -134,8 +121,8 @@ const TrillliPageBuilder: React.FC<TrillliPageBuilderProps> = ({ appConfig, navT
         toolbar: {
             justifyContent: 'space-between',
             height: '100%',
-            paddingRight: {xs: '10%', sm: '2%', md: '6%', lg: '6%', xl: '6%'},
-            paddingLeft: {xs: '4%', sm: '6%'}
+            paddingRight: { xs: '10%', sm: '2%', md: '6%', lg: '6%', xl: '6%' },
+            paddingLeft: { xs: '4%', sm: '6%' }
         },
         itemList: {
             height: '100%',
@@ -286,7 +273,7 @@ const TrillliPageBuilder: React.FC<TrillliPageBuilderProps> = ({ appConfig, navT
                 transition: sideNavTransitionMs + 'ms',
                 fontSize: isDisplayWidthXs ? '1.75rem' : '2rem',
             }
-            
+
         },
         itemText: {
             textTransform: 'uppercase',
@@ -304,18 +291,17 @@ const TrillliPageBuilder: React.FC<TrillliPageBuilderProps> = ({ appConfig, navT
 
     let sideNav = navSide ? (
         <TrillliNavSide appConfig={appConfig} anchor={anchor} collapsed={collapsed} isDisplayWidthSm={isDisplayWidthSm} isDisplayWidthXs={isDisplayWidthXs} variant={variant} open={sideNavOpen} styling={sxSideNav} fnToggleHandler={handleSideNavToggle} fnShiftHandler={handleSideNavShift} />
-    ) :  (
+    ) : (
         <TrillliNavSide appConfig={appConfig} anchor={anchor} collapsed={collapsed} isDisplayWidthSm={isDisplayWidthSm} isDisplayWidthXs={isDisplayWidthXs} variant={variant} open={sideNavOpen} styling={sxSideNav} fnToggleHandler={handleSideNavToggle} fnShiftHandler={handleSideNavShift} />
     )
 
 
     //Define content
-    let content = <Box component='main' id='main' sx={{ transition: `${sideNavTransitionMs}ms`, marginTop: `${topNavHeightPx}px`, minHeight: `calc(100vh - ${topNavHeightPx}px)`, width: isDisplayWidthXs ? '100%' : `calc(100% - ${sideNavCollapsedWidthPx}px)`}}>
-        <Box 
-            id='main-contents' 
+    let content = <Box component='main' id='main' sx={{ transition: `${sideNavTransitionMs}ms`, marginTop: `${topNavHeightPx}px`, minHeight: `calc(100vh - ${topNavHeightPx}px)`, width: isDisplayWidthXs ? '100%' : `calc(100% - ${sideNavCollapsedWidthPx}px)` }}>
+        <Box
+            id='main-contents'
             sx={{
-                // background: `linear-gradient(180deg, ${appConfig.theme.palette.neutral.dark[6]}, ${appConfig.theme.palette.neutral.dark[4]})`,
-                height: '100%', 
+                height: '100%',
                 padding: '3rem 5%',
                 ...(styling.mainContents || {}),
             }}>
@@ -332,10 +318,10 @@ const TrillliPageBuilder: React.FC<TrillliPageBuilderProps> = ({ appConfig, navT
             </ThemeProvider>
         )
     } else {
-    return (
-        <ThemeProvider theme={appConfig.theme}>
+        return (
+            <ThemeProvider theme={appConfig.theme}>
 
-            {/* NOTE
+                {/* NOTE
             
             This <style> import ensures Karla font is available if user has not linked it in their app's index.html; note that placing the following in the app's index.html is highly recommended as it will prefent the split-second flicker to and from Arial (or the browser's equivalent default font) when navigating between pages within the app:
 
@@ -344,26 +330,21 @@ const TrillliPageBuilder: React.FC<TrillliPageBuilderProps> = ({ appConfig, navT
             <link href="https://fonts.googleapis.com/css2?family=Karla:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;1,200;1,300;1,400;1,500;1,600;1,700;1,800&display=swap" rel="stylesheet">
             
             */}
-            <style>@import url('https://fonts.googleapis.com/css2?family=Karla:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;1,200;1,300;1,400;1,500;1,600;1,700;1,800&display=swap');</style>
+                <style>@import url('https://fonts.googleapis.com/css2?family=Karla:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;1,200;1,300;1,400;1,500;1,600;1,700;1,800&display=swap');</style>
 
-            
-
-            <Box 
-                sx={{ 
-                    display: 'flex', 
-                    // background: `linear-gradient(180deg, ${appConfig.theme.palette.primary.dark[9]}, ${appConfig.theme.palette.primary.dark[8]})`,
-                    // background: appConfig.theme.palette.neutral.dark[1],
-                    // background: 'red'
-                }}
-            >
-                <CssBaseline />
-                {toggler}
-                {topNav}
-                {sideNav}
-                {content}
-            </Box>
-        </ThemeProvider>
-    )
+                <Box
+                    sx={{
+                        display: 'flex',
+                    }}
+                >
+                    <CssBaseline />
+                    {toggler}
+                    {topNav}
+                    {sideNav}
+                    {content}
+                </Box>
+            </ThemeProvider>
+        )
     }
 
 }

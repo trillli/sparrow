@@ -1,7 +1,7 @@
 import IAlarmConfigCategoryDetailStateControl from "./IAlarmConfigCategoryDetailStateControl"
 
 
-export type IAlarmCategoryGroupName = 'sound' | 'light' |'vibration' 
+export type IAlarmCategoryGroupName = 'sound' | 'light' | 'vibration'
 
 export type IAlarmConfigStateControl = {
     [key in IAlarmCategoryGroupName]: IAlarmConfigCategoryDetailStateControl
@@ -14,7 +14,7 @@ export const alarmConfigCategoryKeysOrdered: IAlarmCategoryGroupName[] = [
 ]
 
 type AlarmConfigCategoryFieldKeysOrdered = {
-    [key in typeof alarmConfigCategoryKeysOrdered[number]] : string[]
+    [key in typeof alarmConfigCategoryKeysOrdered[number]]: string[]
 }
 
 
@@ -52,8 +52,8 @@ export type IAlarmGroupMetadata = {
 }
 
 export type IAlarmGroupSoundFields = {
-                search: IAlarmConfigCategoryDetailMetadata
-                volume: IAlarmConfigCategoryDetailMetadata
+    search: IAlarmConfigCategoryDetailMetadata
+    volume: IAlarmConfigCategoryDetailMetadata
 }
 
 export type IAlarmGroupLightFields = {

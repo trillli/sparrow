@@ -16,6 +16,20 @@ interface AppSplashProps {
 
 const AppSplash: React.FC<AppSplashProps> = ({ appConfig }) => {
 
+    //sv
+    const { user, isAuthenticated, getAccessTokenSilently } = useAuth0();
+    const refHowItWorks = React.useRef(null)
+
+    //ef
+
+    //ha
+    const scrollToHowItWorks = () => {
+        if (refHowItWorks.current) {
+            refHowItWorks.current.scrollIntoView({ behavior: 'smooth' })
+        }
+    }
+
+    //other
     const customStyling: { [key: string]: any } = {
         mainContents: {
             padding: '0px',
@@ -29,27 +43,15 @@ const AppSplash: React.FC<AppSplashProps> = ({ appConfig }) => {
 
     const gradientLight1 = `linear-gradient(153deg, ${appConfig.theme.palette.secondary.dark[4]}, ${appConfig.theme.palette.tertiary.dark[4]})`
 
-    const { user, isAuthenticated, getAccessTokenSilently } = useAuth0();
-    // const [loginBtnCopy, setLoginBtnCopy] = React.useState<string>('Log In / Sign Up to Get Started')
-    // const [loginBtnIcon, setLoginBtnIcon] = React.useState<React.ReactNode>(<LoginIcon />)
-    
-    const refHowItWorks = React.useRef(null)
     let loginBtnCopy: string
     let loginBtnIcon: React.ReactNode
 
     if (isAuthenticated) {
-        //console.log('authenticated!')
         loginBtnCopy = 'My Alarms'
         loginBtnIcon = (<AlarmIcon />)
     } else {
         loginBtnCopy = 'Log In / Sign Up to Get Started'
         loginBtnIcon = (<LoginIcon />)
-    }
-
-    const scrollToHowItWorks = () => {
-        if (refHowItWorks.current) {
-            refHowItWorks.current.scrollIntoView({ behavior: 'smooth' })
-        }
     }
 
     return (
@@ -105,7 +107,6 @@ const AppSplash: React.FC<AppSplashProps> = ({ appConfig }) => {
                                 sx={{
                                     width: '75vw',
                                     maxWidth: '475px',
-                                    // minWidth: '275px',
                                     display: 'flex',
                                     justifyContent: 'center'
 
@@ -122,47 +123,46 @@ const AppSplash: React.FC<AppSplashProps> = ({ appConfig }) => {
                                 />
                             </Box>
                             <Box
-                                        id='get-started-prompt-container'
-                                        sx={{
-                                            display: 'flex',
-                                            width: '75vw',
-                                            maxWidth: '475px',
-                                            // minWidth: '275px',
-                                        }}
-                                    >
-                                        <Button
-                                            id='get-started-prompt'
-                                            startIcon={loginBtnIcon}
-                                            component={Link}
-                                            to={'/alarms'}
-                                            sx={{
-                                                transition: '200ms',
-                                                marginLeft: 'auto',
-                                                width: '100%',
-                                                padding: '.5rem .25rem',
-                                                background: gradientLight1,
-                                                boxShadow: appConfig.theme.shadows[2],
-                                                borderBottom: `3px solid ${appConfig.theme.palette.neutral.dark[3]}`,
-                                                borderRadius: '4px',
-                                                '&>.MuiButton-startIcon': {
-                                                    padding: '.5rem',
-                                                    borderRadius: '4px',
-                                                    margin: '0px',
-                                                    marginRight: '.5rem',
-                                                    '&>.MuiSvgIcon-root': {
-                                                        fontSize: '2rem'
-                                                    }
-                                                },
-                                                '&:hover': {
-                                                    transform: 'scale(1.02)'
-                                                }
-                                            }}
-                                        >
-                                            <Typography>
-                                                {loginBtnCopy}
-                                            </Typography>
-                                        </Button>
-                                    </Box>
+                                id='get-started-prompt-container'
+                                sx={{
+                                    display: 'flex',
+                                    width: '75vw',
+                                    maxWidth: '475px',
+                                }}
+                            >
+                                <Button
+                                    id='get-started-prompt'
+                                    startIcon={loginBtnIcon}
+                                    component={Link}
+                                    to={'/alarms'}
+                                    sx={{
+                                        transition: '200ms',
+                                        marginLeft: 'auto',
+                                        width: '100%',
+                                        padding: '.5rem .25rem',
+                                        background: gradientLight1,
+                                        boxShadow: appConfig.theme.shadows[2],
+                                        borderBottom: `3px solid ${appConfig.theme.palette.neutral.dark[3]}`,
+                                        borderRadius: '4px',
+                                        '&>.MuiButton-startIcon': {
+                                            padding: '.5rem',
+                                            borderRadius: '4px',
+                                            margin: '0px',
+                                            marginRight: '.5rem',
+                                            '&>.MuiSvgIcon-root': {
+                                                fontSize: '2rem'
+                                            }
+                                        },
+                                        '&:hover': {
+                                            transform: 'scale(1.02)'
+                                        }
+                                    }}
+                                >
+                                    <Typography>
+                                        {loginBtnCopy}
+                                    </Typography>
+                                </Button>
+                            </Box>
                             <Box
                                 sx={{
                                     width: '100%'
@@ -197,43 +197,42 @@ const AppSplash: React.FC<AppSplashProps> = ({ appConfig }) => {
                                         Choose your favorite wake-up music, adjust your sunrise & vibration settings, and break in the day your way!
                                     </Typography>
                                     <Box
-                                sx={{
-                                    width: '100%',
-                                    maxWidth: '475px'
-                                }}
-                            >
-                                <Button
-                                    id='get-started-prompt'
-                                    // startIcon={<HelpOutlineIcon />}
-                                    onClick={scrollToHowItWorks}
-                                    sx={{
-                                        transition: '200ms',
-                                        padding: '1rem 1rem',
-                                        background: gradientLight1,
-                                        color: appConfig.theme.palette.neutral.dark[3],
-                                        borderBottom: `3px solid ${appConfig.theme.palette.neutral.dark[3]}`,
-                                        boxShadow: appConfig.theme.shadows[2],
-                                        borderRadius: '4px',
-                                        width: '75vw',
-                                            maxWidth: '100%',
-                                        '&>.MuiButton-startIcon': {
-                                            borderRadius: '4px',
-                                            margin: '0px',
-                                            marginRight: '.5rem',
-                                            '&>.MuiSvgIcon-root': {
-                                                fontSize: '2rem'
-                                            }
-                                        },
-                                        '&:hover': {
-                                            transform: 'scale(1.02)'
-                                        }
-                                    }}
-                                >
-                                    <Typography>
-                                        So, how does it work?
-                                    </Typography>
-                                </Button>
-                            </Box>
+                                        sx={{
+                                            width: '100%',
+                                            maxWidth: '475px'
+                                        }}
+                                    >
+                                        <Button
+                                            id='get-started-prompt'
+                                            onClick={scrollToHowItWorks}
+                                            sx={{
+                                                transition: '200ms',
+                                                padding: '1rem 1rem',
+                                                background: gradientLight1,
+                                                color: appConfig.theme.palette.neutral.dark[3],
+                                                borderBottom: `3px solid ${appConfig.theme.palette.neutral.dark[3]}`,
+                                                boxShadow: appConfig.theme.shadows[2],
+                                                borderRadius: '4px',
+                                                width: '75vw',
+                                                maxWidth: '100%',
+                                                '&>.MuiButton-startIcon': {
+                                                    borderRadius: '4px',
+                                                    margin: '0px',
+                                                    marginRight: '.5rem',
+                                                    '&>.MuiSvgIcon-root': {
+                                                        fontSize: '2rem'
+                                                    }
+                                                },
+                                                '&:hover': {
+                                                    transform: 'scale(1.02)'
+                                                }
+                                            }}
+                                        >
+                                            <Typography>
+                                                So, how does it work?
+                                            </Typography>
+                                        </Button>
+                                    </Box>
                                 </Box>
                             </Box>
                         </Box>
@@ -246,8 +245,6 @@ const AppSplash: React.FC<AppSplashProps> = ({ appConfig }) => {
                         position: 'relative',
                         marginTop: '100vh',
                         padding: '5rem 6%',
-                        // background: appConfig.theme.palette.primary.dark[4],
-                        // background: `linear-gradient(151deg, #c2c2ff, #fe7e7e)`,
                         background: `linear-gradient(151deg, ${appConfig.theme.palette.primary.dark[4]} 15%, ${appConfig.theme.palette.secondary.dark[2]})`,
                         display: 'flex',
                         flexDirection: 'column',
@@ -324,7 +321,7 @@ const AppSplash: React.FC<AppSplashProps> = ({ appConfig }) => {
                                                     margin: '12px 0px'
                                                 },
                                                 '& .MuiButton-startIcon': {
-                                                    marginRight: '.5rem', 
+                                                    marginRight: '.5rem',
                                                     '& svg': {
                                                         color: appConfig.theme.palette.secondary.dark[5],
                                                         fontSize: '1.75rem',
@@ -333,7 +330,6 @@ const AppSplash: React.FC<AppSplashProps> = ({ appConfig }) => {
                                             }}
                                         >
                                             <Button
-                                                // startIcon={<HelpOutlineIcon />}
                                             >
                                                 <Typography>
                                                     Wait a second. I have to build my own alarm?
@@ -396,9 +392,6 @@ const AppSplash: React.FC<AppSplashProps> = ({ appConfig }) => {
                                             <Typography>
                                                 The Python script controls the RaspberryPi. It reaches out to the DayBreakr API to retrieve your alarm configurations, and triggers the RaspberryPi to play music, engage the lights, and power the vibration motor according to those configurations.
                                             </Typography>
-                                            {/* <Typography>
-                                                The script reaches out to the Daybreakr API on the web, grabs your alarm configurations, and it triggers your RaspberryPi to play music, engage the lights, and power the vibration motor according to your alarm settings.
-                                            </Typography> */}
                                             <Typography
                                                 sx={{
                                                     fontWeight: 'bold'
@@ -430,7 +423,6 @@ const AppSplash: React.FC<AppSplashProps> = ({ appConfig }) => {
                         paddingBottom: '.75rem',
                         position: 'relative',
                         background: appConfig.theme.palette.neutral.dark[6],
-                        // borderTop: `3px solid ${appConfig.theme.palette.secondary.dark[4]}`,
                         display: 'flex',
                         flexDirection: 'column',
                         alignItems: 'center'
@@ -486,8 +478,8 @@ const AppSplash: React.FC<AppSplashProps> = ({ appConfig }) => {
                                         '&:hover': {
                                             transition: '200ms',
                                             color: appConfig.theme.palette.neutral.dark[3],
-                                        background: gradientLight1,
-                                        transform: 'scale(1.02)'
+                                            background: gradientLight1,
+                                            transform: 'scale(1.02)'
                                         },
                                         '& .MuiButton-startIcon': {
                                             marginRight: '1rem',
@@ -514,7 +506,6 @@ const AppSplash: React.FC<AppSplashProps> = ({ appConfig }) => {
                                     You can learn a bit more about me and my other projects by visiting my website
                                 </Typography>
                                 <Button
-                                    // startIcon={<GitHubIcon />}
                                     component={Link}
                                     to='https://timothy-johnston.github.io'
                                     target="_blank"
@@ -528,8 +519,8 @@ const AppSplash: React.FC<AppSplashProps> = ({ appConfig }) => {
                                         '&:hover': {
                                             transition: '200ms',
                                             color: appConfig.theme.palette.neutral.dark[3],
-                                        background: gradientLight1,
-                                        transform: 'scale(1.02)'
+                                            background: gradientLight1,
+                                            transform: 'scale(1.02)'
                                         },
                                         '& .MuiButton-startIcon': {
                                             marginRight: '1rem',
@@ -544,15 +535,15 @@ const AppSplash: React.FC<AppSplashProps> = ({ appConfig }) => {
                             </Box>
                         </Box>
                         <Typography
-                        sx={{
-                            color: appConfig.theme.palette.secondary.dark[0],
-                            lineHeight: '2.125',
-                            fontSize: '1rem',
-                            textAlign: 'center'
-                        }}
-                    >
-                        Background photo by 
-                            <a 
+                            sx={{
+                                color: appConfig.theme.palette.secondary.dark[0],
+                                lineHeight: '2.125',
+                                fontSize: '1rem',
+                                textAlign: 'center'
+                            }}
+                        >
+                            Background photo by
+                            <a
                                 href="https://unsplash.com/@8moments?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash"
                                 target='_blank'
                                 style={{
@@ -566,17 +557,17 @@ const AppSplash: React.FC<AppSplashProps> = ({ appConfig }) => {
                                     textWrap: 'nowrap'
                                 }}
                             >
-                            Simon Berger
+                                Simon Berger
                             </a>on Unsplash
-                    </Typography>
-                    <Box id='daybreakr-footer-copyright-container'>
-                        <Typography 
-                            sx={{
-                                fontSize: '1rem',
-                                textAlign: 'center'
-                            }}>&copy; 2024 Trillli. All rights reserved. | Created by Tim Johnston
                         </Typography>
-                    </Box>
+                        <Box id='daybreakr-footer-copyright-container'>
+                            <Typography
+                                sx={{
+                                    fontSize: '1rem',
+                                    textAlign: 'center'
+                                }}>&copy; 2024 Trillli. All rights reserved. | Created by Tim Johnston
+                            </Typography>
+                        </Box>
                     </Box>
                 </Box>
             </Box>

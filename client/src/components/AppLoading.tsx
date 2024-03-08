@@ -9,6 +9,13 @@ interface AppLoadingProps {
 
 const AppLoading: React.FC<AppLoadingProps> = ({ appConfig }) => {
 
+    //sv
+
+    //ef
+
+    //ha
+
+    //other
     const customStyling: { [key: string]: any } = {
         mainContents: {
             padding: '0px',
@@ -27,13 +34,12 @@ const AppLoading: React.FC<AppLoadingProps> = ({ appConfig }) => {
             navTop={false}
             navSide={false}
         >
-            {/* <div>hi</div> */}
             <Box
                 className='loading-img-container'
             >
-                <img src={appConfig.logos.loading} style={{width: '25%'}} />
+                <img src={appConfig.logos.loading} style={{ width: '25%' }} />
             </Box>
-            <Box 
+            <Box
                 className='loading-indicator-container'
                 sx={{ width: '75%' }}>
                 <LinearProgress />

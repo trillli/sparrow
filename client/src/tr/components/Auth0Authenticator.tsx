@@ -9,6 +9,14 @@ interface Auth0AuthenticatorProps {
 }
 
 export const Auth0Authenticator: React.FC<Auth0AuthenticatorProps> = ({appConfig, component}) => {
+
+  //sv
+
+  //ef
+
+  //ha
+
+  //other
   
   const Component = withAuthenticationRequired(component, {
     onRedirecting: () => (

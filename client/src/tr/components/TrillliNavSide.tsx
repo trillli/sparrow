@@ -24,11 +24,13 @@ interface TrillliNavSideProps {
 
 const TrillliNavSide: React.FC<TrillliNavSideProps> = ({ appConfig, anchor, collapsed, isDisplayWidthSm, isDisplayWidthXs, variant, open, styling = {}, fnToggleHandler, fnShiftHandler }) => {
 
+    //sv
     const { isAuthenticated, isLoading } = useAuth0();
     const { auth0LogIn } = useAuth0LogIn();
     const { auth0LogOut } = useAuth0LogOut();
     const sideNavRef = React.useRef(null);
 
+    //ef
     React.useEffect(() => {
     }, [isLoading, isAuthenticated]);
 
@@ -47,6 +49,9 @@ const TrillliNavSide: React.FC<TrillliNavSideProps> = ({ appConfig, anchor, coll
 
     })
 
+    //ha
+
+    //other
     const menuAll: TrillliMenu = {
         top: [...appConfig.menuApp.top, ...appConfig.menuBase.top],
         side: [...appConfig.menuBase.side, ...appConfig.menuApp.side],
@@ -86,7 +91,6 @@ const TrillliNavSide: React.FC<TrillliNavSideProps> = ({ appConfig, anchor, coll
 
 
             })
-            // menuItemComponents.push(<Divider key={'divider_top'} />)
         }
 
         menuAll.side.forEach((item) => {

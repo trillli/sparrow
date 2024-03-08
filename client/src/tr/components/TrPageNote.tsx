@@ -10,10 +10,18 @@ interface TrBasicNoteProps {
 }
 
 //MUI icons have a gap between their body and their full width / height, so in order to give the icon background a color and the icon foreground a color, you need to layer it over an icon with an identical shape but a solid background. See the 'announcement' and 'chatbubble' defaults for an example. So, icon can be left blank to use the default 'announcement' version, it can be a string icon  name in which case the layering won't be able to be done automatically, or it can be a react component to allow for a custom layered icon
-const TrPageNote: React.FC<TrBasicNoteProps> = ({appConfig, text, icon = 'announcement'}) => {
+const TrPageNote: React.FC<TrBasicNoteProps> = ({ appConfig, text, icon = 'announcement' }) => {
+
+    //sv
+
+    //ef
+
+    //ha
+
+    //other
 
     let iconComponent: React.ReactNode
-    if (typeof(icon) === 'string') {
+    if (typeof (icon) === 'string') {
         if (icon === 'announcement') {
             iconComponent = (
                 <><ChatBubbleIcon sx={{
@@ -21,13 +29,12 @@ const TrPageNote: React.FC<TrBasicNoteProps> = ({appConfig, text, icon = 'announ
                     zIndex: '1',
                     fontSize: '2.5rem',
                     color: appConfig.theme.palette.tertiary.main
-                }}/>
-                {/* chatbubble</Icon> */}
-                <Icon sx={{
-                    zIndex: '2',
-                    fontSize: '2.5rem',
-                    color: appConfig.theme.palette.primary.main
-                }}>{icon}</Icon>
+                }} />
+                    <Icon sx={{
+                        zIndex: '2',
+                        fontSize: '2.5rem',
+                        color: appConfig.theme.palette.primary.main
+                    }}>{icon}</Icon>
                 </>
             )
         } else {

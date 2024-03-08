@@ -11,15 +11,15 @@ interface TrillliRoutesProps {
   appConfig: ITrillliConfig
 }
 
-const TrillliRoutes: React.FC<TrillliRoutesProps> = ({appConfig}) => {
+const TrillliRoutes: React.FC<TrillliRoutesProps> = ({ appConfig }) => {
 
   return (
-      <Routes>
-          <Route path="/" element={<AppSplash appConfig={appConfig} />} />
-          <Route path="/profile" element={<Auth0Authenticator appConfig={appConfig} component={AccountPersonal} />} />
-          <Route path="/callback" element={<Auth0Authenticator appConfig={appConfig} component={AlarmsHome} />} />
-          <Route path="*" element={<ErrorPage404 appConfig={appConfig} />} />
-      </Routes>
+    <Routes>
+      <Route path="/" element={<AppSplash appConfig={appConfig} />} />
+      <Route path="/profile" element={<Auth0Authenticator appConfig={appConfig} component={AccountPersonal} />} />
+      <Route path="/callback" element={<Auth0Authenticator appConfig={appConfig} component={AlarmsHome} />} />
+      <Route path="*" element={<ErrorPage404 appConfig={appConfig} />} />
+    </Routes>
   );
 
 };

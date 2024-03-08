@@ -7,15 +7,22 @@ interface AlarmConfigCategoryDetailContentsProps {
     children: React.ReactNode
 }
 
-const AlarmConfigCategoryDetailContents: React.FC<AlarmConfigCategoryDetailContentsProps> = ({appConfig, children}) => {
+const AlarmConfigCategoryDetailContents: React.FC<AlarmConfigCategoryDetailContentsProps> = ({ appConfig, children }) => {
 
+    //sv
+
+    //ef
+
+    //ha
+
+    //other
 
     return (
 
-        <Box 
-        className='alarm-config-category-detail-field-contents-container'
+        <Box
+            className='alarm-config-category-detail-field-contents-container'
         >
-        {children}
+            {children}
         </Box>
 
 

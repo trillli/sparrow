@@ -22,9 +22,11 @@ interface AlarmConfigCategoryDetailBodySoundSearchProps {
 
 const AlarmConfigCategoryDetailBodySoundSearch: React.FC<AlarmConfigCategoryDetailBodySoundSearchProps> = ({ alarm, appConfig, handlers }) => {
 
+    //TODO: TYPE
+    type SoundType = 'track' | 'album' | 'artist' | 'playlist'
     const gradientLight1 = `linear-gradient(153deg, ${appConfig.theme.palette.secondary.dark[4]}, ${appConfig.theme.palette.tertiary.dark[4]})`
 
-    type SoundType = 'track' | 'album' | 'artist' | 'playlist'
+    //sv
     const { user, isAuthenticated, getAccessTokenSilently } = useAuth0();
     const [soundSearchValue, setSoundSearchValue] = React.useState<string>('')
     const [soundSearchResults, setSoundSearchResults] = React.useState({
@@ -43,6 +45,7 @@ const AlarmConfigCategoryDetailBodySoundSearch: React.FC<AlarmConfigCategoryDeta
     const [currentSoundType, setCurrentSoundType] = React.useState<SoundType>(alarm.sound.type)
     const [currentSoundShuffle, setCurrentSoundShuffle] = React.useState<boolean>(alarm.sound.shuffle)
 
+    //ef
     React.useEffect(() => {
         if (soundTypeNoFilter) {
             setSoundType([])
@@ -67,10 +70,58 @@ const AlarmConfigCategoryDetailBodySoundSearch: React.FC<AlarmConfigCategoryDeta
         handlers.updateAlarmsMetadata(alarm.id, alarm)
     }, [currentSoundTitle, currentSoundArtist, currentSoundUri, currentSoundType, currentSoundShuffle])
 
-    function executeSearchRequest() {
+    React.useEffect(() => {
+        executeSearchRequest()
+    }, [soundSearchValue, soundType])
 
-        // //console.log('requesting:')
-        // //console.log()
+    //ha
+
+    const handleShuffleToggle = (event: React.MouseEvent<HTMLElement>) => {
+        setCurrentSoundShuffle(!currentSoundShuffle)
+    }
+
+    const handleSoundSearchTyping = (event: React.ChangeEvent<HTMLInputElement>) => {
+        if (soundSearchValue == undefined || soundSearchValue == '') {
+            setSearchResultsExpanded(true)
+        }
+        if (event.target.value == undefined || event.target.value == '') {
+            setSearchResultsExpanded(false)
+        }
+        setSoundSearchValue(event.target.value)
+    }
+
+    const handleSoundTypeChange = (event: React.MouseEvent<HTMLElement>, value) => {
+        setSoundType(value)
+    }
+
+    const handleSoundTypeNoFilterChange = (event: React.MouseEvent<HTMLElement>) => {
+        event.stopPropagation()
+        if (!soundTypeNoFilter) {
+            setSoundTypeNoFilter(true)
+        }
+    }
+
+    const handleSearchResultSelection = (event: React.MouseEvent<HTMLElement>) => {
+        const target = event.currentTarget
+        const selectionData = (JSON.parse(target.getAttribute('selection')))
+        const selectedRows: any[] = document.querySelectorAll('.MuiTableRow-root.Mui-selected')
+        selectedRows.forEach((selectedRow) => {
+            selectedRow.classList.remove('Mui-selected')
+        })
+        target.classList.add('Mui-selected')
+        setCurrentSoundTitle(selectionData.title)
+        setCurrentSoundArtist(selectionData.artist)
+        setCurrentSoundType(selectionData.type)
+        setCurrentSoundImage(selectionData.image)
+    }
+
+    const handleSearchResultsChange = (event: React.SyntheticEvent, expanded: boolean) => {
+        setSearchResultsExpanded(expanded)
+    }
+
+    //other
+
+    function executeSearchRequest() {
 
         if (soundSearchValue == undefined || soundSearchValue == '') {
             setSoundSearchResults({
@@ -116,8 +167,6 @@ const AlarmConfigCategoryDetailBodySoundSearch: React.FC<AlarmConfigCategoryDeta
             const noImgPlaylist = '/media/img/noImgArtist.svg'
 
             songs.forEach((song) => {
-                //console.log(song)
-                //console.log(song.images)
                 const songName: string = song.name
                 const songAlbum: string = song.album ? song.album.name : ''
                 const songArtists: any[] = song.artists
@@ -126,7 +175,7 @@ const AlarmConfigCategoryDetailBodySoundSearch: React.FC<AlarmConfigCategoryDeta
                 songArtists.forEach((songArtist) => {
                     songArtistNames.push(songArtist.name)
                 })
-                
+
                 const songPreviewUrl: string = song.preview_url
                 soundSearchResultsFormatted.tracks.push({
                     type: 'track',
@@ -157,7 +206,6 @@ const AlarmConfigCategoryDetailBodySoundSearch: React.FC<AlarmConfigCategoryDeta
             artists.forEach((artist) => {
                 const artistName: string = artist.name
                 const artistImage: string = (artist.images) ? (artist.images.length > 0 ? artist.images[0].url : noImgArtist) : noImgArtist
-                // //console.log(artist.images)
                 soundSearchResultsFormatted.artists.push({
                     type: 'artist',
                     title: '',
@@ -185,80 +233,28 @@ const AlarmConfigCategoryDetailBodySoundSearch: React.FC<AlarmConfigCategoryDeta
         getSoundSearchResults()
     }
 
-    React.useEffect(() => {
-        executeSearchRequest()
-    }, [soundSearchValue, soundType])
 
-    const handleShuffleToggle = (event: React.MouseEvent<HTMLElement>) => {
-        setCurrentSoundShuffle(!currentSoundShuffle)
-    }
 
-    const handleSoundSearchTyping = (event: React.ChangeEvent<HTMLInputElement>) => {
-        if (soundSearchValue == undefined || soundSearchValue == '') {
-            setSearchResultsExpanded(true)
-        }
-        if (event.target.value == undefined || event.target.value == '') {
-            setSearchResultsExpanded(false)
-        }
-        setSoundSearchValue(event.target.value)
-    }
 
-    const handleSoundTypeChange = (event: React.MouseEvent<HTMLElement>, value) => {
-        //console.log(value)
-        setSoundType(value)
-    }
 
-    const handleSoundTypeNoFilterChange = (event: React.MouseEvent<HTMLElement>) => {
-        event.stopPropagation()
-        if (!soundTypeNoFilter) {
-            setSoundTypeNoFilter(true)
-        }
-    }
 
-    const handleSearchResultSelection = (event: React.MouseEvent<HTMLElement>) => {
-        const target = event.currentTarget
-        const selectionData = (JSON.parse(target.getAttribute('selection')))
-        const selectedRows: any[] = document.querySelectorAll('.MuiTableRow-root.Mui-selected')
-        //console.log(selectedRows)
-        selectedRows.forEach((selectedRow) => {
-            //console.log('a row was selected')
-            selectedRow.classList.remove('Mui-selected')
-        })
-        target.classList.add('Mui-selected')
-        setCurrentSoundTitle(selectionData.title)
-        setCurrentSoundArtist(selectionData.artist)
-        setCurrentSoundType(selectionData.type)
-        setCurrentSoundImage(selectionData.image)
-    }
-
-    const handleSearchResultsChange = (event: React.SyntheticEvent, expanded: boolean) => {
-        //console.log('expanded:')
-        //console.log(expanded)
-        setSearchResultsExpanded(expanded)
-    }
-
-    // function getCurrentSoundSelection() {
-
-    // }
-
-    //console.log(soundSearchResults)
 
     return (
         <>
             <AlarmConfigCategoryDetailContainer appConfig={appConfig}>
-                    <AlarmConfigCategoryDetailHeader label='Current Selection' />
-                    <AlarmConfigCategoryDetailContents appConfig={appConfig}>
-                        <Box
-                            sx={{
-                                marginTop: '.5rem',
-                                display: 'flex',
-                                flexWrap: 'nowrap',
-                                alignItems: 'flex-end',
-                                columnGap: '1rem'
-                            }}
-                        >
-                            
-                        
+                <AlarmConfigCategoryDetailHeader label='Current Selection' />
+                <AlarmConfigCategoryDetailContents appConfig={appConfig}>
+                    <Box
+                        sx={{
+                            marginTop: '.5rem',
+                            display: 'flex',
+                            flexWrap: 'nowrap',
+                            alignItems: 'flex-end',
+                            columnGap: '1rem'
+                        }}
+                    >
+
+
                         <img
                             src={currentSoundImage}
                             style={{
@@ -300,429 +296,429 @@ const AlarmConfigCategoryDetailBodySoundSearch: React.FC<AlarmConfigCategoryDeta
                             </Box>
                         ) : currentSoundType == 'artist' ? (
                             <Box
-                            sx={{
-                                display: 'flex',
-                                flexDirection: 'row',
-                                flexWrap: 'nowrap',
-                                alignItems: 'baseline',
-                            }}
-                        >
-                            <Box
                                 sx={{
-
+                                    display: 'flex',
+                                    flexDirection: 'row',
+                                    flexWrap: 'nowrap',
+                                    alignItems: 'baseline',
                                 }}
                             >
-                                <Typography
+                                <Box
                                     sx={{
-                                        lineHeight: '1.15',
-                                        fontSize: '1.25rem',
-                                        fontWeight: '600',
-                                        marginBottom: '.125rem'
+
                                     }}
                                 >
-                                    {currentSoundArtist}
-                                </Typography>
-                            </Box>
-                        </Box>
-                        ) : <></>}
-    <Box
-                                    sx={{
-                                        alignSelf: 'flex-end',
-                                        marginLeft: 'auto',
-                                        display: currentSoundType == 'track' ? 'none' : 'block'
-                                    }}
-                                >
-                                    <IconButton 
-                                        onClick={handleShuffleToggle}
+                                    <Typography
                                         sx={{
-                                            background: currentSoundShuffle ? appConfig.theme.palette.neutral.dark[0] : appConfig.theme.palette.neutral.light[7],
-                                            borderRadius: '4px',
-                                            padding: '.125rem',
-                                            '&:hover': {
-                                                background: appConfig.theme.palette.neutral.dark[0],
-                                            }
+                                            lineHeight: '1.15',
+                                            fontSize: '1.25rem',
+                                            fontWeight: '600',
+                                            marginBottom: '.125rem'
                                         }}
                                     >
-                                        {currentSoundShuffle ? (
-                                            <Shuffle 
-                                                sx={{
-                                                    fontSize: '1.625rem',
-                                                    color: '#82d655',
-                                                    borderRadius: '4px'
-                                                }} 
-                                            />
-                                        ) : (
-                                            <Shuffle 
-                                                sx={{
-                                                    fontSize: '1.625rem',
-                                                    color: appConfig.theme.palette.primary.dark[5],
-                                                    borderRadius: '4px'
-                                                }} 
-                                            />
-                                        )}
-                                    </IconButton>
+                                        {currentSoundArtist}
+                                    </Typography>
                                 </Box>
-                        </Box>
-                    </AlarmConfigCategoryDetailContents>
-                    </AlarmConfigCategoryDetailContainer>
-                {/* </Box> */}
-                <AlarmConfigCategoryDetailContainer appConfig={appConfig}>
-                    <AlarmConfigCategoryDetailHeader label='Search for Music' />
-                    <AlarmConfigCategoryDetailContents appConfig={appConfig}>
+                            </Box>
+                        ) : <></>}
                         <Box
                             sx={{
-                                display: 'flex',
-                                flexDirection: 'column',
-                                rowGap: '.75rem',
-                                marginTop: '.5rem'
+                                alignSelf: 'flex-end',
+                                marginLeft: 'auto',
+                                display: currentSoundType == 'track' ? 'none' : 'block'
                             }}
                         >
-                                            <Box
-                    className='search-category-filters-container'
-                    sx={{
-                        display: 'flex',
-                        flexWrap: 'wrap',
-                        // width: '100%'
-                    }}
-                >
-                    <TrToggleButtonGroup
-                    appConfig={appConfig}
-                        className='search-category-filters'
-                        value={soundType}
-                        onChange={handleSoundTypeChange}
+                            <IconButton
+                                onClick={handleShuffleToggle}
+                                sx={{
+                                    background: currentSoundShuffle ? appConfig.theme.palette.neutral.dark[0] : appConfig.theme.palette.neutral.light[7],
+                                    borderRadius: '4px',
+                                    padding: '.125rem',
+                                    '&:hover': {
+                                        background: appConfig.theme.palette.neutral.dark[0],
+                                    }
+                                }}
+                            >
+                                {currentSoundShuffle ? (
+                                    <Shuffle
+                                        sx={{
+                                            fontSize: '1.625rem',
+                                            color: '#82d655',
+                                            borderRadius: '4px'
+                                        }}
+                                    />
+                                ) : (
+                                    <Shuffle
+                                        sx={{
+                                            fontSize: '1.625rem',
+                                            color: appConfig.theme.palette.primary.dark[5],
+                                            borderRadius: '4px'
+                                        }}
+                                    />
+                                )}
+                            </IconButton>
+                        </Box>
+                    </Box>
+                </AlarmConfigCategoryDetailContents>
+            </AlarmConfigCategoryDetailContainer>
+            {/* </Box> */}
+            <AlarmConfigCategoryDetailContainer appConfig={appConfig}>
+                <AlarmConfigCategoryDetailHeader label='Search for Music' />
+                <AlarmConfigCategoryDetailContents appConfig={appConfig}>
+                    <Box
                         sx={{
-                            // marginTop: '.5rem',
-                            // display: 'flex',
-                            // flexWrap: 'wrap',
-                            // height: 'fit-content',
-                            // '& .MuiButtonBase-root': {
-                            //     borderLeft: '1px solid rgba(0, 0, 0, 0.12)',
-                            //     background: 'none',
-                            //     padding: '.125rem .75rem',
-                            //     height: '2.75rem',
-                            // },
-                            // '&>.MuiButtonBase-root.Mui-selected': {
-                            //     background: appConfig.theme.palette.primary.dark[1],
-                            //     fontWeight: 'bold',
-                            //     borderLeft: '1px solid rgba(0, 0, 0, 0.12)'
-                            // }
-                            // border: '2px solid red',
-                            // padding: '0px'
-                            flexWrap: 'wrap',
-                            rowGap: '.375rem'
+                            display: 'flex',
+                            flexDirection: 'column',
+                            rowGap: '.75rem',
+                            marginTop: '.5rem'
                         }}
                     >
-                        <ToggleButton size='small' value='track' className='alarm-day alarm-summary-day'>Song</ToggleButton>
-                        <ToggleButton size='small' value='artist' className='alarm-day alarm-summary-day'>Artist</ToggleButton>
-                        <ToggleButton size='small' value='album' className='alarm-day alarm-summary-day'>Album</ToggleButton>
-                        {/* <ToggleButton value='playlist' className='alarm-day alarm-summary-day'>Playlist</ToggleButton> */}
-                        <TrToggleButtonGroup
-                        appConfig={appConfig}
-                            className='soundCategoryNofilter'
-                            value={soundTypeNoFilter}
-                            onClick={handleSoundTypeNoFilterChange}
+                        <Box
+                            className='search-category-filters-container'
                             sx={{
-                                borderRadius: '0px 4px 4px 0px',
+                                display: 'flex',
+                                flexWrap: 'wrap',
+                                // width: '100%'
                             }}
                         >
-                            <ToggleButton
-                                className='alarm-day alarm-summary-day'
-                                value={true}
-                                size='small'
+                            <TrToggleButtonGroup
+                                appConfig={appConfig}
+                                className='search-category-filters'
+                                value={soundType}
+                                onChange={handleSoundTypeChange}
+                                sx={{
+                                    // marginTop: '.5rem',
+                                    // display: 'flex',
+                                    // flexWrap: 'wrap',
+                                    // height: 'fit-content',
+                                    // '& .MuiButtonBase-root': {
+                                    //     borderLeft: '1px solid rgba(0, 0, 0, 0.12)',
+                                    //     background: 'none',
+                                    //     padding: '.125rem .75rem',
+                                    //     height: '2.75rem',
+                                    // },
+                                    // '&>.MuiButtonBase-root.Mui-selected': {
+                                    //     background: appConfig.theme.palette.primary.dark[1],
+                                    //     fontWeight: 'bold',
+                                    //     borderLeft: '1px solid rgba(0, 0, 0, 0.12)'
+                                    // }
+                                    // border: '2px solid red',
+                                    // padding: '0px'
+                                    flexWrap: 'wrap',
+                                    rowGap: '.375rem'
+                                }}
                             >
-                                <FilterListOffIcon />
-                            </ToggleButton>
-                        </TrToggleButtonGroup>
-                    </TrToggleButtonGroup>
-                </Box>
-                <TextField
-                    variant='filled'
-                    placeholder='Search for music on Spotify!'
-                    type='search'
-                    value={soundSearchValue}
-                    multiline
-                    onChange={handleSoundSearchTyping}
-                    InputProps={{
-                        endAdornment: <InputAdornment position="end">{<SearchIcon />}</InputAdornment>,
-                        disableUnderline: true,
-                        sx: {
-                            borderRadius: '4px',
-                            padding: '.5rem .75rem',
-                            '& .MuiInputBase-input': {
-                                paddingTop: '4px'
-                            }
-                        }
-                    }}
-                    sx={{
-                        width: '100%',
-                        '& .MuiInputLabel-root': {
-                            border: '2px solid blue',
-                            transform: 'none'
-                        }
-                    }}
-                />
-
-                {/* </AlarmConfigCategoryDetailContents> */}
-            {/* </AlarmConfigCategoryDetailContainer> */}
-
-            <Box 
-                className='sound-search-results-outer'
-                sx={{
-                    marginTop: '.75rem'
-                }}
-            >
-                <Accordion 
-                    disableGutters={true}
-                    expanded={searchResultsExpanded}
-                    onChange={handleSearchResultsChange}
-                    elevation={0}
-                    sx={{
-                        background: 'none',
-                        padding: '0px'
-                    }}
-                >
-                    <AccordionSummary 
-                        expandIcon={<ExpandMoreIcon />}
-                        sx={{
-                            padding: '0px',
-                            minHeight: '0px',
-                            fontSize: '1.25rem',
-                            textTransform: 'uppercase',
-                            borderBottom: searchResultsExpanded ? '1px solid #00000020' : 'none',
-                        }}
-                    >
-                        Search Results
-                    </AccordionSummary>
-                    <AccordionDetails 
-                        sx={{
-                            padding: '0px'
-                        }}
-                    >
-
-                        <Box>
-                            {soundType.includes('track') || soundTypeNoFilter ? (
-                                <SearchResultAccordion
+                                <ToggleButton size='small' value='track' className='alarm-day alarm-summary-day'>Song</ToggleButton>
+                                <ToggleButton size='small' value='artist' className='alarm-day alarm-summary-day'>Artist</ToggleButton>
+                                <ToggleButton size='small' value='album' className='alarm-day alarm-summary-day'>Album</ToggleButton>
+                                {/* <ToggleButton value='playlist' className='alarm-day alarm-summary-day'>Playlist</ToggleButton> */}
+                                <TrToggleButtonGroup
                                     appConfig={appConfig}
-                                    label='Songs'
+                                    className='soundCategoryNofilter'
+                                    value={soundTypeNoFilter}
+                                    onClick={handleSoundTypeNoFilterChange}
+                                    sx={{
+                                        borderRadius: '0px 4px 4px 0px',
+                                    }}
                                 >
-                                        <TableContainer >
-                                            <Table
-                                                size='small'
-                                            >
-                                                <TableBody>
-                                                    {soundSearchResults.tracks.length > 0 ? (soundSearchResults.tracks.map((row, index) => (
-                                                        <TableRow
-                                                            key={index}
-                                                            hover
-                                                            selection={JSON.stringify(row)}
-                                                            onClick={handleSearchResultSelection}
-                                                            sx={{
-                                                                '&:nth-child(odd)': {
-                                                                    background: '#ffffff10'
-                                                                }
-                                                            }}
-                                                        >
-                                                            <TableCell 
-                                                                component='th' 
-                                                                scope='row'
-                                                                sx={{
-                                                                    display: 'flex',
-                                                                    flexDirection: 'row',
-                                                                    alignItems: 'center',
-                                                                    columnGap: '.5rem',
-                                                                    padding: '.25rem 0px',
-                                                                    paddingRight: '0rem',
-                                                                    borderBottom: 'none',
-                                                                }}
-                                                            >
-                                                                <img 
-                                                                    src={row.image}
-                                                                    style={{height: '3.625rem', width: '3.625rem'}}
-                                                                />
-                                                                <Box
-                                                                    sx={{
-                                                                        display: 'flex',
-                                                                        flexDirection: 'column',
-                                                                        rowGap: '.25rem',
-                                                                    }}
-                                                                >
-                                                                    <Typography
-                                                                        sx={{
-                                                                            fontWeight: 'bold',
-                                                                            lineHeight: '1.0'
-                                                                        }}
-                                                                    >
-                                                                        {row.title}
-                                                                    </Typography>
-                                                                    <Typography
-                                                                        sx={{
-                                                                            fontSize: '1rem',
-                                                                            lineHeight: '1.0'
-                                                                        }}
-                                                                    >
-                                                                        {row.artist}
-                                                                    </Typography>
-                                                                </Box>
-                                                            </TableCell>
-                                                        </TableRow>
-                                                    ))):(<TableRow>
-                                                            <TableCell
-                                                                sx={{
-                                                                    borderBottom: 'none',
-                                                                    paddingTop: '0px',
-                                                                    paddingBottom: '.75rem'
-                                                                }}
-                                                            >
-                                                                <div>No results yet!</div>
-                                                            </TableCell>
-                                                        </TableRow>)}
-                                                </TableBody>
-                                            </Table>
-                                        </TableContainer>
-                                    {/* </AccordionDetails> */}
-                                </SearchResultAccordion>
-                            ) : (<></>)}
-                            {soundType.includes('artist') || soundTypeNoFilter ? (
-                                <SearchResultAccordion
-                                appConfig={appConfig}
-                                label='Artists'
+                                    <ToggleButton
+                                        className='alarm-day alarm-summary-day'
+                                        value={true}
+                                        size='small'
+                                    >
+                                        <FilterListOffIcon />
+                                    </ToggleButton>
+                                </TrToggleButtonGroup>
+                            </TrToggleButtonGroup>
+                        </Box>
+                        <TextField
+                            variant='filled'
+                            placeholder='Search for music on Spotify!'
+                            type='search'
+                            value={soundSearchValue}
+                            multiline
+                            onChange={handleSoundSearchTyping}
+                            InputProps={{
+                                endAdornment: <InputAdornment position="end">{<SearchIcon />}</InputAdornment>,
+                                disableUnderline: true,
+                                sx: {
+                                    borderRadius: '4px',
+                                    padding: '.5rem .75rem',
+                                    '& .MuiInputBase-input': {
+                                        paddingTop: '4px'
+                                    }
+                                }
+                            }}
+                            sx={{
+                                width: '100%',
+                                '& .MuiInputLabel-root': {
+                                    border: '2px solid blue',
+                                    transform: 'none'
+                                }
+                            }}
+                        />
+
+                        {/* </AlarmConfigCategoryDetailContents> */}
+                        {/* </AlarmConfigCategoryDetailContainer> */}
+
+                        <Box
+                            className='sound-search-results-outer'
+                            sx={{
+                                marginTop: '.75rem'
+                            }}
+                        >
+                            <Accordion
+                                disableGutters={true}
+                                expanded={searchResultsExpanded}
+                                onChange={handleSearchResultsChange}
+                                elevation={0}
+                                sx={{
+                                    background: 'none',
+                                    padding: '0px'
+                                }}
                             >
-                                        <TableContainer >
-                                            <Table
-                                                size='small'
+                                <AccordionSummary
+                                    expandIcon={<ExpandMoreIcon />}
+                                    sx={{
+                                        padding: '0px',
+                                        minHeight: '0px',
+                                        fontSize: '1.25rem',
+                                        textTransform: 'uppercase',
+                                        borderBottom: searchResultsExpanded ? '1px solid #00000020' : 'none',
+                                    }}
+                                >
+                                    Search Results
+                                </AccordionSummary>
+                                <AccordionDetails
+                                    sx={{
+                                        padding: '0px'
+                                    }}
+                                >
+
+                                    <Box>
+                                        {soundType.includes('track') || soundTypeNoFilter ? (
+                                            <SearchResultAccordion
+                                                appConfig={appConfig}
+                                                label='Songs'
                                             >
-                                                <TableBody>
-                                                {soundSearchResults.artists.length > 0 ? (soundSearchResults.artists.map((row, index) => (
-                                                        <TableRow key={index}
-                                                            hover
-                                                            selection={JSON.stringify(row)}
-                                                            onClick={handleSearchResultSelection}
-                                                        >
-                                                            <TableCell 
-                                                                component='th' 
-                                                                scope='row'
-                                                                sx={{
-                                                                    display: 'flex',
-                                                                    flexDirection: 'row',
-                                                                    alignItems: 'center',
-                                                                    columnGap: '.5rem',
-                                                                    padding: '.25rem 0px',
-                                                                    borderBottom: 'none',
-                                                                }}
-                                                            >
-                                                                <img 
-                                                                    src={row.image}
-                                                                    style={{height: '3.625rem', width: '3.625rem'}}
-                                                                />
-                                                                <Box
+                                                <TableContainer >
+                                                    <Table
+                                                        size='small'
+                                                    >
+                                                        <TableBody>
+                                                            {soundSearchResults.tracks.length > 0 ? (soundSearchResults.tracks.map((row, index) => (
+                                                                <TableRow
+                                                                    key={index}
+                                                                    hover
+                                                                    selection={JSON.stringify(row)}
+                                                                    onClick={handleSearchResultSelection}
                                                                     sx={{
-                                                                        display: 'flex',
-                                                                        flexDirection: 'column',
-                                                                        rowGap: '.25rem',
+                                                                        '&:nth-child(odd)': {
+                                                                            background: '#ffffff10'
+                                                                        }
                                                                     }}
                                                                 >
-                                                                    <Typography
+                                                                    <TableCell
+                                                                        component='th'
+                                                                        scope='row'
                                                                         sx={{
-                                                                            fontWeight: 'bold',
-                                                                            lineHeight: '1.0'
+                                                                            display: 'flex',
+                                                                            flexDirection: 'row',
+                                                                            alignItems: 'center',
+                                                                            columnGap: '.5rem',
+                                                                            padding: '.25rem 0px',
+                                                                            paddingRight: '0rem',
+                                                                            borderBottom: 'none',
                                                                         }}
                                                                     >
-                                                                        {row.artist}
-                                                                    </Typography>
-                                                                </Box>
-                                                            </TableCell>
-                                                        </TableRow>
-                                                    ))):(<TableRow>
-                                                        <TableCell
-                                                            sx={{
-                                                                borderBottom: 'none',
-                                                                paddingTop: '0px',
-                                                                paddingBottom: '.75rem'
-                                                            }}
-                                                        >
-                                                            <div>No results yet!</div>
-                                                        </TableCell>
-                                                    </TableRow>)}
-                                                </TableBody>
-                                            </Table>
-                                        </TableContainer>
-                                </SearchResultAccordion>
-                            ) : (<></>)}
-                            {soundType.includes('album') || soundTypeNoFilter ? (
-                                <SearchResultAccordion
-                                appConfig={appConfig}
-                                label='Albums'
-                            >
-                                        <TableContainer >
-                                            <Table
-                                                size='small'
-                                            >
-                                                <TableBody>
-                                                {soundSearchResults.albums.length > 0 ? (soundSearchResults.albums.map((row, index) => (
-                                                        <TableRow key={index}
-                                                            hover
-                                                            selection={JSON.stringify(row)}
-                                                            onClick={handleSearchResultSelection}
-                                                        >
-                                                            <TableCell 
-                                                                component='th' 
-                                                                scope='row'
-                                                                sx={{
-                                                                    display: 'flex',
-                                                                    flexDirection: 'row',
-                                                                    alignItems: 'center',
-                                                                    columnGap: '.5rem',
-                                                                    padding: '.25rem 0px',
-                                                                    borderBottom: 'none',
-                                                                }}
-                                                            >
-                                                                <img 
-                                                                    src={row.image}
-                                                                    style={{height: '3.625rem', width: '3.625rem'}}
-                                                                />
-                                                                <Box
+                                                                        <img
+                                                                            src={row.image}
+                                                                            style={{ height: '3.625rem', width: '3.625rem' }}
+                                                                        />
+                                                                        <Box
+                                                                            sx={{
+                                                                                display: 'flex',
+                                                                                flexDirection: 'column',
+                                                                                rowGap: '.25rem',
+                                                                            }}
+                                                                        >
+                                                                            <Typography
+                                                                                sx={{
+                                                                                    fontWeight: 'bold',
+                                                                                    lineHeight: '1.0'
+                                                                                }}
+                                                                            >
+                                                                                {row.title}
+                                                                            </Typography>
+                                                                            <Typography
+                                                                                sx={{
+                                                                                    fontSize: '1rem',
+                                                                                    lineHeight: '1.0'
+                                                                                }}
+                                                                            >
+                                                                                {row.artist}
+                                                                            </Typography>
+                                                                        </Box>
+                                                                    </TableCell>
+                                                                </TableRow>
+                                                            ))) : (<TableRow>
+                                                                <TableCell
                                                                     sx={{
-                                                                        display: 'flex',
-                                                                        flexDirection: 'column',
-                                                                        rowGap: '.25rem',
+                                                                        borderBottom: 'none',
+                                                                        paddingTop: '0px',
+                                                                        paddingBottom: '.75rem'
                                                                     }}
                                                                 >
-                                                                    <Typography
+                                                                    <div>No results yet!</div>
+                                                                </TableCell>
+                                                            </TableRow>)}
+                                                        </TableBody>
+                                                    </Table>
+                                                </TableContainer>
+                                                {/* </AccordionDetails> */}
+                                            </SearchResultAccordion>
+                                        ) : (<></>)}
+                                        {soundType.includes('artist') || soundTypeNoFilter ? (
+                                            <SearchResultAccordion
+                                                appConfig={appConfig}
+                                                label='Artists'
+                                            >
+                                                <TableContainer >
+                                                    <Table
+                                                        size='small'
+                                                    >
+                                                        <TableBody>
+                                                            {soundSearchResults.artists.length > 0 ? (soundSearchResults.artists.map((row, index) => (
+                                                                <TableRow key={index}
+                                                                    hover
+                                                                    selection={JSON.stringify(row)}
+                                                                    onClick={handleSearchResultSelection}
+                                                                >
+                                                                    <TableCell
+                                                                        component='th'
+                                                                        scope='row'
                                                                         sx={{
-                                                                            fontWeight: 'bold',
-                                                                            lineHeight: '1.0'
+                                                                            display: 'flex',
+                                                                            flexDirection: 'row',
+                                                                            alignItems: 'center',
+                                                                            columnGap: '.5rem',
+                                                                            padding: '.25rem 0px',
+                                                                            borderBottom: 'none',
                                                                         }}
                                                                     >
-                                                                        {row.title}
-                                                                    </Typography>
-                                                                    <Typography
+                                                                        <img
+                                                                            src={row.image}
+                                                                            style={{ height: '3.625rem', width: '3.625rem' }}
+                                                                        />
+                                                                        <Box
+                                                                            sx={{
+                                                                                display: 'flex',
+                                                                                flexDirection: 'column',
+                                                                                rowGap: '.25rem',
+                                                                            }}
+                                                                        >
+                                                                            <Typography
+                                                                                sx={{
+                                                                                    fontWeight: 'bold',
+                                                                                    lineHeight: '1.0'
+                                                                                }}
+                                                                            >
+                                                                                {row.artist}
+                                                                            </Typography>
+                                                                        </Box>
+                                                                    </TableCell>
+                                                                </TableRow>
+                                                            ))) : (<TableRow>
+                                                                <TableCell
+                                                                    sx={{
+                                                                        borderBottom: 'none',
+                                                                        paddingTop: '0px',
+                                                                        paddingBottom: '.75rem'
+                                                                    }}
+                                                                >
+                                                                    <div>No results yet!</div>
+                                                                </TableCell>
+                                                            </TableRow>)}
+                                                        </TableBody>
+                                                    </Table>
+                                                </TableContainer>
+                                            </SearchResultAccordion>
+                                        ) : (<></>)}
+                                        {soundType.includes('album') || soundTypeNoFilter ? (
+                                            <SearchResultAccordion
+                                                appConfig={appConfig}
+                                                label='Albums'
+                                            >
+                                                <TableContainer >
+                                                    <Table
+                                                        size='small'
+                                                    >
+                                                        <TableBody>
+                                                            {soundSearchResults.albums.length > 0 ? (soundSearchResults.albums.map((row, index) => (
+                                                                <TableRow key={index}
+                                                                    hover
+                                                                    selection={JSON.stringify(row)}
+                                                                    onClick={handleSearchResultSelection}
+                                                                >
+                                                                    <TableCell
+                                                                        component='th'
+                                                                        scope='row'
                                                                         sx={{
-                                                                            fontSize: '1rem',
-                                                                            lineHeight: '1.0'
+                                                                            display: 'flex',
+                                                                            flexDirection: 'row',
+                                                                            alignItems: 'center',
+                                                                            columnGap: '.5rem',
+                                                                            padding: '.25rem 0px',
+                                                                            borderBottom: 'none',
                                                                         }}
                                                                     >
-                                                                        {row.artist}
-                                                                    </Typography>
-                                                                </Box>
-                                                            </TableCell>
-                                                        </TableRow>
-                                                    ))):(<TableRow>
-                                                        <TableCell
-                                                            sx={{
-                                                                borderBottom: 'none',
-                                                                paddingTop: '0px',
-                                                                paddingBottom: '.75rem'
-                                                            }}
-                                                        >
-                                                            <div>No results yet!</div>
-                                                        </TableCell>
-                                                    </TableRow>)}
-                                                </TableBody>
-                                            </Table>
-                                        </TableContainer>
-                                </SearchResultAccordion>
-                            ) : (<></>)}
-                            {/* {soundType.includes('playlist') || soundTypeNoFilter ? (
+                                                                        <img
+                                                                            src={row.image}
+                                                                            style={{ height: '3.625rem', width: '3.625rem' }}
+                                                                        />
+                                                                        <Box
+                                                                            sx={{
+                                                                                display: 'flex',
+                                                                                flexDirection: 'column',
+                                                                                rowGap: '.25rem',
+                                                                            }}
+                                                                        >
+                                                                            <Typography
+                                                                                sx={{
+                                                                                    fontWeight: 'bold',
+                                                                                    lineHeight: '1.0'
+                                                                                }}
+                                                                            >
+                                                                                {row.title}
+                                                                            </Typography>
+                                                                            <Typography
+                                                                                sx={{
+                                                                                    fontSize: '1rem',
+                                                                                    lineHeight: '1.0'
+                                                                                }}
+                                                                            >
+                                                                                {row.artist}
+                                                                            </Typography>
+                                                                        </Box>
+                                                                    </TableCell>
+                                                                </TableRow>
+                                                            ))) : (<TableRow>
+                                                                <TableCell
+                                                                    sx={{
+                                                                        borderBottom: 'none',
+                                                                        paddingTop: '0px',
+                                                                        paddingBottom: '.75rem'
+                                                                    }}
+                                                                >
+                                                                    <div>No results yet!</div>
+                                                                </TableCell>
+                                                            </TableRow>)}
+                                                        </TableBody>
+                                                    </Table>
+                                                </TableContainer>
+                                            </SearchResultAccordion>
+                                        ) : (<></>)}
+                                        {/* {soundType.includes('playlist') || soundTypeNoFilter ? (
                                 <Accordion >
                                     <AccordionSummary >
                                         Playlists
@@ -775,12 +771,12 @@ const AlarmConfigCategoryDetailBodySoundSearch: React.FC<AlarmConfigCategoryDeta
                                     </AccordionDetails>
                                 </Accordion>
                             ) : (<></>)} */}
+                                    </Box>
+                                </AccordionDetails>
+                            </Accordion>
                         </Box>
-                    </AccordionDetails>
-                </Accordion>
-            </Box>
-            </Box>
-            </AlarmConfigCategoryDetailContents>
+                    </Box>
+                </AlarmConfigCategoryDetailContents>
             </AlarmConfigCategoryDetailContainer>
         </>
     )

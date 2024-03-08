@@ -11,16 +11,18 @@ import { IAlarmMetadata } from './types/IAlarmMetadata'
 interface AlarmConfigCategoryDetailBodyVibrationProps {
     alarm: IAlarmMetadata
     appConfig: ITrillliConfig
-    handlers: { [key: string]: Function}
+    handlers: { [key: string]: Function }
 }
 
 const AlarmConfigCategoryDetailBodyVibration: React.FC<AlarmConfigCategoryDetailBodyVibrationProps> = ({ alarm, appConfig, handlers }) => {
 
+    //sv
     const [vibrationProfile, setVibrationProfile] = React.useState<'constant' | 'ramp'>(alarm.vibration.intensity.profile)
     const [vibrationMax, setVibrationMax] = React.useState<number>(alarm.vibration.intensity.end)
     const [vibrationConstant, setVibrationConstant] = React.useState<number>(alarm.vibration.intensity.end)
     const [vibrationRamp, setVibrationRamp] = React.useState<number[]>([alarm.vibration.intensity.start, alarm.vibration.intensity.end])
 
+    //ef
     React.useEffect(() => {
         setVibrationConstant(vibrationMax)
         setVibrationRamp([vibrationRamp[0], vibrationMax])
@@ -31,6 +33,7 @@ const AlarmConfigCategoryDetailBodyVibration: React.FC<AlarmConfigCategoryDetail
         handlers.updateAlarmsMetadata(alarm.id, alarm)
     }, [vibrationProfile])
 
+    //ha
     const handleVibrationProfileChange = (event: React.MouseEvent<HTMLInputElement>) => {
         const target: HTMLInputElement = event.target as HTMLInputElement
         const value: 'constant' | 'ramp' = target.value as 'constant' | 'ramp'
@@ -42,8 +45,6 @@ const AlarmConfigCategoryDetailBodyVibration: React.FC<AlarmConfigCategoryDetail
     const handleVibrationChangeConstant = (event: Event, value: number | number[]) => {
         setVibrationMax(value as number)
         alarm.vibration.intensity.end = value as number
-        // alarm.vibration.intensity.start = values[0]
-        // handlers.updateAlarmsMetadata(alarm.id, alarm)
     }
 
     const handleVibrationChangeRamp = (event: Event, value: number | number[]) => {
@@ -52,7 +53,6 @@ const AlarmConfigCategoryDetailBodyVibration: React.FC<AlarmConfigCategoryDetail
         setVibrationMax(values[1] as number)
         alarm.vibration.intensity.end = values[1]
         alarm.vibration.intensity.start = values[0]
-        // handlers.updateAlarmsMetadata(alarm.id, alarm)
     }
 
     const handleVibrationConstantChangeCommitted = (event: Event, value: number | number[]) => {
@@ -66,14 +66,16 @@ const AlarmConfigCategoryDetailBodyVibration: React.FC<AlarmConfigCategoryDetail
         handlers.updateAlarmsMetadata(alarm.id, alarm)
     }
 
+    //other
+
 
     return (
         <>
             <AlarmConfigCategoryDetailContainer appConfig={appConfig}>
                 <AlarmConfigCategoryDetailHeader label='Vibration Profile' />
                 <AlarmConfigCategoryDetailContents appConfig={appConfig}>
-                <TrToggleButtonGroup 
-                    appConfig={appConfig}
+                    <TrToggleButtonGroup
+                        appConfig={appConfig}
                         value={alarm.vibration.intensity.profile}
                         exclusive
                         onChange={handleVibrationProfileChange}
@@ -95,84 +97,84 @@ const AlarmConfigCategoryDetailBodyVibration: React.FC<AlarmConfigCategoryDetail
                             // marginTop: '1rem'
                         }}
                     >
-                                            <Box 
-                        className='current-config-value-container-outer'
-                        sx={{
-
-                        }}
-                    >
-                            
-                        <Box 
-                            className='current-config-value-container'
+                        <Box
+                            className='current-config-value-container-outer'
                             sx={{
-                                display: 'flex',
-                                flexWrap: 'wrap',
-                                columnGap: '.5rem',
-                                alignItems: 'baseline'
+
                             }}
                         >
-                            {vibrationProfile == 'constant' ? (                            
-                            <>
-                            <Typography
-                                sx={{
-                                    fontSize: '2.5rem',
-                                }}
-                            >
-                                {vibrationConstant}
-                            </Typography>
-                            <Typography
-                                sx={{
-                                    fontSize:'1.25rem'
-                                }}
-                            >
-                                %
-                            </Typography>
-                            </>):(<>                            
-                            <Typography
-                                sx={{
-                                    fontSize: '2.5rem',
-                                }}
-                            >
-                                {vibrationRamp[0]}%
-                            </Typography>
-                            <Typography
-                                sx={{
-                                    fontSize:'1.25rem'
-                                }}
-                            >
-                                ramping to 
-                            </Typography>
-                            <Typography
-                                sx={{
-                                    fontSize: '2.5rem',
-                                }}
-                            >
-                                {vibrationRamp[1]}%
-                            </Typography>
-                            </>)}
 
+                            <Box
+                                className='current-config-value-container'
+                                sx={{
+                                    display: 'flex',
+                                    flexWrap: 'wrap',
+                                    columnGap: '.5rem',
+                                    alignItems: 'baseline'
+                                }}
+                            >
+                                {vibrationProfile == 'constant' ? (
+                                    <>
+                                        <Typography
+                                            sx={{
+                                                fontSize: '2.5rem',
+                                            }}
+                                        >
+                                            {vibrationConstant}
+                                        </Typography>
+                                        <Typography
+                                            sx={{
+                                                fontSize: '1.25rem'
+                                            }}
+                                        >
+                                            %
+                                        </Typography>
+                                    </>) : (<>
+                                        <Typography
+                                            sx={{
+                                                fontSize: '2.5rem',
+                                            }}
+                                        >
+                                            {vibrationRamp[0]}%
+                                        </Typography>
+                                        <Typography
+                                            sx={{
+                                                fontSize: '1.25rem'
+                                            }}
+                                        >
+                                            ramping to
+                                        </Typography>
+                                        <Typography
+                                            sx={{
+                                                fontSize: '2.5rem',
+                                            }}
+                                        >
+                                            {vibrationRamp[1]}%
+                                        </Typography>
+                                    </>)}
+
+                            </Box>
                         </Box>
+                        {vibrationProfile == 'constant' ? (
+                            <TrSlider
+                                value={alarm.vibration.intensity.end}
+                                min={0}
+                                max={100}
+                                onChange={handleVibrationChangeConstant}
+                                onChangeCommitted={handleVibrationConstantChangeCommitted}
+                            />
+                        ) : (
+                            <TrSlider
+                                value={[alarm.vibration.intensity.start, alarm.vibration.intensity.end]}
+                                min={0}
+                                max={100}
+                                onChange={handleVibrationChangeRamp}
+                                onChangeCommitted={handleVibrationRampChangeCommitted}
+                                valueLabelDisplay="auto"
+                                disableSwap
+                            />
+                        )}
                     </Box>
-                {vibrationProfile == 'constant' ? (
-                    <TrSlider
-                        value={alarm.vibration.intensity.end}
-                        min={0}
-                        max={100}
-                        onChange={handleVibrationChangeConstant}
-                        onChangeCommitted={handleVibrationConstantChangeCommitted}
-                    />
-                ) : (
-                    <TrSlider
-                        value={[alarm.vibration.intensity.start, alarm.vibration.intensity.end]}
-                        min={0}
-                        max={100}
-                        onChange={handleVibrationChangeRamp}
-                        onChangeCommitted={handleVibrationRampChangeCommitted}
-                        valueLabelDisplay="auto"
-                        disableSwap
-                    />
-                )}
-                </Box>
                 </AlarmConfigCategoryDetailContents>
             </AlarmConfigCategoryDetailContainer>
         </>

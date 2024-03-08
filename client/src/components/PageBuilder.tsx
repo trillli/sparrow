@@ -7,7 +7,7 @@ interface PageBuilderProps {
     navTop?: boolean,
     navSide?: boolean,
     appConfig: ITrillliConfig
-    styling?: {[key: string]: any}
+    styling?: { [key: string]: any }
     children?: React.ReactNode
 }
 
@@ -19,22 +19,29 @@ const PageBuilder: React.FC<PageBuilderProps> = ({
     children
 }) => {
 
+    //sv
+
+    //ef
+
+    //ha
+
+    //other
+
     if (!styling) {
         styling = {}
     }
 
-    const stylingDefault: {[key: string]: any} = {
+    const stylingDefault: { [key: string]: any } = {
         mainContents: {
             background: `linear-gradient(180deg, ${appConfig.theme.palette.neutral.dark[6]}, ${appConfig.theme.palette.neutral.dark[2]})`,
-            // padding: '0px',
             ...(styling.mainContents || {}),
         }
     }
 
     return (
-        <TrillliPageBuilder 
+        <TrillliPageBuilder
             navTop={navTop}
-            navSide={navSide} 
+            navSide={navSide}
             appConfig={new AppConfig()}
             styling={stylingDefault}
             children={children} />

@@ -15,20 +15,23 @@ interface AlarmConfigGroupSoundProps {
 
 const AlarmConfigGroupSound: React.FC<AlarmConfigGroupSoundProps> = ({ alarm, appConfig, handlers, setters }) => {
 
+    //sv
     const [groupEnabled, setGroupEnabled] = React.useState<boolean>(alarm.sound.enabled)
 
-    // //console.log('in alarm')
-
+    //ef
     React.useEffect(() => {
         alarm.sound.enabled = groupEnabled
         handlers.updateAlarmsMetadata(alarm.id, alarm)
     }, [groupEnabled])
 
+    //ha
     const handleGroupEnableToggle = (event: React.MouseEvent<HTMLElement>) => {
         event.stopPropagation()
         const checked: boolean = event.target.checked
         setGroupEnabled(checked)
     }
+
+    //other
 
     return (
         <Accordion
@@ -50,7 +53,6 @@ const AlarmConfigGroupSound: React.FC<AlarmConfigGroupSoundProps> = ({ alarm, ap
                 },
                 '&.Mui-expanded': {
                     '& .MuiAccordionSummary-root.Mui-expanded': {
-                        // paddingTop: '.5rem'
                     },
                 },
                 '&::before': {
@@ -68,8 +70,6 @@ const AlarmConfigGroupSound: React.FC<AlarmConfigGroupSoundProps> = ({ alarm, ap
 
             <AccordionDetails className='alarm-config-container'
                 sx={{
-                    // background: '#FFFFFF57',
-                    // padding: '1.25rem 1rem',
                     padding: '0px'
                 }}
             >
@@ -82,7 +82,7 @@ const AlarmConfigGroupSound: React.FC<AlarmConfigGroupSoundProps> = ({ alarm, ap
                     }}
                 >
                     <AlarmConfigCategoryDetailBodySoundSearch alarm={alarm} appConfig={appConfig} handlers={handlers} />
-                    <AlarmConfigCategoryDetailBodySoundVolume alarm={alarm} appConfig={appConfig} handlers={handlers}/>
+                    <AlarmConfigCategoryDetailBodySoundVolume alarm={alarm} appConfig={appConfig} handlers={handlers} />
                 </Box>
             </AccordionDetails>
 

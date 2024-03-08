@@ -8,11 +8,19 @@ interface AlarmConfigCategoryDetailHeaderProps {
 
 const AlarmConfigCategoryDetailHeader: React.FC<AlarmConfigCategoryDetailHeaderProps> = ({ label }) => {
 
+    //sv
+
+    //ef
+
+    //ha
+
+    //other
+
     return (
-        <Box 
-            className='alarm-config-category-detail-field-title-container'  
+        <Box
+            className='alarm-config-category-detail-field-title-container'
         >
-            <Typography 
+            <Typography
                 className='alarm-config-category-detail-field-title'
                 sx={{
                     textTransform: 'uppercase',

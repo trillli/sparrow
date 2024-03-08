@@ -12,7 +12,15 @@ interface ErrorPage404Props {
   appConfig: ITrillliConfig
 }
 
-const ErrorPage404: React.FC<ErrorPage404Props> = ({appConfig}) => {
+const ErrorPage404: React.FC<ErrorPage404Props> = ({ appConfig }) => {
+
+  //sv
+
+  //ef
+
+  //ha
+
+  //other
 
   return (
     <TrillliPageBuilder navTop appConfig={appConfig}>
@@ -33,8 +41,8 @@ const ErrorPage404: React.FC<ErrorPage404Props> = ({appConfig}) => {
           }}
         >
           <Box>
-            <img 
-              src='/media/img/icon404.svg' 
+            <img
+              src='/media/img/icon404.svg'
               style={{
                 width: '100%',
                 maxWidth: '150px'
@@ -71,7 +79,7 @@ const ErrorPage404: React.FC<ErrorPage404Props> = ({appConfig}) => {
             </Button>
           </Box>
           <Box>
-          {/* {appConfig.pages.notFound.contents} */}
+            {/* {appConfig.pages.notFound.contents} */}
           </Box>
         </Box>
       ) : (

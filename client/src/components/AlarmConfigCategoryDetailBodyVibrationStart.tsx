@@ -11,19 +11,23 @@ import { IAlarmMetadata } from './types/IAlarmMetadata'
 interface AlarmConfigCategoryDetailBodyVibrationStartProps {
     alarm: IAlarmMetadata
     appConfig: ITrillliConfig
-    handlers: {[key: string]: Function}
+    handlers: { [key: string]: Function }
     lightColor: number
 }
 
 const AlarmConfigCategoryDetailBodyVibrationStart: React.FC<AlarmConfigCategoryDetailBodyVibrationStartProps> = ({ alarm, appConfig, handlers, lightColor }) => {
 
+    //sv
     const theme = useTheme()
     const [vibrationAdvanceMinutes, setVibrationAdvanceMinutes] = React.useState<number>(alarm.vibration.timing.advance_minutes)
 
+    //ef
+
+    //ha
     const handleVibrationAdvanceMinutesChange = (event: Event) => {
         const target: HTMLInputElement = event.target as HTMLInputElement
         const value: number = Number(target.value)
-        setVibrationAdvanceMinutes(value)        
+        setVibrationAdvanceMinutes(value)
     }
 
     const handleVibrationAdvanceMinutesChangeCommitted = (event: React.MouseEvent<HTMLElement>) => {
@@ -31,21 +35,22 @@ const AlarmConfigCategoryDetailBodyVibrationStart: React.FC<AlarmConfigCategoryD
         handlers.updateAlarmsMetadata(alarm.id, alarm)
     }
 
-    let fieldLabel: string = 'Vibration Start Time'  
+    //other
+    let fieldLabel: string = 'Vibration Start Time'
 
     return (
         <>
             <AlarmConfigCategoryDetailContainer appConfig={appConfig}>
                 <AlarmConfigCategoryDetailHeader label={fieldLabel} />
                 <AlarmConfigCategoryDetailContents appConfig={appConfig}>
-                    <Box 
+                    <Box
                         className='current-config-value-container-outer'
                         sx={{
 
                         }}
                     >
-                            
-                        <Box 
+
+                        <Box
                             className='current-config-value-container'
                             sx={{
                                 display: 'flex',

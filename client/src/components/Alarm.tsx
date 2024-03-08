@@ -92,7 +92,7 @@ const Alarm: React.FC<AlarmProps> = ({ alarm, appConfig, handlers, setters, time
         event.stopPropagation()
     }
 
-
+    //other
     let formattedTime
     let formattedTimeAm: boolean = false
     if (timeFormat24Hr) {
@@ -115,7 +115,6 @@ const Alarm: React.FC<AlarmProps> = ({ alarm, appConfig, handlers, setters, time
                 elevation={0}
                 key={alarm.id}
                 id={`alarm_${alarm.id}`}
-                // square={true}
                 disableGutters={true}
                 className='alarm-outer'
                 onChange={handleAlarmExpand}

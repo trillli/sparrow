@@ -11,6 +11,14 @@ interface SearchResultAccordionProps {
 
 const SearchResultAccordion: React.FC<SearchResultAccordionProps> = ({ appConfig, label, children }) => {
 
+    //sv
+
+    //ef
+
+    //ha
+
+    //other
+
     return (
         <Accordion
             disableGutters={true}
@@ -36,11 +44,11 @@ const SearchResultAccordion: React.FC<SearchResultAccordionProps> = ({ appConfig
                 {label}
             </AccordionSummary>
             <AccordionDetails
-            sx={{padding: '0px'}}>
-            {children}
+                sx={{ padding: '0px' }}>
+                {children}
             </AccordionDetails>
         </Accordion>
-        
+
     )
 
 }

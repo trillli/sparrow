@@ -17,20 +17,25 @@ interface AlarmConfigGroupLightProps {
     onColorSliderChangeCommitted: Function
 }
 
-const AlarmConfigGroupLight: React.FC<AlarmConfigGroupLightProps> = ({alarm, appConfig, handlers, setters, lightColor, onColorSliderChange, onColorSliderChangeCommitted}) => {
+const AlarmConfigGroupLight: React.FC<AlarmConfigGroupLightProps> = ({ alarm, appConfig, handlers, setters, lightColor, onColorSliderChange, onColorSliderChangeCommitted }) => {
 
+    //sv
     const [groupEnabled, setGroupEnabled] = React.useState<boolean>(alarm.light.enabled)
 
+    //ef
     React.useEffect(() => {
         alarm.light.enabled = groupEnabled
         handlers.updateAlarmsMetadata(alarm.id, alarm)
     }, [groupEnabled])
 
+    //ha
     const handleGroupEnableToggle = (event: React.MouseEvent<HTMLElement>) => {
         event.stopPropagation()
         const checked: boolean = event.target.checked
         setGroupEnabled(checked)
     }
+
+    //other
 
     return (
         <Accordion
@@ -64,9 +69,6 @@ const AlarmConfigGroupLight: React.FC<AlarmConfigGroupLightProps> = ({alarm, app
 
             <AccordionDetails className='alarm-config-container'
                 sx={{
-                    // background: '#FFFFFF57',
-                    // padding: '1.25rem 1rem',
-                    // padding: '0rem 1rem'
                     padding: '0px'
                 }}
             >
@@ -80,7 +82,7 @@ const AlarmConfigGroupLight: React.FC<AlarmConfigGroupLightProps> = ({alarm, app
                 >
                     <AlarmConfigCategoryDetailBodyLightStart alarm={alarm} appConfig={appConfig} handlers={handlers} lightColor={lightColor} />
                     <AlarmConfigCategoryDetailBodyLightColor alarm={alarm} appConfig={appConfig} lightColor={lightColor} onColorSliderChange={onColorSliderChange} onColorSliderChangeCommitted={onColorSliderChangeCommitted} />
-                    <AlarmConfigCategoryDetailBodyLightBrightness alarm={alarm} appConfig={appConfig} handlers={handlers}/>
+                    <AlarmConfigCategoryDetailBodyLightBrightness alarm={alarm} appConfig={appConfig} handlers={handlers} />
                 </Box>
             </AccordionDetails>
 

@@ -14,20 +14,25 @@ interface AlarmConfigGroupVibrationProps {
     lightColor: number
 }
 
-const AlarmConfigGroupVibration: React.FC<AlarmConfigGroupVibrationProps> = ({alarm, appConfig, handlers, setters, lightColor}) => {
+const AlarmConfigGroupVibration: React.FC<AlarmConfigGroupVibrationProps> = ({ alarm, appConfig, handlers, setters, lightColor }) => {
 
+    //sv
     const [groupEnabled, setGroupEnabled] = React.useState<boolean>(alarm.vibration.enabled)
 
+    //ef
     React.useEffect(() => {
         alarm.vibration.enabled = groupEnabled
         handlers.updateAlarmsMetadata(alarm.id, alarm)
     }, [groupEnabled])
 
+    //ha
     const handleGroupEnableToggle = (event: React.MouseEvent<HTMLElement>) => {
         event.stopPropagation()
         const checked: boolean = event.target.checked
         setGroupEnabled(checked)
     }
+
+    //other
 
     return (
         <Accordion
@@ -61,15 +66,12 @@ const AlarmConfigGroupVibration: React.FC<AlarmConfigGroupVibrationProps> = ({al
 
             <AccordionDetails className='alarm-config-container'
                 sx={{
-                    // background: '#FFFFFF57',
-                    // padding: '1.25rem 1rem',
                     padding: '0px'
                 }}
             >
                 <Box className='configuration-details-container'
                     sx={{
                         padding: '1.5rem 1rem',
-                        // paddingTop: '1rem',
                         display: 'flex',
                         flexDirection: 'column',
                         rowGap: '2rem'

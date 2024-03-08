@@ -16,11 +16,13 @@ interface AlarmConfigCategoryDetailBodySoundVolumeProps {
 
 const AlarmConfigCategoryDetailBodySoundVolume: React.FC<AlarmConfigCategoryDetailBodySoundVolumeProps> = ({ appConfig, alarm, handlers }) => {
 
+    //sv
     const [soundVolumeProfile, setSoundVolumeProfile] = React.useState<'constant' | 'ramp'>(alarm.sound.volume.profile)
     const [soundVolumeMax, setSoundVolumeMax] = React.useState<number>(alarm.sound.volume.end)
     const [soundVolumeConstant, setSoundVolumeConstant] = React.useState<number>(alarm.sound.volume.end) //sound group level
     const [soundVolumeRamp, setSoundVolumeRamp] = React.useState<number[]>([alarm.sound.volume.start, alarm.sound.volume.end]) //sound group level
 
+    //ef
     React.useEffect(() => {
         setSoundVolumeConstant(soundVolumeMax)
         setSoundVolumeRamp([soundVolumeRamp[0], soundVolumeMax])
@@ -31,6 +33,7 @@ const AlarmConfigCategoryDetailBodySoundVolume: React.FC<AlarmConfigCategoryDeta
         handlers.updateAlarmsMetadata(alarm.id, alarm)
     }, [soundVolumeProfile])
 
+    //ha
     const handleSoundVolumeProfileChange = (event: React.MouseEvent<HTMLElement>) => {
         const target: HTMLInputElement = event.target as HTMLInputElement
         const value: 'constant' | 'ramp' = target.value as 'constant' | 'ramp'
@@ -65,12 +68,14 @@ const AlarmConfigCategoryDetailBodySoundVolume: React.FC<AlarmConfigCategoryDeta
         handlers.updateAlarmsMetadata(alarm.id, alarm)
     }
 
+    //other
+
     return (
         <>
             <AlarmConfigCategoryDetailContainer appConfig={appConfig}>
                 <AlarmConfigCategoryDetailHeader label='Volume Profile' />
                 <AlarmConfigCategoryDetailContents appConfig={appConfig}>
-                <TrToggleButtonGroup 
+                    <TrToggleButtonGroup
                         appConfig={appConfig}
                         value={alarm.sound.volume.profile}
                         exclusive
@@ -86,91 +91,91 @@ const AlarmConfigCategoryDetailBodySoundVolume: React.FC<AlarmConfigCategoryDeta
                 </AlarmConfigCategoryDetailContents>
             </AlarmConfigCategoryDetailContainer>
             <AlarmConfigCategoryDetailContainer appConfig={appConfig}>
-            <AlarmConfigCategoryDetailHeader label='Volume' />
-            <AlarmConfigCategoryDetailContents appConfig={appConfig}>
-            <Box
+                <AlarmConfigCategoryDetailHeader label='Volume' />
+                <AlarmConfigCategoryDetailContents appConfig={appConfig}>
+                    <Box
                         sx={{
                             // marginTop: '1rem'
                         }}
                     >
-                                            <Box 
-                        className='current-config-value-container-outer'
-                        sx={{
-
-                        }}
-                    >
-                            
-                        <Box 
-                            className='current-config-value-container'
+                        <Box
+                            className='current-config-value-container-outer'
                             sx={{
-                                display: 'flex',
-                                flexDirection: 'row',
-                                columnGap: '.5rem',
-                                alignItems: 'baseline'
+
                             }}
                         >
-                            {soundVolumeProfile == 'constant' ? (                            
-                            <>
-                            <Typography
-                                sx={{
-                                    fontSize: '2.5rem',
-                                }}
-                            >
-                                {soundVolumeConstant}
-                            </Typography>
-                            <Typography
-                                sx={{
-                                    fontSize:'1.25rem'
-                                }}
-                            >
-                                %
-                            </Typography>
-                            </>):(<>                            
-                            <Typography
-                                sx={{
-                                    fontSize: '2.5rem',
-                                }}
-                            >
-                                {soundVolumeRamp[0]}%
-                            </Typography>
-                            <Typography
-                                sx={{
-                                    fontSize:'1.25rem'
-                                }}
-                            >
-                                ramping to 
-                            </Typography>
-                            <Typography
-                                sx={{
-                                    fontSize: '2.5rem',
-                                }}
-                            >
-                                {soundVolumeRamp[1]}%
-                            </Typography>
-                            </>)}
 
+                            <Box
+                                className='current-config-value-container'
+                                sx={{
+                                    display: 'flex',
+                                    flexDirection: 'row',
+                                    columnGap: '.5rem',
+                                    alignItems: 'baseline'
+                                }}
+                            >
+                                {soundVolumeProfile == 'constant' ? (
+                                    <>
+                                        <Typography
+                                            sx={{
+                                                fontSize: '2.5rem',
+                                            }}
+                                        >
+                                            {soundVolumeConstant}
+                                        </Typography>
+                                        <Typography
+                                            sx={{
+                                                fontSize: '1.25rem'
+                                            }}
+                                        >
+                                            %
+                                        </Typography>
+                                    </>) : (<>
+                                        <Typography
+                                            sx={{
+                                                fontSize: '2.5rem',
+                                            }}
+                                        >
+                                            {soundVolumeRamp[0]}%
+                                        </Typography>
+                                        <Typography
+                                            sx={{
+                                                fontSize: '1.25rem'
+                                            }}
+                                        >
+                                            ramping to
+                                        </Typography>
+                                        <Typography
+                                            sx={{
+                                                fontSize: '2.5rem',
+                                            }}
+                                        >
+                                            {soundVolumeRamp[1]}%
+                                        </Typography>
+                                    </>)}
+
+                            </Box>
                         </Box>
+                        {soundVolumeProfile == 'constant' ? (
+                            <TrSlider
+                                value={alarm.sound.volume.end}
+                                min={0}
+                                max={100}
+                                onChange={handleSoundVolumeConstantChange}
+                                onChangeCommitted={handleSoundVolumeConstantChangeCommitted}
+                            />
+                        ) : (
+                            <TrSlider
+                                value={[alarm.sound.volume.start, alarm.sound.volume.end]}
+                                min={0}
+                                max={100}
+                                onChange={handleSoundVolumeRampChange}
+                                onChangeCommitted={handleSoundVolumeRampChangeCommitted}
+                                disableSwap
+                            />
+                        )}
                     </Box>
-            {soundVolumeProfile == 'constant' ? (
-                <TrSlider
-                    value={alarm.sound.volume.end}
-                    min={0}
-                    max={100}
-                    onChange={handleSoundVolumeConstantChange}
-                    onChangeCommitted={handleSoundVolumeConstantChangeCommitted}
-                />
-            ) : (
-                <TrSlider
-                    value={[alarm.sound.volume.start, alarm.sound.volume.end]}
-                    min={0}
-                    max={100}
-                    onChange={handleSoundVolumeRampChange}
-                    onChangeCommitted={handleSoundVolumeRampChangeCommitted}
-                    disableSwap
-                />
-            )}
-            </Box>
-            </AlarmConfigCategoryDetailContents>
+                </AlarmConfigCategoryDetailContents>
             </AlarmConfigCategoryDetailContainer>
         </>
     )

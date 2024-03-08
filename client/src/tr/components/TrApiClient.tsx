@@ -44,8 +44,6 @@ class TrFetchError implements Error {
 //path: if does not begin with slash, one will be prepended automatically 
 const _sanitizeRequestConfig = (config:TrFetchConfig):TrFetchConfig => {
   
-  // //console.log(1)
-
   //Add default headers
   const defaultHeaders = config.omitDefaultHeaders ? {} : {
     'Authorization': `Bearer ${config.accessToken}`,
@@ -54,13 +52,9 @@ const _sanitizeRequestConfig = (config:TrFetchConfig):TrFetchConfig => {
     
   config.headers = (config.headers) ? {...defaultHeaders, ...config.headers} as {[key:string]: string} : defaultHeaders as {[key:string]: string}
 
-  // //console.log(2)
-
   //Check for post body, if required
   const payloadRequired: boolean = ['POST', 'PUT', 'PATCH'].includes(config.method.toUpperCase())
   const payloadMissing: boolean = (!config.payload)
-
-  // //console.log(3)
   
   if (payloadRequired && payloadMissing) {
     const trFetchBad: TrFetchResult = {
@@ -74,7 +68,7 @@ const _sanitizeRequestConfig = (config:TrFetchConfig):TrFetchConfig => {
     const message = `Bad request; Request of type ${config.method} must include a payload. Request not sent.`
     const error = new TrFetchError(trFetchBad, message)
     // throw error
-    //console.log(error)
+    console.log(error)
 
   }
 
@@ -86,25 +80,11 @@ const _sanitizeRequestConfig = (config:TrFetchConfig):TrFetchConfig => {
 }
 
 
-
-
-
-
-
-
-
-
-
-
-
 export const trFetch = async(config:TrFetchConfig): Promise<TrFetchResult> => {
 
   //Sanitize request config
-  // //console.log('config before sanitize:')
-  // //console.log(config)
   config = _sanitizeRequestConfig(config)
-  // //console.log('config after sanitize')
-  // //console.log(config)
+
   const urlBase = import.meta.env.VITE_TRILLLI_SERVER_URL_BASE
 
   const requestFetch: Request = new Request(urlBase + config.path, {
@@ -113,14 +93,10 @@ export const trFetch = async(config:TrFetchConfig): Promise<TrFetchResult> => {
     body: (config.method?.toUpperCase() == 'GET') ? null : config.payload
   })
 
-  // const requestFetch = null
-  // //console.log(config)
-
   try {
-    // const responseFetch:Response = await fetch(requestFetch)
-    // //console.log('in the try. lets see how this goes')
+
     config.body = (config.method?.toUpperCase() == 'GET') ? null : config.payload
-    // //console.log(config)
+
     const responseFetch: Response = await fetch(urlBase + config.path, {
       method: config.method,
       headers: config.headers,
@@ -138,7 +114,7 @@ export const trFetch = async(config:TrFetchConfig): Promise<TrFetchResult> => {
       }
       const error = new TrFetchError(trApiResponseBad)
       // throw error
-      //console.log(error)
+      console.log(error)
     }
 
     const responseJson = await responseFetch.json()
@@ -154,7 +130,7 @@ export const trFetch = async(config:TrFetchConfig): Promise<TrFetchResult> => {
   } catch (error) {
     if (error instanceof TrFetchError) {
       // throw error
-      //console.log(error)
+      console.log(error)
     } else {
       const trFetchBad:TrFetchResult = {
         status: null,
@@ -170,8 +146,8 @@ export const trFetch = async(config:TrFetchConfig): Promise<TrFetchResult> => {
         error: error
       })
       const fetchError = new TrFetchError(trFetchBad, message)
-      // throw error
-      //console.log(fetchError)
+      console.log(fetchError)
+
     }
     
   }

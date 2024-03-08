@@ -3,6 +3,14 @@ import React from 'react'
 
 const TrSlider: React.FC<SliderProps> = (props) => {
 
+    //sv
+
+    //ef
+
+    //ha
+
+    //other
+
     const theme = useTheme()
 
     let hasMarkLabels: boolean = false
@@ -18,17 +26,16 @@ const TrSlider: React.FC<SliderProps> = (props) => {
                 hasMarkLabels = true
             }
         })
-    } 
+    }
 
     return (
         <Box
             sx={{
                 paddingTop: hasMarkLabels ? '1rem' : '0px',
-                // paddingBottom: hasMarkLabels ? '0px' : '6px',
                 paddingBottom: '0px'
             }}
         >
-            <Slider 
+            <Slider
                 {...props}
                 sx={{
                     ...(props.sx || {}),

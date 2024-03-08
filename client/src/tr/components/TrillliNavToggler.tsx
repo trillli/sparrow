@@ -10,7 +10,15 @@ interface TrillliNavTogglerProps {
     styling: object
 }
 
-const TrillliNavToggler: React.FC<TrillliNavTogglerProps> = ({fnToggleHandler, sideNavOpen, styling}) => {
+const TrillliNavToggler: React.FC<TrillliNavTogglerProps> = ({ fnToggleHandler, sideNavOpen, styling }) => {
+
+    //sv
+
+    //ef
+
+    //ha
+
+    //other
 
     //Define icon to use (based on whether the side nav menu is open or not)
     let togglerIcon = (sideNavOpen) ? <ClearIcon /> : <MenuIcon />

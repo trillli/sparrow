@@ -5,7 +5,6 @@ import { Box, Button, Card } from "@mui/material";
 import Skeleton from "@mui/material/Skeleton";
 import React from "react";
 import DetailTextComponent from "src/DetailTextComponent";
-import UserImageComponent from "src/UserImageComponent";
 import IAuth0ApiUser, { fnAuth0CreatedAtTimeToLocal, IAuth0ApiNormalizedUser } from "../types/IAuth0ApiUser";
 import ITrillliConfig from "../types/ITrillliConfig";
 import { trFetch, TrFetchConfig, TrFetchResult } from "./TrApiClient";
@@ -20,8 +19,6 @@ interface AccountPersonalProps {
 
 const AccountPersonal: React.FC<AccountPersonalProps> = ({ appConfig }) => {
 
-  // //console.log('hi')
-
   const userProfileInitializer: IAuth0ApiNormalizedUser = {
     identities: undefined,
     name: '',
@@ -30,26 +27,20 @@ const AccountPersonal: React.FC<AccountPersonalProps> = ({ appConfig }) => {
     user_id: ''
   }
 
-  //State and Ref variables used in flow of retrieving user details (basic - from useAuth0, and normalized - from server & user management api)
+  //sv
   const { user, isAuthenticated, getAccessTokenSilently } = useAuth0();
   const [userProfile, setUserProfile] = React.useState<IAuth0ApiUser>(userProfileInitializer);
   const [userProfileLoaded, setUserProfileLoaded] = React.useState<boolean>(false)
-
-  //State and Ref variables used in flow of detecting changes to the user details form
   const [formData, setFormData] = React.useState<IAuth0ApiUser>(userProfileInitializer)
   const [formDataRef, setFormDataRef] = React.useState<IAuth0ApiUser>(userProfileInitializer)
-  const [formDataDifferences, setFormDataDifferences] = React.useState<{[key: string]: boolean}>({});
+  const [formDataDifferences, setFormDataDifferences] = React.useState<{ [key: string]: boolean }>({});
   const [formDataUpdated, setFormDataUpdated] = React.useState<boolean>(false)
   const editedFieldName = React.useRef<string | undefined>()
   const [profilePatching, setProfilePatching] = React.useState<boolean>(false)
 
 
-
+  //ef
   React.useEffect(() => {
-
-    // if (!profilePatching) {
-    //   return;
-    // }
 
     if (profilePatching) {
       return;
@@ -95,7 +86,7 @@ const AccountPersonal: React.FC<AccountPersonalProps> = ({ appConfig }) => {
   React.useEffect(() => {
 
     const field: keyof IAuth0ApiUser = editedFieldName.current as keyof IAuth0ApiUser
-    
+
 
     if (field as keyof IAuth0ApiUser) {
 
@@ -124,11 +115,6 @@ const AccountPersonal: React.FC<AccountPersonalProps> = ({ appConfig }) => {
 
     }
 
-
-    
-
-
-
   }, [formData])
 
   React.useEffect(() => {
@@ -152,7 +138,30 @@ const AccountPersonal: React.FC<AccountPersonalProps> = ({ appConfig }) => {
 
   }, [formDataDifferences])
 
-  //Set some control variables
+  //ha
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    editedFieldName.current = event.target.name
+    const value = event.target.value
+    setFormData(formData => ({
+      ...formData,
+      [editedFieldName.current as string]: value
+    }))
+  }
+
+  const handlePasswordChangeClick = async () => {
+    const accessToken = await getAccessTokenSilently();
+    console.log('sending password reset request')
+
+    const requestConfig: TrFetchConfig = {
+      accessToken: accessToken,
+      method: 'GET',
+      path: "/tr/admin/profile-password",
+    }
+    const result: TrFetchResult = await trFetch(requestConfig);
+    alert('A password reset link has been sent to your email. If you do not see it within several minutes, please check your spam folder or try again.')
+  }
+
+  //other
   let isSocialLogin: boolean
   if (user && user.sub) {
     isSocialLogin = (user.sub.substring(0, 6) === 'auth0|') ? false : true
@@ -166,54 +175,11 @@ const AccountPersonal: React.FC<AccountPersonalProps> = ({ appConfig }) => {
     'Review and manage your account details',
   ]
 
-
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    editedFieldName.current = event.target.name
-    const value = event.target.value
-    setFormData(formData => ({
-      ...formData,
-      [editedFieldName.current as string]: value
-    }))
-
-
-
-  }
-
-
-
-
-
-
-
-
-
-  //Define components
-
   let profileImageUrl: string
   if (userProfile['user_metadata'] && userProfile['user_metadata']['picture_custom']) {
     profileImageUrl = userProfile['user_metadata']['picture_custom']
   } else {
     profileImageUrl = userProfile['picture']
-  }
-
-  //User profile image + view / update buttons (or placeholder skeletons)
-  let componentPicture = (
-    <UserImageComponent url={profileImageUrl} setProfilePatching={setProfilePatching} skeleton={!userProfileLoaded || profilePatching} />
-  )
-
-  const handlePasswordChangeClick = async () => {
-    //console.log('handling password change click')
-    const accessToken = await getAccessTokenSilently();
-    console.log('sending password reset request')
-    
-      const requestConfig: TrFetchConfig = {
-        accessToken: accessToken,
-        method: 'GET',
-        path: "/tr/admin/profile-password",
-      }
-      const result: TrFetchResult = await trFetch(requestConfig);
-      alert('A password reset link has been sent to your email. If you do not see it within several minutes, please check your spam folder or try again.')
-    //console.log('past password reset request')
   }
 
   //Change password button (or placeholder skeleton)
@@ -222,24 +188,14 @@ const AccountPersonal: React.FC<AccountPersonalProps> = ({ appConfig }) => {
       variant='contained'
       color='primary'
       size='large'
-      // disableElevation={true}
       disabled={isSocialLogin}
       startIcon={<LockIcon />}
       onClick={handlePasswordChangeClick}
       sx={{
         width: '100%',
-        // background: appConfig.theme.palett
         border: `1px solid ${appConfig.theme.palette.neutral.dark[2]}`,
         boxShadow: appConfig.theme.shadows[0],
-        // borderBottom: `3px solid ${appConfig.theme.palette.secondary.dark[4]}`,
-        // height: '3.5rem',
-        // paddingLeft: '25px',
-        // paddingRight: '25px',
-        // paddingTop: { xs: '10px', md: '6px' },
-        // paddingBottom: { xs: '10px', md: '6px' },
         padding: '.75rem 1.5rem',
-        // borderColor: appConfig.theme.palette.primary.dark[5]
-        // background: appConfig.theme.palette.primary.dark[4],
         '&:disabled': {
           border: 'none'
         }
@@ -253,9 +209,8 @@ const AccountPersonal: React.FC<AccountPersonalProps> = ({ appConfig }) => {
 
 
   let componentInputEmail = (
-    <DetailTextComponent label={'Email'} value={formData.email || ''} name='email' onChange={handleChange} readOnly skeleton={!userProfileLoaded || profilePatching} 
-    // sx={{border: '1px solid red'}}
-  />
+    <DetailTextComponent label={'Email'} value={formData.email || ''} name='email' onChange={handleChange} readOnly skeleton={!userProfileLoaded || profilePatching}
+    />
   )
 
   let componentCreatedAt = (
@@ -271,34 +226,23 @@ const AccountPersonal: React.FC<AccountPersonalProps> = ({ appConfig }) => {
   )
 
   const updateUserProfile = async () => {
-    //console.log('time to upate the user profile')
-    //console.log(formData)
-
     const accessToken = await getAccessTokenSilently();
-      const requestConfig: TrFetchConfig = {
-        accessToken: accessToken,
-        method: 'PATCH',
-        path: "/tr/admin/profile",
-        payload: JSON.stringify(formData)
-      }
-      setProfilePatching(true)
-      const result: TrFetchResult = await trFetch(requestConfig);
-      setProfilePatching(false)
-
-
-
-
-
-
-
-
+    const requestConfig: TrFetchConfig = {
+      accessToken: accessToken,
+      method: 'PATCH',
+      path: "/tr/admin/profile",
+      payload: JSON.stringify(formData)
+    }
+    setProfilePatching(true)
+    const result: TrFetchResult = await trFetch(requestConfig);
+    setProfilePatching(false)
   }
 
-  const stylingDefault: {[key: string]: any} = {
+  const stylingDefault: { [key: string]: any } = {
     mainContents: {
-        background: `linear-gradient(180deg, ${appConfig.theme.palette.neutral.dark[6]}, ${appConfig.theme.palette.neutral.dark[2]})`,
+      background: `linear-gradient(180deg, ${appConfig.theme.palette.neutral.dark[6]}, ${appConfig.theme.palette.neutral.dark[2]})`,
     }
-}
+  }
 
   return (
     <TrillliPageBuilder navSide={false} navTop appConfig={appConfig} styling={stylingDefault} >
@@ -313,80 +257,76 @@ const AccountPersonal: React.FC<AccountPersonalProps> = ({ appConfig }) => {
           marginRight: 'auto'
         }}
       >
-      <TrillliPageHeader title={title} subtitles={subtitles} appConfig={appConfig} />
-      {isSocialLogin ? (
-        <TrBasicNote appConfig={appConfig} text={'It looks like you\'re using a Social login. You can modify the fields below by updating them directly through that account provider.'} />)
-        : (<></>)}
-      <Card elevation={0} className='user-details-container' 
-        sx={{
-          background: appConfig.theme.palette.primary.dark[0],
-          display: 'flex',
-          flexDirection: 'column',
-          rowGap: '2.5rem',
-          padding: '0rem 0rem',
-          marginTop: '1.5rem',
-          color: appConfig.theme.palette.primary.dark[1],
-      }}
-      >
+        <TrillliPageHeader title={title} subtitles={subtitles} appConfig={appConfig} />
+        {isSocialLogin ? (
+          <TrBasicNote appConfig={appConfig} text={'It looks like you\'re using a Social login. You can modify the fields below by updating them directly through that account provider.'} />)
+          : (<></>)}
+        <Card elevation={0} className='user-details-container'
+          sx={{
+            background: appConfig.theme.palette.primary.dark[0],
+            display: 'flex',
+            flexDirection: 'column',
+            rowGap: '2.5rem',
+            padding: '0rem 0rem',
+            marginTop: '1.5rem',
+            color: appConfig.theme.palette.primary.dark[1],
+          }}
+        >
 
-        <Box sx={{
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'flex-start',
-          flexWrap: 'wrap',
-          rowGap: '35px',
-          // border: '3px solid white'
-          color: appConfig.theme.palette.neutral.dark[3]
-        }}>
-          {/* {componentPicture} */}
-          {userProfileLoaded ? (
-            componentBtnPassword
-          ): (
-            componentBtnPasswordSkeleton
+          <Box sx={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'flex-start',
+            flexWrap: 'wrap',
+            rowGap: '35px',
+            color: appConfig.theme.palette.neutral.dark[3]
+          }}>
+            {userProfileLoaded ? (
+              componentBtnPassword
+            ) : (
+              componentBtnPasswordSkeleton
             )}
 
 
-        </Box>
-        <Box sx={{
-          display: 'flex',
-          flexWrap: 'wrap',
-          justifyContent: 'space-between',
-          rowGap: '2.5rem',
-          flexDirection: 'column'
-        }}>
-          {/* {userProfileLoaded ? (
-            <> */}
-              {componentInputEmail}
-              {componentCreatedAt}
-              {componentGivenName}
-              {componentFamilyName}
-            {/* </> */}
-          {/* ):(<></>)} */}
-        </Box>
-        <Box sx={{
-          display: 'flex',
-          justifyContent: 'flex-end'
-        }}>
-          <Button 
-            variant="contained"
-            onClick={updateUserProfile} 
-            disabled={!formDataUpdated} 
-            startIcon={<NewReleasesIcon />} 
-            sx={{
-              width: '100%',
-              padding: '.75rem 1.5rem',
-              border: `1px solid ${appConfig.theme.palette.neutral.dark[2]}`,
-              boxShadow: appConfig.theme.shadows[0],
-              '&:disabled': {
-                border: 'none'
-              }
-            }}
-          >
-            Save Updates
-          </Button>
-        </Box>
-      </Card>
-            </Box>
+          </Box>
+          <Box sx={{
+            display: 'flex',
+            flexWrap: 'wrap',
+            justifyContent: 'space-between',
+            rowGap: '2.5rem',
+            flexDirection: 'column'
+          }}>
+
+            {componentInputEmail}
+            {componentCreatedAt}
+            {componentGivenName}
+            {componentFamilyName}
+
+          </Box>
+          <Box sx={{
+            display: 'flex',
+            justifyContent: 'flex-end'
+          }}>
+            <Button
+              variant="contained"
+              onClick={updateUserProfile}
+              disabled={!formDataUpdated}
+              startIcon={<NewReleasesIcon />}
+              sx={{
+                width: '100%',
+                padding: '.75rem 1.5rem',
+                border: `1px solid ${appConfig.theme.palette.neutral.dark[2]}`,
+                boxShadow: appConfig.theme.shadows[0],
+                '&:disabled': {
+                  border: 'none'
+                }
+              }}
+            >
+              Save Updates
+            </Button>
+          </Box>
+        </Card>
+      </Box>
     </TrillliPageBuilder>
   );
 };
