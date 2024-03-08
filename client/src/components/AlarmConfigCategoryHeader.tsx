@@ -1,9 +1,6 @@
-import React from 'react'
-import { AccordionSummary, Box, Typography, Switch, Icon, Button } from '@mui/material'
-import MusicNoteIcon from '@mui/icons-material/MusicNote';
-import WbTwilightIcon from '@mui/icons-material/WbTwilight';
-import VibrationIcon from '@mui/icons-material/Vibration';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import { AccordionSummary, Box, Button, Icon, Switch, Typography } from '@mui/material';
+import React from 'react';
 import ITrillliConfig from 'src/tr/types/ITrillliConfig';
 
 interface AlarmConfigCategoryHeaderProps {

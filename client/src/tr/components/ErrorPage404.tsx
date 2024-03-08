@@ -1,11 +1,11 @@
-import React from "react";
-import TrillliPageBuilder from "./TrillliPageBuilder";
-import ITrillliConfig from "../types/ITrillliConfig";
-import Box from "@mui/material/Box";
-import Typography from "@mui/material/Typography";
-import Button from '@mui/material/Button';
-import { Link } from 'react-router-dom'
 import DirectionsRun from "@mui/icons-material/DirectionsRun";
+import Box from "@mui/material/Box";
+import Button from '@mui/material/Button';
+import Typography from "@mui/material/Typography";
+import React from "react";
+import { Link } from 'react-router-dom';
+import ITrillliConfig from "../types/ITrillliConfig";
+import TrillliPageBuilder from "./TrillliPageBuilder";
 
 
 interface ErrorPage404Props {

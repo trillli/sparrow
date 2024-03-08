@@ -1,9 +1,8 @@
-import React from 'react'
 import { Box } from '@mui/material'
-import { IAlarmMetadata } from './types/IAlarmMetadata'
-import Alarm from './Alarm'
+import React from 'react'
 import ITrillliConfig from 'src/tr/types/ITrillliConfig'
-import AppConfig from 'src/AppConfig'
+import Alarm from './Alarm'
+import { IAlarmMetadata } from './types/IAlarmMetadata'
 
 interface AlarmsListProps {
     alarms: IAlarmMetadata[]

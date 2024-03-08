@@ -1,13 +1,12 @@
-import React from 'react'
-import IAlarmConfigCategoryDetailStateControl from './types/IAlarmConfigCategoryDetailStateControl'
-import { Box, Typography, Slider } from '@mui/material'
+import { Box, Typography } from '@mui/material'
 import { useTheme } from '@mui/material/styles'
+import React from 'react'
 import TrSlider from 'src/tr/components/TrSlider'
-import AlarmConfigCategoryDetailHeader from './AlarmConfigCategoryDetailHeader'
 import ITrillliConfig from 'src/tr/types/ITrillliConfig'
-import { IAlarmMetadata } from './types/IAlarmMetadata'
 import AlarmConfigCategoryDetailContainer from './AlarmConfigCategoryDetailContainer'
 import AlarmConfigCategoryDetailContents from './AlarmConfigCategoryDetailContents'
+import AlarmConfigCategoryDetailHeader from './AlarmConfigCategoryDetailHeader'
+import { IAlarmMetadata } from './types/IAlarmMetadata'
 
 interface AlarmConfigCategoryDetailBodyVibrationStartProps {
     alarm: IAlarmMetadata
@@ -32,14 +31,6 @@ const AlarmConfigCategoryDetailBodyVibrationStart: React.FC<AlarmConfigCategoryD
         handlers.updateAlarmsMetadata(alarm.id, alarm)
     }
 
-    // let fieldLabel: string
-    // if (vibrationAdvanceMinutes == 0) {
-    //     fieldLabel = 'Begin vibration at alarm time'
-    // } else {
-    //     fieldLabel = 'Begin vibration ' + (Math.abs(vibrationAdvanceMinutes)) + ' ' + (Math.abs(vibrationAdvanceMinutes) == 1 ? 'minute' : 'minutes') + ' ' + (vibrationAdvanceMinutes > 0 ? 'after' : 'before') + ' alarm time'
-    // }
-
-    // const
     let fieldLabel: string = 'Vibration Start Time'  
 
     return (

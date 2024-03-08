@@ -1,5 +1,5 @@
-import { FilledTextFieldProps, Skeleton, TextField, InputAdornment, Icon, Box } from '@mui/material';
-import React from 'react'
+import { Box, FilledTextFieldProps, Icon, InputAdornment, Skeleton, TextField } from '@mui/material';
+import React from 'react';
 
 
 type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;

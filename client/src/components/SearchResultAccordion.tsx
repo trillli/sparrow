@@ -1,7 +1,7 @@
-import { Accordion, AccordionDetails, AccordionSummary, Box } from '@mui/material'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import React from 'react'
-import ITrillliConfig from 'src/tr/types/ITrillliConfig'
+import { Accordion, AccordionDetails, AccordionSummary } from '@mui/material';
+import React from 'react';
+import ITrillliConfig from 'src/tr/types/ITrillliConfig';
 
 interface SearchResultAccordionProps {
     appConfig: ITrillliConfig

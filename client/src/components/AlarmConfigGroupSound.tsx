@@ -1,13 +1,10 @@
-import React from 'react'
-import { IAlarmMetadata } from './types/IAlarmMetadata'
-import ITrillliConfig from 'src/tr/types/ITrillliConfig'
 import { Accordion, AccordionDetails, Box } from '@mui/material'
-import AlarmConfigCategoryBody from './AlarmConfigCategoryBody'
-import AlarmConfigCategoryHeader from './AlarmConfigCategoryHeader'
-import AlarmConfigCategoryDetailOuter from './AlarmConfigCategoryDetailOuter'
-import AlarmConfigCategoryDetailHeader from './AlarmConfigCategoryDetailHeader'
+import React from 'react'
+import ITrillliConfig from 'src/tr/types/ITrillliConfig'
 import AlarmConfigCategoryDetailBodySoundSearch from './AlarmConfigCategoryDetailBodySoundSearch'
 import AlarmConfigCategoryDetailBodySoundVolume from './AlarmConfigCategoryDetailBodySoundVolume'
+import AlarmConfigCategoryHeader from './AlarmConfigCategoryHeader'
+import { IAlarmMetadata } from './types/IAlarmMetadata'
 
 interface AlarmConfigGroupSoundProps {
     alarm: IAlarmMetadata

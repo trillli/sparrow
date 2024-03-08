@@ -1,7 +1,7 @@
-import React from 'react'
-import { Box, Icon, Paper, Typography } from '@mui/material'
-import ITrillliConfig from '../types/ITrillliConfig'
 import ChatBubbleIcon from '@mui/icons-material/ChatBubble';
+import { Box, Icon, Paper, Typography } from '@mui/material';
+import React from 'react';
+import ITrillliConfig from '../types/ITrillliConfig';
 
 interface TrBasicNoteProps {
     appConfig: ITrillliConfig

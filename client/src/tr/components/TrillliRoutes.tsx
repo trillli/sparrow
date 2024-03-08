@@ -1,11 +1,11 @@
 import React from 'react';
-import { Route, Routes } from 'react-router-dom'
-import ErrorPage404 from './ErrorPage404'
-import { Auth0Authenticator } from './Auth0Authenticator';
-import ITrillliConfig from '../types/ITrillliConfig';
-import AccountPersonal from './AccountPersonal';
+import { Route, Routes } from 'react-router-dom';
 import AppSplash from 'src/components/AppSplash';
 import AlarmsHome from 'src/components/full/pages/AlarmsHome';
+import ITrillliConfig from '../types/ITrillliConfig';
+import AccountPersonal from './AccountPersonal';
+import { Auth0Authenticator } from './Auth0Authenticator';
+import ErrorPage404 from './ErrorPage404';
 
 interface TrillliRoutesProps {
   appConfig: ITrillliConfig

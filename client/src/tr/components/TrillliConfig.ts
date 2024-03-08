@@ -1,6 +1,6 @@
 import { Theme } from "@mui/material";
+import TrillliLight from "../themes/TrillliLight";
 import ITrillliConfig from "../types/ITrillliConfig";
-import TrillliLight from "../themes/TrillliLight"
 import TrillliMenu from "../types/TrillliMenu";
 import TrillliMenuItem from "../types/TrillliMenuItem";
 

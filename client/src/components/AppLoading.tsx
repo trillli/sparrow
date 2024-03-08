@@ -1,7 +1,7 @@
+import { Box, LinearProgress } from '@mui/material'
 import React from 'react'
 import ITrillliConfig from 'src/tr/types/ITrillliConfig'
 import PageBuilder from './PageBuilder'
-import { Box, LinearProgress } from '@mui/material'
 
 interface AppLoadingProps {
     appConfig: ITrillliConfig

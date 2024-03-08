@@ -1,7 +1,7 @@
-import React from 'react'
-import { ToggleButtonGroup, ToggleButtonGroupProps } from '@mui/material'
+import { ToggleButtonGroup, ToggleButtonGroupProps } from '@mui/material';
 import { SxProps } from '@mui/system';
-import ITrillliConfig from '../types/ITrillliConfig'
+import React from 'react';
+import ITrillliConfig from '../types/ITrillliConfig';
 
 interface TrToggleButtonGroupProps extends ToggleButtonGroupProps {
     sx?: SxProps,

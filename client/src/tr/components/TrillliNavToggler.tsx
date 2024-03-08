@@ -1,8 +1,8 @@
-import React from 'react'
-import Box from '@mui/material/Box'
 import ClearIcon from '@mui/icons-material/Clear'
-import { IconButton } from '@mui/material'
 import MenuIcon from '@mui/icons-material/Menu'
+import { IconButton } from '@mui/material'
+import Box from '@mui/material/Box'
+import React from 'react'
 
 interface TrillliNavTogglerProps {
     fnToggleHandler: Function,

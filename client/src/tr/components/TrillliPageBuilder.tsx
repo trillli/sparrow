@@ -1,15 +1,13 @@
-import React from 'react'
+import { useAuth0 } from '@auth0/auth0-react'
+import { CssBaseline, ThemeProvider } from '@mui/material'
 import Box from '@mui/material/Box'
+import React from 'react'
+import ITrillliConfig from '../types/ITrillliConfig'
+import LoadingPage from './LoadingPage'
 import TrillliConfig from './TrillliConfig'
 import TrillliNavSide from './TrillliNavSide'
 import TrillliNavToggler from './TrillliNavToggler'
 import TrillliNavTop from './TrillliNavTop'
-import ITrillliConfig from '../types/ITrillliConfig'
-import { CssBaseline, Typography, createTheme } from '@mui/material'
-import { ThemeProvider } from '@mui/material'
-import TrillliLight from '../themes/TrillliLight'
-import { useAuth0 } from '@auth0/auth0-react'
-import LoadingPage from './LoadingPage'
 
 
 interface TrillliPageBuilderProps {

@@ -1,8 +1,7 @@
-import React from "react";
-import ITrillliConfig from "../types/ITrillliConfig";
-import TrillliConfig from "./TrillliConfig";
 import Box from "@mui/material/Box";
 import LinearProgress from '@mui/material/LinearProgress';
+import React from "react";
+import ITrillliConfig from "../types/ITrillliConfig";
 
 interface LoadingPageProps {
   appConfig: ITrillliConfig

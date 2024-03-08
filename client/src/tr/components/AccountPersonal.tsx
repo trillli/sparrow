@@ -1,17 +1,17 @@
 import { useAuth0 } from "@auth0/auth0-react";
-import React from "react";
-import TrillliPageBuilder from "./TrillliPageBuilder";
-import ITrillliConfig from "../types/ITrillliConfig";
-import TrillliPageHeader from "./TrillliPageHeader";
-import IAuth0ApiUser, { fnAuth0CreatedAtTimeToLocal, IAuth0ApiNormalizedUser } from "../types/IAuth0ApiUser";
-import { trFetch, TrFetchConfig, TrFetchResult } from "./TrApiClient";
-import Skeleton from "@mui/material/Skeleton";
-import { Box, Button, Card, FilledTextFieldProps, Icon, IconButton, InputAdornment, TextField, TextFieldProps } from "@mui/material";
-import TrBasicNote from "./TrPageNote";
 import LockIcon from '@mui/icons-material/Lock';
-import NewReleasesIcon from '@mui/icons-material/NewReleases'
+import NewReleasesIcon from '@mui/icons-material/NewReleases';
+import { Box, Button, Card } from "@mui/material";
+import Skeleton from "@mui/material/Skeleton";
+import React from "react";
 import DetailTextComponent from "src/DetailTextComponent";
 import UserImageComponent from "src/UserImageComponent";
+import IAuth0ApiUser, { fnAuth0CreatedAtTimeToLocal, IAuth0ApiNormalizedUser } from "../types/IAuth0ApiUser";
+import ITrillliConfig from "../types/ITrillliConfig";
+import { trFetch, TrFetchConfig, TrFetchResult } from "./TrApiClient";
+import TrillliPageBuilder from "./TrillliPageBuilder";
+import TrillliPageHeader from "./TrillliPageHeader";
+import TrBasicNote from "./TrPageNote";
 
 
 interface AccountPersonalProps {

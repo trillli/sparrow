@@ -1,13 +1,11 @@
-import React from 'react'
-import { HexColorPicker } from 'react-colorful'
-import IAlarmConfigCategoryDetailStateControl from './types/IAlarmConfigCategoryDetailStateControl'
-import TrSliderColorPicker from 'src/tr/components/TrSliderColorPicker'
 import { Box } from '@mui/material'
-import AlarmConfigCategoryDetailHeader from './AlarmConfigCategoryDetailHeader'
-import AlarmConfigCategoryDetailContainer from './AlarmConfigCategoryDetailContainer'
+import React from 'react'
+import TrSliderColorPicker from 'src/tr/components/TrSliderColorPicker'
 import ITrillliConfig from 'src/tr/types/ITrillliConfig'
-import { IAlarmMetadata } from './types/IAlarmMetadata'
+import AlarmConfigCategoryDetailContainer from './AlarmConfigCategoryDetailContainer'
 import AlarmConfigCategoryDetailContents from './AlarmConfigCategoryDetailContents'
+import AlarmConfigCategoryDetailHeader from './AlarmConfigCategoryDetailHeader'
+import { IAlarmMetadata } from './types/IAlarmMetadata'
 
 interface AlarmConfigCategoryDetailBodyLightColorProps {
     alarm: IAlarmMetadata

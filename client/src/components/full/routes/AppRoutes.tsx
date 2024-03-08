@@ -1,11 +1,11 @@
 import React from 'react';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
-import AlarmsHome from 'src/components/full/pages/AlarmsHome'
-import TrillliRoutes from 'src/tr/components/TrillliRoutes';
-import { Auth0Router } from 'src/tr/components/Auth0Router';
-import { Auth0Authenticator } from 'src/tr/components/Auth0Authenticator'
-import AppSplash from 'src/components/AppSplash';
+import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
 import AppConfig from 'src/AppConfig';
+import AppSplash from 'src/components/AppSplash';
+import AlarmsHome from 'src/components/full/pages/AlarmsHome';
+import { Auth0Authenticator } from 'src/tr/components/Auth0Authenticator';
+import { Auth0Router } from 'src/tr/components/Auth0Router';
+import TrillliRoutes from 'src/tr/components/TrillliRoutes';
 import ITrillliConfig from 'src/tr/types/ITrillliConfig';
 
 const AppRoutes: React.FC = () => {

@@ -1,5 +1,3 @@
-import React from "react"
-import AlarmConfigCategoryDetailBodyLightColor from "../AlarmConfigCategoryDetailBodyLightBrightness"
 import IAlarmConfigCategoryDetailStateControl from "./IAlarmConfigCategoryDetailStateControl"
 
 
@@ -98,37 +96,3 @@ export type IAlarmConfigCategoryMetadata = {
         }
     }
 }
-
-
-
-// const alarmConfigComponentSkeletons: IAlarmConfigComponentSkeleton = {
-//     sound: {
-//         source: {
-
-//         },
-//         type: 'tbd',
-//         title: 'tbd',
-//         artist: 'tbd',
-//         volume: 'tbd',
-//     },
-//     light: {
-//         start_relative: {
-//             label: 'Turn light on ' + {stateControl.light.lightAdvanceMinutes} + {stateControl.light.lightAdvanceMinutes == 1 ? 'minute' : 'minutes'} + 'before alarm time',
-//             id: 'light_start',
-//             showHeader: true,
-//             body: <AlarmConfigCategoryDetailBodyLightStart stateControl={stateControl.light} />
-//         },
-//         color: {
-//             label: 'Color',
-//             id: 'light_color',
-//             showHeader: true,
-//             body: <AlarmConfigCategoryDetailBodyLightColor stateControl={stateControl.light} />
-//         },
-//         profile: {
-
-//         },
-//         brightness: {
-
-//         }
-//     }
-// }

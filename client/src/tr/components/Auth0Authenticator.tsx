@@ -1,8 +1,7 @@
 import { withAuthenticationRequired } from "@auth0/auth0-react";
 import React, { ComponentType } from "react";
-import LoadingPage from "./LoadingPage";
 import ITrillliConfig from "../types/ITrillliConfig";
-import TrillliPageBuilder from "./TrillliPageBuilder";
+import LoadingPage from "./LoadingPage";
 
 interface Auth0AuthenticatorProps {
   component: ComponentType,

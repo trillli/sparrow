@@ -1,6 +1,6 @@
 import React from 'react'
-import TrillliPageBuilder from 'src/tr/components/TrillliPageBuilder'
 import AppConfig from 'src/AppConfig'
+import TrillliPageBuilder from 'src/tr/components/TrillliPageBuilder'
 import ITrillliConfig from 'src/tr/types/ITrillliConfig'
 
 interface PageBuilderProps {

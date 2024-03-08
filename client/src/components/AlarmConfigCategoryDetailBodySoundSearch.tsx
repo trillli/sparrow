@@ -1,20 +1,18 @@
-import React from 'react'
-import { HexColorPicker } from 'react-colorful'
-import IAlarmConfigCategoryDetailStateControl from './types/IAlarmConfigCategoryDetailStateControl'
-import { ToggleButtonGroup, ToggleButton, Slider, TextField, Box, Typography, Button, InputAdornment, Accordion, AccordionSummary, AccordionDetails, TableContainer, Table, TableHead, TableRow, TableCell, TableBody, IconButton } from '@mui/material'
-import SearchIcon from '@mui/icons-material/Search';
-import FilterListOffIcon from '@mui/icons-material/FilterListOff';
-import ITrillliConfig from 'src/tr/types/ITrillliConfig';
-import { IAlarmMetadata } from './types/IAlarmMetadata';
 import { useAuth0 } from '@auth0/auth0-react';
+import { Shuffle } from '@mui/icons-material';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import FilterListOffIcon from '@mui/icons-material/FilterListOff';
+import SearchIcon from '@mui/icons-material/Search';
+import { Accordion, AccordionDetails, AccordionSummary, Box, IconButton, InputAdornment, Table, TableBody, TableCell, TableContainer, TableRow, TextField, ToggleButton, Typography } from '@mui/material';
+import React from 'react';
 import { TrFetchConfig, TrFetchResult, trFetch } from 'src/tr/components/TrApiClient';
-import AlarmConfigCategoryDetailHeader from './AlarmConfigCategoryDetailHeader';
-import { Shuffle, ShuffleOn } from '@mui/icons-material';
+import TrToggleButtonGroup from 'src/tr/components/TrToggleButtonGroup';
+import ITrillliConfig from 'src/tr/types/ITrillliConfig';
 import AlarmConfigCategoryDetailContainer from './AlarmConfigCategoryDetailContainer';
 import AlarmConfigCategoryDetailContents from './AlarmConfigCategoryDetailContents';
-import TrToggleButtonGroup from 'src/tr/components/TrToggleButtonGroup';
+import AlarmConfigCategoryDetailHeader from './AlarmConfigCategoryDetailHeader';
 import SearchResultAccordion from './SearchResultAccordion';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import { IAlarmMetadata } from './types/IAlarmMetadata';
 
 interface AlarmConfigCategoryDetailBodySoundSearchProps {
     alarm: IAlarmMetadata

@@ -1,7 +1,6 @@
+import { ToggleButton, ToggleButtonGroup } from '@mui/material'
 import React from 'react'
-import { HexColorPicker } from 'react-colorful'
 import IAlarmConfigCategoryDetailStateControl from './types/IAlarmConfigCategoryDetailStateControl'
-import { ToggleButtonGroup, ToggleButton, Slider } from '@mui/material'
 
 const AlarmConfigCategoryDetailSoundSource: React.FC<IAlarmConfigCategoryDetailStateControl> = ({...stateControl}) => {
 

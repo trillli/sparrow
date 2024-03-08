@@ -1,8 +1,4 @@
 import React from 'react';
-import Slider from '@mui/material/Slider';
-// import { makeStyles } from '@mui/system';
-import { Box } from '@mui/material';
-import IAlarmConfigCategoryDetailStateControl from 'src/components/types/IAlarmConfigCategoryDetailStateControl';
 import TrSlider from './TrSlider';
 
 interface TrSliderColorPickerProps {

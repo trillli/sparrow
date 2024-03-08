@@ -1,13 +1,7 @@
-import React from 'react'
-import ITrillliConfig from "src/tr/types/ITrillliConfig"
 import TrillliConfig from "src/tr/components/TrillliConfig"
+import ITrillliConfig from "src/tr/types/ITrillliConfig"
 import TrillliMenu from "src/tr/types/TrillliMenu"
-import TrillliMenuItem from "src/tr/types/TrillliMenuItem"
 import SparrowLight from "./themes/SparrowLight"
-import NotFoundPageContents from './components/404NotFound'
-import AppSplash from './components/AppSplash'
-
-
 
 class AppConfig extends TrillliConfig implements ITrillliConfig {
 
@@ -60,7 +54,7 @@ class AppConfig extends TrillliConfig implements ITrillliConfig {
         },
         notFound: {
             trBasic: true,
-            contents: <NotFoundPageContents />
+            // contents: <NotFoundPageContents />
         }
     }
 

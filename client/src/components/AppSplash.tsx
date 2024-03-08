@@ -1,16 +1,14 @@
-import * as React from 'react';
-import PageBuilder from './PageBuilder';
-import TrillliPageBuilder from 'src/tr/components/TrillliPageBuilder';
-import { Accordion, AccordionDetails, AccordionSummary, Box, Button, IconButton, Typography } from '@mui/material';
+import { useAuth0 } from '@auth0/auth0-react';
+import { ExpandMore } from '@mui/icons-material';
+import AlarmIcon from '@mui/icons-material/Alarm';
 import GitHubIcon from '@mui/icons-material/GitHub';
 import LoginIcon from '@mui/icons-material/Login';
-import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
-import AlarmIcon from '@mui/icons-material/Alarm';
-import ITrillliConfig from 'src/tr/types/ITrillliConfig';
-import { useAuth0 } from '@auth0/auth0-react';
+import { Accordion, AccordionDetails, AccordionSummary, Box, Button, Typography } from '@mui/material';
+import * as React from 'react';
+import { Link } from 'react-router-dom';
+import ITrillliConfig from 'src/tr/types/ITrillliConfig'
 import LandingPageStep from './LandingPageStep';
-import { ExpandMore, QuestionMarkOutlined } from '@mui/icons-material';
-import { Link } from 'react-router-dom'
+import PageBuilder from './PageBuilder'
 
 interface AppSplashProps {
     appConfig: ITrillliConfig

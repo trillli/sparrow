@@ -1,5 +1,5 @@
-import React from 'react'
 import { Box, Slider, SliderProps, useTheme } from '@mui/material'
+import React from 'react'
 
 const TrSlider: React.FC<SliderProps> = (props) => {
 

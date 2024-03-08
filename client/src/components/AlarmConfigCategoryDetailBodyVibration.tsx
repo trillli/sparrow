@@ -1,14 +1,12 @@
+import { Box, ToggleButton, Typography } from '@mui/material'
 import React from 'react'
-import { HexColorPicker } from 'react-colorful'
-import IAlarmConfigCategoryDetailStateControl from './types/IAlarmConfigCategoryDetailStateControl'
-import { ToggleButtonGroup, ToggleButton, Slider, Box, Typography } from '@mui/material'
 import TrSlider from 'src/tr/components/TrSlider'
-import AlarmConfigCategoryDetailHeader from './AlarmConfigCategoryDetailHeader'
+import TrToggleButtonGroup from 'src/tr/components/TrToggleButtonGroup'
 import ITrillliConfig from 'src/tr/types/ITrillliConfig'
-import { IAlarmMetadata } from './types/IAlarmMetadata'
 import AlarmConfigCategoryDetailContainer from './AlarmConfigCategoryDetailContainer'
 import AlarmConfigCategoryDetailContents from './AlarmConfigCategoryDetailContents'
-import TrToggleButtonGroup from 'src/tr/components/TrToggleButtonGroup'
+import AlarmConfigCategoryDetailHeader from './AlarmConfigCategoryDetailHeader'
+import { IAlarmMetadata } from './types/IAlarmMetadata'
 
 interface AlarmConfigCategoryDetailBodyVibrationProps {
     alarm: IAlarmMetadata

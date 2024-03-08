@@ -1,13 +1,12 @@
-import React from 'react'
-import  IAlarmConfigCategoryDetailStateControl  from './types/IAlarmConfigCategoryDetailStateControl'
-import { Box, Typography, Slider } from '@mui/material'
+import { Box, Typography } from '@mui/material'
 import { useTheme } from '@mui/material/styles'
+import React from 'react'
 import TrSlider from 'src/tr/components/TrSlider'
-import AlarmConfigCategoryDetailHeader from './AlarmConfigCategoryDetailHeader'
-import AlarmConfigCategoryDetailContainer from './AlarmConfigCategoryDetailContainer'
 import ITrillliConfig from 'src/tr/types/ITrillliConfig'
-import { IAlarmMetadata } from './types/IAlarmMetadata'
+import AlarmConfigCategoryDetailContainer from './AlarmConfigCategoryDetailContainer'
 import AlarmConfigCategoryDetailContents from './AlarmConfigCategoryDetailContents'
+import AlarmConfigCategoryDetailHeader from './AlarmConfigCategoryDetailHeader'
+import { IAlarmMetadata } from './types/IAlarmMetadata'
 
 interface AlarmConfigCategoryDetailBodyLightStartProps {
     alarm: IAlarmMetadata

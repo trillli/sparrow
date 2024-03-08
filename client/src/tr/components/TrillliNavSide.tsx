@@ -1,12 +1,12 @@
-import React from 'react'
-import { Box, Divider, Drawer, Icon, IconButton, List, ListItem, ListItemButton, ListItemIcon, ListItemText } from '@mui/material'
-import { Link } from 'react-router-dom'
+import { useAuth0 } from '@auth0/auth0-react';
 import ExpandLessIcon from '@mui/icons-material/ExpandLess';
+import { Box, Drawer, Icon, IconButton, List, ListItem, ListItemButton, ListItemIcon, ListItemText } from '@mui/material';
+import React from 'react';
+import { Link } from 'react-router-dom';
 import ITrillliConfig from '../types/ITrillliConfig';
 import TrillliMenu from '../types/TrillliMenu';
-import { useAuth0 } from '@auth0/auth0-react';
-import useAuth0LogIn from './useAuth0LogIn'
-import useAuth0LogOut from './useAuth0LogOut'
+import useAuth0LogIn from './useAuth0LogIn';
+import useAuth0LogOut from './useAuth0LogOut';
 
 
 interface TrillliNavSideProps {

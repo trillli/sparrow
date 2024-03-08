@@ -1,9 +1,9 @@
-import React from 'react'
-import { Box, Skeleton, Button, Modal, Typography } from '@mui/material'
-import SwapHorizIcon from '@mui/icons-material/SwapHoriz';
-import FullscreenIcon from '@mui/icons-material/Fullscreen';
-import { styled } from '@mui/material/styles';
 import { useAuth0 } from '@auth0/auth0-react';
+import FullscreenIcon from '@mui/icons-material/Fullscreen';
+import SwapHorizIcon from '@mui/icons-material/SwapHoriz';
+import { Box, Button, Modal, Skeleton } from '@mui/material';
+import { styled } from '@mui/material/styles';
+import React from 'react';
 import { TrFetchConfig, TrFetchResult, trFetch } from 'src/tr/components/TrApiClient';
 
 interface UserImageComponentProps {
