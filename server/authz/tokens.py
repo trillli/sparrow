@@ -1,6 +1,7 @@
 from rest_framework_simplejwt.tokens import AccessToken
 
-
+# From Auth0 Tutorial / Quickstart
+# See settings.py SIMPLE_JWT
 class Auth0Token(AccessToken):
     def verify(self):
         """

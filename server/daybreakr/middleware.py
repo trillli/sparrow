@@ -1,12 +1,12 @@
 from django.utils.cache import add_never_cache_headers
 
-
+# From Auth0 tutorial / quickstart guide
+# Middleware package, see settings.py MIDDLEWARE
 class Auth0Middleware:
     def __init__(self, get_response):
         self.get_response = get_response
 
     def __call__(self, request):
-        print('here i am in middleware')
         response = self.get_response(request)
         response['Expires'] = 0
         add_never_cache_headers(response)

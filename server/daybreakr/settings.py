@@ -4,26 +4,13 @@ import dotenv
 from pathlib import Path
 from common.utils import get_env_var
 
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
-BASE_DIR = Path(__file__).resolve().parent.parent
 
+BASE_DIR = Path(__file__).resolve().parent.parent
 dotenv.load_dotenv(BASE_DIR / '.env')
 
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
-
-# SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = get_env_var('DJANGO_SECRET_KEY')
-
-# SECURITY WARNING: don't run with debug turned on in production!
-# DEBUG = os.environ.get("DEBUG_ENABLED") == 'true'
-DEBUG = 'true'
-
-# ALLOWED_HOSTS = ['*']
+DEBUG = 'false' #Consider moving to .env
 ALLOWED_HOSTS = ['*']
-
-
-# Application definition
 
 INSTALLED_APPS = [
     'django.contrib.auth',
@@ -54,6 +41,7 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'daybreakr.urls'
 
+#TODO: Look into this - may be able to remove, just using this django app as rest api, no templates
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
@@ -72,25 +60,18 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'daybreakr.wsgi.application'
 
-
-# Database
-# https://docs.djangoproject.com/en/3.2/ref/settings/#databases
-
 DATABASES = {
     'default': {
         'ENGINE': get_env_var('DB_ENGINE'), 
         'NAME': get_env_var('DB_NAME'),             
         'USER': get_env_var('DB_USER'),            
         'PASSWORD': get_env_var('DB_PASSWORD'),  
-        'HOST': 'db',                
+        'HOST': get_env_var('DB_HOST'),                        
         'PORT': get_env_var('DB_PORT'),                 
     }
 }
 
-
-# Password validation
-# https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
-
+#TODO: using Auth0; can probably remove
 AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
@@ -109,36 +90,26 @@ AUTH_PASSWORD_VALIDATORS = [
 
 # Internationalization
 # https://docs.djangoproject.com/en/3.2/topics/i18n/
-
 LANGUAGE_CODE = 'en-us'
-
 TIME_ZONE = 'UTC'
-
 USE_I18N = True
-
 USE_L10N = True
-
 USE_TZ = True
-
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
-
 STATIC_URL = '/static/'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
-
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Security
-
 CLIENT_ORIGIN_URL = get_env_var('CLIENT_ORIGIN_URL')
 
-# CORS_ALLOWED_ORIGINS = ['http://localhost:4040', 'http://host.docker.internal:4040']
 CORS_ALLOWED_ORIGINS = ['http://localhost:4040','https://daybreakr.trillli.com']
-# CORS_ALLOWED_ORIGINS = ['*']
 
+#Expand upon this if/when other CRUD methods are relevant
 CORS_ALLOW_METHODS = [
     "GET",
     "PATCH",
@@ -156,20 +127,16 @@ CORS_ALLOW_HEADERS = [
 
 SECURE_HSTS_INCLUDE_SUBDOMAINS = True
 SECURE_HSTS_SECONDS = 31536000
-
 CSP_FRAME_ANCESTORS = "'none'"
 
 REST_FRAMEWORK = {
     'DEFAULT_RENDERER_CLASSES': [
         'rest_framework.renderers.JSONRenderer',
     ],
-    # 'EXCEPTION_HANDLER': 'messages_api.views.api_exception_handler',
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework_simplejwt.authentication.JWTTokenUserAuthentication',
     ],
 }
-
-# JWT
 
 AUTH0_DOMAIN = get_env_var('AUTH0_DOMAIN')
 AUTH0_AUDIENCE = get_env_var('AUTH0_AUDIENCE')
@@ -185,7 +152,6 @@ SIMPLE_JWT = {
     'USER_ID_CLAIM': 'sub',
     'AUTH_TOKEN_CLASSES': ('authz.tokens.Auth0Token',),
 }
-
 
 SPOTIFY_CLIENT_SECRET = get_env_var('SPOTIFY_CLIENT_SECRET')
 SPOTIFY_CLIENT_ID = get_env_var('SPOTIFY_CLIENT_ID')
