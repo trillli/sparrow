@@ -17,9 +17,7 @@ const SearchResultAccordion: React.FC<SearchResultAccordionProps> = ({ appConfig
             elevation={0}
             sx={{
                 background: 'none',
-                // borderBottom: '1px solid #00000015',
                 '&.MuiAccordion-root': {
-                    // color: 'blue',
                     borderBottom: '1px solid #00000020'
                 },
                 '&:before': {
@@ -33,7 +31,6 @@ const SearchResultAccordion: React.FC<SearchResultAccordionProps> = ({ appConfig
                     padding: '.5rem 0rem',
                     paddingRight: '0rem',
                     minHeight: '0px'
-                    // borderBottom: '1px solid #00000015'
                 }}
             >
                 {label}

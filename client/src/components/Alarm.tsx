@@ -21,74 +21,21 @@ interface AlarmProps {
 
 const Alarm: React.FC<AlarmProps> = ({ alarm, appConfig, handlers, setters, timeFormat24Hr }) => {
 
-    //console.log('alarm timing length')
-    //console.log(alarm.timing.days)
-    //console.log(alarm.timing.days.length)
-    // console.log('---------------------------------------------------------------------------------')
-    // console.log('mounting:')
-    // console.log(alarm)
-    // console.log(alarm.timing)
-    // console.log('---------------------------------------------------------------------------------')
-    // console.log([alarm.name, JSON.stringify(alarm.timing.days)])
-    // console.log('hi22222')
-    const [alarmSerialized, setAlarmSerialized] = React.useState<string>(JSON.stringify(alarm))
+    //TODO: TYPE
+    type DayAbbrev = 'su' | 'm' | 'tu' | 'w' | 'th' | 'f' | 'sa'
+
+    //sv
     const [alarmExpanded, setAlarmExpanded] = React.useState<boolean>(false)
     const [alarmEnabled, setAlarmEnabled] = React.useState<boolean>(alarm.enabled || false)
-    const [noRepeat, setNoRepeat] = React.useState<boolean>()
-    type DayAbbrev = 'su' | 'm' | 'tu' | 'w' | 'th' | 'f' | 'sa'
-    const [repeatDays, setRepeatDays] = React.useState<DayAbbrev[]>([])
     const [lightColor, setLightColor] = React.useState<number>(alarm.light?.color.h)
 
-    // //console.log('Generating this alarm!')
-    // //console.log(alarm)
-    // //console.log('but repeat days is:')
-    // //console.log(repeatDays)
-
+    //ef
     React.useEffect(() => {
-        // console.log('mounted: ' alarm.name)
-        // console.log('mounted')
-        // setRepeatDays(['w', 'th', 'f'])
-        // console.log('hiiiiiiiiiii')
-    }, [])
-
-    // React.useEffect(() => {
-    //     // //console.log('in norepeat useeffect')
-    //     if (noRepeat) {
-    //         // setRepeatDays(new Set<DayAbbrev>())
-    //         // setRepeatDays([])
-    //         // alarm.timing.days = []
-    //         alarm.timing.days = []
-    //         handlers.updateAlarmsMetadata(alarm.id, alarm)
-    //     }
-    // }, [noRepeat])
-
-    React.useEffect(() => {
-        // //console.log('in alarmenabled useeffect')
         alarm.enabled = alarmEnabled
         handlers.updateAlarmsMetadata(alarm.id, alarm)
     }, [alarmEnabled])
 
-    // React.useEffect(() => {
-    //     return;
-    //     // //console.log('in repeatdata useeffect')
-    //     if (typeof(repeatDays) == 'undefined') {
-    //         console.log('undefined')
-    //         return;
-    //     }
-    //     if (repeatDays.length == 0) {
-    //         setNoRepeat(true)
-    //     } else {
-
-    //         setNoRepeat(false)
-    //     }
-
-    //     alarm.timing.days = repeatDays
-    //     console.log('SENDING THIS TO UPDATE ALARM ID: ' + alarm.id)
-    //     console.log(alarm)
-    //     handlers.updateAlarmsMetadata(alarm.id, alarm)
-
-    // }, [repeatDays])
-
+    //ha
     const onColorSliderChange = (event: React.MouseEvent<HTMLElement>) => {
         const target: HTMLInputElement = event.target as HTMLInputElement
         const value: number = Number(target.value)
@@ -96,24 +43,16 @@ const Alarm: React.FC<AlarmProps> = ({ alarm, appConfig, handlers, setters, time
         setLightColor(value)
     }
 
-    const onColorSliderChangeCommitted = (event: React.MouseEvent<HTMLElement>) => {
+    const onColorSliderChangeCommitted = () => {
         alarm.light.color.h = lightColor
         handlers.updateAlarmsMetadata(alarm.id, alarm)
     }
 
-    const handleAlarmExpand = (event: React.SyntheticEvent, expanded: boolean) => {
+    const handleAlarmExpand = () => {
         setAlarmExpanded(!alarmExpanded)
     }
 
-    // const handleAlarmTimeOrNameClick = (event: React.MouseEvent<HTMLElement>) => {
-    //     setters.setTimePickerOpen(true)
-    //     event.stopPropagation()
-    // }
-
     const handleSummaryDayChange = (event: React.MouseEvent<HTMLElement>) => {
-
-        console.log('in handle summary day change. alarm.timing.days is:')
-        console.log(alarm.timing.days)
 
         event.stopPropagation()
         const target: HTMLInputElement = event.target as HTMLInputElement
@@ -128,32 +67,15 @@ const Alarm: React.FC<AlarmProps> = ({ alarm, appConfig, handlers, setters, time
             repeatDaysUpdatedSet.add(value)
         }
 
-        console.log('going to change it to:')
-        console.log(Array.from(repeatDaysUpdatedSet))
-
-        // setRepeatDays(Array.from(repeatDaysUpdatedSet))
-
         alarm.timing.days = Array.from(repeatDaysUpdatedSet)
-
-        if (alarm.timing.days.length == 0) {
-            // setNoRepeat(true)
-        } else {
-
-            // setNoRepeat(false)
-        }
 
         handlers.updateAlarmsMetadata(alarm.id, alarm)
 
     }
 
     const handleSummaryDayNoRepeatClick = (event: React.MouseEvent<HTMLElement>) => {
-        ////console.log('in handleSummaryDayNoRepeatClick. norepeat is:')
-        ////console.log(noRepeat)
+
         event.stopPropagation()
-        // if (!noRepeat) {
-        //     ////console.log('going to set norepeat to true')
-        //     setNoRepeat(true)
-        // }
 
         alarm.timing.days = []
         handlers.updateAlarmsMetadata(alarm.id, alarm)
@@ -161,7 +83,6 @@ const Alarm: React.FC<AlarmProps> = ({ alarm, appConfig, handlers, setters, time
     }
 
     const handleToggleAlarmStatusClick = (event: React.ChangeEvent<HTMLInputElement>) => {
-        // setAlarmEnabled(event.target.checked)
         setAlarmEnabled(!alarmEnabled)
         event.stopPropagation()
     }
@@ -171,15 +92,12 @@ const Alarm: React.FC<AlarmProps> = ({ alarm, appConfig, handlers, setters, time
         event.stopPropagation()
     }
 
-    // //console.log('going to format time: ' + alarm.timing.time)
-    // const formattedTime = timeFormat24Hr ? alarm.timing.time : fnTime24hrTo12hr(alarm.timing.time)
+
     let formattedTime
     let formattedTimeAm: boolean = false
     if (timeFormat24Hr) {
-        // //console.log('in the imeformat24hr block')
         formattedTime = alarm.timing.time
     } else {
-        // //console.log('--------------------converting to 12hr------------------------')
         formattedTime = fnTime24hrTo12hr(alarm.timing.time)
         if (formattedTime.includes('AM')) {
             formattedTimeAm = true
@@ -189,13 +107,9 @@ const Alarm: React.FC<AlarmProps> = ({ alarm, appConfig, handlers, setters, time
             formattedTime = formattedTime.slice(1)
         }
     }
-    // //console.log('formatted time:' + formattedTime)
 
     if (alarm.shown) {
 
-
-        //console.log('norepeat is:')
-        //console.log(noRepeat)
         return (
             <Accordion
                 elevation={0}
@@ -208,32 +122,13 @@ const Alarm: React.FC<AlarmProps> = ({ alarm, appConfig, handlers, setters, time
                 sx={{
                     overflow: 'hidden',
                     borderTop: 'none',
-                    // border: `1px solid ${appConfig.theme.palette.secondary.light[4]}`,
-                    // borderLeft: `6px solid ${appConfig.theme.palette.secondary.dark[4]}`,
-                    // borderBottom: `0px solid ${appConfig.theme.palette.secondary.dark[4]}`,
-                    // boxShadow: `inset 6px 0px ${appConfig.theme.palette.secondary.dark[4]}, inset 0px -2px ${appConfig.theme.palette.primary.dark[6]}`,
-                    // borderRadius: '0px 10px 14px 0px',
-                    // background: 'linear-gradient(148deg, #ff9f4e, #fef751)',
-                    // background: appConfig.theme.palette.neutral.dark[6],
-                    // background: appConfig.theme.palette.primary.dark[7],
                     background: 'linear-gradient(131deg, #fe7e7e, #c2c2ff42)',
-                    // background: 'none',
-                    '&.MuiPaper-root': {
-                        // borderRadius: '0px 4px 0px 0px',
-                    },
-                    '&>.MuiCollapse-root': {
-                        // background: '#FFFFFF57',
-                    },
-                    // transition: '4s',
-                    // opacity: alarm.shown? '1' : '.2',
-                    // maxHeight: alarm.shown ? '2500px' : '0px'
                 }}
             >
                 <AccordionSummary
                     className='alarm-header'
                     sx={{
                         padding: '0px',
-                        // paddingRight: '1rem',
                         color: appConfig.theme.palette.neutral.contrastText,
                         '& .MuiAccordionSummary-content': {
                             margin: '0px',
@@ -257,7 +152,6 @@ const Alarm: React.FC<AlarmProps> = ({ alarm, appConfig, handlers, setters, time
                     >
                         <Box
                             sx={{
-                                // border: '2px solid red',
                                 display: 'flex',
                                 alignItems: 'center',
                                 flexWrap: 'wrap'
@@ -270,7 +164,6 @@ const Alarm: React.FC<AlarmProps> = ({ alarm, appConfig, handlers, setters, time
                                     display: 'flex',
                                     alignItems: 'baseline',
                                     columnGap: '.25rem',
-                                    // height: '100%',
                                     padding: '0px .75rem',
                                     borderRadius: '4px',
                                     color: appConfig.theme.palette.neutral.dark[3],
@@ -314,7 +207,6 @@ const Alarm: React.FC<AlarmProps> = ({ alarm, appConfig, handlers, setters, time
                                     sx={{
                                         color: appConfig.theme.palette.neutral.dark[3],
                                         fontSize: '1.25rem',
-                                        // fontWeight: 'bold'
                                         lineHeight: '1.5'
                                     }}
                                 >
@@ -334,13 +226,6 @@ const Alarm: React.FC<AlarmProps> = ({ alarm, appConfig, handlers, setters, time
                         >
                             <Box
                                 className='alarm-status-container'
-                                sx={{
-                                    // height: '100%',
-                                    // width: '4.5rem',
-                                    // display: 'flex',
-                                    // alignItems: 'center',
-                                    // paddingBottom: '.125rem'
-                                }}
                             >
                                 <Switch
                                     checked={alarm.enabled}
@@ -373,7 +258,6 @@ const Alarm: React.FC<AlarmProps> = ({ alarm, appConfig, handlers, setters, time
                             sx={{
                                 display: 'flex',
                                 flexWrap: 'wrap',
-                                // height: '100%'
                             }}
                         >
                             <ToggleButtonGroup
@@ -386,18 +270,15 @@ const Alarm: React.FC<AlarmProps> = ({ alarm, appConfig, handlers, setters, time
                                     height: 'fit-content',
                                     borderRadius: '0px',
                                     rowGap: '.375rem',
-                                    // height: '100%',
                                     '& .MuiButtonBase-root': {
                                         border: 'none',
                                         background: 'none',
                                         padding: '0px',
-                                        // height: '2rem',
                                         width: '2.5rem',
                                         borderRadius: '0px'
                                     },
                                     '&>.MuiButtonBase-root.Mui-selected': {
                                         background: '#ffffff25',
-                                        // color: 'white',
                                         fontWeight: 'bold',
                                     }
                                 }}
@@ -412,7 +293,6 @@ const Alarm: React.FC<AlarmProps> = ({ alarm, appConfig, handlers, setters, time
                                 <ToggleButtonGroup
                                     className='alarm-summary-no-repeat'
                                     value={alarm.timing.days.length == 0}
-                                    // value={alarm.timing.days.size > 0 ? false : true}
                                     onClick={handleSummaryDayNoRepeatClick}
                                     sx={{
                                         height: '100%',
@@ -422,7 +302,6 @@ const Alarm: React.FC<AlarmProps> = ({ alarm, appConfig, handlers, setters, time
                                             padding: '0px',
                                             height: '100%',
                                             width: '2.5rem',
-                                            // fontWeight: 'bold',
                                             color: '#00000090'
                                         },
                                         '&>.MuiButtonBase-root.Mui-selected': {
@@ -434,9 +313,6 @@ const Alarm: React.FC<AlarmProps> = ({ alarm, appConfig, handlers, setters, time
                                     <ToggleButton
                                         className='alarm-day alarm-summary-day'
                                         value={true}
-                                    // sx={{
-                                    //     height: '100%'
-                                    // }}
                                     >
                                         <SyncDisabled />
                                     </ToggleButton>
@@ -447,23 +323,15 @@ const Alarm: React.FC<AlarmProps> = ({ alarm, appConfig, handlers, setters, time
                             className='alarm-action-btns-container'
                             sx={{
                                 marginLeft: 'auto',
-                                // width: '4.5rem',
                                 display: 'flex',
                                 flexWrap: 'nowrap',
                                 columnGap: '.25rem',
                                 alignItems: 'flex-start'
-                                // border: '1px solid red'
                             }}
                         >
                             <Box
                                 className='btn-delete-alarm-container'
                                 sx={{
-                                    // // background: '#00000025'
-                                    // // border: '1px solid yellow',
-                                    // // borderRadius: '4px'
-                                    // paddingBottom
-                                    // width: '50%'
-                                    // width: '2.5rem',
                                     display: 'flex',
                                     justifyContent: 'center'
                                 }}
@@ -471,14 +339,11 @@ const Alarm: React.FC<AlarmProps> = ({ alarm, appConfig, handlers, setters, time
                                 <IconButton
                                     onClick={handleAlarmDeleteBtnClick}
                                     sx={{
-                                        // color: alarm.enabled ? 'lime' : 'grey',
                                         width: '2.5rem',
                                         display: 'flex',
                                         justifyContent: 'center',
                                         borderRadius: '4px',
                                         overflow: 'hidden',
-                                        // height: '100%',
-                                        // width: '2.5rem',
                                         padding: '0px',
                                         color: appConfig.theme.palette.neutral.dark[3],
                                         '& .MuiSvgIcon-root': {
@@ -491,24 +356,16 @@ const Alarm: React.FC<AlarmProps> = ({ alarm, appConfig, handlers, setters, time
                             </Box>
                             <IconButton
                                 sx={{
-                                    // transition: 'rotate 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms',
-                                    // rotate: alarmExpanded ? '180deg' : '0deg',
                                     transition: '200ms',
                                     padding: '0px',
                                     background: appConfig.theme.palette.secondary.dark[4],
                                     color: appConfig.theme.palette.neutral.dark[3],
-                                    // background: '#ffffff55',
-                                    // borderRadius: alarmExpanded ? '4px 0px 0px 4px' : '4px 0px 4px 0px',
                                     borderRadius: '4px',
-                                    // width: '2.5rem',
-                                    // height: '2.5rem',
                                     display: 'flex',
                                     justifyContent: 'center',
                                     '&:hover': {
                                         background: appConfig.theme.palette.secondary.dark[3]
                                     }
-                                    // width: '50%',
-                                    // marginLeft: '50px'
                                 }}
                             >
                                 <ExpandMoreIcon
@@ -524,7 +381,6 @@ const Alarm: React.FC<AlarmProps> = ({ alarm, appConfig, handlers, setters, time
                 </AccordionSummary>
                 <AccordionDetails
                     className='alarm-config-categories-container'
-                    // disableGutters={true}
                     sx={{
                         padding: '1rem 0rem',
                         display: 'flex',
