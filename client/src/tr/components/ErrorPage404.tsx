@@ -1,12 +1,10 @@
 import React from "react";
-import { PageLayout } from "./PageLayout";
 import TrillliPageBuilder from "./TrillliPageBuilder";
 import ITrillliConfig from "../types/ITrillliConfig";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Button from '@mui/material/Button';
 import { Link } from 'react-router-dom'
-import DirectionsRunIcon from '@mui/icons-material/DirectionsRun';
 import DirectionsRun from "@mui/icons-material/DirectionsRun";
 
 
@@ -15,14 +13,6 @@ interface ErrorPage404Props {
 }
 
 const ErrorPage404: React.FC<ErrorPage404Props> = ({appConfig}) => {
-
-
-  //console.log("in errorpage404. appConfig is:")
-  //console.log(appConfig)
-
-  const handleBtnHomeClick = (event: React.MouseEvent<HTMLElement>) => {
-    alert('redirect back to home')
-  }
 
   return (
     <TrillliPageBuilder navTop appConfig={appConfig}>

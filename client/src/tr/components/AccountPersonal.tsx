@@ -1,23 +1,15 @@
 import { useAuth0 } from "@auth0/auth0-react";
 import React from "react";
-import { CodeSnippet } from "./CodeSnippet";
-import { PageLayout } from "./PageLayout";
 import TrillliPageBuilder from "./TrillliPageBuilder";
 import ITrillliConfig from "../types/ITrillliConfig";
 import TrillliPageHeader from "./TrillliPageHeader";
-import { getProtectedResource } from "./Message.service";
-// import  trFetch  from "./TrApiClient"
-import { Message } from "./message";
 import IAuth0ApiUser, { fnAuth0CreatedAtTimeToLocal, IAuth0ApiNormalizedUser } from "../types/IAuth0ApiUser";
 import { trFetch, TrFetchConfig, TrFetchResult } from "./TrApiClient";
 import Skeleton from "@mui/material/Skeleton";
 import { Box, Button, Card, FilledTextFieldProps, Icon, IconButton, InputAdornment, TextField, TextFieldProps } from "@mui/material";
 import TrBasicNote from "./TrPageNote";
-import SwapHorizIcon from '@mui/icons-material/SwapHoriz';
-import FullscreenIcon from '@mui/icons-material/Fullscreen';
 import LockIcon from '@mui/icons-material/Lock';
 import NewReleasesIcon from '@mui/icons-material/NewReleases'
-import LockOpenIcon from '@mui/icons-material/LockOpen';
 import DetailTextComponent from "src/DetailTextComponent";
 import UserImageComponent from "src/UserImageComponent";
 

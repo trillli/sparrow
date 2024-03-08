@@ -16,7 +16,7 @@ interface DetailTextCustomProps {
 type DetailTextComponentProps = Omit<FilledTextFieldProps, 'variant'> & DetailTextCustomProps
 
 // const handleFocus = () => {
-//   //console.log('focused!')
+//   console.log('focused!')
 // } 
 
 const DetailTextComponent: React.FC<DetailTextComponentProps> = ({
@@ -28,24 +28,22 @@ const DetailTextComponent: React.FC<DetailTextComponentProps> = ({
 }) => {
 
 
-  // //console.log('readonly and editoonprovider should both be false. however, they are:')
-  // //console.log([readOnly, editOnProvider])
-  // //console.log((readOnly || editOnProvider))
+  // console.log('readonly and editoonprovider should both be false. however, they are:')
+  // console.log([readOnly, editOnProvider])
+  // console.log((readOnly || editOnProvider))
   let contents: React.ReactNode
   if (skeleton) {
     contents = <Skeleton variant='rounded' width={'100%'} height={60} sx={{ paddingTop: '0px' }}></Skeleton>
   } else {
     contents = (
-      <TextField sx={{
-        // width: '100%'
-      }}
+      <TextField
         variant='outlined'
-        className = {(readOnly || editOnProvider) ? '' : 'profile-input-watched'}
+        className={(readOnly || editOnProvider) ? '' : 'profile-input-watched'}
         InputProps={{
           readOnly: readOnly || editOnProvider,
           endAdornment: (readOnly || editOnProvider) ? <></> : <InputAdornment position='end' sx={{
             pointerEvents: 'none',
-}}><Icon sx={{
+          }}><Icon sx={{
             // fontSize: '1.25rem'
           }}>edit</Icon></InputAdornment>,
         }}
@@ -66,7 +64,7 @@ const DetailTextComponent: React.FC<DetailTextComponentProps> = ({
     )
   }
 
-  
+
 
 
   return (
