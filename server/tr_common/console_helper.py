@@ -14,7 +14,6 @@ class ConsoleHelper:
 
     def execute_command(self, cmd, options={}):
 
-        print('command to run: ' + cmd)
         result = subprocess.run(cmd, shell=False, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
 
         if result.returncode != 0:
@@ -76,13 +75,11 @@ class ConsoleHelper:
     def handle_invalid_input(self, val, prompt, options):
         #TODO: make sure to clear invalid_cause from options if re-prompting!
         #if not reprompting, raise exception
-        print('Invalid input! Input must be blah blah blah.')
         if 'retry' in options and options['retry'] == True:
-            print("Invalid input! Input must be blah blah blah.")
             options['invalid_cause'] = None
             return self.request_input(prompt, options)
         else:
-            self.exception_helper.throw("Invalid input! Input must be blah blah blah.")
+            raise('Invalid input')
     
     def response_affirmitive(self, val):
         if val.lower() in ['yes', 'y']:

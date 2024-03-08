@@ -4,6 +4,8 @@ from django.core.exceptions import ImproperlyConfigured
 from django.conf import settings
 from .utils import generate_unique_id
 
+#TODO: Yet to be implemented; code here is a mostly failed proof of concept. Intent is for this to
+#be a flexible logging abstraction
 class LogHelper():
 
     def get_logger(self, name = ''):
