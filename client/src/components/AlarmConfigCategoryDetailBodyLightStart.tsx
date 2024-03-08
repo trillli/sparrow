@@ -16,13 +16,13 @@ interface AlarmConfigCategoryDetailBodyLightStartProps {
 
 const AlarmConfigCategoryDetailBodyLightStart: React.FC<AlarmConfigCategoryDetailBodyLightStartProps> = ({ alarm, appConfig, handlers }) => {
 
-    //sv
+    // State Variables & Related ------------------------------------------------------------------ //
     const theme = useTheme()
     const [lightAdvanceMinutes, setLightAdvanceMinutes] = React.useState<number>(alarm.light.timing.advance_minutes)
 
-    //ef
+    // Effects & Related -------------------------------------------------------------------------- //
 
-    //ha
+    // Event Handlers & Related ------------------------------------------------------------------- //
     const handleLightAdvanceMinutesSliderChange = (event: Event) => {
         const target: HTMLInputElement = event.target as HTMLInputElement
         const value: number = Number(target.value)
@@ -34,7 +34,7 @@ const AlarmConfigCategoryDetailBodyLightStart: React.FC<AlarmConfigCategoryDetai
         handlers.updateAlarmsMetadata(alarm.id, alarm)
     }
 
-    //other
+    // Other vars, util functions, etc ------------------------------------------------------------ //
 
     let fieldLabel: string = 'Sunlight Start Time'
 

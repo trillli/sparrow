@@ -16,13 +16,13 @@ interface AlarmConfigCategoryDetailBodyLightBrightnessProps {
 
 const AlarmConfigCategoryDetailBodyBrightness: React.FC<AlarmConfigCategoryDetailBodyLightBrightnessProps> = ({ appConfig, alarm, handlers }) => {
 
-    //sv
+    // State Variables & Related ------------------------------------------------------------------ //
     const [lightBrightnessProfile, setLightBrightnessProfile] = React.useState<'constant' | 'ramp'>(alarm.light.luminosity.profile)
     const [lightBrightnessMax, setLightBrightnessMax] = React.useState<number>(alarm.light.luminosity.end)
     const [lightBrightnessConstant, setLightBrightnessConstant] = React.useState<number>(alarm.light.luminosity.end)
     const [lightBrightnessRamp, setLightBrightnessRamp] = React.useState<number[]>([alarm.light.luminosity.start, alarm.light.luminosity.end])
 
-    //ef
+    // Effects & Related -------------------------------------------------------------------------- //
     React.useEffect(() => {
         setLightBrightnessConstant(lightBrightnessMax)
         setLightBrightnessRamp([lightBrightnessRamp[0], lightBrightnessMax])
@@ -33,7 +33,7 @@ const AlarmConfigCategoryDetailBodyBrightness: React.FC<AlarmConfigCategoryDetai
         handlers.updateAlarmsMetadata(alarm.id, alarm)
     }, [lightBrightnessProfile])
 
-    //ha
+    // Event Handlers & Related ------------------------------------------------------------------- //
     const handleLightBrightnessProfileChange = (event: React.MouseEvent<HTMLElement>) => {
         const target: HTMLInputElement = event.target as HTMLInputElement
         const value: 'constant' | 'ramp' = target.value as 'constant' | 'ramp'

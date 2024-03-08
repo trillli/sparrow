@@ -17,13 +17,13 @@ interface AlarmConfigCategoryDetailBodyLightColorProps {
 
 const AlarmConfigCategoryDetailBodyLightColor: React.FC<AlarmConfigCategoryDetailBodyLightColorProps> = ({ alarm, appConfig, lightColor, onColorSliderChange, onColorSliderChangeCommitted }) => {
 
-    //sv
+    // State Variables & Related ------------------------------------------------------------------ //
 
-    //ef
+    // Effects & Related -------------------------------------------------------------------------- //
 
-    //ha
+    // Event Handlers & Related ------------------------------------------------------------------- //
 
-    //ohter
+    
 
     return (
         <AlarmConfigCategoryDetailContainer appConfig={appConfig}>

@@ -48,7 +48,6 @@ export interface IAuth0ApiNormalizedUser {
 }
 
 export default interface IAuth0ApiUser extends IAuth0ApiNormalizedUser {
-    // [Key: string]: any
     app_metadata?: object
     blocked?: boolean
     created_at?: string

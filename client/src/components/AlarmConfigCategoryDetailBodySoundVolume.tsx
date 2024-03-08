@@ -16,13 +16,13 @@ interface AlarmConfigCategoryDetailBodySoundVolumeProps {
 
 const AlarmConfigCategoryDetailBodySoundVolume: React.FC<AlarmConfigCategoryDetailBodySoundVolumeProps> = ({ appConfig, alarm, handlers }) => {
 
-    //sv
+    // State Variables & Related ------------------------------------------------------------------ //
     const [soundVolumeProfile, setSoundVolumeProfile] = React.useState<'constant' | 'ramp'>(alarm.sound.volume.profile)
     const [soundVolumeMax, setSoundVolumeMax] = React.useState<number>(alarm.sound.volume.end)
-    const [soundVolumeConstant, setSoundVolumeConstant] = React.useState<number>(alarm.sound.volume.end) //sound group level
-    const [soundVolumeRamp, setSoundVolumeRamp] = React.useState<number[]>([alarm.sound.volume.start, alarm.sound.volume.end]) //sound group level
+    const [soundVolumeConstant, setSoundVolumeConstant] = React.useState<number>(alarm.sound.volume.end)
+    const [soundVolumeRamp, setSoundVolumeRamp] = React.useState<number[]>([alarm.sound.volume.start, alarm.sound.volume.end])
 
-    //ef
+    // Effects & Related -------------------------------------------------------------------------- //
     React.useEffect(() => {
         setSoundVolumeConstant(soundVolumeMax)
         setSoundVolumeRamp([soundVolumeRamp[0], soundVolumeMax])
@@ -33,7 +33,7 @@ const AlarmConfigCategoryDetailBodySoundVolume: React.FC<AlarmConfigCategoryDeta
         handlers.updateAlarmsMetadata(alarm.id, alarm)
     }, [soundVolumeProfile])
 
-    //ha
+    // Event Handlers & Related ------------------------------------------------------------------- //
     const handleSoundVolumeProfileChange = (event: React.MouseEvent<HTMLElement>) => {
         const target: HTMLInputElement = event.target as HTMLInputElement
         const value: 'constant' | 'ramp' = target.value as 'constant' | 'ramp'
@@ -45,7 +45,6 @@ const AlarmConfigCategoryDetailBodySoundVolume: React.FC<AlarmConfigCategoryDeta
     const handleSoundVolumeConstantChange = (event: Event, value: number | number[]) => {
         setSoundVolumeMax(value as number)
         alarm.sound.volume.end = value as number
-        // handlers.updateAlarmsMetadata(alarm.id, alarm)
     }
 
     const handleSoundVolumeRampChange = (event: Event, value: number | number[]) => {
@@ -54,7 +53,6 @@ const AlarmConfigCategoryDetailBodySoundVolume: React.FC<AlarmConfigCategoryDeta
         setSoundVolumeMax(values[1] as number)
         alarm.sound.volume.end = values[1]
         alarm.sound.volume.start = values[0]
-        // handlers.updateAlarmsMetadata(alarm.id, alarm)
     }
 
     const handleSoundVolumeConstantChangeCommitted = (event: Event, value: number | number[]) => {
@@ -68,7 +66,7 @@ const AlarmConfigCategoryDetailBodySoundVolume: React.FC<AlarmConfigCategoryDeta
         handlers.updateAlarmsMetadata(alarm.id, alarm)
     }
 
-    //other
+    // Other vars, util functions, etc ------------------------------------------------------------ //
 
     return (
         <>
@@ -94,9 +92,6 @@ const AlarmConfigCategoryDetailBodySoundVolume: React.FC<AlarmConfigCategoryDeta
                 <AlarmConfigCategoryDetailHeader label='Volume' />
                 <AlarmConfigCategoryDetailContents appConfig={appConfig}>
                     <Box
-                        sx={{
-                            // marginTop: '1rem'
-                        }}
                     >
                         <Box
                             className='current-config-value-container-outer'
@@ -179,9 +174,6 @@ const AlarmConfigCategoryDetailBodySoundVolume: React.FC<AlarmConfigCategoryDeta
             </AlarmConfigCategoryDetailContainer>
         </>
     )
-
-
-
 
 }
 

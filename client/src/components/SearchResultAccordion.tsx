@@ -11,13 +11,13 @@ interface SearchResultAccordionProps {
 
 const SearchResultAccordion: React.FC<SearchResultAccordionProps> = ({ appConfig, label, children }) => {
 
-    //sv
+    // State Variables & Related ------------------------------------------------------------------ //
 
-    //ef
+    // Effects & Related -------------------------------------------------------------------------- //
 
-    //ha
+    // Event Handlers & Related ------------------------------------------------------------------- //
 
-    //other
+    // Other vars, util functions, etc ------------------------------------------------------------ //
 
     return (
         <Accordion

@@ -16,23 +16,23 @@ interface AlarmConfigGroupVibrationProps {
 
 const AlarmConfigGroupVibration: React.FC<AlarmConfigGroupVibrationProps> = ({ alarm, appConfig, handlers, setters, lightColor }) => {
 
-    //sv
+    // State Variables & Related ------------------------------------------------------------------ //
     const [groupEnabled, setGroupEnabled] = React.useState<boolean>(alarm.vibration.enabled)
 
-    //ef
+    // Effects & Related -------------------------------------------------------------------------- //
     React.useEffect(() => {
         alarm.vibration.enabled = groupEnabled
         handlers.updateAlarmsMetadata(alarm.id, alarm)
     }, [groupEnabled])
 
-    //ha
+    // Event Handlers & Related ------------------------------------------------------------------- //
     const handleGroupEnableToggle = (event: React.MouseEvent<HTMLElement>) => {
         event.stopPropagation()
         const checked: boolean = event.target.checked
         setGroupEnabled(checked)
     }
 
-    //other
+    // Other vars, util functions, etc ------------------------------------------------------------ //
 
     return (
         <Accordion

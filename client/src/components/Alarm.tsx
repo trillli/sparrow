@@ -24,18 +24,18 @@ const Alarm: React.FC<AlarmProps> = ({ alarm, appConfig, handlers, setters, time
     //TODO: TYPE
     type DayAbbrev = 'su' | 'm' | 'tu' | 'w' | 'th' | 'f' | 'sa'
 
-    //sv
+    // State Variables & Related ------------------------------------------------------------------ //
     const [alarmExpanded, setAlarmExpanded] = React.useState<boolean>(false)
     const [alarmEnabled, setAlarmEnabled] = React.useState<boolean>(alarm.enabled || false)
     const [lightColor, setLightColor] = React.useState<number>(alarm.light?.color.h)
 
-    //ef
+    // Effects & Related -------------------------------------------------------------------------- //
     React.useEffect(() => {
         alarm.enabled = alarmEnabled
         handlers.updateAlarmsMetadata(alarm.id, alarm)
     }, [alarmEnabled])
 
-    //ha
+    // Event Handlers & Related ------------------------------------------------------------------- //
     const onColorSliderChange = (event: React.MouseEvent<HTMLElement>) => {
         const target: HTMLInputElement = event.target as HTMLInputElement
         const value: number = Number(target.value)
@@ -92,7 +92,7 @@ const Alarm: React.FC<AlarmProps> = ({ alarm, appConfig, handlers, setters, time
         event.stopPropagation()
     }
 
-    //other
+    // Other vars, util functions, etc ------------------------------------------------------------ //
     let formattedTime
     let formattedTimeAm: boolean = false
     if (timeFormat24Hr) {

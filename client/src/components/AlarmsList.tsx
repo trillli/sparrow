@@ -14,13 +14,13 @@ interface AlarmsListProps {
 
 const AlarmsList: React.FC<AlarmsListProps> = ({ alarms, appConfig, handlers, setters, timeFormat24Hr }) => {
 
-    //sv
+    // State Variables & Related ------------------------------------------------------------------ //
 
-    //ef
+    // Effects & Related -------------------------------------------------------------------------- //
 
-    //ha
+    // Event Handlers & Related ------------------------------------------------------------------- //
 
-    //other
+    // Other vars, util functions, etc ------------------------------------------------------------ //
 
     return (
         <Box

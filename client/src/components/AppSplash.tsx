@@ -16,20 +16,20 @@ interface AppSplashProps {
 
 const AppSplash: React.FC<AppSplashProps> = ({ appConfig }) => {
 
-    //sv
+    // State Variables & Related ------------------------------------------------------------------ //
     const { user, isAuthenticated, getAccessTokenSilently } = useAuth0();
     const refHowItWorks = React.useRef(null)
 
-    //ef
+    // Effects & Related -------------------------------------------------------------------------- //
 
-    //ha
+    // Event Handlers & Related ------------------------------------------------------------------- //
     const scrollToHowItWorks = () => {
         if (refHowItWorks.current) {
             refHowItWorks.current.scrollIntoView({ behavior: 'smooth' })
         }
     }
 
-    //other
+    // Other vars, util functions, etc ------------------------------------------------------------ //
     const customStyling: { [key: string]: any } = {
         mainContents: {
             padding: '0px',

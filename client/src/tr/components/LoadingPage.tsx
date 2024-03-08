@@ -9,9 +9,9 @@ interface LoadingPageProps {
 
 const LoadingPage: React.FC<LoadingPageProps> = ({ appConfig }) => {
 
-  //sv
+  // State Variables & Related ------------------------------------------------------------------ //
 
-  //ef
+  // Effects & Related -------------------------------------------------------------------------- //
   React.useEffect(() => {
     //console.log('breakpoint here to pause for debugging')
     return () => {
@@ -19,9 +19,9 @@ const LoadingPage: React.FC<LoadingPageProps> = ({ appConfig }) => {
     };
   }, []);
 
-  //ha
+  // Event Handlers & Related ------------------------------------------------------------------- //
 
-  //other
+  // Other vars, util functions, etc ------------------------------------------------------------ //
 
   return (
     <>

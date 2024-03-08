@@ -19,23 +19,23 @@ interface AlarmConfigGroupLightProps {
 
 const AlarmConfigGroupLight: React.FC<AlarmConfigGroupLightProps> = ({ alarm, appConfig, handlers, setters, lightColor, onColorSliderChange, onColorSliderChangeCommitted }) => {
 
-    //sv
+    // State Variables & Related ------------------------------------------------------------------ //
     const [groupEnabled, setGroupEnabled] = React.useState<boolean>(alarm.light.enabled)
 
-    //ef
+    // Effects & Related -------------------------------------------------------------------------- //
     React.useEffect(() => {
         alarm.light.enabled = groupEnabled
         handlers.updateAlarmsMetadata(alarm.id, alarm)
     }, [groupEnabled])
 
-    //ha
+    // Event Handlers & Related ------------------------------------------------------------------- //
     const handleGroupEnableToggle = (event: React.MouseEvent<HTMLElement>) => {
         event.stopPropagation()
         const checked: boolean = event.target.checked
         setGroupEnabled(checked)
     }
 
-    //other
+    // Other vars, util functions, etc ------------------------------------------------------------ //
 
     return (
         <Accordion

@@ -27,7 +27,7 @@ const AccountPersonal: React.FC<AccountPersonalProps> = ({ appConfig }) => {
     user_id: ''
   }
 
-  //sv
+  // State Variables & Related ------------------------------------------------------------------ //
   const { user, isAuthenticated, getAccessTokenSilently } = useAuth0();
   const [userProfile, setUserProfile] = React.useState<IAuth0ApiUser>(userProfileInitializer);
   const [userProfileLoaded, setUserProfileLoaded] = React.useState<boolean>(false)
@@ -39,7 +39,7 @@ const AccountPersonal: React.FC<AccountPersonalProps> = ({ appConfig }) => {
   const [profilePatching, setProfilePatching] = React.useState<boolean>(false)
 
 
-  //ef
+  // Effects & Related -------------------------------------------------------------------------- //
   React.useEffect(() => {
 
     if (profilePatching) {
@@ -138,7 +138,7 @@ const AccountPersonal: React.FC<AccountPersonalProps> = ({ appConfig }) => {
 
   }, [formDataDifferences])
 
-  //ha
+  // Event Handlers & Related ------------------------------------------------------------------- //
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     editedFieldName.current = event.target.name
     const value = event.target.value
@@ -161,7 +161,7 @@ const AccountPersonal: React.FC<AccountPersonalProps> = ({ appConfig }) => {
     alert('A password reset link has been sent to your email. If you do not see it within several minutes, please check your spam folder or try again.')
   }
 
-  //other
+  // Other vars, util functions, etc ------------------------------------------------------------ //
   let isSocialLogin: boolean
   if (user && user.sub) {
     isSocialLogin = (user.sub.substring(0, 6) === 'auth0|') ? false : true

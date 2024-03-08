@@ -10,17 +10,17 @@ export const Auth0Router = ({
   children,
 }: PropsWithChildren<Auth0RouterProps>): JSX.Element | null => {
 
-  //sv
+  // State Variables & Related ------------------------------------------------------------------ //
   const navigate = useNavigate();
 
-  //ef
+  // Effects & Related -------------------------------------------------------------------------- //
 
-  //ha
+  // Event Handlers & Related ------------------------------------------------------------------- //
   const onRedirectCallback = (appState?: AppState) => {
     navigate(appState?.returnTo || window.location.pathname);
   };
 
-  //other
+  // Other vars, util functions, etc ------------------------------------------------------------ //
   const domain = import.meta.env.VITE_REACT_APP_AUTH0_DOMAIN
   const clientId = import.meta.env.VITE_REACT_APP_AUTH0_CLIENT_ID
   const redirectUri = import.meta.env.VITE_REACT_APP_AUTH0_CALLBACK_URL

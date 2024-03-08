@@ -9,13 +9,13 @@ interface AlarmConfigCategoryDetailContentsProps {
 
 const AlarmConfigCategoryDetailContents: React.FC<AlarmConfigCategoryDetailContentsProps> = ({ appConfig, children }) => {
 
-    //sv
+    // State Variables & Related ------------------------------------------------------------------ //
 
-    //ef
+    // Effects & Related -------------------------------------------------------------------------- //
 
-    //ha
+    // Event Handlers & Related ------------------------------------------------------------------- //
 
-    //other
+    // Other vars, util functions, etc ------------------------------------------------------------ //
 
     return (
 

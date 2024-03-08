@@ -14,13 +14,13 @@ interface ErrorPage404Props {
 
 const ErrorPage404: React.FC<ErrorPage404Props> = ({ appConfig }) => {
 
-  //sv
+  // State Variables & Related ------------------------------------------------------------------ //
 
-  //ef
+  // Effects & Related -------------------------------------------------------------------------- //
 
-  //ha
+  // Event Handlers & Related ------------------------------------------------------------------- //
 
-  //other
+  // Other vars, util functions, etc ------------------------------------------------------------ //
 
   return (
     <TrillliPageBuilder navTop appConfig={appConfig}>
@@ -68,9 +68,7 @@ const ErrorPage404: React.FC<ErrorPage404Props> = ({ appConfig }) => {
                   marginRight: '.75rem'
                 },
                 '&:hover': {
-                  // background: 'red'
                   background: appConfig.theme.palette.primary.dark[4],
-                  // color: appConfig.theme.palette.neutral.contrastText
                 }
               }}
             >

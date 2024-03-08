@@ -354,7 +354,7 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
 
 
 
-    //sv
+    // State Variables & Related ------------------------------------------------------------------ //
     const { user, isAuthenticated, getAccessTokenSilently } = useAuth0();
     const [alarmsPageMetadata, setAlarmsPageMetadata] = React.useState<IAlarmsPageMetadata>()
     const [alarmsList, setAlarmsList] = React.useState<IAlarmMetadata[]>([])
@@ -374,7 +374,7 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
     }
     const [alarmNamePlaceholder, setAlarmNamePlaceholder] = React.useState<string>(getRandomDefaultAlarmName())
 
-    //ef
+    // Effects & Related -------------------------------------------------------------------------- //
     React.useEffect(() => {
         const getAlarmConfig = async () => {
             const accessToken = await getAccessTokenSilently();
@@ -441,7 +441,7 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
         sortAndFilterAlarmList()
     }, [alarmsSearchValue])
 
-    //ha
+    // Event Handlers & Related ------------------------------------------------------------------- //
     const handleAlarmNameTyping = (event: React.ChangeEvent<HTMLInputElement>) => {
         const value: string = event.target.value
         const alarmNamePending = value
@@ -545,7 +545,7 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
         setAlarmsSearchValue(event.target.value)
     }
 
-    //other
+    // Other vars, util functions, etc ------------------------------------------------------------ //
 
     function sortAndFilterAlarmList() {
 
@@ -706,8 +706,6 @@ const AlarmsHome: React.FC<AlarmsHomeProps> = ({ appConfig }) => {
     const setters = {
         setTimePickerOpen: setTimePickerOpen,
     }
-
-    //----------------------------------------------------------------------------------------------
 
     return (
         <PageBuilder navTop={true} navSide={false} appConfig={appConfig}>

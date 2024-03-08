@@ -16,16 +16,16 @@ interface TrillliNavTopProps {
 
 const TrillliNavTop: React.FC<TrillliNavTopProps> = ({ appConfig, styling }) => {
 
-    //sv
+    // State Variables & Related ------------------------------------------------------------------ //
     const { isAuthenticated, isLoading } = useAuth0();
     const { auth0LogIn } = useAuth0LogIn();
     const { auth0LogOut } = useAuth0LogOut();
     const [value, setValue] = React.useState(false);
 
-    //ef
+    // Effects & Related -------------------------------------------------------------------------- //
 
 
-    //ha
+    // Event Handlers & Related ------------------------------------------------------------------- //
     const handleChange = (event: React.SyntheticEvent, newValue: number) => {
         if (
             event.type !== 'click' ||
@@ -39,7 +39,7 @@ const TrillliNavTop: React.FC<TrillliNavTopProps> = ({ appConfig, styling }) => 
     };
 
 
-    //other
+    // Other vars, util functions, etc ------------------------------------------------------------ //
 
     function samePageLinkNavigation(
         event: React.MouseEvent<HTMLAnchorElement, MouseEvent>,

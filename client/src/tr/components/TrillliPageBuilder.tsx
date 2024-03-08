@@ -21,7 +21,7 @@ interface TrillliPageBuilderProps {
 const TrillliPageBuilder: React.FC<TrillliPageBuilderProps> = ({ appConfig, navTop = false, navSide = false, children, styling }) => {
 
 
-    //sv
+    // State Variables & Related ------------------------------------------------------------------ //
     const [sideNavOpen, setSideNavOpen] = React.useState(false)
     const { isLoading } = useAuth0();
     let trillliConfig = new TrillliConfig();
@@ -31,7 +31,7 @@ const TrillliPageBuilder: React.FC<TrillliPageBuilderProps> = ({ appConfig, navT
     const [isDisplayWidthXs, setIsDisplayWidthXs] = React.useState(window.innerWidth < widthSmBp)
     const [isDisplayWidthSm, setIsDisplayWidthSm] = React.useState(window.innerWidth >= widthSmBp && window.innerWidth < widthMdBp)
 
-    //ef
+    // Effects & Related -------------------------------------------------------------------------- //
 
 
     React.useEffect(() => {
@@ -54,7 +54,7 @@ const TrillliPageBuilder: React.FC<TrillliPageBuilderProps> = ({ appConfig, navT
 
 
 
-    //ha
+    // Event Handlers & Related ------------------------------------------------------------------- //
 
     //'SideNavShift' used here to refer to the transition between full-width and mini side nav menu
     const handleSideNavShift = () => {
@@ -76,7 +76,7 @@ const TrillliPageBuilder: React.FC<TrillliPageBuilderProps> = ({ appConfig, navT
         styling = {}
     }
 
-    //other
+    // Other vars, util functions, etc ------------------------------------------------------------ //
 
     const topNavHeightPx = navTop ? 100 : 0
     const sideNavWidthPx = 240

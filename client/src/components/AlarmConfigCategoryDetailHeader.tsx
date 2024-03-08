@@ -8,13 +8,13 @@ interface AlarmConfigCategoryDetailHeaderProps {
 
 const AlarmConfigCategoryDetailHeader: React.FC<AlarmConfigCategoryDetailHeaderProps> = ({ label }) => {
 
-    //sv
+    // State Variables & Related ------------------------------------------------------------------ //
 
-    //ef
+    // Effects & Related -------------------------------------------------------------------------- //
 
-    //ha
+    // Event Handlers & Related ------------------------------------------------------------------- //
 
-    //other
+    // Other vars, util functions, etc ------------------------------------------------------------ //
 
     return (
         <Box

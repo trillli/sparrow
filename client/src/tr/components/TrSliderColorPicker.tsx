@@ -9,13 +9,13 @@ interface TrSliderColorPickerProps {
 
 const TrSliderColorPicker: React.FC<TrSliderColorPickerProps> = ({lightHue, onChange, onChangeCommitted}) => {
 
-  //sv
+  // State Variables & Related ------------------------------------------------------------------ //
 
-  //ef
+  // Effects & Related -------------------------------------------------------------------------- //
 
-  //ha
+  // Event Handlers & Related ------------------------------------------------------------------- //
 
-  //other
+  // Other vars, util functions, etc ------------------------------------------------------------ //
 
   const styles = {
     track: {

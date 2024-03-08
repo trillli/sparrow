@@ -16,13 +16,13 @@ interface AlarmConfigCategoryDetailBodyVibrationProps {
 
 const AlarmConfigCategoryDetailBodyVibration: React.FC<AlarmConfigCategoryDetailBodyVibrationProps> = ({ alarm, appConfig, handlers }) => {
 
-    //sv
+    // State Variables & Related ------------------------------------------------------------------ //
     const [vibrationProfile, setVibrationProfile] = React.useState<'constant' | 'ramp'>(alarm.vibration.intensity.profile)
     const [vibrationMax, setVibrationMax] = React.useState<number>(alarm.vibration.intensity.end)
     const [vibrationConstant, setVibrationConstant] = React.useState<number>(alarm.vibration.intensity.end)
     const [vibrationRamp, setVibrationRamp] = React.useState<number[]>([alarm.vibration.intensity.start, alarm.vibration.intensity.end])
 
-    //ef
+    // Effects & Related -------------------------------------------------------------------------- //
     React.useEffect(() => {
         setVibrationConstant(vibrationMax)
         setVibrationRamp([vibrationRamp[0], vibrationMax])
@@ -33,7 +33,7 @@ const AlarmConfigCategoryDetailBodyVibration: React.FC<AlarmConfigCategoryDetail
         handlers.updateAlarmsMetadata(alarm.id, alarm)
     }, [vibrationProfile])
 
-    //ha
+    // Event Handlers & Related ------------------------------------------------------------------- //
     const handleVibrationProfileChange = (event: React.MouseEvent<HTMLInputElement>) => {
         const target: HTMLInputElement = event.target as HTMLInputElement
         const value: 'constant' | 'ramp' = target.value as 'constant' | 'ramp'
@@ -66,7 +66,7 @@ const AlarmConfigCategoryDetailBodyVibration: React.FC<AlarmConfigCategoryDetail
         handlers.updateAlarmsMetadata(alarm.id, alarm)
     }
 
-    //other
+    // Other vars, util functions, etc ------------------------------------------------------------ //
 
 
     return (
@@ -93,9 +93,6 @@ const AlarmConfigCategoryDetailBodyVibration: React.FC<AlarmConfigCategoryDetail
                 <AlarmConfigCategoryDetailHeader label='Intensity' />
                 <AlarmConfigCategoryDetailContents appConfig={appConfig}>
                     <Box
-                        sx={{
-                            // marginTop: '1rem'
-                        }}
                     >
                         <Box
                             className='current-config-value-container-outer'

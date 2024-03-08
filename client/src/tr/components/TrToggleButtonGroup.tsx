@@ -10,13 +10,13 @@ interface TrToggleButtonGroupProps extends ToggleButtonGroupProps {
 
 const TrToggleButtonGroup: React.FC<TrToggleButtonGroupProps> = (props) => {
 
-    //sv
+    // State Variables & Related ------------------------------------------------------------------ //
 
-    //ef
+    // Effects & Related -------------------------------------------------------------------------- //
 
-    //ha
+    // Event Handlers & Related ------------------------------------------------------------------- //
 
-    //other
+    // Other vars, util functions, etc ------------------------------------------------------------ //
 
     return (
         <ToggleButtonGroup

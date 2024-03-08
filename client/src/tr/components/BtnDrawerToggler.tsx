@@ -7,13 +7,13 @@ import React from 'react';
 
 const BtnDrawerToggler = ({ handlerDrawerToggle, drawerOpen = false }) => {
 
-    //sv
+    // State Variables & Related ------------------------------------------------------------------ //
 
-    //ef
+    // Effects & Related -------------------------------------------------------------------------- //
 
-    //ha
+    // Event Handlers & Related ------------------------------------------------------------------- //
 
-    //other
+    // Other vars, util functions, etc ------------------------------------------------------------ //
 
     let ariaLabel = 'open sidebar navigation menu'
     let sxIcon = {

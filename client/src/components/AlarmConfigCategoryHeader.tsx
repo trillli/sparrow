@@ -13,13 +13,13 @@ interface AlarmConfigCategoryHeaderProps {
 
 const AlarmConfigCategoryHeader: React.FC<AlarmConfigCategoryHeaderProps> = ({ appConfig, groupLabel, icon, groupEnabled, toggleHandler }) => {
 
-    //sv
+    // State Variables & Related ------------------------------------------------------------------ //
 
-    //ef
+    // Effects & Related -------------------------------------------------------------------------- //
 
-    //ha
+    // Event Handlers & Related ------------------------------------------------------------------- //
 
-    //other
+    // Other vars, util functions, etc ------------------------------------------------------------ //
 
     const gradientLight1 = `linear-gradient(153deg, ${appConfig.theme.palette.secondary.dark[4]}, ${appConfig.theme.palette.tertiary.dark[4]})`
 

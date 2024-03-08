@@ -9,15 +9,9 @@ interface DetailTextCustomProps {
   readOnly?: boolean
   skeleton?: boolean,
   watched?: boolean
-  // filledTextFieldProps: FilledTextFieldProps,
-  // variant: 'filled'
 }
 
 type DetailTextComponentProps = Omit<FilledTextFieldProps, 'variant'> & DetailTextCustomProps
-
-// const handleFocus = () => {
-//   console.log('focused!')
-// } 
 
 const DetailTextComponent: React.FC<DetailTextComponentProps> = ({
   editOnProvider = false,
@@ -27,10 +21,6 @@ const DetailTextComponent: React.FC<DetailTextComponentProps> = ({
   ...filledTextFieldProps
 }) => {
 
-
-  // console.log('readonly and editoonprovider should both be false. however, they are:')
-  // console.log([readOnly, editOnProvider])
-  // console.log((readOnly || editOnProvider))
   let contents: React.ReactNode
   if (skeleton) {
     contents = <Skeleton variant='rounded' width={'100%'} height={60} sx={{ paddingTop: '0px' }}></Skeleton>
@@ -43,21 +33,12 @@ const DetailTextComponent: React.FC<DetailTextComponentProps> = ({
           readOnly: readOnly || editOnProvider,
           endAdornment: (readOnly || editOnProvider) ? <></> : <InputAdornment position='end' sx={{
             pointerEvents: 'none',
-          }}><Icon sx={{
-            // fontSize: '1.25rem'
-          }}>edit</Icon></InputAdornment>,
+          }}><Icon>edit</Icon></InputAdornment>,
         }}
         InputLabelProps={{
-          sx: {
-            // fontSize: '1.375rem',
-            // color: 'red'
-            // background: 'white'
-          }
         }}
         sx={{
-          // border: '1px solid red',
           width: '100%',
-          // background: 'red'
         }}
         {...filledTextFieldProps}
       />
@@ -69,9 +50,6 @@ const DetailTextComponent: React.FC<DetailTextComponentProps> = ({
 
   return (
     <Box className='detailContainer detailTextContainer' sx={{
-      // width: '45%'
-      // minWidth: '50px',
-      // width: {xs: '100%', lg: '45%'},
       width: '100%'
     }}>
       {contents}

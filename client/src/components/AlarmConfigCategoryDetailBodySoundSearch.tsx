@@ -26,7 +26,7 @@ const AlarmConfigCategoryDetailBodySoundSearch: React.FC<AlarmConfigCategoryDeta
     type SoundType = 'track' | 'album' | 'artist' | 'playlist'
     const gradientLight1 = `linear-gradient(153deg, ${appConfig.theme.palette.secondary.dark[4]}, ${appConfig.theme.palette.tertiary.dark[4]})`
 
-    //sv
+    // State Variables & Related ------------------------------------------------------------------ //
     const { user, isAuthenticated, getAccessTokenSilently } = useAuth0();
     const [soundSearchValue, setSoundSearchValue] = React.useState<string>('')
     const [soundSearchResults, setSoundSearchResults] = React.useState({
@@ -45,7 +45,7 @@ const AlarmConfigCategoryDetailBodySoundSearch: React.FC<AlarmConfigCategoryDeta
     const [currentSoundType, setCurrentSoundType] = React.useState<SoundType>(alarm.sound.type)
     const [currentSoundShuffle, setCurrentSoundShuffle] = React.useState<boolean>(alarm.sound.shuffle)
 
-    //ef
+    // Effects & Related -------------------------------------------------------------------------- //
     React.useEffect(() => {
         if (soundTypeNoFilter) {
             setSoundType([])
@@ -74,7 +74,7 @@ const AlarmConfigCategoryDetailBodySoundSearch: React.FC<AlarmConfigCategoryDeta
         executeSearchRequest()
     }, [soundSearchValue, soundType])
 
-    //ha
+    // Event Handlers & Related ------------------------------------------------------------------- //
 
     const handleShuffleToggle = (event: React.MouseEvent<HTMLElement>) => {
         setCurrentSoundShuffle(!currentSoundShuffle)
@@ -119,7 +119,7 @@ const AlarmConfigCategoryDetailBodySoundSearch: React.FC<AlarmConfigCategoryDeta
         setSearchResultsExpanded(expanded)
     }
 
-    //other
+    // Other vars, util functions, etc ------------------------------------------------------------ //
 
     function executeSearchRequest() {
 
@@ -378,7 +378,6 @@ const AlarmConfigCategoryDetailBodySoundSearch: React.FC<AlarmConfigCategoryDeta
                             sx={{
                                 display: 'flex',
                                 flexWrap: 'wrap',
-                                // width: '100%'
                             }}
                         >
                             <TrToggleButtonGroup
@@ -387,23 +386,6 @@ const AlarmConfigCategoryDetailBodySoundSearch: React.FC<AlarmConfigCategoryDeta
                                 value={soundType}
                                 onChange={handleSoundTypeChange}
                                 sx={{
-                                    // marginTop: '.5rem',
-                                    // display: 'flex',
-                                    // flexWrap: 'wrap',
-                                    // height: 'fit-content',
-                                    // '& .MuiButtonBase-root': {
-                                    //     borderLeft: '1px solid rgba(0, 0, 0, 0.12)',
-                                    //     background: 'none',
-                                    //     padding: '.125rem .75rem',
-                                    //     height: '2.75rem',
-                                    // },
-                                    // '&>.MuiButtonBase-root.Mui-selected': {
-                                    //     background: appConfig.theme.palette.primary.dark[1],
-                                    //     fontWeight: 'bold',
-                                    //     borderLeft: '1px solid rgba(0, 0, 0, 0.12)'
-                                    // }
-                                    // border: '2px solid red',
-                                    // padding: '0px'
                                     flexWrap: 'wrap',
                                     rowGap: '.375rem'
                                 }}
@@ -411,7 +393,6 @@ const AlarmConfigCategoryDetailBodySoundSearch: React.FC<AlarmConfigCategoryDeta
                                 <ToggleButton size='small' value='track' className='alarm-day alarm-summary-day'>Song</ToggleButton>
                                 <ToggleButton size='small' value='artist' className='alarm-day alarm-summary-day'>Artist</ToggleButton>
                                 <ToggleButton size='small' value='album' className='alarm-day alarm-summary-day'>Album</ToggleButton>
-                                {/* <ToggleButton value='playlist' className='alarm-day alarm-summary-day'>Playlist</ToggleButton> */}
                                 <TrToggleButtonGroup
                                     appConfig={appConfig}
                                     className='soundCategoryNofilter'
@@ -457,9 +438,6 @@ const AlarmConfigCategoryDetailBodySoundSearch: React.FC<AlarmConfigCategoryDeta
                                 }
                             }}
                         />
-
-                        {/* </AlarmConfigCategoryDetailContents> */}
-                        {/* </AlarmConfigCategoryDetailContainer> */}
 
                         <Box
                             className='sound-search-results-outer'
@@ -575,7 +553,6 @@ const AlarmConfigCategoryDetailBodySoundSearch: React.FC<AlarmConfigCategoryDeta
                                                         </TableBody>
                                                     </Table>
                                                 </TableContainer>
-                                                {/* </AccordionDetails> */}
                                             </SearchResultAccordion>
                                         ) : (<></>)}
                                         {soundType.includes('artist') || soundTypeNoFilter ? (
@@ -718,59 +695,6 @@ const AlarmConfigCategoryDetailBodySoundSearch: React.FC<AlarmConfigCategoryDeta
                                                 </TableContainer>
                                             </SearchResultAccordion>
                                         ) : (<></>)}
-                                        {/* {soundType.includes('playlist') || soundTypeNoFilter ? (
-                                <Accordion >
-                                    <AccordionSummary >
-                                        Playlists
-                                    </AccordionSummary>
-                                    <AccordionDetails >
-                                        <TableContainer >
-                                            <Table
-                                                size='small'
-                                            >
-                                                <TableBody>
-                                                    {soundSearchResults.playlists.map((row, index) => (
-                                                        <TableRow key={index}
-                                                            hover
-                                                            selection={JSON.stringify(row)}
-                                                            onClick={handleSearchResultSelection}
-                                                        >
-                                                            <TableCell component='th' scope='row'>
-                                                                <Box
-                                                                    sx={{
-                                                                        display: 'flex',
-                                                                        flexWrap: 'wrap',
-                                                                        columnGap: '1rem',
-                                                                        rowGap: '.5rem',
-                                                                        alignItems: 'flex-end'
-                                                                    }}
-                                                                >
-                                                                    <Typography
-                                                                        sx={{
-                                                                            fontWeight: 'bold',
-                                                                            lineHeight: '1.0'
-                                                                        }}
-                                                                    >
-                                                                        {row.title}
-                                                                    </Typography>
-                                                                    <Typography
-                                                                        sx={{
-                                                                            fontSize: '1rem',
-                                                                            lineHeight: '1.0'
-                                                                        }}
-                                                                    >
-                                                                        {row.artist}
-                                                                    </Typography>
-                                                                </Box>
-                                                            </TableCell>
-                                                        </TableRow>
-                                                    ))}
-                                                </TableBody>
-                                            </Table>
-                                        </TableContainer>
-                                    </AccordionDetails>
-                                </Accordion>
-                            ) : (<></>)} */}
                                     </Box>
                                 </AccordionDetails>
                             </Accordion>

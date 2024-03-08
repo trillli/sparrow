@@ -10,13 +10,13 @@ interface TrillliPageHeaderProps {
 
 const TrillliPageHeader: React.FC<TrillliPageHeaderProps> = ({ appConfig, title, subtitles = [] }) => {
 
-    //sv
+    // State Variables & Related ------------------------------------------------------------------ //
 
-    //ef
+    // Effects & Related -------------------------------------------------------------------------- //
 
-    //ha
+    // Event Handlers & Related ------------------------------------------------------------------- //
 
-    //other
+    // Other vars, util functions, etc ------------------------------------------------------------ //
 
     //Define styling
     let styles: {

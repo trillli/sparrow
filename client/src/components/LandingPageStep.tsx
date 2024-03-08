@@ -13,13 +13,13 @@ interface LandingPageStepProps {
 
 const LandingPageStep: React.FC<LandingPageStepProps> = ({ appConfig, align, imgSrc, number, title, children }) => {
 
-    //sv
+    // State Variables & Related ------------------------------------------------------------------ //
 
-    //ef
+    // Effects & Related -------------------------------------------------------------------------- //
 
-    //ha
+    // Event Handlers & Related ------------------------------------------------------------------- //
 
-    //other
+    // Other vars, util functions, etc ------------------------------------------------------------ //
 
     return (
         <Box

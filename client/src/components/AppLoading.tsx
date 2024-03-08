@@ -9,13 +9,13 @@ interface AppLoadingProps {
 
 const AppLoading: React.FC<AppLoadingProps> = ({ appConfig }) => {
 
-    //sv
+    // State Variables & Related ------------------------------------------------------------------ //
 
-    //ef
+    // Effects & Related -------------------------------------------------------------------------- //
 
-    //ha
+    // Event Handlers & Related ------------------------------------------------------------------- //
 
-    //other
+    // Other vars, util functions, etc ------------------------------------------------------------ //
     const customStyling: { [key: string]: any } = {
         mainContents: {
             padding: '0px',

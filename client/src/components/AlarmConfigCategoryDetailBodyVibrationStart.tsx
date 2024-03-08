@@ -17,13 +17,13 @@ interface AlarmConfigCategoryDetailBodyVibrationStartProps {
 
 const AlarmConfigCategoryDetailBodyVibrationStart: React.FC<AlarmConfigCategoryDetailBodyVibrationStartProps> = ({ alarm, appConfig, handlers, lightColor }) => {
 
-    //sv
+    // State Variables & Related ------------------------------------------------------------------ //
     const theme = useTheme()
     const [vibrationAdvanceMinutes, setVibrationAdvanceMinutes] = React.useState<number>(alarm.vibration.timing.advance_minutes)
 
-    //ef
+    // Effects & Related -------------------------------------------------------------------------- //
 
-    //ha
+    // Event Handlers & Related ------------------------------------------------------------------- //
     const handleVibrationAdvanceMinutesChange = (event: Event) => {
         const target: HTMLInputElement = event.target as HTMLInputElement
         const value: number = Number(target.value)
@@ -35,7 +35,7 @@ const AlarmConfigCategoryDetailBodyVibrationStart: React.FC<AlarmConfigCategoryD
         handlers.updateAlarmsMetadata(alarm.id, alarm)
     }
 
-    //other
+    // Other vars, util functions, etc ------------------------------------------------------------ //
     let fieldLabel: string = 'Vibration Start Time'
 
     return (
