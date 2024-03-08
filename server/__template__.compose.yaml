@@ -22,13 +22,13 @@ services:
   db:
     image: postgres
     restart: always
-    user: postgres
+    user: 
     volumes:
       - db-data:/var/lib/postgresql/data
     environment:
-      - POSTGRES_DB=db_daybreakr
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=
+      - POSTGRES_USER=
+      - POSTGRES_PASSWORD=
     expose:
       - 127.0.0.1:5432
     healthcheck:

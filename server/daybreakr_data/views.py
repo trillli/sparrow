@@ -9,28 +9,6 @@ from tr_common.auth0_helper import Auth0Helper
 from .serializers import *
 from .models import *
 
-
-class MessageApiView(RetrieveAPIView):
-    serializer_class = MessageSerializer
-    text = None
-
-    def get_object(self):
-        return Message(text=self.text)
-
-
-class PublicMessageApiView(MessageApiView):
-    text = "This is a public message (FROM DAYBREAKR!!!)."
-
-
-class ProtectedMessageApiView(MessageApiView):
-    text = "This is a protected message (FROM DAYBREAKR!!!)."
-    permission_classes = [IsAuthenticated]
-
-
-class AdminMessageApiView(MessageApiView):
-    text = "This is an admin message (from the new data api)."
-    permission_classes = [IsAuthenticated]
-
 class LazyAlarmView(APIView):
 
     def __init__(self):
@@ -38,39 +16,42 @@ class LazyAlarmView(APIView):
         self.auth0_helper = Auth0Helper()
         self.permission_classes = [IsAuthenticated]
 
-
+    #Retrieve a user's alarm data
     def get(self, request, *args, **kwargs):
+
+        #Get alarm data associated with this user; user can be retrieved from token in request
         user_id = self.auth0_helper._get_user_id_from_request(request)
         lazyAlarm = LazyAlarm.objects.filter(user_id=user_id)
         LazyAlarm.objects.filter(user_id=user_id)
+
+        #Serialize and return user's alarm data
         serializer = LazyAlarmSerializer(lazyAlarm, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
-    
+
+    #Adds or updates a user's alarm data, persists to db
     def put(self, request, *args, **kwargs):
+
+        #User can be retrieved from token in request
         user_id = self.auth0_helper._get_user_id_from_request(request)
+
+        #Format data to persist
         data = {
             'alarms_json': request.data.get('alarms_json'),
             'user_id': user_id
         }
+
+        #Query the database for alarm data for this user
+        #If found, the record will be updated when serializer.save() is called
+        #If not found (so, enter the except block), a new record will be created when seialzier.save() is called
         try:
             lazy_alarm = LazyAlarm.objects.get(user_id=user_id)
         except: 
             lazy_alarm = None
+
+        #Serialize and save to db  
         serializer = LazyAlarmSerializer(lazy_alarm, data=data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-
-# def api_exception_handler(exc, context=None):
-#     print('in api exception handler now')
-#     response = exception_handler(exc, context=context)
-#     if response and isinstance(response.data, dict):
-#         response.data = {'message': response.data.get('detail', 'API Error')}
-#     else:
-#         response.data = {'message': 'API Error'}
-#     return response
-
-

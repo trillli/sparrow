@@ -52,6 +52,3 @@ COPY . .
 
 # Expose the port that the application listens on.
 EXPOSE 6060
-
-# Run the application.
-# CMD python manage.py runserver 6060
