@@ -295,6 +295,7 @@ const AppSplash: React.FC<AppSplashProps> = ({ appConfig }) => {
                                     <Typography className='step-copy'>Use the DayBreakr web interface to customize and configure your alarms.</Typography>
                                     <Typography className='step-copy'>Schedule recurring alarms, choose the music you want to wake up to, customize the sunrise effect, and more.</Typography>
                                 </LandingPageStep>
+                                <img src='/media/img/alarm-config-1.png'/>
                                 <LandingPageStep
                                     appConfig={appConfig}
                                     align='right'

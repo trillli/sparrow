@@ -44,6 +44,8 @@ const AlarmConfigCategoryDetailBodySoundSearch: React.FC<AlarmConfigCategoryDeta
     const [currentSoundImage, setCurrentSoundImage] = React.useState<string>(alarm.sound.image)
     const [currentSoundType, setCurrentSoundType] = React.useState<SoundType>(alarm.sound.type)
     const [currentSoundShuffle, setCurrentSoundShuffle] = React.useState<boolean>(alarm.sound.shuffle)
+    const lastTyping = React.useRef<number>()
+    const searchInterval = React.useRef()
 
     // Effects & Related -------------------------------------------------------------------------- //
     React.useEffect(() => {
@@ -81,13 +83,20 @@ const AlarmConfigCategoryDetailBodySoundSearch: React.FC<AlarmConfigCategoryDeta
     }
 
     const handleSoundSearchTyping = (event: React.ChangeEvent<HTMLInputElement>) => {
+
+        if (lastTyping.current) {
+            restartSearchInterval(event.target.value)
+        }
+
+        lastTyping.current = Date.now()
+
         if (soundSearchValue == undefined || soundSearchValue == '') {
             setSearchResultsExpanded(true)
         }
         if (event.target.value == undefined || event.target.value == '') {
             setSearchResultsExpanded(false)
         }
-        setSoundSearchValue(event.target.value)
+
     }
 
     const handleSoundTypeChange = (event: React.MouseEvent<HTMLElement>, value) => {
@@ -120,6 +129,18 @@ const AlarmConfigCategoryDetailBodySoundSearch: React.FC<AlarmConfigCategoryDeta
     }
 
     // Other vars, util functions, etc ------------------------------------------------------------ //
+
+    function restartSearchInterval(searchValue) {
+        if (searchInterval.current) {
+            console.log('clearing it now....')
+            clearTimeout(searchInterval.current)
+        }
+        searchInterval.current = setTimeout(() => {
+            console.log('enough time has elapsed; searching now for: ' + searchValue)
+            setSoundSearchValue(searchValue)
+            // executeSearchRequest(searchValue)
+        }, 500)
+    }
 
     function executeSearchRequest() {
 
@@ -416,7 +437,7 @@ const AlarmConfigCategoryDetailBodySoundSearch: React.FC<AlarmConfigCategoryDeta
                             variant='filled'
                             placeholder='Search for music on Spotify!'
                             type='search'
-                            value={soundSearchValue}
+                            // value={soundSearchValue}
                             multiline
                             onChange={handleSoundSearchTyping}
                             InputProps={{
