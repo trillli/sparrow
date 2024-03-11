@@ -33,8 +33,7 @@ const LandingPageStep: React.FC<LandingPageStepProps> = ({ appConfig, align, img
                 padding: '1.5rem 1.25rem',
                 borderLeft: align == 'left' ? `5px solid ${appConfig.theme.palette.neutral.dark[3]}` : 'none',
                 borderRight: align == 'right' ? `5px solid ${appConfig.theme.palette.neutral.dark[3]}` : 'none',
-                borderRadius: '4px'
-
+                borderRadius: '4px',
             }}
         >
             <Box

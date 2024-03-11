@@ -295,7 +295,16 @@ const AppSplash: React.FC<AppSplashProps> = ({ appConfig }) => {
                                     <Typography className='step-copy'>Use the DayBreakr web interface to customize and configure your alarms.</Typography>
                                     <Typography className='step-copy'>Schedule recurring alarms, choose the music you want to wake up to, customize the sunrise effect, and more.</Typography>
                                 </LandingPageStep>
-                                <img src='/media/img/alarm-config-1.png'/>
+                                <img src='/media/img/alarm-config-2.png'
+                                    style={{
+                                        maxWidth: '325px',
+                                        // maxHeight: '1100px',
+                                        marginLeft: 'auto',
+                                        marginRight: 'auto',
+                                        borderRadius: '4px',
+                                        boxShadow: appConfig.theme.shadows[6]
+                                    }}
+                                />
                                 <LandingPageStep
                                     appConfig={appConfig}
                                     align='right'
@@ -403,6 +412,16 @@ const AppSplash: React.FC<AppSplashProps> = ({ appConfig }) => {
                                         </AccordionDetails>
                                     </Accordion>
                                 </LandingPageStep>
+                                <img src='/media/img/alarm-config-1.png'
+                                    style={{
+                                        maxWidth: '325px',
+                                        maxHeight: '1100px',
+                                        marginLeft: 'auto',
+                                        marginRight: 'auto',
+                                        borderRadius: '4px',
+                                        boxShadow: appConfig.theme.shadows[6]
+                                    }}
+                                />
                                 <LandingPageStep
                                     appConfig={appConfig}
                                     align='left'
