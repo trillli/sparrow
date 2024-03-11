@@ -132,13 +132,10 @@ const AlarmConfigCategoryDetailBodySoundSearch: React.FC<AlarmConfigCategoryDeta
 
     function restartSearchInterval(searchValue) {
         if (searchInterval.current) {
-            console.log('clearing it now....')
             clearTimeout(searchInterval.current)
         }
         searchInterval.current = setTimeout(() => {
-            console.log('enough time has elapsed; searching now for: ' + searchValue)
             setSoundSearchValue(searchValue)
-            // executeSearchRequest(searchValue)
         }, 500)
     }
 
